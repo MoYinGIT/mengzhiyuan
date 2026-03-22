@@ -52,14 +52,16 @@ export default defineConfig({
               collapsed: true,
               items: [
                 { text: 'Python 首页', link: '/programming/python/' },
-                { text: 'L1 一级', link: '/programming/python/l1' }
+                { text: 'L1 一级', link: '/programming/python/l1' },
+                { text: 'L2 二级', link: '/programming/python/l2' }
               ]
             },
             { 
               text: 'C++',
               collapsed: true,
               items: [
-                { text: 'C++ 首页', link: '/programming/cpp/' }
+                { text: 'C++ 首页', link: '/programming/cpp/' },
+                { text: 'L1 一级', link: '/programming/cpp/l1' }
               ]
             }
           ]
@@ -72,7 +74,8 @@ export default defineConfig({
             { text: '← 返回编程学院', link: '/programming/' },
             { text: 'Scratch 首页', link: '/programming/scratch/' },
             { text: 'L1 一级', link: '/programming/scratch/l1' },
-            { text: 'L2 二级', link: '/programming/scratch/l2' }
+            { text: 'L2 二级', link: '/programming/scratch/l2' },
+            { text: 'L3 三级', link: '/programming/scratch/l3' }
           ]
         }
       ],
