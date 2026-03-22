@@ -37,9 +37,38 @@ export default defineConfig({
           text: '编程学院',
           items: [
             { text: '概述', link: '/programming/' },
-            { text: 'Scratch', link: '/programming/scratch/' },
-            { text: 'Python', link: '/programming/python/' },
-            { text: 'C++', link: '/programming/cpp/' }
+            { 
+              text: 'Scratch',
+              collapsed: false,
+              items: [
+                { text: 'Scratch 首页', link: '/programming/scratch/' },
+                { text: 'L1 一级', link: '/programming/scratch/l1' }
+              ]
+            },
+            { 
+              text: 'Python',
+              collapsed: true,
+              items: [
+                { text: 'Python 首页', link: '/programming/python/' }
+              ]
+            },
+            { 
+              text: 'C++',
+              collapsed: true,
+              items: [
+                { text: 'C++ 首页', link: '/programming/cpp/' }
+              ]
+            }
+          ]
+        }
+      ],
+      '/programming/scratch/': [
+        {
+          text: 'Scratch 图形化编程',
+          items: [
+            { text: '← 返回编程学院', link: '/programming/' },
+            { text: 'Scratch 首页', link: '/programming/scratch/' },
+            { text: 'L1 一级', link: '/programming/scratch/l1' }
           ]
         }
       ],
