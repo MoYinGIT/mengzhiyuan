@@ -37,19 +37,22 @@ export default defineConfig({
           text: '编程学院',
           items: [
             { text: '概述', link: '/programming/' },
+            { text: '代码食谱', link: '/programming/cookbook' },
             { 
               text: 'Scratch',
               collapsed: false,
               items: [
                 { text: 'Scratch 首页', link: '/programming/scratch/' },
-                { text: 'L1 一级', link: '/programming/scratch/l1' }
+                { text: 'L1 一级', link: '/programming/scratch/l1' },
+                { text: 'L2 二级', link: '/programming/scratch/l2' }
               ]
             },
             { 
               text: 'Python',
               collapsed: true,
               items: [
-                { text: 'Python 首页', link: '/programming/python/' }
+                { text: 'Python 首页', link: '/programming/python/' },
+                { text: 'L1 一级', link: '/programming/python/l1' }
               ]
             },
             { 
@@ -68,7 +71,8 @@ export default defineConfig({
           items: [
             { text: '← 返回编程学院', link: '/programming/' },
             { text: 'Scratch 首页', link: '/programming/scratch/' },
-            { text: 'L1 一级', link: '/programming/scratch/l1' }
+            { text: 'L1 一级', link: '/programming/scratch/l1' },
+            { text: 'L2 二级', link: '/programming/scratch/l2' }
           ]
         }
       ],
