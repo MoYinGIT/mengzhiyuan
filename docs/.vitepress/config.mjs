@@ -201,7 +201,11 @@ export default defineConfig({
                 },
                 { 
                   text: '《论语》', 
-                  link: '/chinese-classics/lunyu'
+                  collapsed: false,
+                  items: [
+                    { text: '论语首页', link: '/chinese-classics/lunyu' },
+                    { text: '通行本全文（含异文）', link: '/chinese-classics/lunyu/fulltext' }
+                  ]
                 }
               ]
             },
