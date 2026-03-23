@@ -183,7 +183,12 @@ export default defineConfig({
               items: [
                 { 
                   text: '《易经》', 
-                  link: '/chinese-classics/yijing'
+                  collapsed: false,
+                  items: [
+                    { text: '易经首页', link: '/chinese-classics/yijing' },
+                    { text: '通行本', link: '/chinese-classics/yijing' },
+                    { text: '帛书甲本（古本）', link: '/chinese-classics/yijing/boshu' }
+                  ]
                 },
                 { 
                   text: '《道德经》', 
