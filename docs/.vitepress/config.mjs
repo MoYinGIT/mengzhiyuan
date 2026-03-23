@@ -191,7 +191,10 @@ export default defineConfig({
                 { text: '弟子规', link: '/chinese-classics/children/dizigui' },
                 { text: '千字文', link: '/chinese-classics/children/qianziwen' },
                 { text: '百家姓', link: '/chinese-classics/children/baijiaxing' },
-                { text: '成语故事', link: '/chinese-classics/children/chengyu' }
+                { text: '成语故事', link: '/chinese-classics/children/chengyu' },
+                { text: '声律启蒙', link: '/chinese-classics/children/shenglvqimeng' },
+                { text: '古诗词精选', link: '/chinese-classics/children/gushici' },
+                { text: '历史故事', link: '/chinese-classics/children/lishigushi' }
               ]
             }
           ]
