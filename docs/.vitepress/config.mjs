@@ -28,6 +28,7 @@ export default defineConfig({
     nav: [
       { text: '首页', link: '/' },
       { text: '编程学院', link: '/programming/' },
+      { text: '国学经典', link: '/chinese-classics/' },
       { text: '数学天地', link: '/math/' },
       { text: '家长指南', link: '/parents/' },
       { text: '心理驿站', link: '/psychology/' }
@@ -131,6 +132,22 @@ export default defineConfig({
             { text: 'L1 一级', link: '/programming/cpp/l1' },
             { text: 'L2 二级', link: '/programming/cpp/l2' },
             { text: '编程练习题', link: '/programming/cpp/exercises' }
+          ]
+        }
+      ],
+      '/chinese-classics/': [
+        {
+          text: '国学经典',
+          items: [
+            { text: '国学首页', link: '/chinese-classics/' },
+            { 
+              text: '三经典与编程',
+              collapsed: false,
+              items: [
+                { text: '《易经》与算法', link: '/chinese-classics/yijing-algorithm' },
+                { text: '《论语》与学习', link: '/chinese-classics/lunyu-learning' }
+              ]
+            }
           ]
         }
       ]

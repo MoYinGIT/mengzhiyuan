@@ -22,6 +22,11 @@ features:
     details: 从 Scratch 图形化编程入门，到 Python 代码编程，再到 C++ 竞赛进阶。严格遵循 GESP 考级体系，循序渐进。
     link: /programming/
     
+  - icon: 📜
+    title: 国学经典
+    details: 以《易经》《道德经》《论语》为根基，融合国学智慧与编程教育。让孩子既有传统文化的根，又有面向未来的翅膀。
+    link: /chinese-classics/
+    
   - icon: 🔢
     title: 数学天地
     details: 基础数学巩固、奥数思维培养、编程数学应用。让数学不再是难题，而是解决问题的工具。
@@ -36,10 +41,6 @@ features:
     title: 心理驿站
     details: 儿童学习心理、家长情绪管理、亲子沟通技巧。教育的本质是心灵的成长。
     link: /psychology/
-    
-  - icon: 📚
-    title: 三经典根基
-    details: 以《易经》之变化之道、《道德经》之自然之道、《论语》之仁爱之道为教育哲学根基。
     
   - icon: 🌟
     title: 免费开放
