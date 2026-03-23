@@ -123,13 +123,13 @@ export default defineConfig({
         {
           text: '数学天地',
           items: [
-            { text: '概述', link: '/math/' },
-            { text: '基础数学（6-9岁）', link: '/math/basic' },
-            { text: '趣味数学', link: '/math/fun-math' },
-            { text: '编程数学基础', link: '/math/programming-basics' },
-            { text: '数学与编程', link: '/math/programming-math' },
-            { text: '奥数思维', link: '/math/olympiad' },
-            { text: '竞赛数学', link: '/math/competition' }
+            { text: '概述', link: '/math/index.html' },
+            { text: '基础数学（6-9岁）', link: '/math/basic.html' },
+            { text: '趣味数学', link: '/math/fun-math.html' },
+            { text: '编程数学基础', link: '/math/programming-basics.html' },
+            { text: '数学与编程', link: '/math/programming-math.html' },
+            { text: '奥数思维', link: '/math/olympiad.html' },
+            { text: '竞赛数学', link: '/math/competition.html' }
           ]
         }
       ],
