@@ -4,9 +4,6 @@ hero:
   name: 道德经
   text: 老子
   tagline: 道法自然，无为而治
-  image:
-    src: /images/daodejing-cover.jpg
-    alt: 道德经封面
   actions:
     - theme: brand
       text: 通行本（全文）
@@ -100,7 +97,3 @@ features:
 > **大道至简，知易行难。**
 > 
 > 愿你在《道德经》的智慧中，找到内心的平静与力量。
-
----
-
-*封面图片来源：第六章 · 谷神不死*
