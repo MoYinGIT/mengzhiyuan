@@ -141,6 +141,7 @@ export default defineConfig({
             { text: 'Scratch阶段指南', link: '/parents/scratch-guide.html' },
             { text: 'Python阶段指南', link: '/parents/python-guide.html' },
             { text: 'C++竞赛指南', link: '/parents/cpp-guide.html' },
+            { text: '升学政策解读', link: '/parents/admission-policy.html' },
             { text: '常见问题解答', link: '/parents/faq.html' }
           ]
         }

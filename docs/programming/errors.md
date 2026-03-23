@@ -490,6 +490,283 @@ VS Code、PyCharm 等 IDE 有调试功能：
 
 ---
 
+## 🐛 C++ 常见错误
+
+### 错误一：编译错误 - 语法错误
+
+**错误信息**：
+```
+error: expected ';' before '}' token
+error: 'cout' was not declared in this scope
+```
+
+**常见原因**：
+
+#### 1. 忘记分号
+```cpp
+// 错误
+int main() {
+    cout << "Hello"  // 缺少分号
+    return 0;
+}
+
+// 正确
+int main() {
+    cout << "Hello";  // 加上分号
+    return 0;
+}
+```
+
+#### 2. 忘记头文件
+```cpp
+// 错误
+int main() {
+    cout << "Hello";  // 没有引入头文件
+    return 0;
+}
+
+// 正确
+#include <iostream>  // 引入头文件
+using namespace std;
+
+int main() {
+    cout << "Hello";
+    return 0;
+}
+```
+
+#### 3. 括号不匹配
+```cpp
+// 错误
+int main() {
+    if (true) {
+        cout << "Hello";
+    // 缺少右大括号
+}
+
+// 正确
+int main() {
+    if (true) {
+        cout << "Hello";
+    }
+    return 0;
+}
+```
+
+---
+
+### 错误二：段错误 (Segmentation Fault)
+
+**错误信息**：
+```
+Segmentation fault (core dumped)
+```
+
+**常见原因**：
+
+#### 1. 数组越界
+```cpp
+// 错误
+int arr[5];
+arr[10] = 100;  // 越界访问！
+
+// 正确
+int arr[5];
+for (int i = 0; i < 5; i++) {
+    arr[i] = i;  // 只访问 0-4
+}
+```
+
+#### 2. 未初始化指针
+```cpp
+// 错误
+int *p;  // 野指针
+*p = 10;  // 危险！
+
+// 正确
+int *p = new int;  // 分配内存
+*p = 10;
+delete p;  // 释放内存
+```
+
+#### 3. 栈溢出
+```cpp
+// 错误 - 递归没有终止条件
+void infinite() {
+    infinite();  // 无限递归
+}
+
+// 正确 - 确保递归有终止条件
+void countdown(int n) {
+    if (n <= 0) return;  // 终止条件
+    cout << n << endl;
+    countdown(n - 1);
+}
+```
+
+---
+
+### 错误三：逻辑错误
+
+**现象**：程序能运行，但结果不对
+
+**常见原因**：
+
+#### 1. 整数溢出
+```cpp
+// 错误
+int a = 2000000000;
+int b = 2000000000;
+int c = a + b;  // 溢出！结果为负数
+
+// 正确
+long long a = 2000000000;
+long long b = 2000000000;
+long long c = a + b;  // 使用 long long
+```
+
+#### 2. 除零错误
+```cpp
+// 错误
+int a = 10;
+int b = 0;
+int c = a / b;  // 运行时错误
+
+// 正确
+int a = 10;
+int b = 0;
+if (b != 0) {
+    int c = a / b;
+} else {
+    cout << "除数不能为0！" << endl;
+}
+```
+
+#### 3. 赋值而非比较
+```cpp
+// 错误 - 赋值而非比较
+if (x = 5) {  // 把5赋给x，然后判断
+    cout << "x is 5";
+}
+
+// 正确
+if (x == 5) {  // 比较x是否等于5
+    cout << "x is 5";
+}
+```
+
+---
+
+### 错误四：内存泄漏
+
+**现象**：程序运行越来越慢，最终崩溃
+
+```cpp
+// 错误 - 只new不delete
+void leaky() {
+    int *p = new int[1000];
+    // 使用p...
+    // 忘记 delete[] p;
+}
+
+// 正确 - 配对的new和delete
+void safe() {
+    int *p = new int[1000];
+    // 使用p...
+    delete[] p;  // 释放内存
+}
+```
+
+**更好的做法 - 使用智能指针**：
+```cpp
+#include <memory>
+
+void best() {
+    auto p = make_unique<int[]>(1000);
+    // 使用p...
+    // 自动释放，无需手动delete
+}
+```
+
+---
+
+### 错误五：竞争条件
+
+**现象**：多线程程序结果不确定
+
+```cpp
+// 错误 - 多个线程同时修改共享变量
+int counter = 0;
+
+void increment() {
+    for (int i = 0; i < 1000; i++) {
+        counter++;  // 非原子操作，可能丢失更新
+    }
+}
+
+// 正确 - 使用互斥锁
+#include <mutex>
+int counter = 0;
+mutex mtx;
+
+void increment() {
+    for (int i = 0; i < 1000; i++) {
+        lock_guard<mutex> lock(mtx);
+        counter++;
+    }
+}
+```
+
+---
+
+### C++ 调试技巧
+
+#### 1. 使用 GDB
+```bash
+# 编译时加上 -g 选项
+g++ -g program.cpp -o program
+
+# 使用 GDB 调试
+gdb ./program
+(gdb) break main
+(gdb) run
+(gdb) next
+(gdb) print variable
+```
+
+#### 2. 使用 Valgrind 检查内存
+```bash
+# 检测内存泄漏
+valgrind --leak-check=full ./program
+
+# 检测内存错误
+valgrind --tool=memcheck ./program
+```
+
+#### 3. 添加调试输出
+```cpp
+#ifdef DEBUG
+    #define DEBUG_PRINT(x) cout << "[DEBUG] " << __FILE__ << ":" << __LINE__ << " " << x << endl
+#else
+    #define DEBUG_PRINT(x)
+#endif
+
+// 使用
+DEBUG_PRINT("x = " << x);
+```
+
+#### 4. 使用断言
+```cpp
+#include <cassert>
+
+int divide(int a, int b) {
+    assert(b != 0);  // 调试时检查
+    return a / b;
+}
+```
+
+---
+
 ## 📝 错误记录模板
 
 遇到错误时，按这个模板记录：
