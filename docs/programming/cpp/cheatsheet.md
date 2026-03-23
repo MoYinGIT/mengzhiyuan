@@ -76,6 +76,44 @@ cout << left << setw(10) << 42;  // 左对齐
 cout << setfill('0') << setw(4) << 42;  // "0042"
 ```
 
+### scanf / printf（C风格，竞赛常用）
+
+**需要头文件**：`#include <cstdio>`
+
+**scanf 格式符**：
+| 格式符 | 类型 | 示例 |
+|:---|:---|:---|
+| `%d` | int | `scanf("%d", &x);` |
+| `%lld` | long long | `scanf("%lld", &x);` |
+| `%f` | float | `scanf("%f", &f);` |
+| `%lf` | double | `scanf("%lf", &d);` |
+| `%c` | char | `scanf("%c", &c);` |
+| `%s` | 字符串 | `scanf("%s", s);` |
+
+**printf 格式符**：
+| 格式符 | 说明 | 示例 |
+|:---|:---|:---|
+| `%d` | 整数 | `printf("%d", x);` |
+| `%lld` | long long | `printf("%lld", x);` |
+| `%f` | float/double | `printf("%.2f", d);` |
+| `%c` | 字符 | `printf("%c", c);` |
+| `%s` | 字符串 | `printf("%s", s);` |
+| `\n` | 换行 | `printf("%d\n", x);` |
+
+**cin/cout vs scanf/printf 对比**：
+| 特性 | cin/cout | scanf/printf |
+|:---|:---|:---|
+| 速度 | 较慢 | 更快（大数据量时明显）|
+| 安全性 | 类型安全 | 需注意格式符匹配 |
+| 易用性 | 简单直观 | 需要记忆格式符 |
+| 建议场景 | 初学者/一般题目 | 大数据量/时间紧张 |
+
+**加速 cin/cout**（接近 scanf/printf 速度）：
+```cpp
+ios::sync_with_stdio(false);  // 关闭同步
+cin.tie(nullptr);              // 解除绑定
+```
+
 ---
 
 ## 🧮 运算符
