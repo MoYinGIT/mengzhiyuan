@@ -50,7 +50,17 @@ export default defineConfig({
                 { text: 'L1 一级', link: '/programming/scratch/l1' },
                 { text: 'L2 二级', link: '/programming/scratch/l2' },
                 { text: 'L3 三级', link: '/programming/scratch/l3' },
-                { text: 'L4 四级（过渡）', link: '/programming/scratch/l4' }
+                { text: 'L4 四级（过渡）', link: '/programming/scratch/l4' },
+                {
+                  text: '项目案例',
+                  collapsed: true,
+                  items: [
+                    { text: 'Pong 游戏', link: '/programming/scratch/examples/pong-game' },
+                    { text: '贪吃蛇', link: '/programming/scratch/examples/snake-game' },
+                    { text: 'Flappy Bird', link: '/programming/scratch/examples/flappy-bird' },
+                    { text: '算法可视化', link: '/programming/scratch/examples/algorithm-visualization' }
+                  ]
+                }
               ]
             },
             {
@@ -73,6 +83,7 @@ export default defineConfig({
                 { text: 'L4 四级', link: '/programming/cpp/l4' },
                 { text: 'L5 五级', link: '/programming/cpp/l5' },
                 { text: 'L6 六级', link: '/programming/cpp/l6' },
+                { text: 'L7 七级', link: '/programming/cpp/l7' },
                 { text: '编程练习题', link: '/programming/cpp/exercises' },
                 { text: '语法速查表', link: '/programming/cpp/cheatsheet' }
               ]
@@ -89,7 +100,17 @@ export default defineConfig({
             { text: 'L1 一级', link: '/programming/scratch/l1' },
             { text: 'L2 二级', link: '/programming/scratch/l2' },
             { text: 'L3 三级', link: '/programming/scratch/l3' },
-            { text: 'L4 四级（过渡）', link: '/programming/scratch/l4' }
+            { text: 'L4 四级（过渡）', link: '/programming/scratch/l4' },
+            {
+              text: '项目案例',
+              collapsed: false,
+              items: [
+                { text: 'Pong 游戏', link: '/programming/scratch/examples/pong-game' },
+                { text: '贪吃蛇', link: '/programming/scratch/examples/snake-game' },
+                { text: 'Flappy Bird', link: '/programming/scratch/examples/flappy-bird' },
+                { text: '算法可视化', link: '/programming/scratch/examples/algorithm-visualization' }
+              ]
+            }
           ]
         }
       ],
@@ -164,7 +185,10 @@ export default defineConfig({
               collapsed: false,
               items: [
                 { text: '三字经', link: '/chinese-classics/children/sanzijing' },
-                { text: '弟子规', link: '/chinese-classics/children/dizigui' }
+                { text: '弟子规', link: '/chinese-classics/children/dizigui' },
+                { text: '千字文', link: '/chinese-classics/children/qianziwen' },
+                { text: '百家姓', link: '/chinese-classics/children/baijiaxing' },
+                { text: '成语故事', link: '/chinese-classics/children/chengyu' }
               ]
             }
           ]
