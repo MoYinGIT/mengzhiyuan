@@ -68,7 +68,9 @@ export default defineConfig({
                 { text: 'C++ 首页', link: '/programming/cpp/' },
                 { text: 'L1 一级', link: '/programming/cpp/l1' },
                 { text: 'L2 二级', link: '/programming/cpp/l2' },
-                { text: '编程练习题', link: '/programming/cpp/exercises' }
+                { text: 'L3 三级', link: '/programming/cpp/l3' },
+                { text: '编程练习题', link: '/programming/cpp/exercises' },
+                { text: '语法速查表', link: '/programming/cpp/cheatsheet' }
               ]
             }
           ]
@@ -131,7 +133,9 @@ export default defineConfig({
             { text: 'C++ 首页', link: '/programming/cpp/' },
             { text: 'L1 一级', link: '/programming/cpp/l1' },
             { text: 'L2 二级', link: '/programming/cpp/l2' },
-            { text: '编程练习题', link: '/programming/cpp/exercises' }
+            { text: 'L3 三级', link: '/programming/cpp/l3' },
+            { text: '编程练习题', link: '/programming/cpp/exercises' },
+            { text: '语法速查表', link: '/programming/cpp/cheatsheet' }
           ]
         }
       ],
