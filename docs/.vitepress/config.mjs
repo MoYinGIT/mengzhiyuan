@@ -225,6 +225,21 @@ export default defineConfig({
               ]
             },
             {
+              text: '现当代著作',
+              collapsed: false,
+              items: [
+                { 
+                  text: '毛泽东选集',
+                  collapsed: false,
+                  items: [
+                    { text: '毛选首页', link: '/chinese-classics/maoxuan' },
+                    { text: '经典篇目', link: '/chinese-classics/maoxuan/selected' },
+                    { text: '哲学思想', link: '/chinese-classics/maoxuan/philosophy' }
+                  ]
+                }
+              ]
+            },
+            {
               text: '三经典与编程',
               collapsed: false,
               items: [
