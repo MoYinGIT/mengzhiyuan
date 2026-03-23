@@ -38,8 +38,8 @@
 
 **与编程的融合**：
 - [易经与算法思维](./yijing-algorithm.md)
-- [八卦与二进制](./bagua-binary.md)
-- [六十四卦与状态机](./guaxiang-state.md)
+<!-- - [八卦与二进制](./bagua-binary.md) - 敬请期待 -->
+<!-- - [六十四卦与状态机](./guaxiang-state.md) - 敬请期待 -->
 
 ---
 
@@ -52,8 +52,8 @@
 
 **与编程的融合**：
 - [道德经与软件设计](./daodejing-software.md)
-- [无为而治与自动化](./wuwei-automation.md)
-- [简约之道与代码优化](./jianyue-code.md)
+<!-- - [无为而治与自动化](./wuwei-automation.md) - 敬请期待 -->
+<!-- - [简约之道与代码优化](./jianyue-code.md) - 敬请期待 -->
 
 ---
 
@@ -66,8 +66,8 @@
 
 **与编程的融合**：
 - [论语与学习方法](./lunyu-learning.md)
-- [修身与程序员修养](./xiushen-developer.md)
-- [教学相长与代码审查](./jiaoxue-code-review.md)
+<!-- - [修身与程序员修养](./xiushen-developer.md) - 敬请期待 -->
+<!-- - [教学相长与代码审查](./jiaoxue-code-review.md) - 敬请期待 -->
 
 ---
 
@@ -79,8 +79,13 @@
 |:---|:---|:---|
 | [《三字经》诵读](./children/sanzijing.md) | 动画+诵读 | 识字、明理 |
 | [《弟子规》践行](./children/dizigui.md) | 故事+实践 | 行为规范 |
+| [《千字文》识字](./children/qianziwen.md) | 图文+游戏 | 识字积累 |
+| [《百家姓》寻根](./children/baijiaxing.md) | 故事+互动 | 家族认同 |
 | [成语故事](./children/chengyu.md) | 动画+游戏 | 语言积累 |
-| [汉字起源](./children/hanzi.md) | 图画+互动 | 文化认同 |
+| [声律启蒙](./children/shenglvqimeng.md) | 诵读+对仗 | 韵律语感 |
+| [古诗词精选](./children/gushici.md) | 赏析+背诵 | 文学素养 |
+| [历史故事](./children/lishigushi.md) | 讲述+思考 | 历史智慧 |
+<!-- | [汉字起源](./children/hanzi.md) | 图画+互动 | 文化认同 | - 敬请期待 -->
 
 ---
 
@@ -164,10 +169,13 @@
 ## 📚 推荐资源
 
 ### 经典文本
-- [《易经》全文](./classics/yijing.md)
-- [《道德经》全文](./classics/daodejing.md)
-- [《论语》全文](./classics/lunyu.md)
-- [《诗经》选读](./classics/shijing.md)
+<!-- - [《易经》全文](./classics/yijing.md) - 敬请期待 -->
+<!-- - [《道德经》全文](./classics/daodejing.md) - 敬请期待 -->
+<!-- - [《论语》全文](./classics/lunyu.md) - 敬请期待 -->
+<!-- - [《诗经》选读](./classics/shijing.md) - 敬请期待 -->
+- [《易经》全文](https://ctext.org/book-of-changes/zh) - 中国哲学书电子化计划
+- [《道德经》全文](https://ctext.org/dao-de-jing/zh) - 中国哲学书电子化计划
+- [《论语》全文](https://ctext.org/analects/zh) - 中国哲学书电子化计划
 
 ### 现代解读
 - [南怀瑾《论语别裁》](https://book.douban.com/subject/1006606/)

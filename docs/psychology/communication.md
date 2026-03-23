@@ -209,7 +209,7 @@
 - [6-8岁学习心理](/psychology/age6-8.md)
 - [9-11岁学习心理](/psychology/age9-11.md)
 - [12岁+学习心理](/psychology/age12plus.md)
-- [心理工具箱](/psychology/tools.md)
+<!-- - [心理工具箱](/psychology/tools.md) - 敬请期待 -->
 
 ---
 
