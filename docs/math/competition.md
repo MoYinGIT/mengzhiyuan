@@ -4,7 +4,7 @@
 
 ---
 
-## 🎯 学习目标
+## 学习目标
 
 - 掌握信息学竞赛常用的数学知识
 - 理解算法背后的数学原理
@@ -13,7 +13,7 @@
 
 ---
 
-## 📚 模块一：数论进阶
+## 模块一：数论进阶
 
 ### 1.1 模运算与同余
 
@@ -103,6 +103,20 @@ x ≡ an (mod mn)
 
 **代码实现**（两两合并）：
 ```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+// 扩展欧几里得算法
+long long exgcd(long long a, long long b, long long &x, long long &y) {
+    if (b == 0) {
+        x = 1; y = 0;
+        return a;
+    }
+    long long d = exgcd(b, a % b, y, x);
+    y -= (a / b) * x;
+    return d;
+}
+
 // 合并两个同余方程
 // x ≡ a1 (mod m1)
 // x ≡ a2 (mod m2)
@@ -121,7 +135,7 @@ pair<long long, long long> merge(long long a1, long long m1, long long a2, long 
 
 ---
 
-## 📚 模块二：组合数学
+## 模块二：组合数学
 
 ### 2.1 排列组合公式
 
@@ -167,14 +181,26 @@ void init() {
 
 **阶乘法**：
 ```cpp
+const int MAX = 200000;
+const int MOD = 1000000007;
 long long fact[MAX], inv_fact[MAX];
+
+long long power(long long a, long long n) {
+    long long res = 1;
+    while (n > 0) {
+        if (n & 1) res = res * a % MOD;
+        a = a * a % MOD;
+        n >>= 1;
+    }
+    return res;
+}
 
 void init() {
     fact[0] = 1;
     for (int i = 1; i < MAX; i++) {
         fact[i] = fact[i-1] * i % MOD;
     }
-    inv_fact[MAX-1] = power(fact[MAX-1], MOD-2, MOD);
+    inv_fact[MAX-1] = power(fact[MAX-1], MOD-2);
     for (int i = MAX-2; i >= 0; i--) {
         inv_fact[i] = inv_fact[i+1] * (i+1) % MOD;
     }
@@ -199,7 +225,7 @@ long long Lucas(long long n, long long m, long long p) {
 
 ---
 
-## 📚 模块三：概率与期望
+## 模块三：概率与期望
 
 ### 3.1 基础概念
 
@@ -213,6 +239,7 @@ long long Lucas(long long n, long long m, long long p) {
 
 **例题**：抛硬币，正面朝上概率为 p，求第一次出现正面的期望次数。
 
+设期望为 E：
 ```
 E = 1 * p + (1 + E) * (1-p)
 E = p + 1 - p + E(1-p)
@@ -221,19 +248,9 @@ E * p = 1
 E = 1/p
 ```
 
-**例题**：从 1~n 中随机选数，选到 1 的期望次数。
-
-```cpp
-double expect(int n) {
-    // 每次选中的概率是 1/n
-    // 期望次数 = n
-    return n;
-}
-```
-
 ---
 
-## 📚 模块四：线性代数基础
+## 模块四：线性代数基础
 
 ### 4.1 矩阵乘法
 
@@ -281,9 +298,10 @@ Matrix power(Matrix base, long long exp) {
 
 **斐波那契数列**：
 ```
-| F(n)   |   | 1 1 |   | F(n-1) |
-| F(n-1) | = | 1 0 | * | F(n-2) |
+| F(n)   |       | 1 1 |       | F(n-1) |
+| F(n-1) |   =   | 1 0 |   *   | F(n-2) |
 
+即：
 F(n) = | 1 1 |^(n-1)   | F(1) |
        | 1 0 |      *  | F(0) |
 ```
@@ -303,7 +321,7 @@ long long fib_matrix(long long n) {
 
 ---
 
-## 📚 模块五：博弈论基础
+## 模块五：博弈论基础
 
 ### 5.1 Nim 游戏
 
@@ -343,7 +361,7 @@ mex{} = 0
 
 ---
 
-## 🎯 在算法中的应用
+## 在算法中的应用
 
 | 数学知识 | 算法应用 |
 |:---|:---|
@@ -355,7 +373,7 @@ mex{} = 0
 
 ---
 
-## 📝 练习题
+## 练习题
 
 ### 数论
 1. 求 a 在模 m 下的逆元（扩展欧几里得）
@@ -377,23 +395,23 @@ mex{} = 0
 
 ---
 
-## 🏛️ 三经典智慧
+## 三经典智慧
 
-### 《易经》· 数即道
+### 《易经》：数即道
 
 **数学是理解世界的钥匙**：
 - 数是宇宙的语言
 - 算法是数的艺术
 - 编程是算法的实现
 
-### 《道德经》· 无中生有
+### 《道德经》：无中生有
 
 **从简单规则到复杂现象**：
 - 简单的递推公式 → 复杂的数列
 - 简单的规则 → 复杂的游戏（如生命游戏）
 - 简单的代码 → 强大的程序
 
-### 《论语》· 温故知新
+### 《论语》：温故知新
 
 **数学学习的方法**：
 - 掌握基本原理
@@ -402,4 +420,4 @@ mex{} = 0
 
 ---
 
-**默隐·蒙知苑** · 数学之美，逻辑之光
+**默隐·蒙知苑**：数学之美，逻辑之光
