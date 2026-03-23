@@ -45,7 +45,7 @@ Scratch 是编程启蒙工具，帮助孩子：
 ### 第一步：访问 Scratch
 
 Scratch 是在线平台，无需安装：
-- 打开浏览器，访问 scratch.mit.edu
+- 打开浏览器，搜索「Scratch 在线版」
 - 注册免费账号
 - 开始创作
 

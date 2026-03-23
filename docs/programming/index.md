@@ -232,8 +232,8 @@ A: 四年级开始 C++，六年级（约2年）可以参加 CSP-J 入门组。
 ## 📖 推荐资源
 
 ### Scratch
-- [Scratch 官网](https://scratch.mit.edu/)
-- [Scratch 教程](https://scratch.mit.edu/ideas)
+- Scratch 在线版（搜索引擎查找）
+- Scratch 教程（软件内查看）
 
 ### C++
 - 洛谷 - 刷题必备
