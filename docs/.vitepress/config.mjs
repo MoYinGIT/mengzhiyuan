@@ -58,6 +58,8 @@ export default defineConfig({
                     { text: 'Pong 游戏', link: '/programming/scratch/examples/pong-game' },
                     { text: '贪吃蛇', link: '/programming/scratch/examples/snake-game' },
                     { text: 'Flappy Bird', link: '/programming/scratch/examples/flappy-bird' },
+                    { text: '小猫追蝴蝶', link: '/programming/scratch/examples/cat-chase-butterfly' },
+                    { text: '迷宫冒险', link: '/programming/scratch/examples/maze-adventure' },
                     { text: '算法可视化', link: '/programming/scratch/examples/algorithm-visualization' }
                   ]
                 }
@@ -109,6 +111,8 @@ export default defineConfig({
                 { text: 'Pong 游戏', link: '/programming/scratch/examples/pong-game' },
                 { text: '贪吃蛇', link: '/programming/scratch/examples/snake-game' },
                 { text: 'Flappy Bird', link: '/programming/scratch/examples/flappy-bird' },
+                { text: '小猫追蝴蝶', link: '/programming/scratch/examples/cat-chase-butterfly' },
+                { text: '迷宫冒险', link: '/programming/scratch/examples/maze-adventure' },
                 { text: '算法可视化', link: '/programming/scratch/examples/algorithm-visualization' }
               ]
             }
