@@ -106,7 +106,10 @@ export default defineConfig({
           text: '家长指南',
           items: [
             { text: '概述', link: '/parents/' },
-            { text: 'Scratch阶段指南', link: '/parents/scratch-guide' }
+            { text: 'Scratch阶段指南', link: '/parents/scratch-guide' },
+            { text: 'Python阶段指南', link: '/parents/python-guide' },
+            { text: 'C++竞赛指南', link: '/parents/cpp-guide' },
+            { text: '常见问题解答', link: '/parents/faq' }
           ]
         }
       ],
@@ -115,6 +118,7 @@ export default defineConfig({
           text: '心理驿站',
           items: [
             { text: '概述', link: '/psychology/' },
+            { text: '6-8岁学习心理', link: '/psychology/age6-8' },
             { text: '亲子沟通技巧', link: '/psychology/communication' }
           ]
         }
