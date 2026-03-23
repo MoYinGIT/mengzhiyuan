@@ -49,7 +49,8 @@ export default defineConfig({
                 { text: 'Scratch 首页', link: '/programming/scratch/' },
                 { text: 'L1 一级', link: '/programming/scratch/l1' },
                 { text: 'L2 二级', link: '/programming/scratch/l2' },
-                { text: 'L3 三级', link: '/programming/scratch/l3' }
+                { text: 'L3 三级', link: '/programming/scratch/l3' },
+                { text: 'L4 四级（过渡）', link: '/programming/scratch/l4' }
               ]
             },
             {
@@ -86,7 +87,8 @@ export default defineConfig({
             { text: 'Scratch 首页', link: '/programming/scratch/' },
             { text: 'L1 一级', link: '/programming/scratch/l1' },
             { text: 'L2 二级', link: '/programming/scratch/l2' },
-            { text: 'L3 三级', link: '/programming/scratch/l3' }
+            { text: 'L3 三级', link: '/programming/scratch/l3' },
+            { text: 'L4 四级（过渡）', link: '/programming/scratch/l4' }
           ]
         }
       ],
@@ -95,10 +97,7 @@ export default defineConfig({
           text: '数学天地',
           items: [
             { text: '概述', link: '/math/' },
-            { text: '编程数学基础', link: '/math/programming-basics' },
-            { text: '基础数学巩固', link: '/math/fundamentals' },
-            { text: '奥数思维', link: '/math/olympiad' },
-            { text: '竞赛数学', link: '/math/competition' }
+            { text: '编程数学基础', link: '/math/programming-basics' }
           ]
         }
       ],
@@ -107,10 +106,7 @@ export default defineConfig({
           text: '家长指南',
           items: [
             { text: '概述', link: '/parents/' },
-            { text: 'Scratch阶段指南', link: '/parents/scratch-guide' },
-            { text: 'Python阶段指南', link: '/parents/python-guide' },
-            { text: 'C++竞赛指南', link: '/parents/cpp-guide' },
-            { text: '常见问题解答', link: '/parents/faq' }
+            { text: 'Scratch阶段指南', link: '/parents/scratch-guide' }
           ]
         }
       ],
@@ -119,11 +115,7 @@ export default defineConfig({
           text: '心理驿站',
           items: [
             { text: '概述', link: '/psychology/' },
-            { text: '6-8岁学习心理', link: '/psychology/age6-8' },
-            { text: '9-11岁学习心理', link: '/psychology/age9-11' },
-            { text: '12岁+学习心理', link: '/psychology/age12plus' },
-            { text: '亲子沟通技巧', link: '/psychology/communication' },
-            { text: '心理工具箱', link: '/psychology/tools' }
+            { text: '亲子沟通技巧', link: '/psychology/communication' }
           ]
         }
       ],
