@@ -299,7 +299,7 @@ string get_yin_yang(int value) {
 }
 
 int main() {
-    srand(time(0));
+    srand(time(nullptr));
     
     cout << "===== 易经占卜模拟器 =====" << endl;
     cout << "请静心思考你想问的问题..." << endl;

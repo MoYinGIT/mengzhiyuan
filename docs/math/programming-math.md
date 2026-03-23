@@ -197,7 +197,7 @@ bool in_mandelbrot(double cx, double cy, int max_iter) {
 using namespace std;
 
 int main() {
-    srand(time(0));
+    srand(time(nullptr));
     long long n = 1000000;  // 总点数
     long long inside = 0;   // 圆内点数
     
