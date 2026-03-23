@@ -9,8 +9,8 @@ hero:
       text: 全文阅读
       link: /chinese-classics/sunzi/fulltext.html
     - theme: alt
-      text: 兵法与策略思维
-      link: /chinese-classics/sunzi/strategy.html
+      text: 名家注释版
+      link: /chinese-classics/sunzi/annotated.html
 
 features:
   - icon: 🎯

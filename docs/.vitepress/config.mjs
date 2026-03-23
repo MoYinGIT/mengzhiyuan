@@ -213,7 +213,15 @@ export default defineConfig({
               text: '兵法谋略',
               collapsed: false,
               items: [
-                { text: '孙子兵法', link: '/chinese-classics/sunzi' }
+                { 
+                  text: '孙子兵法',
+                  collapsed: false,
+                  items: [
+                    { text: '孙子兵法首页', link: '/chinese-classics/sunzi' },
+                    { text: '全文', link: '/chinese-classics/sunzi/fulltext' },
+                    { text: '名家注释版', link: '/chinese-classics/sunzi/annotated' }
+                  ]
+                }
               ]
             },
             {
