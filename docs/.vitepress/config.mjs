@@ -187,10 +187,11 @@ export default defineConfig({
                 },
                 { 
                   text: '《道德经》', 
-                  link: '/chinese-classics/daodejing',
-                  items: [
-                    { text: '全文阅读', link: '/chinese-classics/daodejing/fulltext' }
-                  ]
+                  link: '/chinese-classics/daodejing'
+                },
+                { 
+                  text: '《道德经》全文', 
+                  link: '/chinese-classics/daodejing/fulltext'
                 },
                 { 
                   text: '《论语》', 
