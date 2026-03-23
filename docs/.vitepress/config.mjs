@@ -181,9 +181,21 @@ export default defineConfig({
               text: '三经典',
               collapsed: false,
               items: [
-                { text: '《易经》', link: '/chinese-classics/yijing' },
-                { text: '《道德经》', link: '/chinese-classics/daodejing' },
-                { text: '《论语》', link: '/chinese-classics/lunyu' }
+                { 
+                  text: '《易经》', 
+                  link: '/chinese-classics/yijing'
+                },
+                { 
+                  text: '《道德经》', 
+                  link: '/chinese-classics/daodejing',
+                  items: [
+                    { text: '全文阅读', link: '/chinese-classics/daodejing/fulltext' }
+                  ]
+                },
+                { 
+                  text: '《论语》', 
+                  link: '/chinese-classics/lunyu'
+                }
               ]
             },
             {

@@ -10,7 +10,7 @@ hero:
   actions:
     - theme: brand
       text: 开始阅读
-      link: /chinese-classics/daodejing/chapter1
+      link: /chinese-classics/daodejing/fulltext
     - theme: alt
       text: 道德经与软件设计
       link: /chinese-classics/daodejing-software
