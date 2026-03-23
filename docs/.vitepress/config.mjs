@@ -222,13 +222,55 @@ export default defineConfig({
               text: '蒙学经典',
               collapsed: false,
               items: [
-                { text: '三字经', link: '/chinese-classics/children/sanzijing' },
-                { text: '弟子规', link: '/chinese-classics/children/dizigui' },
-                { text: '千字文', link: '/chinese-classics/children/qianziwen' },
-                { text: '百家姓', link: '/chinese-classics/children/baijiaxing' },
+                { 
+                  text: '三字经',
+                  collapsed: true,
+                  items: [
+                    { text: '儿童版', link: '/chinese-classics/children/sanzijing' },
+                    { text: '全文', link: '/chinese-classics/children/sanzijing-full' }
+                  ]
+                },
+                { 
+                  text: '弟子规',
+                  collapsed: true,
+                  items: [
+                    { text: '儿童版', link: '/chinese-classics/children/dizigui' },
+                    { text: '全文', link: '/chinese-classics/children/dizigui-full' }
+                  ]
+                },
+                { 
+                  text: '千字文',
+                  collapsed: true,
+                  items: [
+                    { text: '儿童版', link: '/chinese-classics/children/qianziwen' },
+                    { text: '全文', link: '/chinese-classics/children/qianziwen-full' }
+                  ]
+                },
+                { 
+                  text: '百家姓',
+                  collapsed: true,
+                  items: [
+                    { text: '儿童版', link: '/chinese-classics/children/baijiaxing' },
+                    { text: '全文', link: '/chinese-classics/children/baijiaxing-full' }
+                  ]
+                },
                 { text: '成语故事', link: '/chinese-classics/children/chengyu' },
-                { text: '声律启蒙', link: '/chinese-classics/children/shenglvqimeng' },
-                { text: '古诗词精选', link: '/chinese-classics/children/gushici' },
+                { 
+                  text: '声律启蒙',
+                  collapsed: true,
+                  items: [
+                    { text: '儿童版', link: '/chinese-classics/children/shenglvqimeng' },
+                    { text: '全文', link: '/chinese-classics/children/shenglvqimeng-full' }
+                  ]
+                },
+                { 
+                  text: '古诗词精选',
+                  collapsed: true,
+                  items: [
+                    { text: '儿童版', link: '/chinese-classics/children/gushici' },
+                    { text: '全文', link: '/chinese-classics/children/gushici-full' }
+                  ]
+                },
                 { text: '历史故事', link: '/chinese-classics/children/lishigushi' }
               ]
             }
