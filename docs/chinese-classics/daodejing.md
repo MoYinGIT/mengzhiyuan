@@ -9,11 +9,11 @@ hero:
     alt: 道德经封面
   actions:
     - theme: brand
-      text: 开始阅读
+      text: 通行本（全文）
       link: /chinese-classics/daodejing/fulltext.html
     - theme: alt
-      text: 道德经与软件设计
-      link: /chinese-classics/daodejing-software
+      text: 帛书甲本（古本）
+      link: /chinese-classics/daodejing/boshu.html
 
 features:
   - icon: 🌊
@@ -33,6 +33,17 @@ features:
 
 - **道经**（第1-37章）：阐述宇宙本源、万物生成之道
 - **德经**（第38-81章）：阐述修身治国、处世为人之德
+
+## 版本选择
+
+本网站提供两个版本供读者选择：
+
+| 版本 | 特点 | 适合人群 |
+|:---|:---|:---|
+| **[通行本（王弼本）](#)** | 文字规范，章节顺序：道经→德经 | 初学者、一般读者 |
+| **[帛书甲本（古本）](#)** | 出土文献，章节顺序：德经→道经，文字古朴 | 进阶者、研究者 |
+
+**建议**：初学者从通行本入手，进阶者可对照帛书本，体会古文字演变。
 
 ## 核心思想
 

@@ -187,11 +187,12 @@ export default defineConfig({
                 },
                 { 
                   text: '《道德经》', 
-                  link: '/chinese-classics/daodejing'
-                },
-                { 
-                  text: '《道德经》全文', 
-                  link: '/chinese-classics/daodejing/fulltext'
+                  collapsed: false,
+                  items: [
+                    { text: '道德经首页', link: '/chinese-classics/daodejing' },
+                    { text: '通行本全文', link: '/chinese-classics/daodejing/fulltext' },
+                    { text: '帛书甲本（古本）', link: '/chinese-classics/daodejing/boshu' }
+                  ]
                 },
                 { 
                   text: '《论语》', 
