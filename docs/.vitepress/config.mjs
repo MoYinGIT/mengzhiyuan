@@ -161,6 +161,7 @@ export default defineConfig({
             { text: 'L4 四级', link: '/programming/cpp/l4' },
             { text: 'L5 五级', link: '/programming/cpp/l5' },
             { text: 'L6 六级', link: '/programming/cpp/l6' },
+            { text: 'L7 七级', link: '/programming/cpp/l7' },
             { text: '编程练习题', link: '/programming/cpp/exercises' },
             { text: '语法速查表', link: '/programming/cpp/cheatsheet' }
           ]
