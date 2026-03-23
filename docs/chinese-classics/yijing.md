@@ -7,7 +7,7 @@ hero:
   actions:
     - theme: brand
       text: 通行本
-      link: /chinese-classics/yijing.html
+      link: /chinese-classics/yijing/fulltext.html
     - theme: alt
       text: 帛书甲本（古本）
       link: /chinese-classics/yijing/boshu.html
