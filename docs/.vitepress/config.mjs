@@ -72,6 +72,7 @@ export default defineConfig({
                 { text: 'L3 三级', link: '/programming/cpp/l3' },
                 { text: 'L4 四级', link: '/programming/cpp/l4' },
                 { text: 'L5 五级', link: '/programming/cpp/l5' },
+                { text: 'L6 六级', link: '/programming/cpp/l6' },
                 { text: '编程练习题', link: '/programming/cpp/exercises' },
                 { text: '语法速查表', link: '/programming/cpp/cheatsheet' }
               ]
@@ -97,7 +98,9 @@ export default defineConfig({
           text: '数学天地',
           items: [
             { text: '概述', link: '/math/' },
-            { text: '编程数学基础', link: '/math/programming-basics' }
+            { text: '编程数学基础', link: '/math/programming-basics' },
+            { text: '奥数思维', link: '/math/olympiad' },
+            { text: '竞赛数学', link: '/math/competition' }
           ]
         }
       ],
@@ -119,6 +122,8 @@ export default defineConfig({
           items: [
             { text: '概述', link: '/psychology/' },
             { text: '6-8岁学习心理', link: '/psychology/age6-8' },
+            { text: '9-11岁学习心理', link: '/psychology/age9-11' },
+            { text: '12岁+学习心理', link: '/psychology/age12plus' },
             { text: '亲子沟通技巧', link: '/psychology/communication' }
           ]
         }
@@ -133,6 +138,8 @@ export default defineConfig({
             { text: 'L2 二级', link: '/programming/cpp/l2' },
             { text: 'L3 三级', link: '/programming/cpp/l3' },
             { text: 'L4 四级', link: '/programming/cpp/l4' },
+            { text: 'L5 五级', link: '/programming/cpp/l5' },
+            { text: 'L6 六级', link: '/programming/cpp/l6' },
             { text: '编程练习题', link: '/programming/cpp/exercises' },
             { text: '语法速查表', link: '/programming/cpp/cheatsheet' }
           ]
@@ -150,6 +157,14 @@ export default defineConfig({
                 { text: '《易经》与算法', link: '/chinese-classics/yijing-algorithm' },
                 { text: '《道德经》与软件', link: '/chinese-classics/daodejing-software' },
                 { text: '《论语》与学习', link: '/chinese-classics/lunyu-learning' }
+              ]
+            },
+            {
+              text: '蒙学经典',
+              collapsed: false,
+              items: [
+                { text: '三字经', link: '/chinese-classics/children/sanzijing' },
+                { text: '弟子规', link: '/chinese-classics/children/dizigui' }
               ]
             }
           ]
