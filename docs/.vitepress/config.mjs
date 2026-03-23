@@ -210,6 +210,13 @@ export default defineConfig({
               ]
             },
             {
+              text: '兵法谋略',
+              collapsed: false,
+              items: [
+                { text: '孙子兵法', link: '/chinese-classics/sunzi' }
+              ]
+            },
+            {
               text: '三经典与编程',
               collapsed: false,
               items: [
