@@ -65,7 +65,9 @@ export default defineConfig({
               collapsed: true,
               items: [
                 { text: 'C++ 首页', link: '/programming/cpp/' },
-                { text: 'L1 一级', link: '/programming/cpp/l1' }
+                { text: 'L1 一级', link: '/programming/cpp/l1' },
+                { text: 'L2 二级', link: '/programming/cpp/l2' },
+                { text: '编程练习题', link: '/programming/cpp/exercises' }
               ]
             }
           ]
@@ -117,6 +119,18 @@ export default defineConfig({
             { text: '12岁+学习心理', link: '/psychology/age12plus' },
             { text: '亲子沟通技巧', link: '/psychology/communication' },
             { text: '心理工具箱', link: '/psychology/tools' }
+          ]
+        }
+      ],
+      '/programming/cpp/': [
+        {
+          text: 'C++ 竞赛编程',
+          items: [
+            { text: '← 返回编程学院', link: '/programming/' },
+            { text: 'C++ 首页', link: '/programming/cpp/' },
+            { text: 'L1 一级', link: '/programming/cpp/l1' },
+            { text: 'L2 二级', link: '/programming/cpp/l2' },
+            { text: '编程练习题', link: '/programming/cpp/exercises' }
           ]
         }
       ]
