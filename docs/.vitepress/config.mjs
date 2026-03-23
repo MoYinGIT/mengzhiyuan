@@ -70,6 +70,7 @@ export default defineConfig({
                 { text: 'L2 二级', link: '/programming/cpp/l2' },
                 { text: 'L3 三级', link: '/programming/cpp/l3' },
                 { text: 'L4 四级', link: '/programming/cpp/l4' },
+                { text: 'L5 五级', link: '/programming/cpp/l5' },
                 { text: '编程练习题', link: '/programming/cpp/exercises' },
                 { text: '语法速查表', link: '/programming/cpp/cheatsheet' }
               ]
