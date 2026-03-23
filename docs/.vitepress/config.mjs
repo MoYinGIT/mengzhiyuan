@@ -128,7 +128,8 @@ export default defineConfig({
             { text: '趣味数学', link: '/math/fun-math.html' },
             { text: '编程数学基础', link: '/math/programming-basics.html' },
             { text: '数学与编程', link: '/math/programming-math.html' },
-            { text: '奥数思维', link: '/math/olympiad.html' }
+            { text: '奥数思维', link: '/math/olympiad.html' },
+            { text: '竞赛数学', link: '/math/competition.html' }
           ]
         }
       ],
