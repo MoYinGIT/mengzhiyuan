@@ -6,14 +6,14 @@ export default defineConfig({
   description: '让所有孩子有处可学',
   base: '/mengzhiyuan/',
   ignoreDeadLinks: true,
-  
+
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/mengzhiyuan/logo.svg' }],
     ['meta', { name: 'theme-color', content: '#5c7cfa' }],
     ['meta', { name: 'keywords', content: '编程教育,少儿编程,Scratch,Python,C++,数学,家长指南' }],
     ['meta', { name: 'author', content: '默隐' }]
   ],
-  
+
   markdown: {
     lineNumbers: true,
     theme: {
@@ -21,10 +21,10 @@ export default defineConfig({
       dark: 'github-dark'
     }
   },
-  
+
   themeConfig: {
     logo: '/logo.svg',
-    
+
     nav: [
       { text: '首页', link: '/' },
       { text: '编程学院', link: '/programming/' },
@@ -33,7 +33,7 @@ export default defineConfig({
       { text: '家长指南', link: '/parents/' },
       { text: '心理驿站', link: '/psychology/' }
     ],
-    
+
     sidebar: {
       '/programming/': [
         {
@@ -42,7 +42,7 @@ export default defineConfig({
             { text: '概述', link: '/programming/' },
             { text: '代码食谱', link: '/programming/cookbook' },
             { text: '常见错误', link: '/programming/errors' },
-            { 
+            {
               text: 'Scratch',
               collapsed: false,
               items: [
@@ -52,7 +52,7 @@ export default defineConfig({
                 { text: 'L3 三级', link: '/programming/scratch/l3' }
               ]
             },
-            { 
+            {
               text: 'Python',
               collapsed: true,
               items: [
@@ -61,7 +61,7 @@ export default defineConfig({
                 { text: 'L2 二级', link: '/programming/python/l2' }
               ]
             },
-            { 
+            {
               text: 'C++',
               collapsed: true,
               items: [
@@ -69,6 +69,7 @@ export default defineConfig({
                 { text: 'L1 一级', link: '/programming/cpp/l1' },
                 { text: 'L2 二级', link: '/programming/cpp/l2' },
                 { text: 'L3 三级', link: '/programming/cpp/l3' },
+                { text: 'L4 四级', link: '/programming/cpp/l4' },
                 { text: '编程练习题', link: '/programming/cpp/exercises' },
                 { text: '语法速查表', link: '/programming/cpp/cheatsheet' }
               ]
@@ -134,6 +135,7 @@ export default defineConfig({
             { text: 'L1 一级', link: '/programming/cpp/l1' },
             { text: 'L2 二级', link: '/programming/cpp/l2' },
             { text: 'L3 三级', link: '/programming/cpp/l3' },
+            { text: 'L4 四级', link: '/programming/cpp/l4' },
             { text: '编程练习题', link: '/programming/cpp/exercises' },
             { text: '语法速查表', link: '/programming/cpp/cheatsheet' }
           ]
@@ -144,11 +146,12 @@ export default defineConfig({
           text: '国学经典',
           items: [
             { text: '国学首页', link: '/chinese-classics/' },
-            { 
+            {
               text: '三经典与编程',
               collapsed: false,
               items: [
                 { text: '《易经》与算法', link: '/chinese-classics/yijing-algorithm' },
+                { text: '《道德经》与软件', link: '/chinese-classics/daodejing-software' },
                 { text: '《论语》与学习', link: '/chinese-classics/lunyu-learning' }
               ]
             }
@@ -156,25 +159,25 @@ export default defineConfig({
         }
       ]
     },
-    
+
     socialLinks: [
       { icon: 'github', link: 'https://github.com/moyingit/mengzhiyuan' }
     ],
-    
+
     footer: {
       message: '让所有孩子有处可学',
       copyright: 'Copyright © 2026 默隐·蒙知苑'
     },
-    
+
     docFooter: {
       prev: '上一页',
       next: '下一页'
     },
-    
+
     outline: {
       label: '本页目录'
     },
-    
+
     lastUpdated: {
       text: '最后更新',
       formatOptions: {
@@ -182,7 +185,7 @@ export default defineConfig({
         timeStyle: 'short'
       }
     },
-    
+
     search: {
       provider: 'local',
       options: {
