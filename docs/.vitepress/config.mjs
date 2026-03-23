@@ -196,7 +196,9 @@ export default defineConfig({
                   items: [
                     { text: '道德经首页', link: '/chinese-classics/daodejing' },
                     { text: '通行本全文', link: '/chinese-classics/daodejing/fulltext' },
-                    { text: '帛书甲本（古本）', link: '/chinese-classics/daodejing/boshu' }
+                    { text: '帛书甲本（西汉）', link: '/chinese-classics/daodejing/boshu' },
+                    { text: '郭店楚简本（战国）', link: '/chinese-classics/daodejing/guodian' },
+                    { text: '版本对比', link: '/chinese-classics/daodejing/compare' }
                   ]
                 },
                 { 
