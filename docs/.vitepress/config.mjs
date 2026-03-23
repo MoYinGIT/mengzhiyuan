@@ -4,9 +4,11 @@ export default defineConfig({
   lang: 'zh-CN',
   title: '默隐·蒙知苑',
   description: '让所有孩子有处可学',
+  base: '/mengzhiyuan/',
+  ignoreDeadLinks: true,
   
   head: [
-    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/mengzhiyuan/logo.svg' }],
     ['meta', { name: 'theme-color', content: '#5c7cfa' }],
     ['meta', { name: 'keywords', content: '编程教育,少儿编程,Scratch,Python,C++,数学,家长指南' }],
     ['meta', { name: 'author', content: '默隐' }]
