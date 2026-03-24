@@ -4,8 +4,6 @@
 > 
 > 📚 **配套资源**：<a href="../../pointer-demo.html?v=20250326" target="_blank">🎮 交互式演示</a> —— 在线动画演示，建议配合本文一起学习
 
-> 💡 **提示**：如遇到 404，请<a href="../../pointer-demo.html?v=20250326" target="_blank">点击这里</a>直接访问
-
 ---
 
 ## 一、什么是指针？
