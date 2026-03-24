@@ -87,6 +87,7 @@ export default defineConfig({
                 { text: 'L6 六级', link: '/programming/cpp/l6.html' },
                 { text: 'L7 七级', link: '/programming/cpp/l7.html' },
                 { text: 'L8 八级', link: '/programming/cpp/l8.html' },
+                { text: '📊 数据类型与内存（交互式教程）', link: '/programming/cpp/datatype-guide.html' },
                 { text: '🎯 指针基础（交互式教程）', link: '/programming/cpp/pointer-guide.html' },
                 { text: '编程练习题', link: '/programming/cpp/exercises.html' },
                 { text: '语法速查表', link: '/programming/cpp/cheatsheet.html' }
@@ -173,6 +174,7 @@ export default defineConfig({
             { text: 'L6 六级', link: '/programming/cpp/l6.html' },
             { text: 'L7 七级', link: '/programming/cpp/l7.html' },
             { text: 'L8 八级', link: '/programming/cpp/l8.html' },
+            { text: '📊 数据类型与内存（交互式教程）', link: '/programming/cpp/datatype-guide.html' },
             { text: '🎯 指针基础（交互式教程）', link: '/programming/cpp/pointer-guide.html' },
             { text: '编程练习题', link: '/programming/cpp/exercises.html' },
             { text: '语法速查表', link: '/programming/cpp/cheatsheet.html' }
