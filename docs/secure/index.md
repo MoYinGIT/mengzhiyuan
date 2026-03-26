@@ -10,36 +10,45 @@ layout: doc
 
 ## 请输入密码
 
-<div style="max-width: 400px; margin: 30px auto; padding: 30px; background: #f8f9fa; border-radius: 12px; text-align: center;">
-  <div style="font-size: 3em; margin-bottom: 15px;">🔐</div>
-  <p style="color: #666; margin-bottom: 20px;">此页面包含加密内容，需要密码才能访问</p>
-  
-  <input type="password" id="pagePassword" placeholder="请输入密码..." 
-    style="width: 100%; padding: 12px 16px; font-size: 16px; border: 2px solid #ddd; border-radius: 8px; margin-bottom: 15px;">
-  
-  <button onclick="checkPassword()" 
-    style="width: 100%; padding: 12px; background: #667eea; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">
-    解锁内容
-  </button>
-  
-  <p id="errorMsg" style="color: #e74c3c; margin-top: 15px; display: none;">密码错误，请重试</p>
-</div>
+<ClientOnly>
+  <div style="max-width: 400px; margin: 30px auto; padding: 30px; background: #f8f9fa; border-radius: 12px; text-align: center;">
+    <div style="font-size: 3em; margin-bottom: 15px;">🔐</div>
+    <p style="color: #666; margin-bottom: 20px;">此页面包含加密内容，需要密码才能访问</p>
+    
+    <input type="password" id="pagePassword" placeholder="请输入密码..." 
+      style="width: 100%; padding: 12px 16px; font-size: 16px; border: 2px solid #ddd; border-radius: 8px; margin-bottom: 15px;">
+    
+    <button onclick="checkPassword()" 
+      style="width: 100%; padding: 12px; background: #667eea; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">
+      解锁内容
+    </button>
+    
+    <p id="errorMsg" style="color: #e74c3c; margin-top: 15px; display: none;">密码错误，请重试</p>
+  </div>
 
-<script>
-function checkPassword() {
-  const pwd = document.getElementById('pagePassword').value;
-  if (pwd === 'MoYin123') {
-    document.getElementById('secureContent').style.display = 'block';
-    document.querySelector('.password-box').style.display = 'none';
-  } else {
-    document.getElementById('errorMsg').style.display = 'block';
-  }
-}
-
-document.getElementById('pagePassword').addEventListener('keypress', function(e) {
-  if (e.key === 'Enter') checkPassword();
-});
-</script>
+  <script setup>
+  import { onMounted } from 'vue'
+  
+  onMounted(() => {
+    if (typeof window !== 'undefined') {
+      window.checkPassword = function() {
+        const pwd = document.getElementById('pagePassword').value;
+        if (pwd === 'MoYin123') {
+          document.getElementById('secureContent').style.display = 'block';
+          const passwordBox = document.querySelector('.password-box');
+          if (passwordBox) passwordBox.style.display = 'none';
+        } else {
+          document.getElementById('errorMsg').style.display = 'block';
+        }
+      }
+      
+      document.getElementById('pagePassword').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') window.checkPassword();
+      });
+    }
+  })
+  </script>
+</ClientOnly>
 
 <div class="password-box">
   <!-- 密码输入框在上面的div中 -->
