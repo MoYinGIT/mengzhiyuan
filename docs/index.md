@@ -67,6 +67,11 @@ features:
     details: 全站内容快速索引，90+篇文档一站式导航，快速找到你需要的学习资源。
     link: /site-index.md
     
+  - icon: 👥
+    title: 社区专区
+    details: 优秀学员案例、教师培训、竞赛报名、开源贡献，共建「蒙知苑」学习社区。
+    link: /community/
+    
   - icon: 🌟
     title: 免费开放
     details: 所有内容永久免费，开源共享。有教无类，让每一个孩子都能享受优质教育。

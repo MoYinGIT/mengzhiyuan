@@ -190,13 +190,28 @@ layout: doc
 
 ---
 
+## 👥 社区专区
+
+| 内容 | 说明 | 链接 |
+|:---|:---|:---:|
+| 社区首页 | 社区资源汇总 | [→ 访问](/community/index.html) |
+| 优秀学员案例 | 学员成长故事 | [→ 访问](/community/student-showcase.md) |
+| 教师培训材料 | 新教师上手指南 | [→ 访问](/community/teacher-training.md) |
+| 竞赛报名指南 | CSP-J/S、GESP报名 | [→ 访问](/community/competition-guide.md) |
+| 开源贡献指南 | 如何贡献内容 | [→ 访问](/community/contributing.md) |
+
+---
+
 ## 🛠️ 工具与资源
 
 | 资源 | 说明 | 链接 |
 |:---|:---|:---:|
+| 工具资源首页 | 工具导航 | [→ 访问](/tools/index.html) |
 | 学生入学指南 | 新生onboarding | [→ 访问](/student-onboarding-guide.md) |
 | 代码规范手册 | Google C++ Style简化版 | [→ 访问](/programming/code-style-guide.md) |
 | 错题本模板 | 标准化错题记录 | [→ 访问](/error-log-template.md) |
+| 学习工具推荐 | IDE、插件、App清单 | [→ 访问](/tools/recommended-tools.md) |
+| Hydro OJ指南 | 在线评测使用教程 | [→ 访问](/tools/hydro-oj-guide.md) |
 | 加密方案指南 | 前端加密实施 | [→ 访问](/tools/ENCRYPTION-GUIDE.md) |
 
 ---
@@ -206,12 +221,14 @@ layout: doc
 | 类别 | 数量 |
 |:---|:---:|
 | 编程教程 | 40+ 篇 |
-| GESP文档 | 7 篇 🔒 |
-| 国学经典 | 30+ 篇 |
+| GESP文档 | 9 篇（含加密） |
+| 国学经典 | 31 篇 |
 | 数学内容 | 7 篇 |
 | 家长指南 | 7 篇 |
 | 心理驿站 | 5 篇 |
-| **总计** | **90+ 篇** |
+| 工具资源 | 6 篇 |
+| 社区专区 | 4 篇 |
+| **总计** | **100+ 篇** |
 
 ---
 
