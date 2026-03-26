@@ -39,6 +39,7 @@
 **入口**：
 - [📖 《易经》全文阅读](./yijing.md)
 - [🔮 易经与算法思维](./yijing-algorithm.md)
+- [☯️ 六十四卦算法图谱](./yijing-algorithm-chart.md)
 <!-- - [八卦与二进制](./bagua-binary.md) - 敬请期待 -->
 <!-- - [六十四卦与状态机](./guaxiang-state.md) - 敬请期待 -->
 

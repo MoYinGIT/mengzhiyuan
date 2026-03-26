@@ -62,6 +62,11 @@ features:
     details: 加密内容导航，输入密码访问GESP考级、AI教学助手、学习科学等敏感教学资源。
     link: /secure/
     
+  - icon: 📑
+    title: 网站导航
+    details: 全站内容快速索引，90+篇文档一站式导航，快速找到你需要的学习资源。
+    link: /site-index.md
+    
   - icon: 🌟
     title: 免费开放
     details: 所有内容永久免费，开源共享。有教无类，让每一个孩子都能享受优质教育。

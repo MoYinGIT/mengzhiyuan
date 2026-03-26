@@ -19,6 +19,8 @@ layout: doc
 |:---|:---|:---|
 | **GESP考级大纲全集** | L1-L8 完整大纲（37KB） | [查看](/programming/gesp/GESP-考级大纲全集.md) |
 | **教学操作手册** | L1-L3 三阶段详细教案（144小时） | [查看](/programming/gesp/GESP教学操作手册-三阶段完整版.md) |
+| **L1-L8能力图谱** | 每个级别知识技能可视化 | [查看](/programming/gesp/ability-chart.md) |
+| **常见错误排查** | 编译/逻辑错误速查手册 | [查看](/programming/error-troubleshooting.md) |
 | **AI整合方案** | GESP+AI 深度整合教学体系 | [查看](/programming/gesp/gesp-ai-integration-plan.md) |
 | **辅导实战方案** | 基于刷题经验的可落地方案 | [查看](/programming/gesp/gesp-tutoring-practical-plan.md) |
 
