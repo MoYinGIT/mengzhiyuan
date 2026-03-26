@@ -28,16 +28,13 @@ layout: doc
 
 | 内容 | 说明 | 链接 |
 |:---|:---|:---:|
-| 智谱清言教学提示词 | 7大场景教学提示词 | [> 访问](./ai/zhipu-qingyan-teaching-prompts.html) |
+| AI教学助手导航 | 智谱清言教学提示词等 | [> 访问](./ai/) |
 
 ### 🧠 学习科学
 
 | 内容 | 说明 | 链接 |
 |:---|:---|:---:|
-| 心理学+学习科学融合方案 | 认知心理学、心流培养 | [> 访问](./psychology/psychology-learning-science-plan.html) |
-| 屏幕使用与心流策略 | 屏幕管理与专注培养 | [> 访问](./psychology/screen-time-flow-teaching-strategies.html) |
-| 心理驿站 | 儿童学习心理、亲子沟通 | [> 访问](./psychology/) |
-| 亲子沟通技巧 | 如何与孩子有效沟通 | [> 访问](./psychology/communication.html) |
+| 学习科学与心理驿站 | 认知心理学、心流培养等 | [> 访问](./psychology/) |
 
 ---
 

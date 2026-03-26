@@ -30,7 +30,7 @@ features:
   - icon: 🤖
     title: AI教学助手 🔒
     details: 智谱清言教学提示词、AI辅助编程教学方案、双工具协同策略，让AI成为你的教学伙伴。
-    link: /secure/ai/zhipu-qingyan-teaching-prompts.html
+    link: /secure/ai/
     
   - icon: 📜
     title: 国学经典
@@ -55,7 +55,7 @@ features:
   - icon: 📚
     title: 学习科学 🔒
     details: 认知负荷理论、成长型思维、心流培养、间隔重复。基于心理学的高效学习方法。
-    link: /secure/psychology/psychology-learning-science-plan.html
+    link: /secure/
     
   - icon: 🔐
     title: 加密专区
