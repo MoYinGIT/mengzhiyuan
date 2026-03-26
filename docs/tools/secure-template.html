@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>加密内容 - 默隐·蒙知苑</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    /* 锁定屏幕样式 */
+    .lock-screen {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+    
+    .lock-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+    }
+    
+    .lock-screen h1 {
+      color: #333;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    
+    .lock-screen p {
+      color: #666;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+    
+    .input-group {
+      margin-bottom: 20px;
+    }
+    
+    .input-group input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+    
+    .input-group input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+    
+    .btn-unlock {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .btn-unlock:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+    
+    .btn-unlock:active {
+      transform: translateY(0);
+    }
+    
+    .error-msg {
+      color: #e74c3c;
+      margin-top: 15px;
+      font-size: 14px;
+      display: none;
+    }
+    
+    .hint {
+      margin-top: 20px;
+      padding: 12px;
+      background: #f8f9fa;
+      border-radius: 6px;
+      font-size: 13px;
+      color: #666;
+    }
+    
+    /* 内容区域样式 */
+    .content-wrapper {
+      display: none;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      max-width: 900px;
+      width: 100%;
+      overflow: hidden;
+    }
+    
+    .content-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .content-header h2 {
+      font-size: 18px;
+      font-weight: 500;
+    }
+    
+    .btn-lock {
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.3s;
+    }
+    
+    .btn-lock:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    
+    .content-body {
+      padding: 40px;
+      line-height: 1.8;
+      color: #333;
+    }
+    
+    .content-body h1 {
+      color: #667eea;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #eee;
+    }
+    
+    .content-body h2 {
+      color: #764ba2;
+      margin: 30px 0 15px;
+    }
+    
+    .content-body h3 {
+      color: #555;
+      margin: 25px 0 10px;
+    }
+    
+    .content-body p {
+      margin-bottom: 15px;
+    }
+    
+    .content-body ul, .content-body ol {
+      margin: 15px 0;
+      padding-left: 30px;
+    }
+    
+    .content-body li {
+      margin: 8px 0;
+    }
+    
+    .content-body code {
+      background: #f4f4f4;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: "Consolas", "Monaco", monospace;
+      font-size: 0.9em;
+    }
+    
+    .content-body pre {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    
+    .content-body pre code {
+      background: transparent;
+      padding: 0;
+    }
+    
+    .content-body blockquote {
+      border-left: 4px solid #667eea;
+      padding-left: 20px;
+      margin: 20px 0;
+      color: #666;
+      font-style: italic;
+    }
+    
+    .content-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    
+    .content-body th, .content-body td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+    }
+    
+    .content-body th {
+      background: #f8f9fa;
+      font-weight: 600;
+    }
+    
+    /* 加载动画 */
+    .loading {
+      display: none;
+      margin-top: 15px;
+    }
+    
+    .loading-spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #f3f3f3;
+      border-top: 2px solid #667eea;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* 页脚 */
+    .footer {
+      text-align: center;
+      padding: 20px;
+      color: #999;
+      font-size: 12px;
+      border-top: 1px solid #eee;
+    }
+    
+    /* 响应式 */
+    @media (max-width: 600px) {
+      .lock-screen, .content-wrapper {
+        margin: 10px;
+      }
+      
+      .content-body {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 锁定屏幕 -->
+  <div id="lock-screen" class="lock-screen">
+    <div class="lock-icon">🔒</div>
+    <h1>加密内容</h1>
+    <p>此页面包含「默隐·蒙知苑」的敏感教学资料<br>请输入访问密码继续</p>
+    
+    <div class="input-group">
+      <input type="password" id="password" placeholder="输入访问密码" autocomplete="off">
+    </div>
+    
+    <button class="btn-unlock" onclick="unlock()">🔓 解锁内容</button>
+    
+    <div class="loading" id="loading">
+      <div class="loading-spinner"></div>
+      <span style="margin-left: 10px; color: #666;">解密中...</span>
+    </div>
+    
+    <div class="error-msg" id="error-msg">
+      ❌ 密码错误，请重试
+    </div>
+    
+    <div class="hint">
+      💡 提示：密码由管理员分发，如需获取请联系默隐
+    </div>
+  </div>
+  
+  <!-- 内容显示区域 -->
+  <div id="content-wrapper" class="content-wrapper">
+    <div class="content-header">
+      <h2>📚 默隐·蒙知苑 - 授权访问内容</h2>
+      <button class="btn-lock" onclick="lock()">🔒 重新锁定</button>
+    </div>
+    <div class="content-body" id="content-body">
+      <!-- 解密后的内容将显示在这里 -->
+    </div>
+    <div class="footer">
+      默隐·蒙知苑 · 培养智仁勇完整的人 · 未经授权禁止传播
+    </div>
+  </div>
+
+  <script>
+    // ============================================
+    // 加密内容配置 - 修改此处嵌入你的加密内容
+    // ============================================
+    const CONFIG = {
+      // 将 encrypt-content.js 生成的密文粘贴到此处
+      encryptedContent: "PASTE_YOUR_ENCRYPTED_CONTENT_HERE",
+      
+      // 页面标题（可选）
+      pageTitle: "家长沟通手册",
+      
+      // 记住解锁状态（session内有效）
+      rememberUnlock: true
+    };
+
+    // ============================================
+    // 解密逻辑
+    // ============================================
+    
+    function unlock() {
+      const password = document.getElementById('password').value;
+      const errorMsg = document.getElementById('error-msg');
+      const loading = document.getElementById('loading');
+      
+      if (!password) {
+        showError('请输入密码');
+        return;
+      }
+      
+      // 显示加载
+      loading.style.display = 'block';
+      errorMsg.style.display = 'none';
+      
+      // 延迟执行以显示加载动画
+      setTimeout(() => {
+        try {
+          const decrypted = decryptContent(CONFIG.encryptedContent, password);
+          
+          if (decrypted && decrypted.length > 0) {
+            // 解密成功
+            displayContent(decrypted);
+            
+            // 记住解锁状态
+            if (CONFIG.rememberUnlock) {
+              sessionStorage.setItem('mz_unlocked_' + CONFIG.pageTitle, 'true');
+            }
+          } else {
+            showError('密码错误，请重试');
+          }
+        } catch (e) {
+          showError('解密失败：' + e.message);
+        } finally {
+          loading.style.display = 'none';
+        }
+      }, 500);
+    }
+    
+    function decryptContent(encrypted, password) {
+      const bytes = CryptoJS.AES.decrypt(encrypted, password);
+      return bytes.toString(CryptoJS.enc.Utf8);
+    }
+    
+    function displayContent(content) {
+      // 简单Markdown转HTML（可根据需要扩展）
+      let html = content
+        .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+        .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+        .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+        .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/gim, '<em>$1</em>')
+        .replace(/`([^`]+)`/gim, '<code>$1</code>')
+        .replace(/^\> (.*$)/gim, '<blockquote>$1</blockquote>')
+        .replace(/^\- (.*$)/gim, '<ul><li>$1</li></ul>')
+        .replace(/^\d+\. (.*$)/gim, '<ol><li>$1</li></ol>')
+        .replace(/\n/gim, '<br>');
+      
+      // 合并连续的ul/ol
+      html = html.replace(/<\/ul><br><ul>/gim, '');
+      html = html.replace(/<\/ol><br><ol>/gim, '');
+      
+      document.getElementById('content-body').innerHTML = html;
+      document.getElementById('lock-screen').style.display = 'none';
+      document.getElementById('content-wrapper').style.display = 'block';
+      
+      // 更新页面标题
+      document.title = CONFIG.pageTitle + ' - 默隐·蒙知苑';
+    }
+    
+    function lock() {
+      document.getElementById('lock-screen').style.display = 'block';
+      document.getElementById('content-wrapper').style.display = 'none';
+      document.getElementById('password').value = '';
+      sessionStorage.removeItem('mz_unlocked_' + CONFIG.pageTitle);
+      document.title = '加密内容 - 默隐·蒙知苑';
+    }
+    
+    function showError(msg) {
+      const errorMsg = document.getElementById('error-msg');
+      errorMsg.textContent = '❌ ' + msg;
+      errorMsg.style.display = 'block';
+    }
+    
+    // 回车键解锁
+    document.getElementById('password').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        unlock();
+      }
+    });
+    
+    // 检查是否已解锁（session内有效）
+    window.onload = function() {
+      if (CONFIG.rememberUnlock && 
+          sessionStorage.getItem('mz_unlocked_' + CONFIG.pageTitle) === 'true') {
+        // 自动填充密码提示
+        document.querySelector('.hint').innerHTML = 
+          '💡 已在此会话中解锁，<a href="#" onclick="unlock()">点击重新加载</a>';
+      }
+    };
+  </script>
+</body>
+</html>
