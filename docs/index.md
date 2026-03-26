@@ -23,14 +23,14 @@ features:
     link: /programming/
     
   - icon: 🎓
-    title: GESP考级
+    title: GESP考级 🔒
     details: L1-L8完整教学体系，144小时详细教案，AI辅助教学方案，助你顺利通过GESP考级。
-    link: /programming/gesp/
+    link: /secure/gesp/
     
   - icon: 🤖
-    title: AI教学助手
+    title: AI教学助手 🔒
     details: 智谱清言教学提示词、AI辅助编程教学方案、双工具协同策略，让AI成为你的教学伙伴。
-    link: /programming/zhipu-qingyan-teaching-prompts.md
+    link: /secure/ai/zhipu-qingyan-teaching-prompts.html
     
   - icon: 📜
     title: 国学经典
@@ -48,19 +48,19 @@ features:
     link: /parents/
     
   - icon: 🧠
-    title: 心理驿站
+    title: 心理驿站 🔒
     details: 儿童学习心理、家长情绪管理、亲子沟通技巧。教育的本质是心灵的成长。
-    link: /psychology/
+    link: /secure/psychology/
     
   - icon: 📚
-    title: 学习科学
+    title: 学习科学 🔒
     details: 认知负荷理论、成长型思维、心流培养、间隔重复。基于心理学的高效学习方法。
-    link: /psychology/psychology-learning-science-plan.md
+    link: /secure/psychology/psychology-learning-science-plan.html
     
   - icon: 🔐
-    title: 加密工具
-    details: 前端加密方案，保护敏感教学内容。开源网站也能安全分享教案和家长手册。
-    link: /tools/ENCRYPTION-GUIDE.md
+    title: 加密专区
+    details: 加密内容导航，输入密码访问GESP考级、AI教学助手、学习科学等敏感教学资源。
+    link: /secure/
     
   - icon: 🌟
     title: 免费开放
