@@ -67,17 +67,23 @@ layout: doc
 
 ---
 
-## 🎓 GESP考级体系 🔒
-
-**加密内容，需密码访问**
+## 🎓 GESP考级体系
 
 | 文档 | 说明 | 链接 |
 |:---|:---|:---:|
-| GESP考级大纲 | L1-L8完整大纲 | [→ 访问](/secure/gesp/) |
-| 教学操作手册 | 144小时详细教案 | [→ 访问](/secure/gesp/GESP教学操作手册-三阶段完整版.html) |
-| L4-L8进阶手册 | 300小时进阶规划 | [→ 访问](/secure/gesp/L4-L8-teaching-manual.html) |
-| AI整合方案 | AI辅助教学方案 | [→ 访问](/secure/gesp/gesp-ai-integration-plan.html) |
-| 辅导实战方案 | 刷题经验总结 | [→ 访问](/secure/gesp/gesp-tutoring-practical-plan.html) |
+| GESP考级大纲 | L1-L8完整大纲 | [→ 访问](/programming/gesp/GESP-考级大纲全集.md) |
+| 教学操作手册 | L1-L3详细教案（144小时） | [→ 访问](/programming/gesp/GESP教学操作手册-三阶段完整版.md) |
+| L4教学手册 | 指针·结构体·基础算法 | [→ 访问](/programming/gesp/L4-teaching-manual.md) |
+| L5教学手册 | 数论·链表·递归·分治 | [→ 访问](/programming/gesp/L5-teaching-manual.md) |
+| L6教学手册 | 动态规划·图搜索·树形DP | [→ 访问](/programming/gesp/L6-teaching-manual.md) |
+| L7-L8教学手册 | 高级算法与竞赛准备 | [→ 访问](/programming/gesp/L7-L8-teaching-manual.md) |
+| L1-L8能力图谱 | 各级别知识技能可视化 | [→ 访问](/programming/gesp/ability-chart.md) |
+| 常见错误排查 | 编译/逻辑错误速查 | [→ 访问](/programming/error-troubleshooting.md) |
+| 算法速查卡 | 算法对比·复杂度·模板 | [→ 访问](/programming/algorithm-cheatsheet.md) |
+| AI整合方案 | AI辅助教学方案 | [→ 访问](/programming/gesp/gesp-ai-integration-plan.md) |
+| 辅导实战方案 | 刷题经验总结 | [→ 访问](/programming/gesp/gesp-tutoring-practical-plan.md) |
+
+**加密内容（教师版详细教案）**：[/secure/gesp/](/secure/gesp/)
 
 ---
 
