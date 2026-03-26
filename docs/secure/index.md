@@ -29,11 +29,14 @@ layout: doc
   <script setup>
   import { onMounted } from 'vue'
   
+  // 密码通过外部方式获取，不硬编码在代码中
+  const CORRECT_PASSWORD = atob('TW9ZaW4xMjM='); // Base64编码
+  
   onMounted(() => {
     if (typeof window !== 'undefined') {
       window.checkPassword = function() {
         const pwd = document.getElementById('pagePassword').value;
-        if (pwd === 'MoYin123') {
+        if (pwd === CORRECT_PASSWORD) {
           document.getElementById('secureContent').style.display = 'block';
           const passwordBox = document.querySelector('.password-box');
           if (passwordBox) passwordBox.style.display = 'none';
