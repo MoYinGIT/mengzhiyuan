@@ -22,6 +22,16 @@ features:
     details: 从 Scratch 图形化编程入门，到 Python 代码编程，再到 C++ 竞赛进阶。严格遵循 GESP 考级体系，循序渐进。
     link: /programming/
     
+  - icon: 🎓
+    title: GESP考级
+    details: L1-L8完整教学体系，144小时详细教案，AI辅助教学方案，助你顺利通过GESP考级。
+    link: /programming/gesp/
+    
+  - icon: 🤖
+    title: AI教学助手
+    details: 智谱清言教学提示词、AI辅助编程教学方案、双工具协同策略，让AI成为你的教学伙伴。
+    link: /programming/zhipu-qingyan-teaching-prompts.md
+    
   - icon: 📜
     title: 国学经典
     details: 以《易经》《道德经》《论语》为根基，融合国学智慧与编程教育。让孩子既有传统文化的根，又有面向未来的翅膀。
@@ -41,6 +51,16 @@ features:
     title: 心理驿站
     details: 儿童学习心理、家长情绪管理、亲子沟通技巧。教育的本质是心灵的成长。
     link: /psychology/
+    
+  - icon: 📚
+    title: 学习科学
+    details: 认知负荷理论、成长型思维、心流培养、间隔重复。基于心理学的高效学习方法。
+    link: /psychology/psychology-learning-science-plan.md
+    
+  - icon: 🔐
+    title: 加密工具
+    details: 前端加密方案，保护敏感教学内容。开源网站也能安全分享教案和家长手册。
+    link: /tools/ENCRYPTION-GUIDE.md
     
   - icon: 🌟
     title: 免费开放
