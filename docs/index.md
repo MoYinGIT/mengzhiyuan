@@ -82,6 +82,16 @@ features:
 
 ## 🚀 快速开始
 
+| 角色 | 入口 | 说明 |
+|:---|:---|:---|
+| **新学生** | [入学指南](/student-onboarding-guide.md) | 从零开始的完整入门流程 |
+| **编程学习** | [GESP考级体系](/programming/gesp/) | L1-L8系统化教学方案 |
+| **家长** | [家长沟通手册](/parents/parent-communication-handbook.md) | 如何陪伴孩子学习 |
+| **代码规范** | [代码规范手册](/programming/code-style-guide.md) | 写出规范好代码 |
+| **错题整理** | [错题本模板](/error-log-template.md) | 从错误中进步 |
+
+### 学习阶段速查
+
 | 阶段 | 推荐年龄 | 学习内容 | 目标 |
 |:---:|:---:|:---|:---|
 | **启蒙** | 6-10岁 | Scratch 图形化编程 | 培养逻辑思维，激发兴趣 |
