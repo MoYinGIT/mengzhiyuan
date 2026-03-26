@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress'
+import path from 'path'
 
 export default defineConfig({
   lang: 'zh-CN',
@@ -6,6 +7,14 @@ export default defineConfig({
   description: '让所有孩子有处可学',
   base: '/mengzhiyuan/',
   ignoreDeadLinks: true,
+
+  vite: {
+    resolve: {
+      alias: {
+        '@components': path.resolve(__dirname, './components')
+      }
+    }
+  },
 
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/mengzhiyuan/logo.svg' }],

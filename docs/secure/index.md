@@ -8,26 +8,7 @@ layout: doc
 
 ---
 
-## 请输入密码
-
-<div id="passwordSection" style="max-width: 400px; margin: 30px auto; padding: 30px; background: #f8f9fa; border-radius: 12px; text-align: center;">
-  <div style="font-size: 3em; margin-bottom: 15px;">🔐</div>
-  <p style="color: #666; margin-bottom: 20px;">此页面包含加密内容，需要密码才能访问</p>
-  
-  <input type="password" id="pagePassword" placeholder="请输入密码..." 
-    style="width: 100%; padding: 12px 16px; font-size: 16px; border: 2px solid #ddd; border-radius: 8px; margin-bottom: 15px;">
-  
-  <button id="unlockBtn"
-    style="width: 100%; padding: 12px; background: #667eea; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">
-    解锁内容
-  </button>
-  
-  <p id="errorMsg" style="color: #e74c3c; margin-top: 15px; display: none;">密码错误，请重试</p>
-</div>
-
-<div id="secureContent" style="display: none;">
-
----
+<PasswordGate>
 
 ## 📚 加密内容目录
 
@@ -60,10 +41,6 @@ layout: doc
 
 ---
 
-</div>
-
----
-
 ## 💡 提示
 
 - 如果您不知道密码，请联系**默隐**获取
@@ -72,45 +49,5 @@ layout: doc
 
 [← 返回首页](/)
 
-<script>
-(function() {
-  // 等待DOM加载完成
-  function init() {
-    var passwordInput = document.getElementById('pagePassword');
-    var unlockBtn = document.getElementById('unlockBtn');
-    var errorMsg = document.getElementById('errorMsg');
-    var secureContent = document.getElementById('secureContent');
-    var passwordSection = document.getElementById('passwordSection');
-    
-    if (!passwordInput || !unlockBtn) return;
-    
-    // Base64编码的密码: MoYin123
-    var CORRECT_PASSWORD = atob('TW9ZaW4xMjM=');
-    
-    function checkPassword() {
-      var pwd = passwordInput.value;
-      if (pwd === CORRECT_PASSWORD) {
-        secureContent.style.display = 'block';
-        passwordSection.style.display = 'none';
-        errorMsg.style.display = 'none';
-      } else {
-        errorMsg.style.display = 'block';
-      }
-    }
-    
-    unlockBtn.addEventListener('click', checkPassword);
-    
-    passwordInput.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') checkPassword();
-    });
-  }
-  
-  // 如果DOM已经加载完成，立即执行
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-})();
-</script>
+</PasswordGate>
 
