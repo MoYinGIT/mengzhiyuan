@@ -743,15 +743,15 @@
                 </div>
                 
                 <div class="type-info" style="margin-top: 15px;">
-                    <h4>📊 内存统计</h4>
+                    <h4>📊 内存统计 (限制: 64KB, 最多100变量)</h4>
                     <div id="memoryStats" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 10px;">
                         <div class="type-card">
-                            <div class="type-name" id="statCount">0</div>
+                            <div class="type-name" id="statCount" style="color: #79c0ff;">0/100</div>
                             <div class="type-size">变量数量</div>
                         </div>
                         <div class="type-card">
-                            <div class="type-name" id="statBytes">0</div>
-                            <div class="type-size">总字节数</div>
+                            <div class="type-name" id="statBytes" style="color: #79c0ff;">0/65536</div>
+                            <div class="type-size">字节使用</div>
                         </div>
                         <div class="type-card">
                             <div class="type-name" id="statNextAddr">0x1000</div>
@@ -938,6 +938,14 @@
         let userVariables = [];
         let nextAddress = 0x1000;
         
+        // 内存限制配置
+        const MEMORY_CONFIG = {
+            startAddress: 0x1000,      // 起始地址 4KB
+            endAddress: 0x11000,       // 结束地址 68KB (64KB 可用空间)
+            maxVariables: 100,          // 最大变量数
+            maxSingleSize: 8           // 单个变量最大字节数
+        };
+        
         const typeSizes = {
             'int': 4,
             'short': 2,
@@ -959,6 +967,59 @@
             'char': '#8957e5',
             'bool': '#d29922'
         };
+        
+        // 内存使用统计
+        function getMemoryStats() {
+            const usedBytes = userVariables.reduce((sum, v) => sum + v.size, 0);
+            const totalBytes = MEMORY_CONFIG.endAddress - MEMORY_CONFIG.startAddress;
+            const remainingBytes = totalBytes - usedBytes;
+            const usedPercent = (usedBytes / totalBytes * 100).toFixed(1);
+            return { usedBytes, totalBytes, remainingBytes, usedPercent };
+        }
+        
+        // 检查内存限制
+        function checkMemoryLimit(newVarSize) {
+            const stats = getMemoryStats();
+            
+            // 检查变量数量限制
+            if (userVariables.length >= MEMORY_CONFIG.maxVariables) {
+                return {
+                    allowed: false,
+                    message: `变量数量超限！最多允许 ${MEMORY_CONFIG.maxVariables} 个变量。\n当前: ${userVariables.length} 个`
+                };
+            }
+            
+            // 检查单个变量大小
+            if (newVarSize > MEMORY_CONFIG.maxSingleSize) {
+                return {
+                    allowed: false,
+                    message: `变量大小超限！单个变量最大 ${MEMORY_CONFIG.maxSingleSize} 字节。\n请求: ${newVarSize} 字节`
+                };
+            }
+            
+            // 检查地址空间限制
+            const newEndAddress = nextAddress + newVarSize;
+            if (newEndAddress > MEMORY_CONFIG.endAddress) {
+                return {
+                    allowed: false,
+                    message: `内存空间不足！\n` +
+                             `已用: ${stats.usedBytes} 字节 (${stats.usedPercent}%)\n` +
+                             `剩余: ${stats.remainingBytes} 字节\n` +
+                             `请求: ${newVarSize} 字节\n\n` +
+                             `请删除部分变量后再添加。`
+                };
+            }
+            
+            // 警告：内存使用率超过 80%
+            if (stats.usedPercent > 80) {
+                return {
+                    allowed: true,
+                    warning: `警告：内存使用率已达 ${stats.usedPercent}%！\n剩余空间: ${stats.remainingBytes} 字节`
+                };
+            }
+            
+            return { allowed: true };
+        }
         
         function switchMode(mode) {
             // 更新按钮状态
@@ -1058,8 +1119,20 @@
                 return;
             }
             
-            // 创建变量
+            // 检查内存限制
             const size = typeSizes[type];
+            const memCheck = checkMemoryLimit(size);
+            if (!memCheck.allowed) {
+                alert('❌ 内存限制检查失败\n\n' + memCheck.message);
+                return;
+            }
+            if (memCheck.warning) {
+                if (!confirm('⚠️ ' + memCheck.warning + '\n\n是否继续添加？')) {
+                    return;
+                }
+            }
+            
+            // 创建变量
             const address = `0x${nextAddress.toString(16).toUpperCase()}`;
             
             // 计算显示值
@@ -1183,9 +1256,32 @@
         }
         
         function updateMemoryStats() {
-            document.getElementById('statCount').textContent = userVariables.length;
-            document.getElementById('statBytes').textContent = userVariables.reduce((sum, v) => sum + v.size, 0);
-            document.getElementById('statNextAddr').textContent = `0x${nextAddress.toString(16).toUpperCase()}`;
+            const stats = getMemoryStats();
+            const countEl = document.getElementById('statCount');
+            const bytesEl = document.getElementById('statBytes');
+            const addrEl = document.getElementById('statNextAddr');
+            
+            // 更新数值
+            countEl.textContent = `${userVariables.length}/${MEMORY_CONFIG.maxVariables}`;
+            bytesEl.textContent = `${stats.usedBytes}/${stats.totalBytes}`;
+            addrEl.textContent = `0x${nextAddress.toString(16).toUpperCase()}`;
+            
+            // 根据使用率设置颜色
+            const usagePercent = parseFloat(stats.usedPercent);
+            if (usagePercent >= 90) {
+                bytesEl.style.color = '#da3633'; // 红色 - 危险
+            } else if (usagePercent >= 70) {
+                bytesEl.style.color = '#d29922'; // 黄色 - 警告
+            } else {
+                bytesEl.style.color = '#79c0ff'; // 蓝色 - 正常
+            }
+            
+            // 变量数量颜色
+            if (userVariables.length >= MEMORY_CONFIG.maxVariables * 0.9) {
+                countEl.style.color = '#d29922';
+            } else {
+                countEl.style.color = '#79c0ff';
+            }
         }
         
         // 回车键添加变量
