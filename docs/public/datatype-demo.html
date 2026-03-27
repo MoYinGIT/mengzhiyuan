@@ -672,7 +672,8 @@
                         <select id="varType">
                             <option value="int">int (4字节)</option>
                             <option value="short">short (2字节)</option>
-                            <option value="long">long (8字节)</option>
+                            <option value="long">long (4/8字节)</option>
+                            <option value="longlong">long long (8字节)</option>
                             <option value="float">float (4字节)</option>
                             <option value="double">double (8字节)</option>
                             <option value="char">char (1字节)</option>
@@ -726,7 +727,11 @@
                     </div>
                     <div class="legend-item">
                         <div class="legend-color" style="background: #da3633;"></div>
-                        <span>double/long (8字节)</span>
+                        <span>double (8字节)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #ff6b6b;"></div>
+                        <span>long long (8字节)</span>
                     </div>
                 </div>
                 
@@ -936,7 +941,8 @@
         const typeSizes = {
             'int': 4,
             'short': 2,
-            'long': 8,
+            'long': 4,
+            'longlong': 8,
             'float': 4,
             'double': 8,
             'char': 1,
@@ -947,6 +953,7 @@
             'int': '#238636',
             'short': '#3fb950',
             'long': '#da3633',
+            'longlong': '#ff6b6b',
             'float': '#1f6feb',
             'double': '#da3633',
             'char': '#8957e5',
@@ -986,12 +993,16 @@
                 case 'int':
                 case 'short':
                 case 'long':
+                case 'longlong':
                     if (!/^-?\d+$/.test(value)) {
                         return { valid: false, message: `${type} 类型需要整数` };
                     }
                     const intVal = parseInt(value);
                     if (type === 'short' && (intVal < -32768 || intVal > 32767)) {
                         return { valid: false, message: 'short 范围: -32768 ~ 32767' };
+                    }
+                    if (type === 'longlong' && (intVal < -9223372036854775808n || intVal > 9223372036854775807n)) {
+                        return { valid: false, message: 'long long 范围: -9e18 ~ 9e18' };
                     }
                     return { valid: true };
                     
