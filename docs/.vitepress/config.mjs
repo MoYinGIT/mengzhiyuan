@@ -40,7 +40,8 @@ export default defineConfig({
       { text: '国学经典', link: '/chinese-classics/index.html' },
       { text: '数学天地', link: '/math/index.html' },
       { text: '家长指南', link: '/parents/index.html' },
-      { text: '心理驿站', link: '/psychology/index.html' }
+      { text: '心理驿站', link: '/psychology/index.html' },
+      { text: '教学研究', link: '/world-top-forums/' }
     ],
 
     sidebar: {
@@ -324,6 +325,19 @@ export default defineConfig({
                 { text: '历史故事', link: '/chinese-classics/children/lishigushi.html' }
               ]
             }
+          ]
+        }
+      ],
+      '/world-top-forums/': [
+        {
+          text: '教学研究',
+          items: [
+            { text: '📚 知识库总览', link: '/world-top-forums/' },
+            { text: '🧠 心理学核心', link: '/world-top-forums/Psychology-Core.html' },
+            { text: '🤖 AI与机器学习', link: '/world-top-forums/AI-Machine-Learning.html' },
+            { text: '👥 社会学与教育', link: '/world-top-forums/Sociology-Education.html' },
+            { text: '🔢 数学核心', link: '/world-top-forums/Mathematics-Core.html' },
+            { text: '🎯 蒙知苑整合方案', link: '/world-top-forums/Mengzhiyuan-Integration.html' }
           ]
         }
       ]
