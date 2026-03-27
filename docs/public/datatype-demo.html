@@ -1058,27 +1058,77 @@
                     if (!/^-?\d+$/.test(value)) {
                         return { valid: false, message: `${type} 类型需要整数` };
                     }
-                    const intVal = parseInt(value);
-                    if (type === 'short' && (intVal < -32768 || intVal > 32767)) {
-                        return { valid: false, message: 'short 范围: -32768 ~ 32767' };
+                    // 使用 BigInt 处理大整数，避免精度丢失
+                    let intVal;
+                    try {
+                        intVal = BigInt(value);
+                    } catch (e) {
+                        return { valid: false, message: `${type} 类型数值格式错误` };
                     }
-                    if (type === 'longlong' && (intVal < -9223372036854775808n || intVal > 9223372036854775807n)) {
-                        return { valid: false, message: 'long long 范围: -9e18 ~ 9e18' };
+                    
+                    // 定义各类型范围 (使用 BigInt)
+                    const ranges = {
+                        'short': { min: BigInt(-32768), max: BigInt(32767), name: 'short' },
+                        'int': { min: BigInt(-2147483648), max: BigInt(2147483647), name: 'int' },
+                        'long': { min: BigInt(-2147483648), max: BigInt(2147483647), name: 'long (32位)' },
+                        'longlong': { min: BigInt('-9223372036854775808'), max: BigInt('9223372036854775807'), name: 'long long' }
+                    };
+                    
+                    const range = ranges[type];
+                    if (range && (intVal < range.min || intVal > range.max)) {
+                        return { 
+                            valid: false, 
+                            message: `${range.name} 范围: ${range.min} ~ ${range.max}` 
+                        };
                     }
                     return { valid: true };
                     
                 case 'float':
+                    if (!/^-?\d+(\.\d+)?(e[+-]?\d+)?$/i.test(value)) {
+                        return { valid: false, message: 'float 类型需要数字，如 3.14' };
+                    }
+                    const floatVal = parseFloat(value);
+                    // float: IEEE 754 单精度范围
+                    if (Math.abs(floatVal) > 3.4028235e+38) {
+                        return { valid: false, message: 'float 范围: ±3.4e38 (超出表示范围)' };
+                    }
+                    if (Math.abs(floatVal) < 1.175494e-38 && floatVal !== 0) {
+                        return { valid: false, message: 'float 值太小，会下溢为0' };
+                    }
+                    return { valid: true };
+                    
                 case 'double':
-                    if (!/^-?\d+(\.\d+)?$/.test(value)) {
-                        return { valid: false, message: `${type} 类型需要数字` };
+                    if (!/^-?\d+(\.\d+)?(e[+-]?\d+)?$/i.test(value)) {
+                        return { valid: false, message: 'double 类型需要数字，如 3.14' };
+                    }
+                    const doubleVal = parseFloat(value);
+                    // double: IEEE 754 双精度范围
+                    if (Math.abs(doubleVal) > 1.7976931348623157e+308) {
+                        return { valid: false, message: 'double 范围: ±1.8e308 (超出表示范围)' };
+                    }
+                    if (!isFinite(doubleVal)) {
+                        return { valid: false, message: 'double 数值无效 (可能是 Infinity)' };
                     }
                     return { valid: true };
                     
                 case 'char':
-                    if (!/^'.{1}'$/.test(value) && !/^\d+$/.test(value)) {
-                        return { valid: false, message: "char 类型需要单个字符，如 'A'" };
+                    if (/^'.{1}'$/.test(value)) {
+                        // 字符形式 'A'
+                        const charCode = value.charCodeAt(1);
+                        if (charCode > 127) {
+                            return { valid: false, message: "char 仅支持 ASCII 字符 (0-127)" };
+                        }
+                        return { valid: true };
+                    } else if (/^-?\d+$/.test(value)) {
+                        // 数值形式
+                        const charVal = parseInt(value);
+                        if (charVal < -128 || charVal > 127) {
+                            return { valid: false, message: 'char 数值范围: -128 ~ 127 (有符号)' };
+                        }
+                        return { valid: true };
+                    } else {
+                        return { valid: false, message: "char 类型需要单个字符，如 'A' 或 ASCII 码 65" };
                     }
-                    return { valid: true };
                     
                 case 'bool':
                     if (!['true', 'false', '1', '0'].includes(value.toLowerCase())) {
