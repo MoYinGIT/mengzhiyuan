@@ -377,6 +377,160 @@
             align-items: center;
             margin: 4px 0;
         }
+        
+        /* 输入模式样式 */
+        .input-mode-panel {
+            background: rgba(0, 212, 255, 0.05);
+            border: 2px solid #00d4ff;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .input-mode-panel h3 {
+            color: #00d4ff;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .input-group label {
+            color: #8b949e;
+            font-size: 14px;
+        }
+        
+        .input-group input,
+        .input-group select {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 12px;
+            color: #fff;
+            font-size: 16px;
+            font-family: 'Consolas', monospace;
+        }
+        
+        .input-group input:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: #00d4ff;
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.2);
+        }
+        
+        .btn-add {
+            background: linear-gradient(90deg, #00d4ff, #0099cc);
+            color: #000;
+            font-weight: bold;
+        }
+        
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
+        }
+        
+        .user-variables {
+            margin-top: 20px;
+        }
+        
+        .user-variables h4 {
+            color: #00d4ff;
+            margin-bottom: 15px;
+        }
+        
+        .var-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+        }
+        
+        .var-item .var-type {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .var-item .var-name {
+            color: #ffa657;
+        }
+        
+        .var-item .var-value {
+            color: #79c0ff;
+        }
+        
+        .var-item .var-size {
+            color: #8b949e;
+            font-size: 12px;
+            margin-left: auto;
+        }
+        
+        .var-item .btn-delete {
+            background: #da3633;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 10px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .mode-switch {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .mode-btn {
+            padding: 10px 25px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 25px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .mode-btn.active {
+            background: #00d4ff;
+            color: #000;
+            font-weight: bold;
+        }
+        
+        .mode-content {
+            display: none;
+        }
+        
+        .mode-content.active {
+            display: block;
+        }
+        
+        .hex-display {
+            font-family: 'Consolas', monospace;
+            font-size: 11px;
+            color: #58a6ff;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -386,14 +540,22 @@
             <p class="subtitle">理解「类型决定大小，变量是内存的别名」| 默隐·蒙知苑</p>
         </header>
         
-        <!-- 步骤指示器 -->
-        <div class="steps">
-            <div class="step active" id="step1">1</div>
-            <div class="step" id="step2">2</div>
-            <div class="step" id="step3">3</div>
-            <div class="step" id="step4">4</div>
-            <div class="step" id="step5">5</div>
+        <!-- 模式切换 -->
+        <div class="mode-switch">
+            <button class="mode-btn active" onclick="switchMode('demo')" id="btn-demo">📖 教程模式</button>
+            <button class="mode-btn" onclick="switchMode('input')" id="btn-input">⌨️ 输入模式</button>
         </div>
+        
+        <!-- 教程模式 -->
+        <div class="mode-content active" id="mode-demo">
+            <!-- 步骤指示器 -->
+            <div class="steps">
+                <div class="step active" id="step1">1</div>
+                <div class="step" id="step2">2</div>
+                <div class="step" id="step3">3</div>
+                <div class="step" id="step4">4</div>
+                <div class="step" id="step5">5</div>
+            </div>
         
         <div class="demo-area">
             <!-- 左侧：代码 -->
@@ -495,6 +657,101 @@
                     <button class="btn btn-secondary" id="prevBtn" onclick="prevStep()" disabled>⬅ 上一步</button>
                     <button class="btn btn-primary" id="nextBtn" onclick="nextStep()">下一步 ➡</button>
                     <button class="btn btn-secondary" onclick="resetDemo()">🔄 重置</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 输入模式 -->
+        <div class="mode-content" id="mode-input">
+            <div class="input-mode-panel">
+                <h3>📝 创建变量</h3>
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="varType">数据类型</label>
+                        <select id="varType">
+                            <option value="int">int (4字节)</option>
+                            <option value="short">short (2字节)</option>
+                            <option value="long">long (8字节)</option>
+                            <option value="float">float (4字节)</option>
+                            <option value="double">double (8字节)</option>
+                            <option value="char">char (1字节)</option>
+                            <option value="bool">bool (1字节)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="varName">变量名</label>
+                        <input type="text" id="varName" placeholder="如: age, score" maxlength="20">
+                    </div>
+                    <div class="input-group">
+                        <label for="varValue">初始值</label>
+                        <input type="text" id="varValue" placeholder="如: 25, 3.14, 'A'">
+                    </div>
+                </div>
+                <div class="controls">
+                    <button class="btn btn-add" onclick="addVariable()">➕ 添加变量</button>
+                    <button class="btn btn-secondary" onclick="clearAllVariables()">🗑️ 清空全部</button>
+                </div>
+                
+                <div class="user-variables" id="userVariables">
+                    <h4>📦 已创建变量</h4>
+                    <div id="varList">
+                        <p style="color: #666; text-align: center; padding: 20px;">还没有创建变量，请在上方添加</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="panel">
+                <h2>🖥️ 内存视图（输入模式）</h2>
+                <div class="memory-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #238636;"></div>
+                        <span>int (4字节)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #3fb950;"></div>
+                        <span>short (2字节)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #1f6feb;"></div>
+                        <span>float (4字节)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #8957e5;"></div>
+                        <span>char (1字节)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #d29922;"></div>
+                        <span>bool (1字节)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #da3633;"></div>
+                        <span>double/long (8字节)</span>
+                    </div>
+                </div>
+                
+                <div class="memory-visual" id="inputMemoryVisual">
+                    <div style="text-align:center;color:#666;padding:50px;">
+                        内存为空<br>
+                        请在上方添加变量
+                    </div>
+                </div>
+                
+                <div class="type-info" style="margin-top: 15px;">
+                    <h4>📊 内存统计</h4>
+                    <div id="memoryStats" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 10px;">
+                        <div class="type-card">
+                            <div class="type-name" id="statCount">0</div>
+                            <div class="type-size">变量数量</div>
+                        </div>
+                        <div class="type-card">
+                            <div class="type-name" id="statBytes">0</div>
+                            <div class="type-size">总字节数</div>
+                        </div>
+                        <div class="type-card">
+                            <div class="type-name" id="statNextAddr">0x1000</div>
+                            <div class="type-size">下一个地址</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -670,6 +927,261 @@
         
         // 初始化
         updateStep();
+        
+        // ========== 输入模式功能 ==========
+        let userVariables = [];
+        let nextAddress = 0x1000;
+        
+        const typeSizes = {
+            'int': 4,
+            'short': 2,
+            'long': 8,
+            'float': 4,
+            'double': 8,
+            'char': 1,
+            'bool': 1
+        };
+        
+        const typeColors = {
+            'int': '#238636',
+            'short': '#3fb950',
+            'long': '#da3633',
+            'float': '#1f6feb',
+            'double': '#da3633',
+            'char': '#8957e5',
+            'bool': '#d29922'
+        };
+        
+        function switchMode(mode) {
+            // 更新按钮状态
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${mode}`).classList.add('active');
+            
+            // 显示/隐藏内容
+            document.querySelectorAll('.mode-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(`mode-${mode}`).classList.add('active');
+        }
+        
+        function validateVariableName(name) {
+            // C++变量名规则：字母/下划线开头，后面可以是字母/数字/下划线
+            const regex = /^[a-zA-Z_][a-zA-Z0-9_]*$/;
+            if (!regex.test(name)) {
+                return { valid: false, message: '变量名必须以字母或下划线开头，只能包含字母、数字和下划线' };
+            }
+            // 检查是否为关键字
+            const keywords = ['int', 'float', 'double', 'char', 'bool', 'short', 'long', 'if', 'else', 'for', 'while', 'return', 'true', 'false'];
+            if (keywords.includes(name)) {
+                return { valid: false, message: `'${name}' 是C++关键字，不能用作变量名` };
+            }
+            // 检查是否已存在
+            if (userVariables.some(v => v.varName === name)) {
+                return { valid: false, message: `变量 '${name}' 已存在` };
+            }
+            return { valid: true };
+        }
+        
+        function validateValue(type, value) {
+            switch(type) {
+                case 'int':
+                case 'short':
+                case 'long':
+                    if (!/^-?\d+$/.test(value)) {
+                        return { valid: false, message: `${type} 类型需要整数` };
+                    }
+                    const intVal = parseInt(value);
+                    if (type === 'short' && (intVal < -32768 || intVal > 32767)) {
+                        return { valid: false, message: 'short 范围: -32768 ~ 32767' };
+                    }
+                    return { valid: true };
+                    
+                case 'float':
+                case 'double':
+                    if (!/^-?\d+(\.\d+)?$/.test(value)) {
+                        return { valid: false, message: `${type} 类型需要数字` };
+                    }
+                    return { valid: true };
+                    
+                case 'char':
+                    if (!/^'.{1}'$/.test(value) && !/^\d+$/.test(value)) {
+                        return { valid: false, message: "char 类型需要单个字符，如 'A'" };
+                    }
+                    return { valid: true };
+                    
+                case 'bool':
+                    if (!['true', 'false', '1', '0'].includes(value.toLowerCase())) {
+                        return { valid: false, message: 'bool 类型: true/false 或 1/0' };
+                    }
+                    return { valid: true };
+                    
+                default:
+                    return { valid: true };
+            }
+        }
+        
+        function addVariable() {
+            const type = document.getElementById('varType').value;
+            const name = document.getElementById('varName').value.trim();
+            const value = document.getElementById('varValue').value.trim();
+            
+            // 验证
+            if (!name) {
+                alert('请输入变量名');
+                return;
+            }
+            
+            const nameCheck = validateVariableName(name);
+            if (!nameCheck.valid) {
+                alert(nameCheck.message);
+                return;
+            }
+            
+            if (!value) {
+                alert('请输入初始值');
+                return;
+            }
+            
+            const valueCheck = validateValue(type, value);
+            if (!valueCheck.valid) {
+                alert(valueCheck.message);
+                return;
+            }
+            
+            // 创建变量
+            const size = typeSizes[type];
+            const address = `0x${nextAddress.toString(16).toUpperCase()}`;
+            
+            // 计算显示值
+            let displayValue = value;
+            if (type === 'bool') {
+                displayValue = ['true', '1'].includes(value.toLowerCase()) ? 'true' : 'false';
+            } else if (type === 'char' && value.startsWith("'")) {
+                displayValue = value;
+            }
+            
+            // 转换为十六进制显示
+            let hexValue = '';
+            if (['int', 'short', 'long'].includes(type)) {
+                const val = parseInt(value);
+                hexValue = val.toString(16).toUpperCase().padStart(size * 2, '0');
+            }
+            
+            const variable = {
+                type,
+                varName: name,
+                value: displayValue,
+                size,
+                address,
+                hexValue
+            };
+            
+            userVariables.push(variable);
+            nextAddress += size;
+            
+            // 更新显示
+            updateInputMemoryView();
+            updateVarList();
+            updateMemoryStats();
+            
+            // 清空输入
+            document.getElementById('varName').value = '';
+            document.getElementById('varValue').value = '';
+            document.getElementById('varName').focus();
+        }
+        
+        function deleteVariable(index) {
+            if (!confirm(`确定删除变量 ${userVariables[index].varName} 吗？`)) {
+                return;
+            }
+            
+            userVariables.splice(index, 1);
+            
+            // 重新计算地址
+            nextAddress = 0x1000;
+            userVariables.forEach(v => {
+                v.address = `0x${nextAddress.toString(16).toUpperCase()}`;
+                nextAddress += v.size;
+            });
+            
+            updateInputMemoryView();
+            updateVarList();
+            updateMemoryStats();
+        }
+        
+        function clearAllVariables() {
+            if (userVariables.length === 0) return;
+            if (!confirm('确定清空所有变量吗？')) {
+                return;
+            }
+            userVariables = [];
+            nextAddress = 0x1000;
+            updateInputMemoryView();
+            updateVarList();
+            updateMemoryStats();
+        }
+        
+        function updateVarList() {
+            const list = document.getElementById('varList');
+            
+            if (userVariables.length === 0) {
+                list.innerHTML = '<p style="color: #666; text-align: center; padding: 20px;">还没有创建变量，请在上方添加</p>';
+                return;
+            }
+            
+            list.innerHTML = userVariables.map((v, i) => `
+                <div class="var-item">
+                    <span class="var-type" style="background: ${typeColors[v.type]}">${v.type}</span>
+                    <span class="var-name">${v.varName}</span>
+                    <span>=</span>
+                    <span class="var-value">${v.value}</span>
+                    <span class="var-size">@${v.address} (${v.size}B)</span>
+                    <button class="btn-delete" onclick="deleteVariable(${i})">删除</button>
+                </div>
+            `).join('');
+        }
+        
+        function updateInputMemoryView() {
+            const container = document.getElementById('inputMemoryVisual');
+            
+            if (userVariables.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center;color:#666;padding:50px;">
+                        内存为空<br>
+                        请在上方添加变量
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = userVariables.map((v, i) => {
+                const cellClass = `cell-${v.type}`;
+                const hexDisplay = v.hexValue ? `<div class="hex-display">HEX: ${v.hexValue.match(/.{2}/g).join(' ')}</div>` : '';
+                
+                return `
+                    <div class="memory-row fade-in">
+                        <div class="address-label">${v.address}</div>
+                        <div class="memory-cell ${cellClass}" style="flex: 1; background: ${typeColors[v.type]};">
+                            ${v.varName} = ${v.value}
+                            <span style="margin-left: 10px; font-size: 10px; opacity: 0.7;">(${v.type}, ${v.size}字节)</span>
+                        </div>
+                    </div>
+                    ${v.size === 8 && i === userVariables.length - 1 ? '<div class="fade-in" style="text-align: center; color: #da3633; font-size: 12px; margin-top: 5px;">⬇ 占用 8 字节（连续内存）</div>' : ''}
+                    ${hexDisplay}
+                `;
+            }).join('');
+        }
+        
+        function updateMemoryStats() {
+            document.getElementById('statCount').textContent = userVariables.length;
+            document.getElementById('statBytes').textContent = userVariables.reduce((sum, v) => sum + v.size, 0);
+            document.getElementById('statNextAddr').textContent = `0x${nextAddress.toString(16).toUpperCase()}`;
+        }
+        
+        // 回车键添加变量
+        document.getElementById('varValue').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addVariable();
+            }
+        });
     </script>
 </body>
 </html>
