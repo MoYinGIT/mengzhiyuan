@@ -41,7 +41,7 @@ export default defineConfig({
       { text: '数学天地', link: '/math/index.html' },
       { text: '家长指南', link: '/parents/index.html' },
       { text: '心理驿站', link: '/psychology/index.html' },
-      { text: '教学研究', link: '/world-top-forums/' }
+      { text: '教学研究', link: '/secure/world-top-forums/' }
     ],
 
     sidebar: {

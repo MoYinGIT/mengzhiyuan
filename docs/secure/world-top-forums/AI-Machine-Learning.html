@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>加密内容 - 默隐·蒙知苑</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    /* 锁定屏幕样式 */
+    .lock-screen {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+    
+    .lock-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+    }
+    
+    .lock-screen h1 {
+      color: #333;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    
+    .lock-screen p {
+      color: #666;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+    
+    .input-group {
+      margin-bottom: 20px;
+    }
+    
+    .input-group input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+    
+    .input-group input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+    
+    .btn-unlock {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .btn-unlock:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+    
+    .btn-unlock:active {
+      transform: translateY(0);
+    }
+    
+    .error-msg {
+      color: #e74c3c;
+      margin-top: 15px;
+      font-size: 14px;
+      display: none;
+    }
+    
+    .hint {
+      margin-top: 20px;
+      padding: 12px;
+      background: #f8f9fa;
+      border-radius: 6px;
+      font-size: 13px;
+      color: #666;
+    }
+    
+    /* 内容区域样式 */
+    .content-wrapper {
+      display: none;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      max-width: 900px;
+      width: 100%;
+      overflow: hidden;
+    }
+    
+    .content-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .content-header h2 {
+      font-size: 18px;
+      font-weight: 500;
+    }
+    
+    .btn-lock {
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.3s;
+    }
+    
+    .btn-lock:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    
+    .content-body {
+      padding: 40px;
+      line-height: 1.8;
+      color: #333;
+    }
+    
+    .content-body h1 {
+      color: #667eea;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #eee;
+    }
+    
+    .content-body h2 {
+      color: #764ba2;
+      margin: 30px 0 15px;
+    }
+    
+    .content-body h3 {
+      color: #555;
+      margin: 25px 0 10px;
+    }
+    
+    .content-body p {
+      margin-bottom: 15px;
+    }
+    
+    .content-body ul, .content-body ol {
+      margin: 15px 0;
+      padding-left: 30px;
+    }
+    
+    .content-body li {
+      margin: 8px 0;
+    }
+    
+    .content-body code {
+      background: #f4f4f4;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: "Consolas", "Monaco", monospace;
+      font-size: 0.9em;
+    }
+    
+    .content-body pre {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    
+    .content-body pre code {
+      background: transparent;
+      padding: 0;
+    }
+    
+    .content-body blockquote {
+      border-left: 4px solid #667eea;
+      padding-left: 20px;
+      margin: 20px 0;
+      color: #666;
+      font-style: italic;
+    }
+    
+    .content-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    
+    .content-body th, .content-body td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+    }
+    
+    .content-body th {
+      background: #f8f9fa;
+      font-weight: 600;
+    }
+    
+    /* 加载动画 */
+    .loading {
+      display: none;
+      margin-top: 15px;
+    }
+    
+    .loading-spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #f3f3f3;
+      border-top: 2px solid #667eea;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* 页脚 */
+    .footer {
+      text-align: center;
+      padding: 20px;
+      color: #999;
+      font-size: 12px;
+      border-top: 1px solid #eee;
+    }
+    
+    /* 响应式 */
+    @media (max-width: 600px) {
+      .lock-screen, .content-wrapper {
+        margin: 10px;
+      }
+      
+      .content-body {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 锁定屏幕 -->
+  <div id="lock-screen" class="lock-screen">
+    <div class="lock-icon">🔒</div>
+    <h1>加密内容</h1>
+    <p>此页面包含「默隐·蒙知苑」的敏感教学资料<br>请输入访问密码继续</p>
+    
+    <div class="input-group">
+      <input type="password" id="password" placeholder="输入访问密码" autocomplete="off">
+    </div>
+    
+    <button class="btn-unlock" onclick="unlock()">🔓 解锁内容</button>
+    
+    <div class="loading" id="loading">
+      <div class="loading-spinner"></div>
+      <span style="margin-left: 10px; color: #666;">解密中...</span>
+    </div>
+    
+    <div class="error-msg" id="error-msg">
+      ❌ 密码错误，请重试
+    </div>
+    
+    <div class="hint">
+      💡 提示：密码由管理员分发，如需获取请联系默隐
+    </div>
+  </div>
+  
+  <!-- 内容显示区域 -->
+  <div id="content-wrapper" class="content-wrapper">
+    <div class="content-header">
+      <h2>📚 默隐·蒙知苑 - 授权访问内容</h2>
+      <button class="btn-lock" onclick="lock()">🔒 重新锁定</button>
+    </div>
+    <div class="content-body" id="content-body">
+      <!-- 解密后的内容将显示在这里 -->
+    </div>
+    <div class="footer">
+      默隐·蒙知苑 · 培养智仁勇完整的人 · 未经授权禁止传播
+    </div>
+  </div>
+
+  <script>
+    // ============================================
+    // 加密内容配置 - 修改此处嵌入你的加密内容
+    // ============================================
+    const CONFIG = {
+  // 加密内容 - 使用AES加密
+  encryptedContent: "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",
+  
+  // 页面配置
+  pageTitle: "AI与机器学习研究",
+  passwordPlaceholder: "请输入访问密码",
+  
+  // 功能开关
+  showPasswordHint: false,
+  passwordHint: "",
+  rememberUnlock: true,
+  
+  // 界面文本
+  unlockButtonText: "🔓 解锁内容",
+  lockButtonText: "🔒 重新加密",
+  errorMessage: "密码错误，请重试",
+  
+  // 外观配置
+  theme: {
+    primaryColor: "#5c7cfa",
+    backgroundColor: "#0d1117",
+    cardBackground: "#161b22",
+    textColor: "#c9d1d9",
+    borderColor: "#30363d"
+  }
+};
+
+    // ============================================
+    // 解密逻辑
+    // ============================================
+    
+    function unlock() {
+      const password = document.getElementById('password').value;
+      const errorMsg = document.getElementById('error-msg');
+      const loading = document.getElementById('loading');
+      
+      if (!password) {
+        showError('请输入密码');
+        return;
+      }
+      
+      // 显示加载
+      loading.style.display = 'block';
+      errorMsg.style.display = 'none';
+      
+      // 延迟执行以显示加载动画
+      setTimeout(() => {
+        try {
+          const decrypted = decryptContent(CONFIG.encryptedContent, password);
+          
+          if (decrypted && decrypted.length > 0) {
+            // 解密成功
+            displayContent(decrypted);
+            
+            // 记住解锁状态
+            if (CONFIG.rememberUnlock) {
+              sessionStorage.setItem('mz_unlocked_' + CONFIG.pageTitle, 'true');
+            }
+          } else {
+            showError('密码错误，请重试');
+          }
+        } catch (e) {
+          showError('解密失败：' + e.message);
+        } finally {
+          loading.style.display = 'none';
+        }
+      }, 500);
+    }
+    
+    function decryptContent(encrypted, password) {
+      const bytes = CryptoJS.AES.decrypt(encrypted, password);
+      return bytes.toString(CryptoJS.enc.Utf8);
+    }
+    
+    function displayContent(content) {
+      // 简单Markdown转HTML（可根据需要扩展）
+      let html = content
+        .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+        .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+        .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+        .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/gim, '<em>$1</em>')
+        .replace(/`([^`]+)`/gim, '<code>$1</code>')
+        .replace(/^\> (.*$)/gim, '<blockquote>$1</blockquote>')
+        .replace(/^\- (.*$)/gim, '<ul><li>$1</li></ul>')
+        .replace(/^\d+\. (.*$)/gim, '<ol><li>$1</li></ol>')
+        .replace(/\n/gim, '<br>');
+      
+      // 合并连续的ul/ol
+      html = html.replace(/<\/ul><br><ul>/gim, '');
+      html = html.replace(/<\/ol><br><ol>/gim, '');
+      
+      document.getElementById('content-body').innerHTML = html;
+      document.getElementById('lock-screen').style.display = 'none';
+      document.getElementById('content-wrapper').style.display = 'block';
+      
+      // 更新页面标题
+      document.title = CONFIG.pageTitle + ' - 默隐·蒙知苑';
+    }
+    
+    function lock() {
+      document.getElementById('lock-screen').style.display = 'block';
+      document.getElementById('content-wrapper').style.display = 'none';
+      document.getElementById('password').value = '';
+      sessionStorage.removeItem('mz_unlocked_' + CONFIG.pageTitle);
+      document.title = '加密内容 - 默隐·蒙知苑';
+    }
+    
+    function showError(msg) {
+      const errorMsg = document.getElementById('error-msg');
+      errorMsg.textContent = '❌ ' + msg;
+      errorMsg.style.display = 'block';
+    }
+    
+    // 回车键解锁
+    document.getElementById('password').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        unlock();
+      }
+    });
+    
+    // 检查是否已解锁（session内有效）
+    window.onload = function() {
+      if (CONFIG.rememberUnlock && 
+          sessionStorage.getItem('mz_unlocked_' + CONFIG.pageTitle) === 'true') {
+        // 自动填充密码提示
+        document.querySelector('.hint').innerHTML = 
+          '💡 已在此会话中解锁，<a href="#" onclick="unlock()">点击重新加载</a>';
+      }
+    };
+  </script>
+</body>
+</html>
