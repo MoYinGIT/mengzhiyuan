@@ -111,11 +111,12 @@ export default defineConfig({
           text: 'Scratch 图形化编程',
           items: [
             { text: '← 返回编程学院', link: '/programming/index.html' },
-            { text: 'Scratch 首页', link: '/programming/scratch/index.html' },
-            { text: 'L1 一级', link: '/programming/scratch/l1.html' },
-            { text: 'L2 二级', link: '/programming/scratch/l2.html' },
-            { text: 'L3 三级', link: '/programming/scratch/l3.html' },
-            { text: 'L4 四级（过渡）', link: '/programming/scratch/l4.html' },
+            { text: '🚀 Scratch教程v2.0（新）', link: '/programming/scratch-v2/index.html' },
+            { text: 'Scratch 首页（旧版）', link: '/programming/scratch/index.html' },
+            { text: 'L1 一级（旧版）', link: '/programming/scratch/l1.html' },
+            { text: 'L2 二级（旧版）', link: '/programming/scratch/l2.html' },
+            { text: 'L3 三级（旧版）', link: '/programming/scratch/l3.html' },
+            { text: 'L4 四级（旧版）', link: '/programming/scratch/l4.html' },
             {
               text: '项目案例',
               collapsed: false,
@@ -356,6 +357,59 @@ export default defineConfig({
             { text: '👥 社会学与教育', link: '/world-top-forums/Sociology-Education.html' },
             { text: '🔢 数学核心', link: '/world-top-forums/Mathematics-Core.html' },
             { text: '🎯 蒙知苑整合方案', link: '/world-top-forums/Mengzhiyuan-Integration.html' }
+          ]
+        }
+      ],
+      '/programming/scratch-v2/': [
+        {
+          text: '🚀 Scratch教程v2.0',
+          items: [
+            { text: '← 返回编程学院', link: '/programming/index.html' },
+            { text: '🏠 v2.0 首页', link: '/programming/scratch-v2/index.html' },
+            { text: 'L1 认识Scratch', link: '/programming/scratch-v2/l1.html' },
+            { text: 'L2 事件与运动', link: '/programming/scratch-v2/l2.html' },
+            { text: 'L3 循环与条件', link: '/programming/scratch-v2/l3.html' },
+            { text: 'L4 列表与项目', link: '/programming/scratch-v2/l4.html' }
+          ]
+        }
+      ],
+      '/programming/python-v2/': [
+        {
+          text: '🚀 Python教程v2.0',
+          items: [
+            { text: '← 返回编程学院', link: '/programming/index.html' },
+            { text: '🏠 v2.0 首页', link: '/programming/python-v2/index.html' },
+            { text: 'L1 Python基础', link: '/programming/python-v2/l1.html' },
+            { text: 'L2 流程控制与列表', link: '/programming/python-v2/l2.html' }
+          ]
+        }
+      ],
+      '/programming/cpp-v2/': [
+        {
+          text: '🚀 C++教程v2.0',
+          items: [
+            { text: '← 返回编程学院', link: '/programming/index.html' },
+            { text: '🏠 v2.0 首页', link: '/programming/cpp-v2/index.html' },
+            { text: 'L1 编程入门', link: '/programming/cpp-v2/l1.html' },
+            { text: 'L2 分支与循环', link: '/programming/cpp-v2/l2.html' },
+            { text: 'L3 数组基础', link: '/programming/cpp-v2/l3.html' },
+            { text: 'L4 函数与结构体', link: '/programming/cpp-v2/l4.html' },
+            { text: 'L5 指针与结构体', link: '/programming/cpp-v2/l5.html' },
+            { text: 'L6 基础算法', link: '/programming/cpp-v2/l6.html' },
+            { text: 'L7 数据结构', link: '/programming/cpp-v2/l7.html' },
+            { text: 'L8 高级算法', link: '/programming/cpp-v2/l8.html' },
+            { text: '📝 配套练习题库', link: '/programming/cpp-v2/exercises.html' }
+          ]
+        }
+      ],
+      '/docs-v2/': [
+        {
+          text: '📖 学习指引v2.0',
+          items: [
+            { text: '← 返回首页', link: '/index.html' },
+            { text: '⚡ 快速入门', link: '/docs-v2/quickstart.html' },
+            { text: '🎓 新生指南', link: '/docs-v2/student-onboarding-guide.html' },
+            { text: '🛠️ 推荐工具', link: '/docs-v2/tools/recommended-tools.html' }
           ]
         }
       ]

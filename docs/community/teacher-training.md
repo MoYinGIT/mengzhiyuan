@@ -72,7 +72,7 @@ layout: doc
 | 工具 | 用途 | 学习资源 |
 |:---|:---|:---|
 | **Hydro OJ** | 在线评测、作业管理 | [Hydro OJ指南](/tools/hydro-oj-guide.md) |
-| **智谱清言** | 课堂辅助、代码讲解 | [教学提示词](/secure/ai/zhipu-qingyan-teaching-prompts.html) |
+| **智谱清言** | 课堂辅助、代码讲解 | [教学提示词](/knowledge-base/ai-collaboration/zhipu/) |
 | **Kimi** | 备课、教案生成 | [AI整合方案](/programming/gesp/gesp-ai-integration-plan.md) |
 | **VitePress** | 网站内容更新 | [网站维护指南](#) |
 

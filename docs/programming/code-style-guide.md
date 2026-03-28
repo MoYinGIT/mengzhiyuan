@@ -35,9 +35,11 @@ layout: doc
 
 **基本原则**：见名知意
 
-**推荐命名法**：
-- **小驼峰式**：studentName, totalScore
-- **下划线式**：student_name, total_score
+**推荐命名法（优先级排序）**：
+1. **小驼峰式（优先）**：studentName, totalScore, sumScore ⭐ 推荐
+2. **下划线式（可接受）**：student_name, total_score
+
+**默隐·蒙知苑统一规范**：普通变量优先使用**小驼峰命名法**
 
 **GESP推荐（简洁明了）**：
 ```cpp

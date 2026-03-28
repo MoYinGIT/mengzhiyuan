@@ -19,7 +19,8 @@ const filesToEncrypt = [
     { file: 'programming/gesp/L4-L8-teaching-manual.md', title: 'L4-L8教学手册', desc: '进阶教学体系，300小时详细规划' },
     
     // AI教学助手
-    { file: 'programming/zhipu-qingyan-teaching-prompts.md', title: '智谱清言教学提示词', desc: '7大场景教学提示词，备课/授课/答疑全覆盖' },
+    // { file: 'programming/zhipu-qingyan-teaching-prompts.md', title: '智谱清言教学提示词', desc: '7大场景教学提示词，备课/授课/答疑全覆盖' },
+    // 已停用：文心一言相关文件
     
     // 学习科学
     { file: 'psychology/psychology-learning-science-plan.md', title: '心理学+学习科学融合方案', desc: '认知心理学、心流培养、屏幕使用管理' },

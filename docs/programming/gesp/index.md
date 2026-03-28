@@ -39,7 +39,7 @@ layout: doc
 
 | 工具 | 说明 | 链接 |
 |:---|:---|:---|
-| **智谱清言提示词** | 7大场景教学提示词 | [查看](/programming/zhipu-qingyan-teaching-prompts.md) |
+| **智谱清言提示词** | 7大场景教学提示词 | [查看](/knowledge-base/ai-collaboration/zhipu/) |
 
 ---
 
@@ -89,7 +89,7 @@ layout: doc
 "请用奖学金题讲解结构体排序，给出cmp函数设计思路"
 ```
 
-[查看完整提示词库 →](/programming/zhipu-qingyan-teaching-prompts.md)
+[查看完整提示词库 →](/knowledge-base/ai-collaboration/)
 
 ---
 

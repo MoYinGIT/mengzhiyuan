@@ -346,7 +346,7 @@ Kimi分析教材 → 智谱讲解知识点 → 学生练习 →
 **学习资源快速链接**：
 - [GESP考级大纲](https://moyingit.github.io/mengzhiyuan/programming/gesp/)
 - [L1-L3教学手册](https://moyingit.github.io/mengzhiyuan/programming/gesp/GESP教学操作手册-三阶段完整版.md)
-- [AI教学提示词](https://moyingit.github.io/mengzhiyuan/programming/zhipu-qingyan-teaching-prompts.md)
+- [AI教学提示词](https://moyingit.github.io/mengzhiyuan/knowledge-base/ai-collaboration/) (Claude/GPT-4/智谱清言等)
 - [代码规范手册](https://moyingit.github.io/mengzhiyuan/programming/code-style-guide.md)
 
 ---

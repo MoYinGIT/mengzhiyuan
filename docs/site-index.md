@@ -93,7 +93,7 @@ layout: doc
 
 | 文档 | 说明 | 链接 |
 |:---|:---|:---:|
-| 智谱清言提示词 | 7大场景教学提示词 | [→ 访问](/secure/ai/zhipu-qingyan-teaching-prompts.html) |
+| 智谱清言提示词 | 7大场景教学提示词 | [→ 访问](/knowledge-base/ai-collaboration/zhipu/) |
 
 ---
 

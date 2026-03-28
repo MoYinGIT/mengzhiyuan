@@ -50,7 +50,7 @@
 
 | 教学环节 | 传统方式 | AI增强方式 | 工具选择 |
 |:---|:---|:---|:---:|
-| **概念讲解** | 课本图示 | AI生成动画演示 | 文心一言 |
+| **概念讲解** | 课本图示 | AI生成动画演示 | Claude/GPT-4 |
 | **代码纠错** | 教师逐个查看 | AI即时诊断错误 | 智谱清言 |
 | **作业批改** | 人工批改 | AI批量+个性化反馈 | Kimi |
 | **学习报告** | 定期家长会 | AI生成周学习分析 | Kimi |
@@ -516,7 +516,7 @@ Kimi生成改进建议报告
 **方案状态**: ✅ GESP大纲与AI深度整合完成  
 **配套产出**: 
 - `gesp-tutoring-practical-plan.md` (课堂实战)
-- `zhipu-qingyan-teaching-prompts.md` (通用提示词)
+- `knowledge-base/ai-collaboration/` (AI协同提示词库)
 - `screen-time-flow-teaching-strategies.md` (心理健康)
 
 **整理者**: 明夷  
