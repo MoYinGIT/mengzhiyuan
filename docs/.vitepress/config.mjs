@@ -402,14 +402,14 @@ export default defineConfig({
           ]
         }
       ],
-      '/docs-v2/': [
+      '/learning-v2/': [
         {
           text: '📖 学习指引v2.0',
           items: [
             { text: '← 返回首页', link: '/index.html' },
-            { text: '⚡ 快速入门', link: '/docs-v2/quickstart.html' },
-            { text: '🎓 新生指南', link: '/docs-v2/student-onboarding-guide.html' },
-            { text: '🛠️ 推荐工具', link: '/docs-v2/tools/recommended-tools.html' }
+            { text: '⚡ 快速入门', link: '/learning-v2/quickstart.html' },
+            { text: '🎓 新生指南', link: '/learning-v2/student-onboarding-guide.html' },
+            { text: '🛠️ 推荐工具', link: '/learning-v2/tools/recommended-tools.html' }
           ]
         }
       ]
