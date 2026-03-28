@@ -429,7 +429,7 @@ int main() {
 - [ ] 完成起点评估测试
 - [ ] 选择学习路径
 - [ ] 制定学习计划
-- [ ] 安装好开发环境（参考[快速入门指南](./quickstart.md)）
+- [ ] 安装好开发环境（参考[快速入门指南](./quickstart.html)）
 - [ ] 运行第一个Hello World程序
 - [ ] 向家长介绍你的学习计划
 
@@ -495,7 +495,7 @@ int main() {
 
 ## 🚀 下一步
 
-- ✅ **已明确起点** → [环境安装快速入门](./quickstart.md)
+- ✅ **已明确起点** → [环境安装快速入门](./quickstart.html)
 - ✅ **已安装环境** → [L1 变量与输入输出](/programming/cpp/l1.html)
 - ⚠️ **还有疑问** → [加入学习社群](https://github.com/MoYinGIT/mengzhiyuan/discussions)
 
