@@ -175,19 +175,37 @@ export default defineConfig({
           text: 'C++ 竞赛编程',
           items: [
             { text: '← 返回编程学院', link: '/programming/index.html' },
-            { text: 'C++ 首页', link: '/programming/cpp/index.html' },
-            { text: 'L1 一级', link: '/programming/cpp/l1.html' },
-            { text: 'L2 二级', link: '/programming/cpp/l2.html' },
-            { text: 'L3 三级', link: '/programming/cpp/l3.html' },
-            { text: 'L4 四级', link: '/programming/cpp/l4.html' },
-            { text: 'L5 五级', link: '/programming/cpp/l5.html' },
-            { text: 'L6 六级', link: '/programming/cpp/l6.html' },
-            { text: 'L7 七级', link: '/programming/cpp/l7.html' },
-            { text: 'L8 八级', link: '/programming/cpp/l8.html' },
+            { text: '🚀 C++教程v2.0（新）', link: '/programming/cpp-v2/index.html' },
+            { text: 'C++ 首页（旧版）', link: '/programming/cpp/index.html' },
+            { text: 'L1 一级（旧版）', link: '/programming/cpp/l1.html' },
+            { text: 'L2 二级（旧版）', link: '/programming/cpp/l2.html' },
+            { text: 'L3 三级（旧版）', link: '/programming/cpp/l3.html' },
+            { text: 'L4 四级（旧版）', link: '/programming/cpp/l4.html' },
+            { text: 'L5 五级（旧版）', link: '/programming/cpp/l5.html' },
+            { text: 'L6 六级（旧版）', link: '/programming/cpp/l6.html' },
+            { text: 'L7 七级（旧版）', link: '/programming/cpp/l7.html' },
+            { text: 'L8 八级（旧版）', link: '/programming/cpp/l8.html' },
             { text: '📊 数据类型与内存（交互式教程）', link: '/programming/cpp/datatype-guide.html' },
             { text: '🎯 指针基础（交互式教程）', link: '/programming/cpp/pointer-guide.html' },
             { text: '编程练习题', link: '/programming/cpp/exercises.html' },
             { text: '语法速查表', link: '/programming/cpp/cheatsheet.html' }
+          ]
+        }
+      ],
+      '/programming/cpp-v2/': [
+        {
+          text: '🚀 C++教程v2.0',
+          items: [
+            { text: '← 返回编程学院', link: '/programming/index.html' },
+            { text: '🏠 v2.0 首页', link: '/programming/cpp-v2/index.html' },
+            { text: 'L1 编程入门', link: '/programming/cpp-v2/l1.html' },
+            { text: 'L2 分支与循环', link: '/programming/cpp-v2/l2.html' },
+            { text: 'L3 数组基础', link: '/programming/cpp-v2/l3.html' },
+            { text: 'L4 函数与结构体', link: '/programming/cpp-v2/l4.html' },
+            { text: 'L5 指针与结构体', link: '/programming/cpp-v2/l5.html' },
+            { text: 'L6 基础算法', link: '/programming/cpp-v2/l6.html' },
+            { text: 'L7 数据结构', link: '/programming/cpp-v2/l7.html' },
+            { text: 'L8 高级算法', link: '/programming/cpp-v2/l8.html' }
           ]
         }
       ],
