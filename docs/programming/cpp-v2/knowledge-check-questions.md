@@ -52,7 +52,7 @@
    <details><summary>答案</summary>int存整数，double存小数。需要小数精度（如除法、圆周率）时必须用double。</details>
 
 3. **`string` 类型需要包含什么头文件？**
-   <details><summary>答案</summary>#include <string></details>
+   <details><summary>答案</summary>#include &lt;string></details>
 
 4. **以下代码输出什么？`int a = 5 / 2; cout << a;`**
    <details><summary>答案</summary>输出2（整数除法截断小数部分）。</details>
@@ -67,7 +67,7 @@
    <details><summary>答案</summary>常量定义后不能修改，编译期检查，更安全。</details>
 
 8. **`int` 一般占用多少字节？取值范围大约是多少？**
-   <details><summary>答案</summary>通常4字节，约-21亿到+21亿（-2^31到2^31-1）。</details>
+   <details><summary>答案</summary>通常4字节，约-21亿到+21亿（&lt;code>-2^31&lt;/code>到&lt;code>2^31-1&lt;/code>）。</details>
 
 9. **交换两个变量的值需要几步？能不用临时变量吗？**
    <details><summary>答案</summary>标准方法需要3步（temp=a; a=b; b=temp）。可以用加减法或异或实现，但不推荐。</details>
@@ -83,7 +83,7 @@
    <details><summary>答案</summary>用空格、回车或Tab分隔都可以。</details>
 
 2. **`cin` 和 `cout` 的箭头方向为什么相反？**
-   <details><summary>答案</summary>cin用>>（提取数据到变量），cout用<<（插入数据到输出），方向表示数据流向。</details>
+   <details><summary>答案</summary>cin用>>（提取数据到变量），cout用&lt;&lt;（插入数据到输出），方向表示数据流向。</details>
 
 3. **如何让输出不换行？如何让输出强制换行？**
    <details><summary>答案</summary>不加endl就不换行；用endl或'\\n'换行。</details>
@@ -92,13 +92,13 @@
    <details><summary>答案</summary>cin遇到空格停止；getline读取整行包括空格。</details>
 
 5. **如何格式化输出小数位数（保留2位小数）？**
-   <details><summary>答案</summary>cout << fixed << setprecision(2) << num;（需要#include <iomanip>）</details>
+   <details><summary>答案</summary>cout &lt;&lt; fixed &lt;&lt; setprecision(2) &lt;&lt; num;（需要#include &lt;iomanip>）</details>
 
 6. **`cin` 输入失败会怎样？如何检测？**
    <details><summary>答案</summary>返回false，可用if(!(cin>>a))检测或while(cin>>a)循环。</details>
 
 7. **如何清空输入缓冲区？**
-   <details><summary>答案</summary>cin.ignore()或cin.ignore(numeric_limits<streamsize>::max(), '\\n')</details>
+   <details><summary>答案</summary>cin.ignore()或cin.ignore(numeric_limits&lt;streamsize>::max(), '\\n')</details>
 
 8. **`cout` 输出多个数据时，默认有分隔符吗？**
    <details><summary>答案</summary>没有，需要手动加空格或换行。</details>
@@ -137,7 +137,7 @@
    <details><summary>答案</summary>max = (a>b) ? a : b; 等价于 if-else，但更简洁。</details>
 
 8. **如何比较两个浮点数是否相等？**
-   <details><summary>答案</summary>不能直接==比较，应判断差值小于某个小值：fabs(a-b) < 1e-9</details>
+   <details><summary>答案</summary>不能直接==比较，应判断差值小于某个小值：fabs(a-b) &lt; 1e-9</details>
 
 9. **switch-case 和 if-else if 什么时候用哪个？**
    <details><summary>答案</summary>整数/字符的等值判断用switch更简洁；范围判断或浮点数只能用if。</details>
@@ -153,7 +153,7 @@
    <details><summary>答案</summary>执行5次，i=0,1,2,3,4。</details>
 
 2. **`for (int i = 0; i <= 5; i++)` 和 `for (int i = 0; i < 5; i++)` 区别？**
-   <details><summary>答案</summary>前者执行6次（0-5），后者执行5次（0-4）。数组遍历用<避免越界。</details>
+   <details><summary>答案</summary>前者执行6次（0-5），后者执行5次（0-4）。数组遍历用&lt;避免越界。</details>
 
 3. **`for` 循环的三个部分可以省略吗？**
    <details><summary>答案</summary>都可以省略，但分号不能省。如for(;;)是无限循环。</details>
@@ -177,7 +177,7 @@
    <details><summary>答案</summary>终值-初值（注意开闭区间），除以步长，向上取整。</details>
 
 10. **打印1-100中能被3整除但不能被5整除的数？**
-    <details><summary>答案</summary>for(int i=1; i<=100; i++) if(i%3==0 && i%5!=0) cout<<i;</details>
+    <details><summary>答案</summary>for(int i=1; i&lt;=100; i++) if(i%3==0 && i%5!=0) cout&lt;&lt;i;</details>
 
 ---
 
@@ -196,7 +196,7 @@
    <details><summary>答案</summary>while后多了分号，导致空循环体，i不变，死循环。</details>
 
 5. **如何用 `while` 实现 `for (int i=0; i<n; i++)`？**
-   <details><summary>答案</summary>int i=0; while(i<n) { ... i++; }</details>
+   <details><summary>答案</summary>int i=0; while(i&lt;n) { ... i++; }</details>
 
 ---
 
@@ -209,7 +209,7 @@
    <details><summary>答案</summary>1（乘法的单位元）。设为0会导致结果永远是0。</details>
 
 3. **如何求1到100中所有奇数的和？**
-   <details><summary>答案</summary>for(int i=1; i<=100; i+=2) sum += i; 或 if(i%2==1)</details>
+   <details><summary>答案</summary>for(int i=1; i&lt;=100; i+=2) sum += i; 或 if(i%2==1)</details>
 
 4. **计算阶乘 n! 时，需要注意什么？**
    <details><summary>答案</summary>用long long防溢出；0!=1。</details>
@@ -263,7 +263,7 @@
    <details><summary>答案</summary>C++标准不支持（某些编译器支持作为扩展）。应使用vector或动态分配。</details>
 
 9. **如何遍历数组？写出代码。**
-   <details><summary>答案</summary>for (int i = 0; i < n; i++) cout << a[i];</details>
+   <details><summary>答案</summary>for (int i = 0; i &lt; n; i++) cout &lt;&lt; a[i];</details>
 
 10. **数组作为函数参数时，会发生什么？**
     <details><summary>答案</summary>数组退化为指针，传递的是地址，函数内修改会影响原数组。</details>
@@ -291,10 +291,10 @@
    <details><summary>答案</summary>遍历数组，相等则计数器++。</details>
 
 7. **如何判断数组是否有序（升序）？**
-   <details><summary>答案</summary>遍历，检查是否每个元素<=后一个元素。</details>
+   <details><summary>答案</summary>遍历，检查是否每个元素&lt;=后一个元素。</details>
 
 8. **如何复制数组a到数组b？**
-   <details><summary>答案</summary>逐个元素复制：for(i=0;i<n;i++) b[i]=a[i];</details>
+   <details><summary>答案</summary>逐个元素复制：for(i=0;i&lt;n;i++) b[i]=a[i];</details>
 
 9. **如何找出数组中的第二大的数？**
    <details><summary>答案</summary>遍历一次，维护最大和次大，注意处理重复最大值。</details>
@@ -422,7 +422,7 @@
    <details><summary>答案</summary>一样，都是让p指向数组首元素。</details>
 
 4. **指针如何遍历数组？写出代码。**
-   <details><summary>答案</summary>int *p = a; for(int i=0; i<n; i++) cout << *(p+i); 或 p++</details>
+   <details><summary>答案</summary>int *p = a; for(int i=0; i&lt;n; i++) cout &lt;&lt; *(p+i); 或 p++</details>
 
 5. **`int (*p)[5]` 是什么指针？**
    <details><summary>答案</summary>指向包含5个int的数组的指针（数组指针），用于二维数组。</details>
@@ -529,7 +529,7 @@
    <details><summary>答案</summary>left+right可能溢出。应写为 left + (right-left)/2。</details>
 
 5. **循环条件用 `left <= right` 和 `left < right` 的区别？**
-   <details><summary>答案</summary><=表示区间[left,right]闭合，需要检查=的情况；<表示[left,right)左闭右开。</details>
+   <details><summary>答案</summary>&lt;=表示区间[left,right]闭合，需要检查=的情况；&lt;表示[left,right)左闭右开。</details>
 
 6. **二分查找找不到时返回什么？**
    <details><summary>答案</summary>通常返回-1或应该插入的位置。</details>
@@ -554,7 +554,7 @@
    <details><summary>答案</summary>衡量算法运行时间随输入规模增长的变化趋势，用大O表示。</details>
 
 2. **O(1)、O(n)、O(n²)、O(log n)、O(n log n) 的优劣排序？**
-   <details><summary>答案</summary>O(1) < O(log n) < O(n) < O(n log n) < O(n²)</details>
+   <details><summary>答案</summary>O(1) &lt; O(log n) &lt; O(n) &lt; O(n log n) &lt; O(n²)</details>
 
 3. **为什么只保留最高阶项？**
    <details><summary>答案</summary>当n很大时，低阶项和系数的影响可以忽略。</details>
@@ -614,7 +614,7 @@
    <details><summary>答案</summary>栈内元素保持单调性（递增或递减），用于找下一个更大/更小元素。</details>
 
 10. **C++ STL中栈的用法？**
-    <details><summary>答案</summary>#include <stack>；stack<int> s; s.push(), s.pop(), s.top(), s.empty(), s.size()</details>
+    <details><summary>答案</summary>#include &lt;stack>；stack&lt;int> s; s.push(), s.pop(), s.top(), s.empty(), s.size()</details>
 
 ---
 
@@ -648,7 +648,7 @@
    <details><summary>答案</summary>BFS需要按层次扩展，队列保证先访问的节点先扩展，实现层层推进。</details>
 
 10. **C++ STL中队列的用法？**
-    <details><summary>答案</summary>#include <queue>；queue<int> q; q.push(), q.pop(), q.front(), q.back(), q.empty()</details>
+    <details><summary>答案</summary>#include &lt;queue>；queue&lt;int> q; q.push(), q.pop(), q.front(), q.back(), q.empty()</details>
 
 ---
 
@@ -673,7 +673,7 @@
    <details><summary>答案</summary>链式存储（节点+左右指针）或顺序存储（数组，适合完全二叉树）。</details>
 
 7. **二叉搜索树(BST)的特点？**
-   <details><summary>答案</summary>左子树所有节点<根<右子树所有节点，中序遍历得到有序序列。</details>
+   <details><summary>答案</summary>左子树所有节点&lt;根&lt;右子树所有节点，中序遍历得到有序序列。</details>
 
 8. **BST查找、插入、删除的时间复杂度？**
    <details><summary>答案</summary>平均O(log n)，最坏O(n)（退化成链表）。平衡BST（如AVL）保证O(log n)。</details>
@@ -777,7 +777,7 @@
    <details><summary>答案</summary>朴素O(n²)，堆优化O(m log n)。</details>
 
 7. **什么是松弛(relax)操作？**
-   <details><summary>答案</summary>如果dist[u] + w(u,v) < dist[v]，则更新dist[v]。</details>
+   <details><summary>答案</summary>如果dist[u] + w(u,v) &lt; dist[v]，则更新dist[v]。</details>
 
 8. **如何记录最短路径而不只是距离？**
    <details><summary>答案</summary>用pre数组记录前驱节点，最后回溯得到路径。</details>
