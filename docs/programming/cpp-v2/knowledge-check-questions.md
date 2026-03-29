@@ -465,7 +465,7 @@
    <details><summary>答案</summary>可以，会逐个成员复制（浅拷贝）。</details>
 
 7. **结构体数组如何初始化？**
-   <details><summary>答案</summary>Student stu[3] = {{"a",15}, {"b",16}, {"c",17}};</details>
+   <details><summary>答案</summary><pre v-pre>Student stu[3] = {{"a",15}, {"b",16}, {"c",17}};</pre></details>
 
 8. **结构体指针如何访问成员？**
    <details><summary>答案</summary>p->name 或 (*p).name</details>
