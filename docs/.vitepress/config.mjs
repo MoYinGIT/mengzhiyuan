@@ -99,6 +99,7 @@ export default defineConfig({
                 { text: 'L8 八级', link: '/programming/cpp/l8.html' },
                 { text: '📊 数据类型与内存（交互式教程）', link: '/programming/cpp/datatype-guide.html' },
                 { text: '🎯 指针基础（交互式教程）', link: '/programming/cpp/pointer-guide.html' },
+                { text: '💎 变量与赋值专题练习', link: '/programming/cpp-v2/gesp-variables-assignment-pro.html' },
                 { text: '💎 cin/cout专题练习', link: '/programming/cpp-v2/gesp-cin-cout-pro.html' },
                 { text: '💎 scanf/printf专题练习', link: '/programming/cpp-v2/gesp-scanf-printf-pro.html' },
                 { text: '编程练习题', link: '/programming/cpp/exercises.html' },
@@ -209,6 +210,7 @@ export default defineConfig({
             { text: 'L6 基础算法', link: '/programming/cpp-v2/l6.html' },
             { text: 'L7 数据结构', link: '/programming/cpp-v2/l7.html' },
             { text: 'L8 高级算法', link: '/programming/cpp-v2/l8.html' },
+            { text: '💎 变量与赋值专题练习', link: '/programming/cpp-v2/gesp-variables-assignment-pro.html' },
             { text: '💎 cin/cout专题练习', link: '/programming/cpp-v2/gesp-cin-cout-pro.html' },
             { text: '💎 scanf/printf专题练习', link: '/programming/cpp-v2/gesp-scanf-printf-pro.html' }
           ]
