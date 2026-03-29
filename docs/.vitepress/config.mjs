@@ -208,7 +208,8 @@ export default defineConfig({
             { text: 'L6 基础算法', link: '/programming/cpp-v2/l6.html' },
             { text: 'L7 数据结构', link: '/programming/cpp-v2/l7.html' },
             { text: 'L8 高级算法', link: '/programming/cpp-v2/l8.html' },
-            { text: '📝 GESP阅读程序练习题', link: '/programming/cpp-v2/gesp-reading-exercises.html' }
+            { text: '📝 GESP阅读程序练习题', link: '/programming/cpp-v2/gesp-reading-exercises.html' },
+            { text: '📝 GESP练习题v2（混合题型）', link: '/programming/cpp-v2/gesp-reading-exercises-v2.html' }
           ]
         }
       ],
