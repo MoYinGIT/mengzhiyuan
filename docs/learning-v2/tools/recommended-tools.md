@@ -258,7 +258,7 @@ layout: doc
 #### Codeforces使用指南
 
 <details>
-<summary>📖 Codeforces功能详解</summary㸮
+<summary>📖 Codeforces功能详解</summary>
 
 **赛制**：
 - Div 4：最简单，适合L4-L5
