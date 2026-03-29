@@ -210,7 +210,8 @@ export default defineConfig({
             { text: 'L8 高级算法', link: '/programming/cpp-v2/l8.html' },
             { text: '📝 GESP阅读程序练习题', link: '/programming/cpp-v2/gesp-reading-exercises.html' },
             { text: '📝 GESP练习题v2（混合题型）', link: '/programming/cpp-v2/gesp-reading-exercises-v2.html' },
-            { text: '⭐ GESP练习题Pro（深度理解版）', link: '/programming/cpp-v2/gesp-reading-exercises-pro.html' }
+            { text: '⭐ GESP练习题Pro（深度理解版）', link: '/programming/cpp-v2/gesp-reading-exercises-pro.html' },
+            { text: '💎 cin/cout专题练习', link: '/programming/cpp-v2/gesp-cin-cout-pro.html' }
           ]
         }
       ],
