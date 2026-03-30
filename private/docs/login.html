@@ -194,8 +194,8 @@
     
     // 实际使用请替换为以下密码的哈希值：
     // 默认密码: MoYin@2026
-    // 哈希值计算方式: await sha256('MoYin@2026')
-    const DEFAULT_HASH = '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92';
+    // 哈希值: echo -n "MoYin@2026" | sha256sum
+    const DEFAULT_HASH = 'c299bc881e4befcd4e80a984630196f00b8104ab9d5a9382792ac8ab8d4a0c87';
     
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
       e.preventDefault();
