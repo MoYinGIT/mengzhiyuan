@@ -52,12 +52,7 @@ export default defineConfig({
       { text: '🤖 AI教学', link: '/secure/ai/' },
       { text: '🌍 全球资源', link: '/resources/world-top-forums/' },
       { text: '← 总站', link: 'https://moyingit.github.io/mengzhiyuan/portal/' },
-      { 
-        text: '🔓 注销',
-        items: [
-          { text: '退出登录', link: 'javascript:logout()' }
-        ]
-      }
+      { text: '🔓 注销', link: '/logout.html' }
     ],
     
     sidebar: {
