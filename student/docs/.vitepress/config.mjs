@@ -65,9 +65,9 @@ export default defineConfig({
           text: '📖 阅读程序练习',
           collapsed: false,
           items: [
-            { text: '输入输出专题', link: '/programming/cpp-v2/gesp-cin-cout-pro' },
             { text: '变量与赋值专题', link: '/programming/cpp-v2/gesp-variables-assignment-pro' },
             { text: '复合运算符专题', link: '/programming/cpp-v2/gesp-compound-operators-pro' },
+            { text: '输入输出专题', link: '/programming/cpp-v2/gesp-cin-cout-pro' },
             { text: 'scanf/printf专题', link: '/programming/cpp-v2/gesp-scanf-printf-pro' },
             { text: '单分支专题', link: '/programming/cpp-v2/gesp-if-single-pro' },
             { text: '双分支专题', link: '/programming/cpp-v2/gesp-if-double-pro' },
@@ -75,7 +75,8 @@ export default defineConfig({
             { text: '分支嵌套专题', link: '/programming/cpp-v2/gesp-if-nested-pro' },
             { text: 'switch专题', link: '/programming/cpp-v2/gesp-switch-pro' },
             { text: 'for循环专题', link: '/programming/cpp-v2/gesp-for-loop-pro' },
-            { text: 'while循环专题', link: '/programming/cpp-v2/gesp-while-loop-pro' }
+            { text: 'while循环专题', link: '/programming/cpp-v2/gesp-while-loop-pro' },
+            { text: 'do-while循环专题', link: '/programming/cpp-v2/gesp-do-while-pro' }
           ]
         },
         { text: '练习题库', link: '/programming/cpp-v2/exercises' }
