@@ -15,7 +15,7 @@ hero:
       link: /psychology/
     - theme: alt
       text: '🎓 学生学习中心'
-      link: /student/
+      link: https://moyingit.github.io/mengzhiyuan/student/
 
 features:
   - icon: 📖
@@ -36,4 +36,4 @@ features:
   - icon: 🎓
     title: 学生学习中心
     details: 查看孩子正在学习的资源
-    link: /student/
+    link: https://moyingit.github.io/mengzhiyuan/student/
