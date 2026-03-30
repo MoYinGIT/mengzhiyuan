@@ -15,7 +15,7 @@ hero:
       link: /parent/
     - theme: alt
       text: 🔐 管理员入口
-      link: /private/
+      link: /private/login.html
 
 features:
   - icon: 💻
@@ -44,4 +44,4 @@ features:
 |:---|:---|:---|
 | **学生** | [学生学习中心](./student/) | 编程、数学、国学学习资源 |
 | **家长** | [家长指南](./parent/) | 陪伴孩子学习成长 |
-| **管理员** | [个人知识库](./private/) | 内部教学资料 |
+| **管理员** | [个人知识库](./private/login.html) | 内部教学资料（需密码） |
