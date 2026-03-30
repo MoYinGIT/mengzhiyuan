@@ -9,7 +9,7 @@ export default defineConfig({
   ignoreDeadLinks: true,
   
   themeConfig: {
-    logo: '/mengzhiyuan/student/logo.svg',
+    logo: '/logo.svg',
     nav: [
       { text: '🏠 首页', link: '/mengzhiyuan/student/' },
       { text: '💻 编程', link: '/mengzhiyuan/student/programming/' },
