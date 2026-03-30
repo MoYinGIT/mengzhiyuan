@@ -11,9 +11,9 @@ export default defineConfig({
   themeConfig: {
     logo: '/mengzhiyuan/logo.svg',
     nav: [
-      { text: '🏠 首页', link: '/mengzhiyuan/' },
-      { text: '🎓 学生', link: '/mengzhiyuan/student/' },
-      { text: '👨‍👩‍👧 家长', link: '/mengzhiyuan/parent/' }
+      { text: '🏠 首页', link: '/' },
+      { text: '🎓 学生', link: './student/' },
+      { text: '👨‍👩‍👧 家长', link: './parent/' }
     ],
     
     footer: {
