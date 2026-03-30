@@ -59,19 +59,17 @@ jobs:
           cp private/docs/public/robots.txt dist/private/
           
           # 创建首页重定向
-          cat > dist/index.html << 'INDEXEOF'
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>默隐·蒙知苑</title>
-  <meta http-equiv="refresh" content="0; url=./portal/">
-</head>
-<body>
-  <p>正在跳转到总站门户... <a href="./portal/">点击这里</a></p>
-</body>
-</html>
-INDEXEOF
+          echo '<!DOCTYPE html>' > dist/index.html
+          echo '<html>' >> dist/index.html
+          echo '<head>' >> dist/index.html
+          echo '  <meta charset="utf-8">' >> dist/index.html
+          echo '  <title>默隐·蒙知苑</title>' >> dist/index.html
+          echo '  <meta http-equiv="refresh" content="0; url=./portal/">' >> dist/index.html
+          echo '</head>' >> dist/index.html
+          echo '<body>' >> dist/index.html
+          echo '  <p>正在跳转到总站门户... <a href="./portal/">点击这里</a></p>' >> dist/index.html
+          echo '</body>' >> dist/index.html
+          echo '</html>' >> dist/index.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
