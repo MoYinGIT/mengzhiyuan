@@ -505,7 +505,7 @@ bool cmp(const Student& a, const Student& b) {
 **方案完成时间**: 2026-03-26 23:30 (Asia/Shanghai)  
 **方案状态**: ✅ 可立即落地使用  
 **配套文档**: 
-- `knowledge-base/ai-collaboration/` (AI协同提示词库)
+- `/knowledge-base/ai-collaboration/` (AI协同提示词库)
 - `screen-time-flow-teaching-strategies.md` (心理健康)
 - `domestic-ai-agents-teaching.md` (工具选型)
 

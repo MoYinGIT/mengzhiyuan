@@ -514,7 +514,7 @@ Kimi生成改进建议报告
 **方案状态**: ✅ GESP大纲与AI深度整合完成  
 **配套产出**: 
 - `gesp-tutoring-practical-plan.md` (课堂实战)
-- `knowledge-base/ai-collaboration/` (AI协同提示词库)
+- `/knowledge-base/ai-collaboration/` (AI协同提示词库)
 - `screen-time-flow-teaching-strategies.md` (心理健康)
 
 **整理者**: 明夷  
