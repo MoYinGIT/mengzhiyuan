@@ -9,29 +9,29 @@ hero:
   actions:
     - theme: brand
       text: 🎓 学生学习中心
-      link: /mengzhiyuan/student/
+      link: https://moyingit.github.io/mengzhiyuan/student/
     - theme: alt
       text: 👨‍👩‍👧 家长指南
-      link: /mengzhiyuan/parent/
+      link: https://moyingit.github.io/mengzhiyuan/parent/
     - theme: alt
       text: 🔐 个人知识库
-      link: /mengzhiyuan/private/login.html
+      link: https://moyingit.github.io/mengzhiyuan/private/login.html
 
 features:
   - icon: 🎓
     title: 学生学习中心
     details: 编程、数学、国学，一站式学习资源
-    link: /mengzhiyuan/student/
+    link: https://moyingit.github.io/mengzhiyuan/student/
     
   - icon: 👨‍👩‍👧
     title: 家长指南
     details: 陪伴孩子学习成长，建立正确教育观念
-    link: /mengzhiyuan/parent/
+    link: https://moyingit.github.io/mengzhiyuan/parent/
     
   - icon: 🔐
     title: 个人知识库
     details: 内部教学资料（需密码访问）
-    link: /mengzhiyuan/private/login.html
+    link: https://moyingit.github.io/mengzhiyuan/private/login.html
 ---
 
 ## 🎯 我们的使命

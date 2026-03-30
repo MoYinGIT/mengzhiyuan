@@ -12,8 +12,8 @@ export default defineConfig({
     logo: '/mengzhiyuan/portal/logo.svg',
     nav: [
       { text: '🏠 首页', link: '/' },
-      { text: '🎓 学生', link: '/mengzhiyuan/student/' },
-      { text: '👨‍👩‍👧 家长', link: '/mengzhiyuan/parent/' }
+      { text: '🎓 学生', link: 'https://moyingit.github.io/mengzhiyuan/student/' },
+      { text: '👨‍👩‍👧 家长', link: 'https://moyingit.github.io/mengzhiyuan/parent/' }
     ],
     
     footer: {
