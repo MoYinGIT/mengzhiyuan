@@ -76,7 +76,8 @@ export default defineConfig({
             { text: 'switch专题', link: '/programming/cpp-v2/gesp-switch-pro' },
             { text: 'for循环专题', link: '/programming/cpp-v2/gesp-for-loop-pro' },
             { text: 'while循环专题', link: '/programming/cpp-v2/gesp-while-loop-pro' },
-            { text: 'do-while循环专题', link: '/programming/cpp-v2/gesp-do-while-pro' }
+            { text: 'do-while循环专题', link: '/programming/cpp-v2/gesp-do-while-pro' },
+            { text: '循环控制专题', link: '/programming/cpp-v2/gesp-loop-control-pro' }
           ]
         },
         { text: '练习题库', link: '/programming/cpp-v2/exercises' }
