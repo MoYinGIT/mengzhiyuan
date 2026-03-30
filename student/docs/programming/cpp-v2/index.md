@@ -39,8 +39,8 @@ layout: doc
 
 ### 辅助资源
 
-- [代码速查表](./cheatsheet.md)
-- [常见错误排查](../../error-troubleshooting.md)
+- [代码速查表](../algorithm-cheatsheet.md)
+- [常见错误排查](../errors.md)
 - [练习题库](./exercises.md)
 
 ---

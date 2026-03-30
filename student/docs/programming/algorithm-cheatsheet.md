@@ -413,7 +413,7 @@ a ^= b ^= a ^= b;  // 位运算交换（不推荐使用）
 
 **更多详细内容**：
 - [L1-L8能力图谱](/programming/gesp/ability-chart.md)
-- [常见错误排查](/programming/error-troubleshooting.md)
+- [常见错误排查](/programming/errors)
 - [学习工具推荐](/tools/recommended-tools.md)
 
 ---
