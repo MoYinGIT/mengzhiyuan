@@ -135,7 +135,7 @@ int main() {
 | 缺少分号 | 编译报错，指向下一行 | 每行语句末尾加; |
 | 拼写错误 | cout写成cout | 注意拼写，使用IDE提示 |
 | 引号不匹配 | 编译报错 | 检查引号是否成对 |
-| 缺少头文件 | 不认识cout | 记得加#include <iostream> |
+| 缺少头文件 | 不认识cout | 记得加`#include <iostream>` |
 
 ---
 
