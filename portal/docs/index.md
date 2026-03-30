@@ -9,29 +9,29 @@ hero:
   actions:
     - theme: brand
       text: 🎓 学生学习中心
-      link: ./student/
+      link: /mengzhiyuan/student/
     - theme: alt
       text: 👨‍👩‍👧 家长指南
-      link: ./parent/
+      link: /mengzhiyuan/parent/
     - theme: alt
       text: 🔐 个人知识库
-      link: ./private/login.html
+      link: /mengzhiyuan/private/login.html
 
 features:
   - icon: 🎓
     title: 学生学习中心
     details: 编程、数学、国学，一站式学习资源
-    link: ./student/
+    link: /mengzhiyuan/student/
     
   - icon: 👨‍👩‍👧
     title: 家长指南
     details: 陪伴孩子学习成长，建立正确教育观念
-    link: ./parent/
+    link: /mengzhiyuan/parent/
     
   - icon: 🔐
     title: 个人知识库
     details: 内部教学资料（需密码访问）
-    link: ./private/login.html
+    link: /mengzhiyuan/private/login.html
 ---
 
 ## 🎯 我们的使命
