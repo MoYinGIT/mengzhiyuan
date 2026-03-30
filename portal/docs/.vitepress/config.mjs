@@ -3,14 +3,14 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: '默隐·蒙知苑',
   description: '让所有孩子有处可学',
-  base: '/',
+  base: '/mengzhiyuan/',
   
   themeConfig: {
-    logo: '/logo.svg',
+    logo: '/mengzhiyuan/logo.svg',
     nav: [
-      { text: '🏠 首页', link: '/' },
-      { text: '🎓 学生', link: '/student/' },
-      { text: '👨‍👩‍👧 家长', link: '/parent/' }
+      { text: '🏠 首页', link: '/mengzhiyuan/' },
+      { text: '🎓 学生', link: '/mengzhiyuan/student/' },
+      { text: '👨‍👩‍👧 家长', link: '/mengzhiyuan/parent/' }
     ],
     
     footer: {

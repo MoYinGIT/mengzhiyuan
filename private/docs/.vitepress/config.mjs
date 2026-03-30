@@ -3,11 +3,11 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: '默隐·蒙知苑 - 个人知识库',
   description: '内部教学资料（密码保护）',
-  base: '/private/',
+  base: '/mengzhiyuan/private/',
   
   // 注入访问验证脚本
   head: [
-    ['script', { src: '/private/auth-check.js' }],
+    ['script', { src: '/mengzhiyuan/private/auth-check.js' }],
     ['meta', { name: 'robots', content: 'noindex, nofollow' }],
     ['style', {}, `
       /* 注销按钮样式 */
@@ -39,7 +39,7 @@ export default defineConfig({
   },
   
   themeConfig: {
-    logo: '/logo.svg',
+    logo: '/mengzhiyuan/private/logo.svg',
     
     // 添加顶部导航
     nav: [
@@ -47,7 +47,7 @@ export default defineConfig({
       { text: '📚 GESP', link: '/gesp/' },
       { text: '🤖 AI教学', link: '/secure/ai/' },
       { text: '🌍 全球资源', link: '/resources/world-top-forums/' },
-      { text: '← 总站', link: '/' },
+      { text: '← 总站', link: '/mengzhiyuan/portal/' },
       { 
         text: '🔓 注销',
         items: [

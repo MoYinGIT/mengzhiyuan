@@ -31,6 +31,7 @@ jobs:
           cd portal && npm install
           cd ../student && npm install
           cd ../parent && npm install
+          cd ../private && npm install
 
       - name: Build Portal
         run: cd portal && npm run docs:build
@@ -41,12 +42,21 @@ jobs:
       - name: Build Parent
         run: cd parent && npm run docs:build
 
+      - name: Build Private
+        run: cd private && npm run docs:build
+
       - name: Prepare dist
         run: |
-          mkdir -p dist/portal dist/student dist/parent
+          mkdir -p dist/portal dist/student dist/parent dist/private
           cp -r portal/docs/.vitepress/dist/* dist/portal/
           cp -r student/docs/.vitepress/dist/* dist/student/
           cp -r parent/docs/.vitepress/dist/* dist/parent/
+          cp -r private/docs/.vitepress/dist/* dist/private/
+          
+          # 复制登录页面和验证脚本到private根目录
+          cp private/docs/login.html dist/private/
+          cp private/docs/public/auth-check.js dist/private/
+          cp private/docs/public/robots.txt dist/private/
           
           # 创建首页重定向
           cat > dist/index.html << 'INDEXEOF'

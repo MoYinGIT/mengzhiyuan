@@ -4,6 +4,11 @@
 (function() {
   'use strict';
   
+  // 获取基础路径（适配GitHub Pages子目录部署）
+  const basePath = window.location.pathname.includes('/mengzhiyuan/') 
+    ? '/mengzhiyuan/private/' 
+    : '/private/';
+  
   // 排除登录页面本身
   const path = window.location.pathname;
   if (path.includes('login.html') || path.endsWith('/login')) {
@@ -23,8 +28,8 @@
     // 保存当前URL以便登录后返回
     sessionStorage.setItem('mzy_redirect_url', window.location.href);
     
-    // 重定向到登录页面（使用绝对路径）
-    window.location.replace('/private/login.html');
+    // 重定向到登录页面
+    window.location.replace(basePath + 'login.html');
     return;
   }
   
@@ -37,6 +42,9 @@ function logout() {
   if (confirm('确定要退出登录吗？')) {
     localStorage.removeItem('mzy_private_token');
     localStorage.removeItem('mzy_private_expires');
-    window.location.href = '/private/login.html';
+    const basePath = window.location.pathname.includes('/mengzhiyuan/') 
+      ? '/mengzhiyuan/private/' 
+      : '/private/';
+    window.location.href = basePath + 'login.html';
   }
 }
