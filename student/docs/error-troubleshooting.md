@@ -1,5 +1,9 @@
 ---
 layout: doc
+head:
+  - - meta
+    - http-equiv: refresh
+      content: "0; url=./programming/errors"
 ---
 
 # 页面已移动
@@ -8,14 +12,6 @@ layout: doc
 
 **常见错误排查手册** 已移动到新的位置：
 
-⏳ 3秒后自动跳转...
+⏳ 立即跳转...
 
-[点击这里立即跳转](../programming/error-troubleshooting)
-
----
-
-<script>
-setTimeout(function() {
-  window.location.href = '../programming/error-troubleshooting';
-}, 3000);
-</script>
+[点击这里手动跳转](./programming/errors)
