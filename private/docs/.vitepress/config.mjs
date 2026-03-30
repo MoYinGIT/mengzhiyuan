@@ -75,6 +75,11 @@ export default defineConfig({
         { text: '社会学与教育', link: '/resources/world-top-forums/Sociology-Education' },
         { text: '蒙知苑整合方案', link: '/resources/world-top-forums/Mengzhiyuan-Integration' }
       ],
+      '/programming/': [
+        { text: '编程资源首页', link: '/programming/' },
+        { text: '常见错误排查', link: '/programming/error-troubleshooting' },
+        { text: '算法速查卡', link: '/programming/algorithm-cheatsheet' }
+      ]
       '/resources/': [
         { text: '全球顶级资源', link: '/resources/world-top-forums/' },
         { text: 'AI与机器学习', link: '/resources/world-top-forums/AI-Machine-Learning' },
