@@ -188,14 +188,10 @@
       return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     }
     
-    // 验证密码（默认为 "mengzhiyuan2026" 的 SHA256 哈希）
-    // 可通过修改此哈希值来更改密码
-    const CORRECT_HASH = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'; // 空字符串哈希，需要修改
-    
-    // 实际使用请替换为以下密码的哈希值：
+    // 验证密码
     // 默认密码: MoYin@2026
     // 哈希值: echo -n "MoYin@2026" | sha256sum
-    const DEFAULT_HASH = 'c299bc881e4befcd4e80a984630196f00b8104ab9d5a9382792ac8ab8d4a0c87';
+    const CORRECT_HASH = 'c299bc881e4befcd4e80a984630196f00b8104ab9d5a9382792ac8ab8d4a0c87';
     
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
       e.preventDefault();
@@ -212,9 +208,14 @@
       // 计算密码哈希
       const inputHash = await sha256(password);
       
-      // 验证（支持多个预设密码）
-      const validHashes = [DEFAULT_HASH];
-      const isValid = validHashes.includes(inputHash);
+      // 调试信息（可在控制台查看）
+      console.log('输入密码:', password);
+      console.log('输入哈希:', inputHash);
+      console.log('正确哈希:', CORRECT_HASH);
+      console.log('是否匹配:', inputHash === CORRECT_HASH);
+      
+      // 验证
+      const isValid = inputHash === CORRECT_HASH;
       
       // 模拟网络延迟（增强安全性）
       await new Promise(resolve => setTimeout(resolve, 500));
@@ -225,8 +226,11 @@
         localStorage.setItem('mzy_private_token', token);
         localStorage.setItem('mzy_private_expires', Date.now() + 30 * 24 * 60 * 60 * 1000);
         
-        // 跳转到首页
-        window.location.href = './index.html';
+        // 跳转到首页（使用绝对路径确保正确）
+        const basePath = window.location.pathname.includes('/mengzhiyuan/') 
+          ? '/mengzhiyuan/private/' 
+          : '/private/';
+        window.location.href = basePath;
       } else {
         btn.classList.remove('loading');
         btn.disabled = false;
