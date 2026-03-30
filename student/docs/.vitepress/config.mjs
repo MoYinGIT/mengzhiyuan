@@ -21,7 +21,7 @@ export default defineConfig({
       { text: '🔢 数学', link: '/mengzhiyuan/student/math/' },
       { text: '📚 题解', link: '/mengzhiyuan/student/programming/solutions/' },
       { text: '📜 国学', link: '/mengzhiyuan/student/chinese-classics/' },
-      { text: '← 总站', link: '/mengzhiyuan/' }
+      { text: '← 总站', link: 'https://moyingit.github.io/mengzhiyuan/portal/' }
     ],
     
     sidebar: {

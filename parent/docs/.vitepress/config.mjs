@@ -20,7 +20,7 @@ export default defineConfig({
       { text: '📖 家长指南', link: '/mengzhiyuan/parent/guide/' },
       { text: '🧠 心理驿站', link: '/mengzhiyuan/parent/psychology/' },
       { text: '🎓 学生中心', link: '/mengzhiyuan/student/' },
-      { text: '← 总站', link: '/mengzhiyuan/' }
+      { text: '← 总站', link: 'https://moyingit.github.io/mengzhiyuan/portal/' }
     ],
     
     sidebar: {
