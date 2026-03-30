@@ -1,3 +1,7 @@
+---
+layout: doc
+---
+
 # 心理学核心知识 - 从顶级论坛整理
 
 **Source**: LessWrong, Slate Star Codex, Gwern.net, Wait But Why  

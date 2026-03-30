@@ -1,3 +1,7 @@
+---
+layout: doc
+---
+
 # 社会学与教育洞察 - 顶级论坛整理
 
 **Source**: LessWrong, Slate Star Codex, Wait But Why, Gwern.net  

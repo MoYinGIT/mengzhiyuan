@@ -1,3 +1,7 @@
+---
+layout: doc
+---
+
 # AI与机器学习 - 顶级资源整理
 
 **Source**: Distill.pub, Gwern.net, LessWrong, arXiv  

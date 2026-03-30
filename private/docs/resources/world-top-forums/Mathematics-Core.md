@@ -1,3 +1,7 @@
+---
+layout: doc
+---
+
 # 数学核心知识 - 从顶级论坛整理
 
 **Source**: arXiv, Gwern.net, Slate Star Codex  

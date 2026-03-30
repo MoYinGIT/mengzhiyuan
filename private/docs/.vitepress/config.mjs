@@ -67,6 +67,14 @@ export default defineConfig({
         { text: '教师资源', link: '/secure/teacher/' },
         { text: '家长沟通', link: '/secure/parent/' }
       ],
+      '/resources/world-top-forums/': [
+        { text: '全球顶级资源首页', link: '/resources/world-top-forums/' },
+        { text: 'AI与机器学习', link: '/resources/world-top-forums/AI-Machine-Learning' },
+        { text: '数学核心', link: '/resources/world-top-forums/Mathematics-Core' },
+        { text: '心理学核心', link: '/resources/world-top-forums/Psychology-Core' },
+        { text: '社会学与教育', link: '/resources/world-top-forums/Sociology-Education' },
+        { text: '蒙知苑整合方案', link: '/resources/world-top-forums/Mengzhiyuan-Integration' }
+      ],
       '/resources/': [
         { text: '全球顶级资源', link: '/resources/world-top-forums/' },
         { text: 'AI与机器学习', link: '/resources/world-top-forums/AI-Machine-Learning' },
