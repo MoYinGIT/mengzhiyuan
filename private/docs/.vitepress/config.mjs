@@ -10,6 +10,7 @@ export default defineConfig({
   
   // 注入访问验证脚本
   head: [
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/mengzhiyuan/private/logo.svg' }],
     ['script', { src: '/mengzhiyuan/private/auth-check.js' }],
     ['meta', { name: 'robots', content: 'noindex, nofollow' }],
     ['style', {}, `

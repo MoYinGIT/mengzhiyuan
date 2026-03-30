@@ -59,7 +59,7 @@ jobs:
           cp private/docs/public/robots.txt dist/private/
           
           # 创建首页重定向
-          printf '%s\n' '<!DOCTYPE html>' '<html>' '<head>' '  <meta charset="utf-8">' '  <title>默隐·蒙知苑</title>' '  <meta http-equiv="refresh" content="0; url=./portal/">' '</head>' '<body>' '  <p>正在跳转到总站门户... <a href="./portal/">点击这里</a></p>' '</body>' '</html>' > dist/index.html
+          printf '%s\n' '<!DOCTYPE html>' '<html>' '<head>' '  <meta charset="utf-8">' '  <title>默隐·蒙知苑</title>' '  <link rel="icon" type="image/svg+xml" href="./portal/logo.svg">' '  <meta http-equiv="refresh" content="0; url=./portal/">' '</head>' '<body>' '  <p>正在跳转到总站门户... <a href="./portal/">点击这里</a></p>' '</body>' '</html>' > dist/index.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

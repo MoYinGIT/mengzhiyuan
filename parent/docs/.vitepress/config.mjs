@@ -8,6 +8,11 @@ export default defineConfig({
   // 忽略死链检查
   ignoreDeadLinks: true,
   
+  // 添加 favicon
+  head: [
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/mengzhiyuan/parent/logo.svg' }]
+  ],
+  
   themeConfig: {
     logo: '/logo.svg',
     nav: [
