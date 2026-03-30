@@ -60,6 +60,27 @@ export default defineConfig({
           ]
         }
       ],
+      '/programming/cpp-v2/': [
+        { text: 'C++教程v2.0首页', link: '/programming/cpp-v2/' },
+        {
+          text: '📖 阅读程序练习',
+          collapsed: false,
+          items: [
+            { text: '输入输出专题', link: '/programming/cpp-v2/gesp-cin-cout-pro' },
+            { text: '变量与赋值专题', link: '/programming/cpp-v2/gesp-variables-assignment-pro' },
+            { text: '复合运算符专题', link: '/programming/cpp-v2/gesp-compound-operators-pro' },
+            { text: 'scanf/printf专题', link: '/programming/cpp-v2/gesp-scanf-printf-pro' },
+            { text: '单分支专题', link: '/programming/cpp-v2/gesp-if-single-pro' },
+            { text: '双分支专题', link: '/programming/cpp-v2/gesp-if-double-pro' },
+            { text: '多分支专题', link: '/programming/cpp-v2/gesp-if-multi-pro' },
+            { text: '分支嵌套专题', link: '/programming/cpp-v2/gesp-if-nested-pro' },
+            { text: 'switch专题', link: '/programming/cpp-v2/gesp-switch-pro' },
+            { text: 'for循环专题', link: '/programming/cpp-v2/gesp-for-loop-pro' },
+            { text: 'while循环专题', link: '/programming/cpp-v2/gesp-while-loop-pro' }
+          ]
+        },
+        { text: '练习题库', link: '/programming/cpp-v2/exercises' }
+      ],
       '/chinese-classics/': [
         { text: '国学经典首页', link: '/chinese-classics/' },
         { text: '《易经》', link: '/chinese-classics/yijing' },
