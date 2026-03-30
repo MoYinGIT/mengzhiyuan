@@ -20,6 +20,7 @@ layout: doc
 | GESP+AI整合方案 | AI工具与GESP教学深度融合 | [> 访问](./gesp-ai-integration-plan.html) |
 | GESP辅导实战方案 | 基于刷题经验的实战指南 | [> 访问](./gesp-tutoring-practical-plan.html) |
 | 教案示例 | Day13 while循环详细教案 | [> 访问](./GESP教案-Day13-while循环.html) |
+| GESP完整导航 | 包含所有GESP教案与资料 | [> 访问](/gesp/) |
 
 ---
 

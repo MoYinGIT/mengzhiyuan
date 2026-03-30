@@ -17,12 +17,12 @@ layout: doc
 | 内容 | 说明 | 链接 |
 |:---|:---|:---:|
 | GESP考级导航 | L1-L8完整教学体系入口 | [> 访问](./gesp/) |
-| GESP考级大纲全集 | L1-L8完整大纲，37KB知识点 | [> 访问](./gesp/GESP-考级大纲全集.html) |
-| GESP教学操作手册 | 144小时详细教案 | [> 访问](./gesp/GESP教学操作手册-三阶段完整版.html) |
-| L4-L8教学手册 | 进阶教学体系，300小时规划 | [> 访问](./gesp/L4-L8-teaching-manual.html) |
-| GESP+AI整合方案 | AI工具与GESP教学深度融合 | [> 访问](./gesp/gesp-ai-integration-plan.html) |
-| GESP辅导实战方案 | 基于刷题经验的实战指南 | [> 访问](./gesp/gesp-tutoring-practical-plan.html) |
-| 教案示例 | Day13 while循环详细教案 | [> 访问](./gesp/GESP教案-Day13-while循环.html) |
+| GESP考级大纲全集 | L1-L8完整大纲，37KB知识点 | [> 访问](./gesp/GESP-考级大纲全集) |
+| GESP教学操作手册 | 144小时详细教案 | [> 访问](./gesp/GESP教学操作手册-三阶段完整版) |
+| L4-L8教学手册 | 进阶教学体系，300小时规划 | [> 访问](./gesp/L4-L8-teaching-manual) |
+| GESP+AI整合方案 | AI工具与GESP教学深度融合 | [> 访问](./gesp/gesp-ai-integration-plan) |
+| GESP辅导实战方案 | 基于刷题经验的实战指南 | [> 访问](./gesp/gesp-tutoring-practical-plan) |
+| 教案示例 | Day13 while循环详细教案 | [> 访问](./gesp/GESP教案-Day13-while循环) |
 
 ### 🤖 AI教学助手
 
