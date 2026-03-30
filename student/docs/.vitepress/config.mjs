@@ -77,6 +77,7 @@ export default defineConfig({
             { text: 'for循环专题', link: '/programming/cpp-v2/gesp-for-loop-pro' },
             { text: 'while循环专题', link: '/programming/cpp-v2/gesp-while-loop-pro' },
             { text: 'do-while循环专题', link: '/programming/cpp-v2/gesp-do-while-pro' },
+            { text: '循环嵌套专题', link: '/programming/cpp-v2/gesp-loop-nested-pro' },
             { text: '循环控制专题', link: '/programming/cpp-v2/gesp-loop-control-pro' }
           ]
         },
