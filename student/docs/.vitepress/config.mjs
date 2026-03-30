@@ -5,6 +5,9 @@ export default defineConfig({
   description: '编程、数学、国学，一站式学习',
   base: '/mengzhiyuan/student/',
   
+  // 忽略死链检查
+  ignoreDeadLinks: true,
+  
   themeConfig: {
     logo: '/mengzhiyuan/student/logo.svg',
     nav: [

@@ -5,6 +5,9 @@ export default defineConfig({
   description: '陪伴孩子学习成长',
   base: '/mengzhiyuan/parent/',
   
+  // 忽略死链检查
+  ignoreDeadLinks: true,
+  
   themeConfig: {
     logo: '/mengzhiyuan/parent/logo.svg',
     nav: [

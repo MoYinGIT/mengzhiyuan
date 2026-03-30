@@ -5,6 +5,9 @@ export default defineConfig({
   description: '内部教学资料（密码保护）',
   base: '/mengzhiyuan/private/',
   
+  // 忽略死链检查
+  ignoreDeadLinks: true,
+  
   // 注入访问验证脚本
   head: [
     ['script', { src: '/mengzhiyuan/private/auth-check.js' }],

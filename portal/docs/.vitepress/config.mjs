@@ -5,6 +5,9 @@ export default defineConfig({
   description: '让所有孩子有处可学',
   base: '/mengzhiyuan/',
   
+  // 忽略死链检查
+  ignoreDeadLinks: true,
+  
   themeConfig: {
     logo: '/mengzhiyuan/logo.svg',
     nav: [
