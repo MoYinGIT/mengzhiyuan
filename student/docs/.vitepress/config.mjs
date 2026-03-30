@@ -55,7 +55,6 @@ export default defineConfig({
           items: [
             { text: 'C++教程', link: '/programming/cpp/' },
             { text: 'C++教程v2.0（新）', link: '/programming/cpp-v2/' },
-            { text: '📖 阅读程序练习', link: '/programming/cpp-v2/gesp-cin-cout-pro' },
             { text: '题解专栏', link: '/programming/solutions/' }
           ]
         }
