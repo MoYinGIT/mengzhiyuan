@@ -42,6 +42,7 @@ layout: doc
 - [代码速查表](../algorithm-cheatsheet.md)
 - [常见错误排查](../errors.md)
 - [练习题库](./exercises.md)
+- [📖 阅读程序练习](./gesp-cin-cout-pro.md) - GESP专题训练（输入输出、分支、循环）
 
 ---
 
