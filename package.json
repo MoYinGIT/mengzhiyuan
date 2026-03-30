@@ -1,13 +1,19 @@
 {
+  "name": "mengzhiyuan",
+  "version": "2.0.0",
+  "description": "默隐·蒙知苑 - 三分架构站点",
   "scripts": {
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
-  },
-  "devDependencies": {
-    "vitepress": "^1.6.4"
-  },
-  "dependencies": {
-    "crypto-js": "^4.2.0"
+    "portal:dev": "cd portal && npm run docs:dev",
+    "portal:build": "cd portal && npm run docs:build",
+    "student:dev": "cd student && npm run docs:dev",
+    "student:build": "cd student && npm run docs:build",
+    "parent:dev": "cd parent && npm run docs:dev",
+    "parent:build": "cd parent && npm run docs:build",
+    "private:dev": "cd private && npm run docs:dev",
+    "private:build": "cd private && npm run docs:build",
+    "build:all": "./build-all.sh",
+    "build:student": "cd student && npm install && npm run docs:build",
+    "build:parent": "cd parent && npm install && npm run docs:build",
+    "build:portal": "cd portal && npm install && npm run docs:build"
   }
 }

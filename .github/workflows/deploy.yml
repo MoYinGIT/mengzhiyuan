@@ -2,7 +2,8 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [main, master]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -19,31 +20,56 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
+
+      - name: Install dependencies
+        run: |
+          cd portal && npm install
+          cd ../student && npm install
+          cd ../parent && npm install
+
+      - name: Build Portal
+        run: cd portal && npm run docs:build
+
+      - name: Build Student
+        run: cd student && npm run docs:build
+
+      - name: Build Parent
+        run: cd parent && npm run docs:build
+
+      - name: Prepare dist
+        run: |
+          mkdir -p dist/portal dist/student dist/parent
+          cp -r portal/docs/.vitepress/dist/* dist/portal/
+          cp -r student/docs/.vitepress/dist/* dist/student/
+          cp -r parent/docs/.vitepress/dist/* dist/parent/
+          
+          # 创建首页重定向
+          cat > dist/index.html << 'INDEXEOF'
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>默隐·蒙知苑</title>
+  <meta http-equiv="refresh" content="0; url=./portal/">
+</head>
+<body>
+  <p>正在跳转到总站门户... <a href="./portal/">点击这里</a></p>
+</body>
+</html>
+INDEXEOF
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build with VitePress
-        run: npm run docs:build
-
-      - name: Add .nojekyll to disable Jekyll processing
-        run: touch docs/.vitepress/dist/.nojekyll
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs/.vitepress/dist
+          path: ./dist
 
   deploy:
     environment:
@@ -51,7 +77,6 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     needs: build
     runs-on: ubuntu-latest
-    name: Deploy
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
