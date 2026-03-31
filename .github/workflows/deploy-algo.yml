@@ -1,0 +1,40 @@
+name: Deploy Hello-Algo to Subdirectory
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: gh-pages
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - uses: actions/checkout@v4
+      with:
+        repository: MoYinGIT/hello-algo
+        path: temp-algo
+        
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        
+    - run: pip install mkdocs-material mkdocs-glightbox
+    
+    - run: |
+        cd temp-algo
+        mkdocs build
+        cd ..
+        mkdir -p algo
+        rm -rf algo/*
+        cp -r temp-algo/site/* algo/
+        rm -rf temp-algo
+        
+    - run: |
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+        git add algo/
+        git commit -m "Deploy hello-algo" || echo "No changes"
+        git push origin gh-pages
