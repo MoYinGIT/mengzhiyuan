@@ -62,6 +62,20 @@ export default defineConfig({
       '/programming/cpp-v2/': [
         { text: 'C++教程v2.0首页', link: '/programming/cpp-v2/' },
         {
+          text: '📚 课程学习（L1-L8）',
+          collapsed: false,
+          items: [
+            { text: 'L1：编程入门', link: '/programming/cpp-v2/l1' },
+            { text: 'L2：分支与循环', link: '/programming/cpp-v2/l2' },
+            { text: 'L3：数组基础', link: '/programming/cpp-v2/l3' },
+            { text: 'L4：函数与结构体', link: '/programming/cpp-v2/l4' },
+            { text: 'L5：指针与结构体', link: '/programming/cpp-v2/l5' },
+            { text: 'L6：基础算法', link: '/programming/cpp-v2/l6' },
+            { text: 'L7：数据结构', link: '/programming/cpp-v2/l7' },
+            { text: 'L8：高级算法', link: '/programming/cpp-v2/l8' }
+          ]
+        },
+        {
           text: '📖 阅读程序练习',
           collapsed: false,
           items: [
