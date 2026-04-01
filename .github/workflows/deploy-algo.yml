@@ -1,0 +1,35 @@
+name: Deploy Hello-Algo
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Clone and build hello-algo
+      run: |
+        git clone https://github.com/MoYinGIT/hello-algo.git
+        cd hello-algo
+        sed -i 's/^site_name:.*/site_name: 蒙知苑 · 算法学堂/' mkdocs.yml
+        sed -i 's|^site_url:.*|site_url: https:\/\/MoYinGIT.github.io\/mengzhiyuan\/algo\/|' mkdocs.yml
+        sed -i 's/^site_description:.*/site_description: 默隐·蒙知苑算法学习平台/' mkdocs.yml
+        sed -i 's/^copyright:.*/copyright: Copyright \\&copy; 2023 Krahets | 蒙知苑·默隐整理/' mkdocs.yml
+        pip install mkdocs-material mkdocs-glightbox -q
+        mkdocs build
+    
+    - name: Copy to algo folder
+      run: |
+        mkdir -p algo
+        cp -r hello-algo/site/* algo/
+        rm -rf hello-algo
+    
+    - name: Commit and push
+      run: |
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+        git add algo/
+        git commit -m "Deploy hello-algo to algo folder" || echo "No changes"
+        git push
