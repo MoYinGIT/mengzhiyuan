@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>内容</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css">
+    <style>
+        :root {
+            --bg: #f6f8fa;
+            --sidebar-bg: #fff;
+            --border: #e1e4e8;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0d1117;
+                --sidebar-bg: #161b22;
+                --border: #30363d;
+            }
+            
+            .markdown-body {
+                color-scheme: dark;
+                --color-fg-default: #c9d1d9;
+                --color-fg-muted: #8b949e;
+                --color-canvas-default: #0d1117;
+                --color-canvas-subtle: #161b22;
+                --color-border-default: #30363d;
+            }
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", sans-serif;
+            background: var(--bg);
+        }
+        
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border);
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        .sidebar h2 {
+            font-size: 16px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .nav-list {
+            list-style: none;
+        }
+        
+        .nav-list li {
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--color-fg-muted, #666);
+        }
+        
+        .nav-list li:hover {
+            background: rgba(0,0,0,0.05);
+        }
+        
+        .nav-list li.active {
+            background: #e6f7ff;
+            color: #1890ff;
+            font-weight: 500;
+        }
+        
+        .main {
+            flex: 1;
+            margin-left: 280px;
+            padding: 40px;
+        }
+        
+        .content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--sidebar-bg);
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .lock-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #52c41a;
+            font-size: 14px;
+        }
+        
+        .markdown-body {
+            font-size: 16px;
+            line-height: 1.8;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            .main {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <aside class="sidebar">
+            <h2>📚 目录</h2>
+            <ul class="nav-list" id="navList">
+                <li class="active">加载中...请稍后</li>
+            </ul>
+        </aside>
+        
+        <main class="main">
+            <div class="content-wrapper">
+                <div class="header">
+                    <h1 id="pageTitle">加密内容</h1>
+                    <div class="lock-status">
+                        <span>🔓</span>
+                        <span>已解锁</span>
+                    </div>
+                </div>
+                
+                <div class="markdown-body" id="content">
+                    <div class="empty-state">
+                        <p>正在加载内容...请稍候</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+    <script>
+        // 检查是否已解锁
+        const content = sessionStorage.getItem('decryptedContent');
+        const unlockTime = sessionStorage.getItem('unlockTime');
+        
+        if (!content) {
+            // 未解锁，返回首页
+            window.location.href = 'index.html';
+        }
+        
+        // 渲染 Markdown 内容
+        document.getElementById('content').innerHTML = marked.parse(content);
+        
+        // 生成目录（从内容中提取标题）
+        const headings = document.querySelectorAll('.markdown-body h1, .markdown-body h2');
+        const navList = document.getElementById('navList');
+        navList.innerHTML = '';
+        
+        headings.forEach((heading, index) => {
+            const li = document.createElement('li');
+            li.textContent = heading.textContent;
+            li.onclick = () => {
+                heading.scrollIntoView({ behavior: 'smooth' });
+                // 更新 active 状态
+                document.querySelectorAll('.nav-list li').forEach(el => el.classList.remove('active'));
+                li.classList.add('active');
+            };
+            navList.appendChild(li);
+        });
+        
+        // 页面离开时清除内容（可选的安全措施）
+        window.addEventListener('beforeunload', function() {
+            // 保留内容，但记录离开时间
+            sessionStorage.setItem('leaveTime', Date.now());
+        });
+    </script>
+</body>
+</html>
