@@ -18,7 +18,7 @@ hero:
       link: https://moyingit.github.io/mengzhiyuan/private/login.html
     - theme: alt
       text: 🏛️ 微明阁·竞赛
-      link: https://moyingit.github.io/mengzhiyuan/private/docs/微明阁·竞赛/
+      link: https://moyingit.github.io/mengzhiyuan/weimingge/
 
 features:
   - icon: 🎓
@@ -38,8 +38,8 @@ features:
     
   - icon: 🏛️
     title: 微明阁·竞赛
-    details: OI/NOI算法竞赛核心密档（密码保护）
-    link: https://moyingit.github.io/mengzhiyuan/private/docs/微明阁·竞赛/
+    details: OI/NOI算法竞赛核心密档（密码保护，可分享给指定学员）
+    link: https://moyingit.github.io/mengzhiyuan/weimingge/
 ---
 
 ## 🎯 我们的使命
@@ -52,7 +52,8 @@ features:
 |:---|:---|:---:|
 | **🎓 学生学习中心** | 编程、数学、国学学习资源 | 公开 |
 | **👨‍👩‍👧 家长指南** | 陪伴孩子学习成长 | 公开 |
-| **🔐 个人知识库** | 内部教学资料 | 密码保护 |
+| **🔐 个人知识库** | 内部教学资料（仅默隐） | 密码保护 |
+| **🏛️ 微明阁·竞赛** | 算法竞赛核心密档（可分享） | 密码保护 |
 
 ## 📚 内容体系
 
