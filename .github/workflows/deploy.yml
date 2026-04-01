@@ -54,6 +54,12 @@ jobs:
           cp -r private/docs/.vitepress/dist/* dist/private/
           cp -r weimingge/* dist/weimingge/
           
+          # 复制 .nojekyll 文件到各站点根目录，禁用 Jekyll
+          touch dist/portal/.nojekyll
+          touch dist/student/.nojekyll
+          touch dist/parent/.nojekyll
+          touch dist/private/.nojekyll
+          
           # 复制登录页面和验证脚本到private根目录
           cp private/docs/login.html dist/private/
           cp private/docs/public/auth-check.js dist/private/
@@ -65,6 +71,9 @@ jobs:
           # 复制 favicon 到根目录，避免404
           cp portal/docs/public/logo.svg dist/favicon.svg
           cp portal/docs/public/logo.svg dist/favicon.ico || true
+          
+          # 根目录也添加 .nojekyll
+          touch dist/.nojekyll
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
