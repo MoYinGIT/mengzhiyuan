@@ -228,6 +228,7 @@ int main() {
 
 **【例4】矩阵乘法**
 
+{% raw %}
 ::: v-pre
 ```cpp
 #include <iostream>
@@ -259,6 +260,7 @@ int main() {
 }
 ```
 :::
+{% endraw %}
 
 ---
 
