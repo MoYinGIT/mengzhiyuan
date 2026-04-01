@@ -16,6 +16,9 @@ hero:
     - theme: alt
       text: 🔐 个人知识库
       link: https://moyingit.github.io/mengzhiyuan/private/login.html
+    - theme: alt
+      text: 🏛️ 微明阁·竞赛
+      link: https://moyingit.github.io/mengzhiyuan/private/docs/微明阁·竞赛/
 
 features:
   - icon: 🎓
@@ -32,6 +35,11 @@ features:
     title: 个人知识库
     details: 内部教学资料（需密码访问）
     link: https://moyingit.github.io/mengzhiyuan/private/login.html
+    
+  - icon: 🏛️
+    title: 微明阁·竞赛
+    details: OI/NOI算法竞赛核心密档（密码保护）
+    link: https://moyingit.github.io/mengzhiyuan/private/docs/微明阁·竞赛/
 ---
 
 ## 🎯 我们的使命
