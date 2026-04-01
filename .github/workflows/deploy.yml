@@ -47,11 +47,12 @@ jobs:
 
       - name: Prepare dist
         run: |
-          mkdir -p dist/portal dist/student dist/parent dist/private
+          mkdir -p dist/portal dist/student dist/parent dist/private dist/weimingge
           cp -r portal/docs/.vitepress/dist/* dist/portal/
           cp -r student/docs/.vitepress/dist/* dist/student/
           cp -r parent/docs/.vitepress/dist/* dist/parent/
           cp -r private/docs/.vitepress/dist/* dist/private/
+          cp -r weimingge/* dist/weimingge/
           
           # 复制登录页面和验证脚本到private根目录
           cp private/docs/login.html dist/private/
