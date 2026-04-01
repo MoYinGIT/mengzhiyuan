@@ -1,4 +1,3 @@
-{% raw %}
 # GESP C++ L4 四级教案
 
 > **课程定位**: 数据结构入门，函数与文件操作  
@@ -228,6 +227,8 @@ int main() {
 ```
 
 **【例4】矩阵乘法**
+
+::: v-pre
 ```cpp
 #include <iostream>
 using namespace std;
@@ -257,6 +258,7 @@ int main() {
     return 0;
 }
 ```
+:::
 
 ---
 
@@ -638,5 +640,3 @@ freopen("output.txt", "w", stdout);
 
 **版本**: 1.0  
 **更新日期**: 2026-03-28
-
-{% endraw %}

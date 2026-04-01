@@ -574,6 +574,8 @@ void quickSort(int arr[], int low, int high) {
 #### 示例代码
 
 **【例7】活动选择问题**
+
+::: v-pre
 ```cpp
 #include <iostream>
 #include <algorithm>
@@ -613,6 +615,7 @@ int main() {
     return 0;
 }
 ```
+:::
 
 ---
 
