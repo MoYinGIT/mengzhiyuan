@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>内容</title>
+    <title>微明阁·竞赛</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css">
     <style>
         :root {
@@ -121,10 +121,48 @@
             line-height: 1.8;
         }
         
-        .empty-state {
+        /* 未授权遮罩 */
+        .auth-mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        
+        .auth-mask.hidden {
+            display: none;
+        }
+        
+        .auth-card {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
             text-align: center;
-            padding: 60px 20px;
-            color: #999;
+            max-width: 400px;
+        }
+        
+        .auth-card h2 {
+            margin-bottom: 16px;
+        }
+        
+        .auth-card p {
+            color: #666;
+            margin-bottom: 24px;
+        }
+        
+        .auth-card a {
+            display: inline-block;
+            padding: 12px 32px;
+            background: linear-gradient(135deg, #1890ff, #096dd9);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
         }
         
         @media (max-width: 768px) {
@@ -138,18 +176,34 @@
     </style>
 </head>
 <body>
+    <!-- 授权检查遮罩 -->
+    <div class="auth-mask" id="authMask">
+        <div class="auth-card">
+            <div style="font-size: 48px; margin-bottom: 16px;">🔒</div>
+            <h2>需要验证</h2>
+            <p>请先返回登录页面输入访问密码</p>
+            <a href="index.html">前往登录</a>
+        </div>
+    </div>
+
     <div class="layout">
         <aside class="sidebar">
-            <h2>📚 目录</h2>
+            <h2>📚 七卷目录</h2>
             <ul class="nav-list" id="navList">
-                <li class="active">加载中...请稍后</li>
+                <li class="active" data-target="vol1">卷一 · IO层</li>
+                <li data-target="vol2">卷二 · 语法层</li>
+                <li data-target="vol3">卷三 · 算法层</li>
+                <li data-target="vol4">卷四 · 数据结构</li>
+                <li data-target="vol5">卷五 · 数学层</li>
+                <li data-target="vol6">卷六 · 策略层</li>
+                <li data-target="vol7">卷七 · 环境层</li>
             </ul>
         </aside>
         
         <main class="main">
             <div class="content-wrapper">
                 <div class="header">
-                    <h1 id="pageTitle">加密内容</h1>
+                    <h1 id="pageTitle">微明阁·竞赛</h1>
                     <div class="lock-status">
                         <span>🔓</span>
                         <span>已解锁</span>
@@ -157,9 +211,7 @@
                 </div>
                 
                 <div class="markdown-body" id="content">
-                    <div class="empty-state">
-                        <p>正在加载内容...请稍候</p>
-                    </div>
+                    <!-- 内容将通过 JS 动态加载 -->
                 </div>
             </div>
         </main>
@@ -167,40 +219,262 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
     <script>
-        // 检查是否已解锁
-        const content = sessionStorage.getItem('decryptedContent');
-        const unlockTime = sessionStorage.getItem('unlockTime');
-        
-        if (!content) {
-            // 未解锁，返回首页
-            window.location.href = 'index.html';
+        // 验证检查
+        function checkAuth() {
+            const token = localStorage.getItem('weimingge_token');
+            const expires = localStorage.getItem('weimingge_expires');
+            
+            if (!token || !expires || Date.now() > parseInt(expires)) {
+                // 未授权或已过期
+                return false;
+            }
+            return true;
         }
         
-        // 渲染 Markdown 内容
-        document.getElementById('content').innerHTML = marked.parse(content);
+        // 页面加载时检查
+        if (!checkAuth()) {
+            // 显示授权遮罩
+            document.getElementById('authMask').classList.remove('hidden');
+        } else {
+            // 已授权，隐藏遮罩
+            document.getElementById('authMask').classList.add('hidden');
+            // 加载内容
+            loadContent('vol1');
+        }
         
-        // 生成目录（从内容中提取标题）
-        const headings = document.querySelectorAll('.markdown-body h1, .markdown-body h2');
-        const navList = document.getElementById('navList');
-        navList.innerHTML = '';
+        // 内容数据（简化版，实际应从文件加载）
+        const contents = {
+            vol1: `# 卷一·IO层：输入输出的暗面与真相
+
+> **卷首语**：
+> 
+> 「cin >>」四字看似简单，实则暗藏杀机。
+> 多少人因一个空格WA，因一次TLE饮恨赛场。
+> 此卷所录，皆为实战中血与泪换来的教训。
+
+## 1.1 cin >> 的隐藏缓冲区
+
+### 陷阱
+
+cin 在读取字符串时，会以**空白字符**（空格、换行、制表符）作为分隔符。
+
+### 错误示例
+
+\`\`\`cpp
+string s;
+cin >> s;  // 输入 "hello world"，s 只得到 "hello"
+\`\`\`
+
+### 正确方案
+
+\`\`\`cpp
+// 方案1：使用 getline 读取整行
+string s;
+getline(cin, s);  // s = "hello world"
+
+// 方案2：循环读取所有单词
+string word;
+while (cin >> word) {
+    // 处理每个单词
+}
+\`\`\`
+
+## 1.2 getline 与 cin 混用的灾难
+
+### 陷阱
+
+cin >> 会在输入流中留下换行符，随后调用 getline 会读取到这个空行。
+
+### 错误示例
+
+\`\`\`cpp
+int n;
+string s;
+cin >> n;      // 输入 42\n，\n 留在缓冲区
+getline(cin, s); // s = ""（空行！）
+\`\`\`
+
+### 正确方案
+
+\`\`\`cpp
+int n;
+string s;
+cin >> n;
+cin.ignore();    // 清除缓冲区中的换行符
+getline(cin, s); // 正常工作
+\`\`\`
+
+---
+
+*卷一共15个陷阱，完整内容请查看完整版...*`,
+
+            vol2: `# 卷二·语法层：C++ 的隐秘角落
+
+## 2.1 有符号整数的溢出
+
+### 陷阱
+
+有符号整数溢出是**未定义行为**（UB），编译器可以优化掉你的代码。
+
+### 错误示例
+
+\`\`\`cpp
+int x = 1e9;
+x *= 2;  // UB! 结果不可预测
+\`\`\`
+
+### 正确方案
+
+\`\`\`cpp
+// 使用 long long
+long long x = 1e9;
+x *= 2;  // OK: 2e9
+
+// 或使用 int64_t
+int64_t y = 1e9;
+y *= 2;
+\`\`\`
+
+---
+
+*卷二共20个陷阱...*`,
+
+            vol3: `# 卷三·算法层：正确实现的魔鬼细节
+
+## 3.1 二分查找的边界问题
+
+### 经典模板
+
+\`\`\`cpp
+// 找第一个 >= target 的位置
+int l = 0, r = n;  // 注意 r = n，不是 n-1
+while (l < r) {
+    int mid = l + (r - l) / 2;
+    if (a[mid] < target) l = mid + 1;
+    else r = mid;
+}
+return l;
+\`\`\`
+
+---
+
+*卷三共22个陷阱...*`,
+
+            vol4: `# 卷四·数据结构层：STL 与手造结构
+
+## 4.1 vector 的迭代器失效
+
+### 陷阱
+
+push_back 可能导致 vector 重新分配内存，使所有迭代器失效。
+
+### 错误示例
+
+\`\`\`cpp
+vector<int> v = {1,2,3};
+int* p = &v[0];
+v.push_back(4);  // 可能重新分配
+// *p 现在是悬空指针！
+\`\`\`
+
+---
+
+*卷四共18个陷阱...*`,
+
+            vol5: `# 卷五·数学层：精度与溢出
+
+## 5.1 浮点数比较的陷阱
+
+### 错误示例
+
+\`\`\`cpp
+if (a == b)  // 危险！浮点数不应直接比较
+\`\`\`
+
+### 正确方案
+
+\`\`\`cpp
+const double EPS = 1e-9;
+if (abs(a - b) < EPS)  // 正确
+\`\`\`
+
+---
+
+*卷五共13个陷阱...*`,
+
+            vol6: `# 卷六·策略层：赛场生存指南
+
+## 6.1 时间管理
+
+### 黄金法则
+
+| 时间 | 任务 |
+|:---|:---|
+| 0-5min | 通读所有题目，估算难度 |
+| 5-30min | 从最简单/最有把握的开始 |
+| 30-60min | 主攻第一题，确保AC |
+| 60-90min | 处理第二题 |
+| 90-120min | 冲击难题或完善代码 |
+| 最后10min | 检查文件名、编译、提交 |
+
+---
+
+*卷六共10个策略...*`,
+
+            vol7: `# 卷七·环境层：评测系统的暗面
+
+## 7.1 栈空间限制
+
+### 陷阱
+
+在线评测系统通常栈空间有限（如 8MB），递归过深会导致段错误。
+
+### 解决方案
+
+\`\`\`cpp
+// 1. 使用迭代代替递归
+// 2. 扩大栈空间（部分OJ支持）
+#pragma comment(linker, "/STACK:1024000000")
+\`\`\`
+
+---
+
+*卷七共8个陷阱...*`
+        };
         
-        headings.forEach((heading, index) => {
-            const li = document.createElement('li');
-            li.textContent = heading.textContent;
-            li.onclick = () => {
-                heading.scrollIntoView({ behavior: 'smooth' });
+        // 加载内容
+        function loadContent(volume) {
+            const content = contents[volume] || contents['vol1'];
+            document.getElementById('content').innerHTML = marked.parse(content);
+            
+            // 更新标题
+            const titles = {
+                vol1: '卷一·IO层',
+                vol2: '卷二·语法层',
+                vol3: '卷三·算法层',
+                vol4: '卷四·数据结构',
+                vol5: '卷五·数学层',
+                vol6: '卷六·策略层',
+                vol7: '卷七·环境层'
+            };
+            document.getElementById('pageTitle').textContent = titles[volume] || '微明阁·竞赛';
+        }
+        
+        // 目录点击事件
+        document.querySelectorAll('.nav-list li').forEach(li => {
+            li.addEventListener('click', function() {
                 // 更新 active 状态
                 document.querySelectorAll('.nav-list li').forEach(el => el.classList.remove('active'));
-                li.classList.add('active');
-            };
-            navList.appendChild(li);
+                this.classList.add('active');
+                
+                // 加载对应内容
+                const target = this.getAttribute('data-target');
+                loadContent(target);
+            });
         });
         
-        // 页面离开时清除内容（可选的安全措施）
-        window.addEventListener('beforeunload', function() {
-            // 保留内容，但记录离开时间
-            sessionStorage.setItem('leaveTime', Date.now());
-        });
+        // 禁用右键
+        document.addEventListener('contextmenu', e => e.preventDefault());
     </script>
 </body>
 </html>
