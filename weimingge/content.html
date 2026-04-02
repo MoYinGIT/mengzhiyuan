@@ -218,9 +218,10 @@
     </div>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+    <script src="contents-data.js"></script>
     <script>
-        // ========== 1. 数据定义（必须先定义） ==========
-        const contents = {
+        // 使用外部文件中的内容
+        const contents = typeof WEIMINGGE_CONTENTS !== 'undefined' ? WEIMINGGE_CONTENTS : {
             vol1: `# 卷一·IO层：输入输出的暗面与真相
 
 > **卷首语**：
