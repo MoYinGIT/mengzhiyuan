@@ -219,30 +219,7 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
     <script>
-        // 验证检查
-        function checkAuth() {
-            const token = localStorage.getItem('weimingge_token');
-            const expires = localStorage.getItem('weimingge_expires');
-            
-            if (!token || !expires || Date.now() > parseInt(expires)) {
-                // 未授权或已过期
-                return false;
-            }
-            return true;
-        }
-        
-        // 页面加载时检查
-        if (!checkAuth()) {
-            // 显示授权遮罩
-            document.getElementById('authMask').classList.remove('hidden');
-        } else {
-            // 已授权，隐藏遮罩
-            document.getElementById('authMask').classList.add('hidden');
-            // 加载内容
-            loadContent('vol1');
-        }
-        
-        // 内容数据（简化版，实际应从文件加载）
+        // ========== 1. 数据定义（必须先定义） ==========
         const contents = {
             vol1: `# 卷一·IO层：输入输出的暗面与真相
 
@@ -475,6 +452,28 @@ if (abs(a - b) < EPS)  // 正确
         
         // 禁用右键
         document.addEventListener('contextmenu', e => e.preventDefault());
+        
+        // ========== 4. 页面初始化（所有函数定义完成后执行） ==========
+        (function init() {
+            // 验证检查
+            function checkAuth() {
+                const token = localStorage.getItem('weimingge_token');
+                const expires = localStorage.getItem('weimingge_expires');
+                
+                if (!token || !expires || Date.now() > parseInt(expires)) {
+                    return false;
+                }
+                return true;
+            }
+            
+            // 执行验证
+            if (!checkAuth()) {
+                document.getElementById('authMask').classList.remove('hidden');
+            } else {
+                document.getElementById('authMask').classList.add('hidden');
+                loadContent('vol1');
+            }
+        })();
     </script>
 </body>
 </html>
