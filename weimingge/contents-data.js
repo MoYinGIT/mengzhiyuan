@@ -2216,7 +2216,751 @@ bool equal(double a, double b) {
 > 唯有千锤百炼，方能在赛场上挥洒自如。
 `,
 
-    vol4: `此处省略卷四内容`,
+    vol4: `# 卷四·数据结构：STL 与结构陷阱
+
+> **卷首语**：
+> 
+> STL 是 C++ 赐予竞赛选手的利器，但利器亦会伤人。
+> 迭代器失效、内存重分配、时间复杂度陷阱...
+> 此卷揭示数据结构使用中的 18 个暗礁。
+
+---
+
+## 4.1 vector 的迭代器失效
+
+### 🕳️ 陷阱描述
+
+当 vector 发生重新分配（reallocation）时，所有迭代器、指针、引用都会失效。
+
+### ❌ 错误示例
+
+\`\`\`cpp
+vector<int> v = {1, 2, 3};
+int* p = &v[0];           // 保存指针
+auto it = v.begin();       // 保存迭代器
+
+v.push_back(4);            // 可能触发重新分配！
+                           // 如果 size > capacity，会分配新内存
+
+// p 和 it 现在指向已释放的内存！
+cout << *p;    // 未定义行为！可能崩溃或输出垃圾值
+\`\`\`
+
+### ✅ 正确方案
+
+\`\`\`cpp
+// 方案一：预留空间
+vector<int> v;
+v.reserve(100);      // 预先分配，避免重新分配
+
+// 方案二：重新获取迭代器
+auto it = v.begin();
+v.push_back(x);
+it = v.begin();      // 重新获取
+
+// 方案三：使用索引代替迭代器
+for (int i = 0; i < v.size(); i++) {
+    // 使用 v[i]，索引始终有效（只要 i < size()）
+}
+
+// 方案四：list/deque（不重新分配）
+list<int> lst;       // 插入不会使迭代器失效
+deque<int> dq;       // 插入两端不会使迭代器失效
+\`\`\`
+
+### 💡 失效时机总结
+
+| 操作 | 是否可能失效 | 备注 |
+|:---|:---:|:---|
+| push_back/pop_back | ✅ | 超出 capacity 时 |
+| insert/erase | ✅ | 插入/删除点之后的都失效 |
+| resize/reserve | ✅ | 可能重新分配 |
+| clear | ✅ | 所有迭代器失效 |
+| operator[] | ❌ | 不修改结构，安全 |
+
+---
+
+## 4.2 string 的 SSO 与内存布局
+
+### 🕳️ 陷阱描述
+
+现代 C++ 的 string 使用短字符串优化（SSO），小字符串直接存储在对象内，不分配堆内存。
+
+### ❌ 错误示例
+
+\`\`\`cpp
+// 假设想通过指针操作 string 内部
+string s = "hello";
+char* p = &s[0];  // 对于 SSO 字符串，可能指向栈内存
+
+s = "this is a very long string that exceeds sso buffer";
+// p 现在指向无效的栈内存！
+\`\`\`
+
+### ✅ 正确方案
+
+\`\`\`cpp
+// 不要假设 string 的内部布局
+// 始终通过接口操作
+
+string s = "hello";
+s[0] = 'H';           // OK
+s.append(" world");   // OK
+s.c_str();            // 获取 C 风格字符串（临时有效）
+
+// 如果需要稳定指针，使用 vector<char>
+vector<char> buf(100);
+char* p = buf.data();  // 稳定指针
+\`\`\`
+
+---
+
+## 4.3 deque 的随机访问性能
+
+### 🕳️ 陷阱描述
+
+deque 支持随机访问，但性能比 vector 慢（常数倍），不适合频繁随机访问场景。
+
+### ❌ 错误示例
+
+\`\`\`cpp
+// 对 deque 进行大量随机访问
+deque<int> dq(100000);
+
+// 这样很慢！
+long long sum = 0;
+for (int i = 0; i < 100000; i++) {
+    sum += dq[rand() % 100000];  // 频繁随机访问
+}
+\`\`\`
+
+### ✅ 正确方案
+
+\`\`\`cpp
+// 需要频繁随机访问时，使用 vector
+vector<int> v(100000);
+
+// deque 的优势场景
+// 1. 两端插入删除
+dq.push_front(x);
+dq.push_back(x);
+
+// 2. 顺序访问
+for (auto& x : dq) { /* ... */ }
+
+// 3. 大数据量时内存更友好（分段存储）
+\`\`\`
+
+### 📊 性能对比
+
+| 操作 | vector | deque | list |
+|:---|:---:|:---:|:---:|
+| 随机访问 | O(1) 快 | O(1) 慢 | O(n) |
+| 尾部插入 | O(1) | O(1) | O(1) |
+| 头部插入 | O(n) | O(1) | O(1) |
+| 中间插入 | O(n) | O(n) | O(1) |
+| 内存连续性 | 连续 | 分段 | 分散 |
+
+---
+
+## 4.4 list 的 sort 陷阱
+
+### 🕳️ 陷阱描述
+
+对 list 使用 std::sort 会导致编译错误，list 有自己的 sort 成员函数。
+
+### ❌ 错误示例
+
+\`\`\`cpp
+list<int> lst = {3, 1, 4, 1, 5};
+
+// 编译错误！
+sort(lst.begin(), lst.end());  // error: iterator not random access
+\`\`\`
+
+### ✅ 正确方案
+
+\`\`\`cpp
+list<int> lst = {3, 1, 4, 1, 5};
+
+// 使用 list 自带的 sort
+lst.sort();                    // 升序
+lst.sort(greater<int>());      // 降序
+lst.sort([](int a, int b) {    // 自定义比较
+    return a > b; 
+});
+
+// 注意：list::sort 是稳定的归并排序，O(n log n)
+\`\`\`
+
+---
+
+## 4.5 set/map 的迭代器稳定性
+
+### 🕳️ 陷阱描述
+
+set/map 的迭代器在插入时不失效（除了被删除的元素），但不要保存指向元素的指针/引用进行长期操作。
+
+### ❌ 错误示例
+
+\`\`\`cpp
+set<int> s = {1, 2, 3};
+const int& ref = *s.begin();  // 保存引用
+
+s.insert(100);  // 不会使迭代器失效
+// ref 仍然有效，但容易误用
+
+s.erase(s.begin());  // 现在 ref 悬空！
+// 使用 ref 是未定义行为
+\`\`\`
+
+### ✅ 正确方案
+
+\`\`\`cpp
+set<int> s = {1, 2, 3};
+
+// 安全做法：保存迭代器
+auto it = s.begin();
+s.insert(100);  // it 仍然有效
+
+// 需要访问时，通过迭代器
+cout << *it;    // OK
+
+// 删除时小心
+if (it != s.end()) {
+    s.erase(it++);  // 先递增，再删除（C++11 前）
+    // 或 C++11 起：it = s.erase(it);
+}
+\`\`\`
+
+---
+
+## 4.6 unordered_map 的哈希冲突
+
+### 🕳️ 陷阱描述
+
+自定义类型作为 key 时，需要同时提供 hash 函数和相等比较，否则编译错误或行为异常。
+
+### ❌ 错误示例
+
+\`\`\`cpp
+struct Point {
+    int x, y;
+};
+
+unordered_map<Point, int> mp;  // 编译错误！
+\`\`\`
+
+### ✅ 正确方案
+
+\`\`\`cpp
+struct Point {
+    int x, y;
+    bool operator==(const Point& o) const {
+        return x == o.x && y == o.y;
+    }
+};
+
+// 方法1：特化 std::hash
+namespace std {
+    template<>
+    struct hash<Point> {
+        size_t operator()(const Point& p) const {
+            return hash<long long>()((static_cast<long long>(p.x) << 32) | p.y);
+        }
+    };
+}
+
+// 方法2：自定义哈希函数
+struct PointHash {
+    size_t operator()(const Point& p) const {
+        return p.x * 31 + p.y;
+    }
+};
+
+unordered_map<Point, int, PointHash> mp;  // 使用自定义哈希
+\`\`\`
+
+---
+
+## 4.7 priority_queue 的比较器方向
+
+### 🕳️ 陷阱描述
+
+priority_queue 的比较器语义与 sort 相反：返回 true 表示"第一个参数排在后面"。
+
+### ❌ 错误示例
+
+\`\`\`cpp
+// 想要小顶堆，但得到大顶堆
+priority_queue<int, vector<int>, less<int>> pq;  // 大顶堆（默认）
+priority_queue<int, vector<int>, greater<int>> pq2;  // 小顶堆
+
+// 自定义比较器的困惑
+struct cmp {
+    bool operator()(int a, int b) {
+        return a > b;  // 这里 true 表示 a 的优先级低于 b
+    }
+};
+priority_queue<int, vector<int>, cmp> pq3;  // 实际是小顶堆！
+\`\`\`
+
+### ✅ 正确方案
+
+\`\`\`cpp
+// 记忆口诀：比较器返回 true，表示"第一个应该在后面"（优先级更低）
+
+// 大顶堆（默认）
+priority_queue<int> maxHeap;
+
+// 小顶堆
+priority_queue<int, vector<int>, greater<int>> minHeap;
+
+// 自定义比较（最小值优先，值相同按第二关键字）
+struct Node {
+    int dist, id;
+};
+
+struct cmp {
+    bool operator()(const Node& a, const Node& b) {
+        // 返回 true 表示 a 优先级低于 b（排在后面）
+        return a.dist > b.dist;  // dist 小的优先
+    }
+};
+
+priority_queue<Node, vector<Node>, cmp> pq;
+\`\`\`
+
+---
+
+## 4.8 stack/queue 的容器选择
+
+### 🕳️ 陷阱描述
+
+stack 和 queue 默认使用 deque 作为底层容器，但某些场景下可以/应该更换。
+
+### ✅ 正确方案
+
+\`\`\`cpp
+// 默认：使用 deque
+stack<int> st;
+queue<int> q;
+
+// 使用 vector（stack 专用，效率略高）
+stack<int, vector<int>> st2;
+
+// 使用 list（需要频繁插入删除时）
+queue<int, list<int>> q2;
+
+// 注意：stack 不能用 list？
+// 实际上可以，但 list::back() 是 O(1)，没问题
+stack<int, list<int>> st3;  // OK
+\`\`\`
+
+---
+
+## 4.9 bitset 的大小限制
+
+### 🕳️ 陷阱描述
+
+bitset 的大小必须是编译期常量，且过大可能导致栈溢出。
+
+### ❌ 错误示例
+
+\`\`\`cpp
+int n;
+cin >> n;
+bitset<n> b;  // 编译错误！n 不是编译期常量
+
+bitset<100000000> b2;  // 可能栈溢出！约 12.5MB
+\`\`\`
+
+### ✅ 正确方案
+
+\`\`\`cpp
+// 编译期常量
+constexpr int N = 1000;
+bitset<N> b;
+
+// 动态大小：使用 vector<bool>（特化，位压缩）
+int n;
+cin >> n;
+vector<bool> vb(n);  // 动态大小
+
+// 或者使用自定义动态 bitset
+struct DynamicBitset {
+    vector<unsigned long long> data;
+    DynamicBitset(int n) : data((n + 63) / 64) {}
+    // ...
+};
+\`\`\`
+
+---
+
+## 4.10 array 的越界检查
+
+### 🕳️ 陷阱描述
+
+array::operator[] 不检查边界，at() 才检查，但 at() 有性能开销。
+
+### ❌ 错误示例
+
+\`\`\`cpp
+array<int, 5> a = {1, 2, 3, 4, 5};
+cout << a[10];     // 未定义行为！
+cout << a.at(10);  // 抛出 out_of_range 异常
+\`\`\`
+
+### ✅ 正确方案
+
+\`\`\`cpp
+array<int, 5> a = {1, 2, 3, 4, 5};
+
+// 调试模式使用 at()
+#ifdef DEBUG
+    #define AT(arr, i) arr.at(i)
+#else
+    #define AT(arr, i) arr[i]
+#endif
+
+// 或自定义安全访问
+template<size_t N>
+int& safe_at(array<int, N>& a, size_t i) {
+    assert(i < N);
+    return a[i];
+}
+\`\`\`
+
+---
+
+## 4.11 pair/tuple 的构造陷阱
+
+### 🕳️ 陷阱描述
+
+pair 和 tuple 的构造容易混淆，特别是与 emplace 配合使用时。
+
+### ❌ 错误示例
+
+\`\`\`cpp
+// 错误：试图用列表初始化 pair
+pair<int, int> p = {1, 2, 3};  // 编译错误
+
+// 错误：tuple 类型不匹配
+tuple<int, string, double> t(1, "hello");  // 缺少参数
+\`\`\`
+
+### ✅ 正确方案
+
+\`\`\`cpp
+// pair 构造
+pair<int, int> p1(1, 2);
+pair<int, int> p2 = {1, 2};  // C++11 起
+auto p3 = make_pair(1, 2);
+
+// tuple 构造
+tuple<int, string, double> t1(1, "hello", 3.14);
+auto t2 = make_tuple(1, "hello", 3.14);
+tuple<int, string> t3 = {1, "world"};  // C++11 起
+
+// 与容器配合
+map<int, string> mp;
+mp.emplace(1, "one");  // 直接构造，避免临时对象
+
+vector<pair<int, int>> v;
+v.emplace_back(1, 2);  // 直接构造
+\`\`\`
+
+---
+
+## 4.12 emplace vs push 的效率差异
+
+### 🕳️ 陷阱描述
+
+emplace 系列函数可以避免临时对象的构造和移动，但使用不当可能导致意外的引用悬挂。
+
+### ❌ 错误示例
+
+\`\`\`cpp
+vector<string> v;
+const char* str = "hello";
+v.push_back(str);    // 构造 string 临时对象，再移动
+
+// emplace 的潜在危险
+string s = "world";
+v.emplace_back(s.c_str());  // 如果 c_str() 返回的指针失效...
+\`\`\`
+
+### ✅ 正确方案
+
+\`\`\`cpp
+// 传递参数给元素的构造函数
+vector<pair<int, string>> v;
+
+// push_back 需要构造 pair
+v.push_back(make_pair(1, "one"));
+
+// emplace_back 直接构造，更高效
+v.emplace_back(1, "one");
+
+// 对于简单类型，差别不大
+vector<int> vi;
+vi.push_back(1);
+vi.emplace_back(1);  // 等价
+
+// 优先使用 emplace_back（C++11 起）
+\`\`\`
+
+---
+
+## 4.13 容器范围构造的陷阱
+
+### 🕳️ 陷阱描述
+
+使用迭代器范围构造容器时，类型不匹配可能导致意外的行为。
+
+### ❌ 错误示例
+
+\`\`\`cpp
+vector<int> v = {1, 2, 3, 4, 5};
+
+// 意图：复制 v 的前3个元素
+vector<int> v2(v.begin(), v.begin() + 3);  // OK
+
+// 错误：试图用单个元素构造
+vector<int> v3(5);     // 5个0，不是{5}！
+vector<int> v4{5};     // {5}，列表初始化
+vector<int> v5(5, 1);  // 5个1
+vector<int> v6{5, 1};  // {5, 1}
+\`\`\`
+
+### ✅ 正确方案
+
+\`\`\`cpp
+// 圆括号 () vs 花括号 {} 的区别（C++11）
+
+vector<int> v1(10);      // 10个0
+vector<int> v2{10};      // 1个元素：10
+vector<int> v3(10, 1);   // 10个1
+vector<int> v4{10, 1};   // 2个元素：10, 1
+
+// 记忆：{} 优先被视为 initializer_list
+\`\`\`
+
+---
+
+## 4.14 迭代器与 const_iterator 转换
+
+### 🕳️ 陷阱描述
+
+C++11 前，iterator 和 const_iterator 转换麻烦；C++11 起有 cbegin()/cend()，但仍需注意。
+
+### ❌ 错误示例
+
+\`\`\`cpp
+vector<int> v = {1, 2, 3};
+
+// C++11 前，这样写很麻烦
+vector<int>::const_iterator cit = v.begin();  // 需要隐式转换
+
+// erase 要求非 const_iterator
+auto it = v.begin();
+v.erase(it);  // OK
+
+// 但这样不行
+auto cit = v.cbegin();
+v.erase(cit);  // 编译错误！
+\`\`\`
+
+### ✅ 正确方案
+
+\`\`\`cpp
+vector<int> v = {1, 2, 3};
+
+// C++11 起：使用 auto
+auto it = v.begin();    // iterator
+auto cit = v.cbegin();  // const_iterator
+
+// 需要修改时用 begin()
+for (auto it = v.begin(); it != v.end(); ++it) {
+    *it *= 2;  // 修改
+}
+
+// 只读时用 cbegin()
+for (auto it = v.cbegin(); it != v.cend(); ++it) {
+    cout << *it;  // 只读
+}
+
+// C++17 起：用结构化绑定
+for (const auto& [key, val] : mp) { /* ... */ }
+\`\`\`
+
+---
+
+## 4.15 算法函数对迭代器的要求
+
+### 🕳️ 陷阱描述
+
+不同算法对迭代器有不同的要求（输入、输出、前向、双向、随机访问）。
+
+### ❌ 错误示例
+
+\`\`\`cpp
+list<int> lst = {3, 1, 4, 1, 5};
+
+// 试图对 list 使用需要随机访问迭代器的算法
+// sort(lst.begin(), lst.end());  // 编译错误！
+
+// lower_bound 要求有序范围，且需要随机访问迭代器（某些实现）
+// lower_bound(lst.begin(), lst.end(), 3);  // 可能编译错误
+\`\`\`
+
+### ✅ 正确方案
+
+\`\`\`cpp
+// 了解算法对迭代器的要求
+
+// 随机访问迭代器：vector, deque, array
+// 双向迭代器：list, set, map
+// 前向迭代器：forward_list, unordered_set/map
+
+// list 排序
+list<int> lst = {3, 1, 4, 1, 5};
+lst.sort();  // list 成员函数
+
+// 需要随机访问时，复制到 vector
+vector<int> v(lst.begin(), lst.end());
+sort(v.begin(), v.end());
+
+// 常用算法需求速查
+// sort: 随机访问
+// binary_search/lower_bound: 随机访问（通常）
+// find/count: 输入迭代器即可
+// reverse: 双向迭代器
+\`\`\`
+
+---
+
+## 4.16 自定义分配器的陷阱
+
+### 🕳️ 陷阱描述
+
+为容器使用自定义分配器时，状态ful分配器的复制行为可能导致意外。
+
+### ✅ 正确方案
+
+\`\`\`cpp
+// 简单示例：内存池分配器（简化版）
+template<typename T>
+class PoolAllocator {
+public:
+    using value_type = T;
+    
+    T* allocate(size_t n) {
+        return static_cast<T*>(::operator new(n * sizeof(T)));
+    }
+    
+    void deallocate(T* p, size_t) {
+        ::operator delete(p);
+    }
+    
+    // 关键：分配器复制时应该等价
+    template<typename U>
+    PoolAllocator(const PoolAllocator<U>&) {}
+    
+    PoolAllocator() = default;
+};
+
+// 使用
+vector<int, PoolAllocator<int>> v;
+v.push_back(1);
+\`\`\`
+
+---
+
+## 4.17 容器swap的性能陷阱
+
+### 🕳️ 陷阱描述
+
+swap 对于不同容器有不同复杂度，string 的 swap 在 SSO 场景下可能不是 O(1)。
+
+### ✅ 正确方案
+
+\`\`\`cpp
+// vector::swap - O(1)，交换内部指针
+vector<int> v1(1000000), v2(1000000);
+swap(v1, v2);  // 极快
+
+// string::swap - 通常是 O(1)，但 SSO 场景下可能是 O(n)
+string s1(1000, 'a'), s2(1000, 'b');
+swap(s1, s2);  // 通常很快
+
+// array::swap - O(n)，交换每个元素
+array<int, 1000> a1, a2;
+swap(a1, a2);  // 交换 1000 次
+
+// 优先使用 swap 而非手动交换
+// 错误：v1 = v2;  // 拷贝，O(n)
+// 正确：swap(v1, v2);  // 交换，O(1)
+\`\`\`
+
+---
+
+## 4.18 范围for循环的引用陷阱
+
+### 🕳️ 陷阱描述
+
+范围 for 循环中使用 auto 而非 auto&，会导致不必要的拷贝；但使用 auto&& 又可能延长临时对象生命周期。
+
+### ❌ 错误示例
+
+\`\`\`cpp
+vector<string> v = {"hello", "world", "this", "is", "long"};
+
+// 错误：每次迭代都拷贝 string
+for (auto s : v) {
+    cout << s << endl;  // 拷贝开销大
+}
+
+// 潜在危险：修改不了元素
+for (auto s : v) {
+    s += "!";  // 修改的是拷贝！
+}
+\`\`\`
+
+### ✅ 正确方案
+
+\`\`\`cpp
+vector<string> v = {"hello", "world", "this", "is", "long"};
+
+// 只读访问：const auto&
+for (const auto& s : v) {
+    cout << s << endl;  // 无拷贝
+}
+
+// 需要修改：auto&
+for (auto& s : v) {
+    s += "!";  // 修改原元素
+}
+
+// 可能修改，且处理临时值：auto&&（万能引用）
+for (auto&& s : v) {
+    // ...
+}
+
+// 通用建议
+// - 基础类型(int等)：用 auto 即可
+// - 大对象：用 const auto& 或 auto&
+// - 不知道时：用 const auto& 总是安全的
+\`\`\`
+
+---
+
+> **卷四结语**：
+> 
+> STL 是利刃，亦是暗礁。
+> 十八个陷阱，十八次警醒。
+> 知其所止，方能游刃有余。
+`,
     vol5: `此处省略卷五内容`,
     vol6: `此处省略卷六内容`,
     vol7: `此处省略卷七内容`
