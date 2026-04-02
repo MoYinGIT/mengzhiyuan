@@ -2961,7 +2961,658 @@ for (auto&& s : v) {
 > 十八个陷阱，十八次警醒。
 > 知其所止，方能游刃有余。
 `,
-    vol5: `此处省略卷五内容`,
+    vol5: `# 卷五·数学层：精度与计算陷阱
+
+> **卷首语**：
+> 
+> 数学是编程的基石，但计算机中的数学与现实中的数学有着微妙而致命的差异。
+> 整数溢出、浮点误差、模运算陷阱... 此卷收录数学计算中的 13 个深渊。
+
+---
+
+## 5.1 整数溢出的静默灾难
+
+### 🕳️ 陷阱描述
+
+C++ 整数溢出是**未定义行为**（有符号）或**回绕**（无符号），不会抛出异常，导致难以调试的错误。
+
+### ❌ 错误示例
+
+\`\`\`cpp
+int a = 2e9;      // 2,000,000,000
+int b = 2e9;
+int c = a + b;    // 溢出！结果约 -294967296
+
+// 更隐蔽的溢出
+int n = 1e5;
+int sq = n * n;   // 1e10 > INT_MAX，溢出！
+
+// 无符号数的回绕
+unsigned int x = 1;
+unsigned int y = x - 2;  // 回绕到 UINT_MAX
+\`\`\`
+
+### ✅ 正确方案
+
+\`\`\`cpp
+// 方案一：使用 long long（推荐）
+long long a = 2e9;
+long long b = 2e9;
+long long c = a + b;  // OK: 4e9
+
+// 方案二：溢出检查
+bool willOverflow(int a, int b) {
+    if (b > 0 && a > INT_MAX - b) return true;  // 正溢出
+    if (b < 0 && a < INT_MIN - b) return true;  // 负溢出
+    return false;
+}
+
+// 方案三：编译器内置函数（GCC/Clang）
+int res;
+if (__builtin_add_overflow(a, b, &res)) {
+    // 处理溢出
+}
+
+// 方案四：使用 int64_t 并开启警告
+// g++ -Woverflow -Wconversion
+\`\`\`
+
+### 📊 整数范围速查
+
+| 类型 | 范围 | 典型场景 |
+|:---|:---|:---|
+| int | ±2×10⁹ | 一般计数 |
+| long long | ±9×10¹⁸ | 大数运算 |
+| unsigned int | 0 ~ 4×10⁹ | 位运算 |
+| __int128 | ±1.7×10³⁸ | 超大数中间计算 |
+
+---
+
+## 5.2 浮点数的精度诅咒
+
+### 🕳️ 陷阱描述
+
+浮点数无法精确表示许多十进制小数，累加误差会导致意想不到的结果。
+
+### ❌ 错误示例
+
+\`\`\`cpp
+double a = 0.1;
+double b = 0.2;
+if (a + b == 0.3) {  // 可能为 false！
+    cout << "Equal";  // 可能不输出
+}
+
+// 累加误差
+double sum = 0;
+for (int i = 0; i < 10; i++) {
+    sum += 0.1;
+}
+// sum 可能等于 0.9999999999999999，不是 1.0
+\`\`\`
+
+### ✅ 正确方案
+
+\`\`\`cpp
+const double EPS = 1e-9;
+
+// 比较函数
+bool equal(double a, double b) {
+    return fabs(a - b) < EPS;
+}
+
+bool lessThan(double a, double b) {
+    return a < b - EPS;
+}
+
+// 使用
+if (equal(a + b, 0.3)) {
+    // ...
+}
+
+// 金融计算：用整数（分）代替浮点
+long long price = 1999;  // 19.99元，单位：分
+
+// 高精度库（必要时）
+// #include <boost/multiprecision/cpp_dec_float.hpp>
+\`\`\`
+
+---
+
+## 5.3 除零与模零的崩溃
+
+### 🕳️ 陷阱描述
+
+除以零或模零会导致运行时错误（SIGFPE），在竞赛中直接判 RE。
+
+### ❌ 错误示例
+
+\`\`\`cpp
+int a = 10, b = 0;
+int c = a / b;  // 运行时错误！
+int d = a % b;  // 同样错误！
+
+// 更隐蔽的情况
+int avg = sum / n;  // n 可能为 0
+\`\`\`
+
+### ✅ 正确方案
+
+\`\`\`cpp
+// 显式检查
+if (b != 0) {
+    int c = a / b;
+} else {
+    // 处理除零情况
+}
+
+// 平均值计算
+int avg = (n == 0) ? 0 : sum / n;
+
+// 或
+int avg = n ? sum / n : 0;
+
+// 模运算同理
+int mod = (b == 0) ? a : a % b;  // 根据题意处理
+\`\`\`
+
+---
+
+## 5.4 负数取模的陷阱
+
+### 🕳️ 陷阱描述
+
+C++ 中负数取模的结果符号与**被除数**相同，这可能与数学定义或题目要求不符。
+
+### ❌ 错误示例
+
+\`\`\`cpp
+int a = -5 % 3;  // 结果：-2（不是 1！）
+int b = 5 % -3;  // 结果：2（不是 -2！）
+
+// 需要正余数时
+if (a < 0) a += MOD;  // 必须手动调整
+\`\`\`
+
+### ✅ 正确方案
+
+\`\`\`cpp
+const int MOD = 1e9 + 7;
+
+// 安全的取模函数
+int mod(int x) {
+    return (x % MOD + MOD) % MOD;
+}
+
+// 或使用条件表达式
+int mod2(int x) {
+    x %= MOD;
+    if (x < 0) x += MOD;
+    return x;
+}
+
+// C++11 起也可以使用 std::lldiv，但通常自定义更可控
+
+// 减法取模
+int sub(int a, int b) {
+    int res = a - b;
+    if (res < 0) res += MOD;
+    return res;
+}
+
+// 或使用
+int sub2(int a, int b) {
+    return (a - b + MOD) % MOD;
+}
+\`\`\`
+
+---
+
+## 5.5 模逆元的存在条件
+
+### 🕳️ 陷阱描述
+
+模逆元仅在 a 和 MOD **互质**时存在，直接使用扩展欧几里得或费马小定理前必须检查。
+
+### ❌ 错误示例
+
+\`\`\`cpp
+// a = 6, MOD = 9，gcd(6,9) = 3 ≠ 1，逆元不存在！
+int inv = modInverse(6, 9);  // 错误结果或除零
+
+// 费马小定理要求 MOD 是质数
+// 如果 MOD 不是质数，a^(MOD-2) mod MOD 不是逆元
+\`\`\`
+
+### ✅ 正确方案
+
+\`\`\`cpp
+// 扩展欧几里得求逆元（带存在性检查）
+int exgcd(int a, int b, int& x, int& y) {
+    if (b == 0) {
+        x = 1; y = 0;
+        return a;
+    }
+    int d = exgcd(b, a % b, y, x);
+    y -= a / b * x;
+    return d;
+}
+
+int modInverse(int a, int mod) {
+    int x, y;
+    int g = exgcd(a, mod, x, y);
+    if (g != 1) return -1;  // 逆元不存在
+    return (x % mod + mod) % mod;
+}
+
+// 快速幂求逆元（仅当 mod 是质数）
+int qpow(int a, int n, int mod) {
+    int res = 1;
+    while (n) {
+        if (n & 1) res = 1LL * res * a % mod;
+        a = 1LL * a * a % mod;
+        n >>= 1;
+    }
+    return res;
+}
+
+// 使用前检查 MOD 是否为质数
+bool isPrime(int n);
+int inv = isPrime(MOD) ? qpow(a, MOD - 2, MOD) : modInverse(a, MOD);
+\`\`\`
+
+---
+
+## 5.6 快速幂的模运算顺序
+
+### 🕳️ 陷阱描述
+
+快速幂中如果不及时取模，中间结果可能溢出 long long。
+
+### ❌ 错误示例
+
+\`\`\`cpp
+// MOD = 1e9+7，但 a*a 可能溢出
+long long qpow(long long a, long long n, long long mod) {
+    long long res = 1;
+    while (n) {
+        if (n & 1) res = (res * a) % mod;  // res*a 可能溢出！
+        a = (a * a) % mod;  // a*a 可能溢出！
+        n >>= 1;
+    }
+    return res;
+}
+\`\`\`
+
+### ✅ 正确方案
+
+\`\`\`cpp
+// 使用 __int128 防止溢出（推荐）
+long long qpow(long long a, long long n, long long mod) {
+    long long res = 1 % mod;
+    a %= mod;
+    while (n > 0) {
+        if (n & 1) res = (__int128)res * a % mod;
+        a = (__int128)a * a % mod;
+        n >>= 1;
+    }
+    return res;
+}
+
+// 或使用快速乘（当 __int128 不可用时）
+long long mul(long long a, long long b, long long mod) {
+    long long res = 0;
+    while (b) {
+        if (b & 1) res = (res + a) % mod;
+        a = (a << 1) % mod;
+        b >>= 1;
+    }
+    return res;
+}
+
+// 或使用 long double 技巧
+long long mul2(long long a, long long b, long long mod) {
+    return (a * b - (long long)((long double)a / mod * b) * mod + mod) % mod;
+}
+\`\`\`
+
+---
+
+## 5.7 组合数计算的溢出
+
+### 🕳️ 陷阱描述
+
+直接计算阶乘再相除会导致巨大溢出，即使结果在范围内。
+
+### ❌ 错误示例
+
+\`\`\`cpp
+// C(60, 30) ≈ 1.18e17，但 60! 远远超过 1e308
+long long C(int n, int k) {
+    return factorial(n) / factorial(k) / factorial(n-k);  // 溢出！
+}
+\`\`\`
+
+### ✅ 正确方案
+
+\`\`\`cpp
+// 方案一：递推计算（边乘边除）
+long long C(int n, int k) {
+    if (k < 0 || k > n) return 0;
+    if (k > n - k) k = n - k;  // 利用对称性
+    long long res = 1;
+    for (int i = 1; i <= k; i++) {
+        res = res * (n - k + i) / i;  // 保证整除
+    }
+    return res;
+}
+
+// 方案二：递推公式（杨辉三角）
+long long C[1005][1005];
+void init() {
+    for (int i = 0; i <= 1000; i++) {
+        C[i][0] = C[i][i] = 1;
+        for (int j = 1; j < i; j++) {
+            C[i][j] = C[i-1][j-1] + C[i-1][j];
+        }
+    }
+}
+
+// 方案三：Lucas 定理（大组合数取模）
+int Lucas(long long n, long long m, int p) {
+    if (m == 0) return 1;
+    return 1LL * C(n % p, m % p) * Lucas(n / p, m / p, p) % p;
+}
+\`\`\`
+
+---
+
+## 5.8 GCD 与 LCM 的计算顺序
+
+### 🕳️ 陷阱描述
+
+计算 LCM 时如果先乘后除，可能溢出；GCD 为 0 时可能除零。
+
+### ❌ 错误示例
+
+\`\`\`cpp
+// 溢出！
+long long lcm = a * b / gcd(a, b);  // a*b 可能溢出
+
+// 除零风险
+int g = gcd(0, 0);  // 通常返回 0
+int x = a / g;      // 除零！
+\`\`\`
+
+### ✅ 正确方案
+
+\`\`\`cpp
+// 安全计算 LCM
+long long lcm(long long a, long long b) {
+    if (a == 0 || b == 0) return 0;
+    return a / gcd(a, b) * b;  // 先除后乘，防止溢出
+}
+
+// STL C++17 起提供
+gcd(a, b);
+lcm(a, b);
+
+// 自定义 GCD（欧几里得算法）
+long long gcd(long long a, long long b) {
+    return b == 0 ? a : gcd(b, a % b);
+}
+
+// 或迭代版本
+long long gcd_iter(long long a, long long b) {
+    while (b) {
+        long long t = b;
+        b = a % b;
+        a = t;
+    }
+    return a;
+}
+\`\`\`
+
+---
+
+## 5.9 位运算的优先级陷阱
+
+### 🕳️ 陷阱描述
+
+位运算优先级低于比较运算，不加括号可能导致意外结果。
+
+### ❌ 错误示例
+
+\`\`\`cpp
+if (x & 1 == 0)  // 实际：x & (1 == 0) = x & 0 = 0
+    cout << "Even";  // 永远执行！
+
+// 类似问题
+if (a | b == c)   // 实际：a | (b == c)
+if (a ^ b == c)   // 实际：a ^ (b == c)
+\`\`\`
+
+### ✅ 正确方案
+
+\`\`\`cpp
+// 总是加括号
+if ((x & 1) == 0)      // 判断偶数
+if ((a | b) == c)      // 按位或后比较
+if ((a ^ b) == c)      // 按位异或后比较
+
+// 常用位运算技巧
+if (x & (x - 1)) == 0)  // 判断 2 的幂
+int lowbit = x & (-x);   // 取最低位 1
+x >>= 1;                 // 除以 2
+x <<= 1;                 // 乘以 2
+
+// 优先级速记
+// () > 算术 > 移位 > 位与 > 位异或 > 位或 > 比较 > 逻辑
+\`\`\`
+
+---
+
+## 5.10 移位运算的越界
+
+### 🕳️ 陷阱描述
+
+移位超过数据宽度、移位数为负、或左移导致溢出，都是未定义行为。
+
+### ❌ 错误示例
+
+\`\`\`cpp
+int x = 1 << 33;      // 越界！int 只有 32 位
+int y = 1 << -1;      // 负数移位，UB
+int z = 1 << 31;      // 符号位变化，UB（有符号数）
+
+unsigned int w = 1u << 32;  // 移位数等于宽度，UB
+\`\`\`
+
+### ✅ 正确方案
+
+\`\`\`cpp
+// 确保移位数合法
+const int MAX_SHIFT = 31;  // 对于 32 位 int
+if (shift >= 0 && shift < MAX_SHIFT) {
+    int result = 1 << shift;
+}
+
+// 处理大移位
+long long bigShift = 1LL << 40;  // 用 64 位
+
+// 使用类型安全的写法
+uint32_t u = 1u;
+uint32_t res = u << n;  // 确保使用无符号数
+
+// 或避免移位，改用乘法
+long long result = 1;
+for (int i = 0; i < n; i++) result *= 2;  // 安全但慢
+\`\`\`
+
+---
+
+## 5.11 随机数的种子与范围
+
+### 🕳️ 陷阱描述
+
+rand() 质量差、范围小（通常 RAND_MAX = 32767），srand(time(0)) 精度不足。
+
+### ❌ 错误示例
+
+\`\`\`cpp
+// 低质量随机数
+srand(time(0));  // 1 秒内多次调用得到相同种子
+int x = rand();  // 范围可能只有 0-32767
+int y = rand() % 100;  // 低位不均匀
+
+// 试图生成大随机数
+long long big = rand() * rand();  // 分布非常不均匀！
+\`\`\`
+
+### ✅ 正确方案
+
+\`\`\`cpp
+// C++11 随机数库（推荐）
+#include <random>
+
+std::mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
+
+// 均匀分布 [0, 99]
+std::uniform_int_distribution<int> dist(0, 99);
+int x = dist(rng);
+
+// 大范围
+std::uniform_int_distribution<long long> bigDist(0, 1e18);
+long long y = bigDist(rng);
+
+// 浮点数
+std::uniform_real_distribution<double> realDist(0.0, 1.0);
+double z = realDist(rng);
+
+// 如果需要 rand() 的替代
+int goodRand(int mod) {
+    return (int)((rng() >> 10) % mod);  // 取高位，更均匀
+}
+\`\`\`
+
+---
+
+## 5.12 几何计算的精度控制
+
+### 🕳️ 陷阱描述
+
+几何计算中频繁的浮点运算累积误差，导致共线、相交等判断失败。
+
+### ❌ 错误示例
+
+\`\`\`cpp
+// 判断三点共线
+double cross = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+if (cross == 0) {  // 危险！
+    // 共线处理
+}
+
+// 比较距离
+double d1 = dist(a, b);
+double d2 = dist(c, d);
+if (d1 == d2)  // 同样危险
+\`\`\`
+
+### ✅ 正确方案
+
+\`\`\`cpp
+const double EPS = 1e-9;
+
+int sgn(double x) {
+    if (fabs(x) < EPS) return 0;
+    return x < 0 ? -1 : 1;
+}
+
+// 判断共线
+bool collinear(Point a, Point b, Point c) {
+    double cross = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+    return sgn(cross) == 0;
+}
+
+// 比较距离（避免开方）
+bool closer(Point a, Point b, Point c) {
+    // 比较 d(a,b) < d(a,c)
+    double d1 = (a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y-b.y);
+    double d2 = (a.x-c.x)*(a.x-c.x) + (a.y-c.y)*(a.y-c.y);
+    return d1 < d2;  // 比较平方距离
+}
+
+// 叉积符号
+int crossSign(Point a, Point b, Point c) {
+    return sgn((b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x));
+}
+\`\`\`
+
+---
+
+## 5.13 概率与期望的计算
+
+### 🕳️ 陷阱描述
+
+概率 DP 中浮点误差累积，或整数除法导致概率为 0。
+
+### ❌ 错误示例
+
+\`\`\`cpp
+// 整数除法！
+double p = 1 / 2;  // p = 0，不是 0.5
+
+// 累积误差
+vector<double> dp(n);
+dp[0] = 1.0;
+for (int i = 0; i < n; i++) {
+    dp[i+1] += dp[i] * 0.5;  // 误差累积
+}
+
+// 输出精度不足
+cout << dp[n-1];  // 默认精度可能不够
+\`\`\`
+
+### ✅ 正确方案
+
+\`\`\`cpp
+// 正确的概率表示
+double p = 1.0 / 2;  // 0.5
+// 或
+double p = 0.5;
+
+// 对数概率（避免下溢）
+// 乘法变加法
+log_p = log(p1) + log(p2);
+
+// 高精度输出
+cout << fixed << setprecision(10) << dp[n-1];
+
+// 或输出分数形式（如果允许）
+// 用 pair<long long, long long> 表示分子分母
+
+// 概率 DP 模板
+double probDP() {
+    vector<double> dp(n + 1);
+    dp[0] = 1.0;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j <= i; j++) {
+            dp[j+1] += dp[j] * p[i];
+            dp[j] *= (1 - p[i]);
+        }
+    }
+    return dp[target];
+}
+\`\`\`
+
+---
+
+> **卷五结语**：
+> 
+> 数学之美，在于精确；编程之难，在于近似。
+> 十三个陷阱，十三次对精度的敬畏。
+> 唯有严谨，方能跨越数学与代码之间的深渊。
+`,
     vol6: `此处省略卷六内容`,
     vol7: `此处省略卷七内容`
 };
