@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>默隐·蒙知苑 — 让所有孩子有处可学</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/guofeng-v2.css">
+    <style>
+        .hero-main {
+            background: linear-gradient(135deg, rgba(30,58,95,0.95) 0%, rgba(15,31,51,0.98) 100%);
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-main::before {
+            content: '☯';
+            position: absolute;
+            font-size: 20rem;
+            opacity: 0.05;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+        .brand-main {
+            font-size: 3.5rem;
+            font-weight: 700;
+            font-family: 'LXGW WenKai', 'Noto Serif SC', serif;
+            margin-bottom: 1rem;
+            letter-spacing: 0.3em;
+        }
+        .brand-sub {
+            font-size: 1.5rem;
+            color: var(--ochre);
+            font-family: 'LXGW WenKai', serif;
+            margin-bottom: 2rem;
+        }
+        .yijing-quote {
+            font-family: 'LXGW WenKai', serif;
+            font-size: 1.25rem;
+            color: rgba(255,255,255,0.8);
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 1.5rem;
+            border-left: 3px solid var(--cinnabar);
+            border-right: 3px solid var(--cinnabar);
+            background: rgba(255,255,255,0.05);
+        }
+        .yijing-quote .source {
+            color: var(--ochre);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        .entrance-section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--indigo);
+            font-family: 'LXGW WenKai', serif;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--cinnabar);
+            margin: 1rem auto 0;
+        }
+        .three-gates {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .gate-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border-top: 4px solid;
+            position: relative;
+        }
+        .gate-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+        .gate-card.public {
+            border-top-color: var(--bamboo);
+        }
+        .gate-card.private {
+            border-top-color: var(--purple);
+        }
+        .gate-card.competition {
+            border-top-color: var(--cinnabar);
+        }
+        .gate-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .gate-name {
+            font-size: 2rem;
+            font-family: 'LXGW WenKai', serif;
+            font-weight: 700;
+            color: var(--indigo);
+            margin-bottom: 0.5rem;
+        }
+        .gate-desc {
+            color: var(--ink-500);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .gate-lock {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--purple);
+            background: rgba(107,76,122,0.1);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+        }
+        .gate-btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        .gate-card.public .gate-btn {
+            background: var(--bamboo);
+            color: white;
+        }
+        .gate-card.public .gate-btn:hover {
+            background: var(--indigo);
+        }
+        .gate-card.private .gate-btn {
+            background: var(--purple);
+            color: white;
+        }
+        .gate-card.private .gate-btn:hover {
+            background: var(--indigo);
+        }
+        .gate-card.competition .gate-btn {
+            background: var(--cinnabar);
+            color: white;
+        }
+        .gate-card.competition .gate-btn:hover {
+            background: var(--indigo);
+        }
+        .footer-main {
+            background: var(--indigo-dark);
+            color: rgba(255,255,255,0.6);
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        .footer-brand {
+            font-size: 1.5rem;
+            font-family: 'LXGW WenKai', serif;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+        @media (max-width: 768px) {
+            .brand-main { font-size: 2rem; letter-spacing: 0.1em; }
+            .brand-sub { font-size: 1.1rem; }
+            .three-gates { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="hero-main">
+        <h1 class="brand-main">默隐·蒙知苑</h1>
+        <p class="brand-sub">让所有孩子有处可学</p>
+        <div class="yijing-quote">
+            「蒙以养正，圣功也。」
+            <div class="source">——《易经·蒙卦》</div>
+        </div>
+    </header>
+
+    <section class="entrance-section">
+        <h2 class="section-title">三堂入口</h2>
+        
+        <div class="three-gates">
+            <!-- 蒙正堂 - 学生入口 -->
+            <div class="gate-card public">
+                <div class="gate-icon">🎓</div>
+                <h3 class="gate-name">蒙正堂</h3>
+                <p class="gate-desc">
+                    编程学习（Scratch → Python → C++）<br>
+                    算法训练 · 数学天地 · 国学经典<br>
+                    系统化的学习路径与优质资料
+                </p>
+                <a href="./mengzheng/" class="gate-btn">进入学习 →</a>
+            </div>
+
+            <!-- 观复堂 - 私密入口 -->
+            <div class="gate-card private">
+                <div class="gate-icon">📚</div>
+                <h3 class="gate-name">观复堂</h3>
+                <div class="gate-lock">🔒 加密入口</div>
+                <p class="gate-desc">
+                    默隐的教学心得与沉淀<br>
+                    个人知识库 · 教案整理<br>
+                    AI协同教学笔记 · 资源收藏
+                </p>
+                <a href="./guanfu/" class="gate-btn">验证进入 →</a>
+            </div>
+
+            <!-- 乾行阁 - 竞赛专区 -->
+            <div class="gate-card competition">
+                <div class="gate-icon">⚔️</div>
+                <h3 class="gate-name">乾行阁</h3>
+                <div class="gate-lock">🔒 加密入口</div>
+                <p class="gate-desc">
+                    信息学奥林匹克竞赛密档<br>
+                    IOI · NOI · NOIP · CSP-S · CSP-J<br>
+                    竞赛技巧 · 真题解析 · 训练规划
+                </p>
+                <a href="./qiangxing/" class="gate-btn">验证进入 →</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer-main">
+        <div class="footer-brand">默隐·蒙知苑</div>
+        <p>让所有孩子有处可学 · 根植《易经》· 国风古典</p>
+        <p style="margin-top: 1rem; opacity: 0.6;">© 2026 默隐 · 明夷敬制</p>
+    </footer>
+</body>
+</html>
