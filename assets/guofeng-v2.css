@@ -1,16 +1,19 @@
-/* 国风古典样式系统 - 默隐·蒙知苑 v2.0 */
+/* 默隐·蒙知苑 - 国风古典样式系统 v2.0 */
+/* 文件: guofeng-v2.css */
 /* 版本: 2026-04-05 */
+/* 说明: 全站共用样式，所有页面必须引用 */
 
 :root {
-  /* 传统五色体系 */
-  --indigo: #1e3a5f;        /* 靛蓝 - 主色 */
-  --indigo-light: #2e5984;  /* 浅靛蓝 */
-  --indigo-dark: #0f1f33;   /* 深靛蓝 */
+  /* 主色调 - 靛青色系 */
+  --indigo: #1e3a5f;
+  --indigo-light: #2e5984;
+  --indigo-dark: #0f1f33;
   
-  --cinnabar: #c9372c;      /* 朱砂 - 强调 */
-  --ochre: #d4a574;         /* 缃色 - 点缀 */
-  --bamboo: #4a7c59;        /* 竹青 - 成功 */
-  --purple: #6b4c7a;        /* 紫棠 - 辅助 */
+  /* 辅助色 - 传统五色 */
+  --cinnabar: #c9372c;
+  --ochre: #d4a574;
+  --bamboo: #4a7c59;
+  --purple: #6b4c7a;
   
   /* 墨色体系 */
   --ink-900: #1a1a1a;
@@ -19,10 +22,10 @@
   --ink-300: #6b6b6b;
   --ink-100: #9a9a9a;
   
-  /* 宣纸体系 */
-  --paper: #f5f0e6;         /* 宣纸黄 */
-  --paper-light: #faf8f3;   /* 米白 */
-  --paper-warm: #f7f3ed;    /* 暖白 */
+  /* 背景色 - 纸墨色系 */
+  --paper: #f5f0e6;
+  --paper-light: #faf8f3;
+  --paper-warm: #f7f3ed;
   
   /* 边框 */
   --border-light: #e0d5c5;
@@ -42,8 +45,7 @@
 }
 
 /* ===== 基础重置 ===== */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
 body {
@@ -86,11 +88,7 @@ body {
   color: white;
 }
 
-.brand-icon {
-  font-size: 1.75rem;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-}
-
+.brand-icon { font-size: 1.75rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
 .brand-text {
   font-family: var(--font-kai);
   font-size: 1.5rem;
@@ -98,10 +96,7 @@ body {
   letter-spacing: 0.1em;
 }
 
-.nav-links {
-  display: flex;
-  gap: 0.5rem;
-}
+.nav-links { display: flex; gap: 0.5rem; }
 
 .nav-link {
   color: rgba(255,255,255,0.9);
@@ -224,28 +219,11 @@ body {
   border-color: var(--border-medium);
 }
 
-.entrance-card:hover::before {
-  transform: scaleX(1);
-}
+.entrance-card:hover::before { transform: scaleX(1); }
 
-.entrance-icon {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  display: block;
-}
-
-.entrance-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--indigo);
-  margin-bottom: 0.5rem;
-}
-
-.entrance-desc {
-  font-size: 0.95rem;
-  color: var(--ink-300);
-  line-height: 1.6;
-}
+.entrance-icon { font-size: 3rem; margin-bottom: 1rem; display: block; }
+.entrance-title { font-size: 1.25rem; font-weight: 700; color: var(--indigo); margin-bottom: 0.5rem; }
+.entrance-desc { font-size: 0.95rem; color: var(--ink-300); line-height: 1.6; }
 
 .entrance-card.student::before { background: var(--indigo); }
 .entrance-card.parent::before { background: var(--bamboo); }
@@ -266,11 +244,7 @@ body {
 }
 
 /* ===== 内容卡片 ===== */
-.content-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-}
+.content-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
 
 .content-card {
   background: white;
@@ -280,10 +254,7 @@ body {
   transition: all 0.3s;
 }
 
-.content-card:hover {
-  box-shadow: var(--shadow-md);
-  border-color: var(--border-medium);
-}
+.content-card:hover { box-shadow: var(--shadow-md); border-color: var(--border-medium); }
 
 .card-header {
   display: flex;
@@ -294,34 +265,12 @@ body {
   border-bottom: 1px solid var(--border-light);
 }
 
-.card-icon {
-  font-size: 1.5rem;
-}
-
-.card-title {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--indigo);
-}
-
-.card-body {
-  color: var(--ink-500);
-  font-size: 0.95rem;
-  line-height: 1.7;
-}
-
-.card-body ul {
-  margin: 0;
-  padding-left: 1.25rem;
-}
-
-.card-body li {
-  margin: 0.5rem 0;
-}
-
-.card-body li strong {
-  color: var(--indigo);
-}
+.card-icon { font-size: 1.5rem; }
+.card-title { font-size: 1.1rem; font-weight: 700; color: var(--indigo); }
+.card-body { color: var(--ink-500); font-size: 0.95rem; line-height: 1.7; }
+.card-body ul { margin: 0; padding-left: 1.25rem; }
+.card-body li { margin: 0.5rem 0; }
+.card-body li strong { color: var(--indigo); }
 
 /* ===== 路线预览 ===== */
 .path-preview {
@@ -352,10 +301,7 @@ body {
   color: var(--indigo);
 }
 
-.path-arrow {
-  color: var(--ochre);
-  font-size: 1.25rem;
-}
+.path-arrow { color: var(--ochre); font-size: 1.25rem; }
 
 /* ===== 表格样式 ===== */
 .gf-table {
@@ -377,22 +323,10 @@ body {
   font-size: 0.95rem;
 }
 
-.gf-table td {
-  padding: 1rem;
-  border-bottom: 1px solid var(--border-light);
-}
-
-.gf-table tr:last-child td {
-  border-bottom: none;
-}
-
-.gf-table tr:hover td {
-  background: var(--paper-warm);
-}
-
-.gf-table td strong {
-  color: var(--indigo);
-}
+.gf-table td { padding: 1rem; border-bottom: 1px solid var(--border-light); }
+.gf-table tr:last-child td { border-bottom: none; }
+.gf-table tr:hover td { background: var(--paper-warm); }
+.gf-table td strong { color: var(--indigo); }
 
 /* ===== 标签 ===== */
 .tag {
@@ -442,10 +376,7 @@ body {
   color: var(--indigo);
 }
 
-.btn-outline:hover {
-  background: var(--indigo);
-  color: white;
-}
+.btn-outline:hover { background: var(--indigo); color: white; }
 
 /* ===== 印章效果 ===== */
 .seal {
@@ -499,31 +430,10 @@ body {
   margin-top: 4rem;
 }
 
-.footer-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.footer-brand {
-  font-family: var(--font-kai);
-  font-size: 1.5rem;
-  color: white;
-  margin-bottom: 0.5rem;
-}
-
-.footer-slogan {
-  font-size: 1.1rem;
-  color: var(--ochre);
-  margin-bottom: 1.5rem;
-}
-
-.footer-copy {
-  font-size: 0.9rem;
-  color: rgba(255,255,255,0.5);
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(255,255,255,0.1);
-}
+.footer-inner { max-width: 1200px; margin: 0 auto; text-align: center; }
+.footer-brand { font-family: var(--font-kai); font-size: 1.5rem; color: white; margin-bottom: 0.5rem; }
+.footer-slogan { font-size: 1.1rem; color: var(--ochre); margin-bottom: 1.5rem; }
+.footer-copy { font-size: 0.9rem; color: rgba(255,255,255,0.5); padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); }
 
 /* ===== 引用块 ===== */
 blockquote {
@@ -537,87 +447,34 @@ blockquote {
   color: var(--ink-500);
 }
 
-blockquote strong {
-  color: var(--cinnabar);
-  font-style: normal;
-}
-
-/* ===== 提示框 ===== */
-.alert {
-  padding: 1rem 1.25rem;
-  border-radius: 8px;
-  margin: 1rem 0;
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-}
-
-.alert-info {
-  background: #e8f4f8;
-  border-left: 4px solid var(--indigo);
-}
-
-.alert-warning {
-  background: #fff8e6;
-  border-left: 4px solid var(--ochre);
-}
+blockquote strong { color: var(--cinnabar); font-style: normal; }
 
 /* ===== 响应式 ===== */
 @media (max-width: 768px) {
-  .navbar-inner {
-    padding: 0 1rem;
-    height: 56px;
-  }
-  
-  .brand-text {
-    font-size: 1.25rem;
-  }
-  
-  .nav-links {
-    display: none;
-  }
-  
-  .main-container {
-    padding: 1rem;
-  }
-  
-  .hero {
-    padding: 2rem 1rem;
-  }
-  
-  .hero-title {
-    font-size: 2rem;
-  }
-  
-  .hero-subtitle {
-    font-size: 1.1rem;
-  }
-  
-  .entrance-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .path-steps {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .path-arrow {
-    transform: rotate(90deg);
-  }
+  html { font-size: 14px; }
+  .navbar-inner { padding: 0 1rem; height: 56px; }
+  .brand-text { font-size: 1.25rem; }
+  .nav-links { display: none; }
+  .main-container { padding: 1rem; }
+  .hero { padding: 2rem 1rem; }
+  .hero-title { font-size: 2rem; }
+  .hero-subtitle { font-size: 1.1rem; }
+  .entrance-grid { grid-template-columns: 1fr; }
+  .path-steps { flex-direction: column; align-items: center; }
+  .path-arrow { transform: rotate(90deg); }
 }
 
 /* ===== 打印优化 ===== */
 @media print {
-  .navbar, .footer {
-    display: none;
-  }
-  
-  body {
-    background: white;
-  }
-  
-  .main-container {
-    max-width: 100%;
-  }
+  body { background: white; }
+  .navbar, .footer { display: none; }
 }
+
+/* ===== 滚动条 ===== */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--paper); }
+::-webkit-scrollbar-thumb { background: var(--border-medium); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border-dark); }
+
+/* ===== 选中文字 ===== */
+::selection { background: var(--ochre); color: white; }
