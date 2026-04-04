@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>观复堂 — 默隐知识库</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/guofeng-v2.css">
+    <style>
+        .lock-screen {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(30,58,95,0.95) 0%, rgba(15,31,51,0.98) 100%);
+            color: white;
+            padding: 2rem;
+        }
+        .lock-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+        .lock-title {
+            font-size: 2.5rem;
+            font-family: 'LXGW WenKai', serif;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.2em;
+        }
+        .lock-subtitle {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 2rem;
+        }
+        .yijing-quote {
+            font-family: 'LXGW WenKai', serif;
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.7);
+            max-width: 400px;
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            border-left: 2px solid var(--ochre);
+            border-right: 2px solid var(--ochre);
+        }
+        .password-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            width: 100%;
+            max-width: 300px;
+        }
+        .password-input {
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            border: 2px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 6px;
+            text-align: center;
+            letter-spacing: 0.3em;
+        }
+        .password-input::placeholder {
+            color: rgba(255,255,255,0.4);
+            letter-spacing: normal;
+        }
+        .password-input:focus {
+            outline: none;
+            border-color: var(--ochre);
+        }
+        .submit-btn {
+            padding: 1rem;
+            font-size: 1rem;
+            background: var(--ochre);
+            color: var(--indigo-dark);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .submit-btn:hover {
+            background: var(--cinnabar);
+            color: white;
+        }
+        .error-msg {
+            color: var(--cinnabar);
+            font-size: 0.9rem;
+            text-align: center;
+            min-height: 1.5rem;
+        }
+        .back-link {
+            margin-top: 2rem;
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .back-link:hover {
+            color: var(--ochre);
+        }
+        /* 解锁后的内容 */
+        .content-screen {
+            display: none;
+        }
+        .content-screen.unlocked {
+            display: block;
+        }
+        .lock-screen.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- 锁屏界面 -->
+    <div class="lock-screen" id="lockScreen">
+        <div class="lock-icon">🔒</div>
+        <h1 class="lock-title">观复堂</h1>
+        <p class="lock-subtitle">默隐知识库 · 私密入口</p>
+        
+        <div class="yijing-quote">
+            「反复其道，七日来复。」
+            <br><span style="font-size: 0.85rem; opacity: 0.7;">——《易经·复卦》</span>
+        </div>
+        
+        <form class="password-form" onsubmit="return checkPassword()">
+            <input type="password" class="password-input" id="password" placeholder="请输入密码" autocomplete="off">
+            <div class="error-msg" id="errorMsg"></div>
+            <button type="submit" class="submit-btn">进入</button>
+        </form>
+        
+        <a href="../" class="back-link">← 返回首页</a>
+    </div>
+
+    <!-- 解锁后的内容 -->
+    <div class="content-screen" id="contentScreen">
+        <nav class="navbar">
+            <div class="navbar-inner">
+                <a href="../" class="brand">
+                    <span class="brand-icon">☯</span>
+                    <span class="brand-text">默隐·蒙知苑</span>
+                </a>
+                <div class="nav-links">
+                    <span class="nav-link">📚 观复堂</span>
+                    <a href="javascript:void(0)" onclick="lock()" class="nav-link">🔒 锁定</a>
+                </div>
+            </div>
+        </nav>
+
+        <main class="main-container">
+            <section class="hero">
+                <h1 class="hero-title">观复堂</h1>
+                <p class="hero-subtitle">默隐的个人知识库</p>
+                <div class="hero-yijing">
+                    「观我生，君子无咎。」
+                    <br>——《易经·观卦》
+                </div>
+            </section>
+
+            <section>
+                <h2 class="section-title">📚 知识分类</h2>
+                
+                <div class="content-grid">
+                    <div class="content-card">
+                        <div class="card-header">
+                            <span class="card-icon">📝</span>
+                            <span class="card-title">教学心得</span>
+                        </div>
+                        <div class="card-body">
+                            编程教学中的经验总结、学生常见问题、教学方法论。
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <div class="card-header">
+                            <span class="card-icon">📖</span>
+                            <span class="card-title">教案整理</span>
+                        </div>
+                        <div class="card-body">
+                            GESP教案、课程设计、知识点梳理、习题集。
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <div class="card-header">
+                            <span class="card-icon">🤖</span>
+                            <span class="card-title">AI协同教学</span>
+                        </div>
+                        <div class="card-body">
+                            AI辅助教学实践、提示词工程、自动化工具。
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <div class="card-header">
+                            <span class="card-icon">🔖</span>
+                            <span class="card-title">资源收藏</span>
+                        </div>
+                        <div class="card-body">
+                            优质教学资源、参考链接、工具推荐、书单整理。
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="divider"></div>
+
+            <section>
+                <h2 class="section-title">📝 最新笔记</h2>
+                
+                <div class="content-card">
+                    <div class="card-header">
+                        <span class="card-icon">🆕</span>
+                        <span class="card-title">知识库初始化</span>
+                        <span class="tag tag-new">新</span>
+                    </div>
+                    <div class="card-body">
+                        观复堂知识库已建立，等待默隐填充内容...
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-inner">
+                <div class="footer-brand">默隐·观复堂</div>
+                <p class="footer-copy">© 2026 默隐 · 明夷敬制</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // 简单密码验证（默隐可修改密码）
+        const CORRECT_PASSWORD = 'moyin2026'; // 默认密码，建议修改
+        
+        function checkPassword() {
+            const input = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMsg');
+            
+            if (input === CORRECT_PASSWORD) {
+                document.getElementById('lockScreen').classList.add('hidden');
+                document.getElementById('contentScreen').classList.add('unlocked');
+                // 保存解锁状态到session
+                sessionStorage.setItem('guanfu_unlocked', 'true');
+                return false;
+            } else {
+                errorMsg.textContent = '密码错误，请重试';
+                document.getElementById('password').value = '';
+                return false;
+            }
+        }
+        
+        function lock() {
+            sessionStorage.removeItem('guanfu_unlocked');
+            document.getElementById('lockScreen').classList.remove('hidden');
+            document.getElementById('contentScreen').classList.remove('unlocked');
+            document.getElementById('password').value = '';
+            document.getElementById('errorMsg').textContent = '';
+        }
+        
+        // 检查是否已解锁
+        window.onload = function() {
+            if (sessionStorage.getItem('guanfu_unlocked') === 'true') {
+                document.getElementById('lockScreen').classList.add('hidden');
+                document.getElementById('contentScreen').classList.add('unlocked');
+            }
+        };
+    </script>
+</body>
+</html>
