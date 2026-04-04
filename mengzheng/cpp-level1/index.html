@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++一级学习路线 - 蒙正堂</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/guofeng-v2.css">
+    <style>
+        :root {
+            --level-1: #1e3a5f;
+            --level-2: #2e5984;
+            --level-easy: #4a7c59;
+            --level-medium: #d4a574;
+            --level-hard: #c9372c;
+        }
+        
+        .mindmap-container {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .mindmap-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-family: 'LXGW WenKai', serif;
+            color: var(--indigo);
+            margin-bottom: 0.5rem;
+        }
+        
+        .mindmap-subtitle {
+            text-align: center;
+            color: var(--ink-500);
+            margin-bottom: 3rem;
+        }
+        
+        /* 中心节点 */
+        .center-node {
+            background: linear-gradient(135deg, var(--cinnabar) 0%, #a52a2a 100%);
+            color: white;
+            padding: 2rem 3rem;
+            border-radius: 50%;
+            text-align: center;
+            width: 200px;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 4rem;
+            box-shadow: 0 8px 30px rgba(201,55,44,0.3);
+            position: relative;
+        }
+        
+        .center-node::before {
+            content: '☯';
+            font-size: 2rem;
+            opacity: 0.3;
+            position: absolute;
+            top: 20px;
+        }
+        
+        .center-node h2 {
+            font-size: 2rem;
+            margin: 0;
+            font-family: 'LXGW WenKai', serif;
+        }
+        
+        .center-node p {
+            font-size: 0.9rem;
+            margin: 0.5rem 0 0;
+            opacity: 0.9;
+        }
+        
+        /* 主干分支 */
+        .branches {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            position: relative;
+        }
+        
+        .branch {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-left: 5px solid var(--indigo);
+            position: relative;
+        }
+        
+        .branch::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            width: 2px;
+            height: 30px;
+            background: var(--indigo);
+            transform: translateX(-50%);
+        }
+        
+        .branch-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid var(--paper);
+        }
+        
+        .branch-icon {
+            font-size: 2rem;
+        }
+        
+        .branch-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--indigo);
+            font-family: 'LXGW WenKai', serif;
+        }
+        
+        .branch-meta {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        
+        .meta-tag {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            background: rgba(30,58,95,0.1);
+            color: var(--indigo);
+        }
+        
+        .meta-tag.time {
+            background: rgba(212,165,116,0.2);
+            color: var(--ochre-dark);
+        }
+        
+        .meta-tag.prereq {
+            background: rgba(74,124,89,0.1);
+            color: var(--bamboo);
+        }
+        
+        /* 知识点列表 */
+        .node-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .node-item {
+            background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .node-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: var(--indigo-light);
+        }
+        
+        .node-item.completed {
+            border-left: 4px solid var(--bamboo);
+        }
+        
+        .node-item.completed::after {
+            content: '✓';
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--bamboo);
+            font-weight: bold;
+        }
+        
+        .node-name {
+            font-weight: 600;
+            color: var(--ink-700);
+            margin-bottom: 0.3rem;
+        }
+        
+        .node-info {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            font-size: 0.8rem;
+        }
+        
+        .difficulty {
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+        
+        .difficulty.easy {
+            background: rgba(74,124,89,0.15);
+            color: var(--bamboo);
+        }
+        
+        .difficulty.medium {
+            background: rgba(212,165,116,0.2);
+            color: #b8860b;
+        }
+        
+        .difficulty.hard {
+            background: rgba(201,55,44,0.15);
+            color: var(--cinnabar);
+        }
+        
+        .duration {
+            color: var(--ink-400);
+        }
+        
+        .questions {
+            color: var(--indigo);
+            font-weight: 500;
+        }
+        
+        /* 进度条 */
+        .progress-section {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .progress-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--indigo);
+        }
+        
+        .progress-stats {
+            color: var(--ink-500);
+            font-size: 0.9rem;
+        }
+        
+        .progress-bar {
+            height: 12px;
+            background: #e9ecef;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--bamboo) 0%, var(--indigo) 100%);
+            border-radius: 6px;
+            transition: width 0.5s ease;
+        }
+        
+        /* 图例 */
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .legend-dot.easy { background: var(--bamboo); }
+        .legend-dot.medium { background: var(--ochre); }
+        .legend-dot.hard { background: var(--cinnabar); }
+        
+        @media (max-width: 768px) {
+            .branches {
+                grid-template-columns: 1fr;
+            }
+            .center-node {
+                width: 150px;
+                height: 150px;
+            }
+            .center-node h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="../../" class="brand">
+                <span class="brand-icon">☯</span>
+                <span class="brand-text">默隐·蒙知苑</span>
+            </a>
+            <div class="nav-links">
+                <a href="../" class="nav-link">🎓 蒙正堂</a>
+                <a href="./" class="nav-link active">C++一级</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="mindmap-container">
+        <h1 class="mindmap-title">C++ 一级学习路线</h1>
+        <p class="mindmap-subtitle">GESP等级考试 · 42个知识点 · 循序渐进</p>
+        
+        <!-- 进度追踪 -->
+        <div class="progress-section">
+            <div class="progress-header">
+                <span class="progress-title">📊 学习进度</span>
+                <span class="progress-stats"><span id="completed">0</span> / 42 知识点</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+        </div>
+        
+        <!-- 图例 -->
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-dot easy"></div>
+                <span>入门级</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot medium"></div>
+                <span>提高级</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot hard"></div>
+                <span>挑战级</span>
+            </div>
+            <div class="legend-item">
+                <span>📝 20题验证</span>
+            </div>
+        </div>
+        
+        <!-- 中心节点 -->
+        <div class="center-node">
+            <h2>C++一级</h2>
+            <p>零基础入门</p>
+        </div>
+        
+        <!-- 主干分支 -->
+        <div class="branches">
+            
+            <!-- 分支1: 计算机基础 -->
+            <div class="branch">
+                <div class="branch-header">
+                    <span class="branch-icon">💻</span>
+                    <span class="branch-title">计算机基础</span>
+                </div>
+                <div class="branch-meta">
+                    <span class="meta-tag">3个知识点</span>
+                    <span class="meta-tag time">⏱️ 2小时</span>
+                    <span class="meta-tag prereq">📋 无前置</span>
+                </div>
+                <div class="node-list">
+                    <div class="node-item" data-id="1-1" onclick="toggleComplete(this)">
+                        <div class="node-name">1.1 计算机的软硬件组成</div>
+                        <div class="node-info">
+                            <span class="difficulty easy">入门</span>
+                            <span class="duration">⏱️ 40分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="1-2" onclick="toggleComplete(this)">
+                        <div class="node-name">1.2 常见操作</div>
+                        <div class="node-info">
+                            <span class="difficulty easy">入门</span>
+                            <span class="duration">⏱️ 40分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="1-3" onclick="toggleComplete(this)">
+                        <div class="node-name">1.3 发展历程</div>
+                        <div class="node-info">
+                            <span class="difficulty easy">入门</span>
+                            <span class="duration">⏱️ 40分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 分支2: 集成开发环境 -->
+            <div class="branch">
+                <div class="branch-header">
+                    <span class="branch-icon">🛠️</span>
+                    <span class="branch-title">集成开发环境</span>
+                </div>
+                <div class="branch-meta">
+                    <span class="meta-tag">6个知识点</span>
+                    <span class="meta-tag time">⏱️ 4小时</span>
+                    <span class="meta-tag prereq">📋 计算机基础</span>
+                </div>
+                <div class="node-list">
+                    <div class="node-item" data-id="2-1" onclick="toggleComplete(this)">
+                        <div class="node-name">2.1 创建文件</div>
+                        <div class="node-info">
+                            <span class="difficulty easy">入门</span>
+                            <span class="duration">⏱️ 40分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="2-2" onclick="toggleComplete(this)">
+                        <div class="node-name">2.2 编辑文件</div>
+                        <div class="node-info">
+                            <span class="difficulty easy">入门</span>
+                            <span class="duration">⏱️ 40分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="2-3" onclick="toggleComplete(this)">
+                        <div class="node-name">2.3 保存文件</div>
+                        <div class="node-info">
+                            <span class="difficulty easy">入门</span>
+                            <span class="duration">⏱️ 40分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="2-4" onclick="toggleComplete(this)">
+                        <div class="node-name">2.4 编译</div>
+                        <div class="node-info">
+                            <span class="difficulty medium">提高</span>
+                            <span class="duration">⏱️ 40分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="2-5" onclick="toggleComplete(this)">
+                        <div class="node-name">2.5 解释</div>
+                        <div class="node-info">
+                            <span class="difficulty medium">提高</span>
+                            <span class="duration">⏱️ 40分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="2-6" onclick="toggleComplete(this)">
+                        <div class="node-name">2.6 调试</div>
+                        <div class="node-info">
+                            <span class="difficulty hard">挑战</span>
+                            <span class="duration">⏱️ 40分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 分支3: 程序的基本概念 -->
+            <div class="branch">
+                <div class="branch-header">
+                    <span class="branch-icon">📋</span>
+                    <span class="branch-title">程序的基本概念</span>
+                </div>
+                <div class="branch-meta">
+                    <span class="meta-tag">8个知识点</span>
+                    <span class="meta-tag time">⏱️ 6小时</span>
+                    <span class="meta-tag prereq">📋 IDE基础</span>
+                </div>
+                <div class="node-list">
+                    <div class="node-item" data-id="5-1" onclick="toggleComplete(this)">
+                        <div class="node-name">5.1 标识符</div>
+                        <div class="node-info">
+                            <span class="difficulty easy">入门</span>
+                            <span class="duration">⏱️ 45分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="5-2" onclick="toggleComplete(this)">
+                        <div class="node-name">5.2 关键字</div>
+                        <div class="node-info">
+                            <span class="difficulty easy">入门</span>
+                            <span class="duration">⏱️ 45分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="5-3" onclick="toggleComplete(this)">
+                        <div class="node-name">5.3 常量</div>
+                        <div class="node-info">
+                            <span class="difficulty easy">入门</span>
+                            <span class="duration">⏱️ 45分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="5-4" onclick="toggleComplete(this)">
+                        <div class="node-name">5.4 变量</div>
+                        <div class="node-info">
+                            <span class="difficulty easy">入门</span>
+                            <span class="duration">⏱️ 45分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="5-5" onclick="toggleComplete(this)">
+                        <div class="node-name">5.5 表达式的概念</div>
+                        <div class="node-info">
+                            <span class="difficulty medium">提高</span>
+                            <span class="duration">⏱️ 45分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="5-6" onclick="toggleComplete(this)">
+                        <div class="node-name">5.6 常量与变量的命名</div>
+                        <div class="node-info">
+                            <span class="difficulty medium">提高</span>
+                            <span class="duration">⏱️ 45分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="5-7" onclick="toggleComplete(this)">
+                        <div class="node-name">5.7 常量与变量的定义、作用</div>
+                        <div class="node-info">
+                            <span class="difficulty medium">提高</span>
+                            <span class="duration">⏱️ 45分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="5-8" onclick="toggleComplete(this)">
+                        <div class="node-name">5.8 程序的注释</div>
+                        <div class="node-info">
+                            <span class="difficulty easy">入门</span>
+                            <span class="duration">⏱️ 45分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 分支4: 基本数据类型 -->
+            <div class="branch">
+                <div class="branch-header">
+                    <span class="branch-icon">📊</span>
+                    <span class="branch-title">基本数据类型</span>
+                </div>
+                <div class="branch-meta">
+                    <span class="meta-tag">4个知识点</span>
+                    <span class="meta-tag time">⏱️ 4小时</span>
+                    <span class="meta-tag prereq">📋 程序概念</span>
+                </div>
+                <div class="node-list">
+                    <div class="node-item" data-id="7-1" onclick="toggleComplete(this)">
+                        <div class="node-name">7.1 整数型：int, long long</div>
+                        <div class="node-info">
+                            <span class="difficulty easy">入门</span>
+                            <span class="duration">⏱️ 60分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="7-2" onclick="toggleComplete(this)">
+                        <div class="node-name">7.2 实数型：float, double</div>
+                        <div class="node-info">
+                            <span class="difficulty medium">提高</span>
+                            <span class="duration">⏱️ 60分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="7-3" onclick="toggleComplete(this)">
+                        <div class="node-name">7.3 字符型：char</div>
+                        <div class="node-info">
+                            <span class="difficulty medium">提高</span>
+                            <span class="duration">⏱️ 60分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="7-4" onclick="toggleComplete(this)">
+                        <div class="node-name">7.4 布尔型：bool</div>
+                        <div class="node-info">
+                            <span class="difficulty easy">入门</span>
+                            <span class="duration">⏱️ 60分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 分支5: 基本运算 -->
+            <div class="branch">
+                <div class="branch-header">
+                    <span class="branch-icon">➕</span>
+                    <span class="branch-title">基本运算</span>
+                </div>
+                <div class="branch-meta">
+                    <span class="meta-tag">5个知识点</span>
+                    <span class="meta-tag time">⏱️ 5小时</span>
+                    <span class="meta-tag prereq">📋 数据类型</span>
+                </div>
+                <div class="node-list">
+                    <div class="node-item" data-id="6-1" onclick="toggleComplete(this)">
+                        <div class="node-name">6.1 算术运算</div>
+                        <div class="node-info">
+                            <span class="difficulty easy">入门</span>
+                            <span class="duration">⏱️ 60分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="6-2" onclick="toggleComplete(this)">
+                        <div class="node-name">6.2 关系运算</div>
+                        <div class="node-info">
+                            <span class="difficulty easy">入门</span>
+                            <span class="duration">⏱️ 60分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="6-3" onclick="toggleComplete(this)">
+                        <div class="node-name">6.3 逻辑运算</div>
+                        <div class="node-info">
+                            <span class="difficulty medium">提高</span>
+                            <span class="duration">⏱️ 60分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="6-4" onclick="toggleComplete(this)">
+                        <div class="node-name">6.4 变量自增与自减运算</div>
+                        <div class="node-info">
+                            <span class="difficulty hard">挑战</span>
+                            <span class="duration">⏱️ 60分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="6-5" onclick="toggleComplete(this)">
+                        <div class="node-name">6.5 三目运算</div>
+                        <div class="node-info">
+                            <span class="difficulty hard">挑战</span>
+                            <span class="duration">⏱️ 60分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 分支6: 结构化程序设计 -->
+            <div class="branch">
+                <div class="branch-header">
+                    <span class="branch-icon">🔄</span>
+                    <span class="branch-title">结构化程序设计</span>
+                </div>
+                <div class="branch-meta">
+                    <span class="meta-tag">3个知识点</span>
+                    <span class="meta-tag time">⏱️ 3小时</span>
+                    <span class="meta-tag prereq">📋 运算基础</span>
+                </div>
+                <div class="node-list">
+                    <div class="node-item" data-id="3-1" onclick="toggleComplete(this)">
+                        <div class="node-name">3.1 顺序结构</div>
+                        <div class="node-info">
+                            <span class="difficulty easy">入门</span>
+                            <span class="duration">⏱️ 60分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="3-2" onclick="toggleComplete(this)">
+                        <div class="node-name">3.2 分支结构</div>
+                        <div class="node-info">
+                            <span class="difficulty medium">提高</span>
+                            <span class="duration">⏱️ 60分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="3-3" onclick="toggleComplete(this)">
+                        <div class="node-name">3.3 循环结构</div>
+                        <div class="node-info">
+                            <span class="difficulty hard">挑战</span>
+                            <span class="duration">⏱️ 60分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 分支7: 程序的基本语句 -->
+            <div class="branch">
+                <div class="branch-header">
+                    <span class="branch-icon">📝</span>
+                    <span class="branch-title">程序的基本语句</span>
+                </div>
+                <div class="branch-meta">
+                    <span class="meta-tag">13个知识点</span>
+                    <span class="meta-tag time">⏱️ 13小时</span>
+                    <span class="meta-tag prereq">📋 结构基础</span>
+                </div>
+                <div class="node-list">
+                    <div class="node-item" data-id="4-1" onclick="toggleComplete(this)">
+                        <div class="node-name">4.1 cin语句</div>
+                        <div class="node-info">
+                            <span class="difficulty easy">入门</span>
+                            <span class="duration">⏱️ 60分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="4-2" onclick="toggleComplete(this)">
+                        <div class="node-name">4.2 scanf语句</div>
+                        <div class="node-info">
+                            <span class="difficulty medium">提高</span>
+                            <span class="duration">⏱️ 60分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="4-3" onclick="toggleComplete(this)">
+                        <div class="node-name">4.3 cout语句</div>
+                        <div class="node-info">
+                            <span class="difficulty easy">入门</span>
+                            <span class="duration">⏱️ 60分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="4-4" onclick="toggleComplete(this)">
+                        <div class="node-name">4.4 printf语句</div>
+                        <div class="node-info">
+                            <span class="difficulty medium">提高</span>
+                            <span class="duration">⏱️ 60分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="4-5" onclick="toggleComplete(this)">
+                        <div class="node-name">4.5 赋值语句</div>
+                        <div class="node-info">
+                            <span class="difficulty easy">入门</span>
+                            <span class="duration">⏱️ 60分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="4-6" onclick="toggleComplete(this)">
+                        <div class="node-name">4.6 复合语句</div>
+                        <div class="node-info">
+                            <span class="difficulty medium">提高</span>
+                            <span class="duration">⏱️ 60分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="4-7" onclick="toggleComplete(this)">
+                        <div class="node-name">4.7 单分支if语句</div>
+                        <div class="node-info">
+                            <span class="difficulty easy">入门</span>
+                            <span class="duration">⏱️ 60分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="4-8" onclick="toggleComplete(this)">
+                        <div class="node-name">4.8 双分支if-else语句</div>
+                        <div class="node-info">
+                            <span class="difficulty medium">提高</span>
+                            <span class="duration">⏱️ 60分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="4-9" onclick="toggleComplete(this)">
+                        <div class="node-name">4.9 多分支if-else if语句</div>
+                        <div class="node-info">
+                            <span class="difficulty medium">提高</span>
+                            <span class="duration">⏱️ 60分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="4-10" onclick="toggleComplete(this)">
+                        <div class="node-name">4.10 switch语句</div>
+                        <div class="node-info">
+                            <span class="difficulty medium">提高</span>
+                            <span class="duration">⏱️ 60分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="4-11" onclick="toggleComplete(this)">
+                        <div class="node-name">4.11 for语句</div>
+                        <div class="node-info">
+                            <span class="difficulty hard">挑战</span>
+                            <span class="duration">⏱️ 60分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="4-12" onclick="toggleComplete(this)">
+                        <div class="node-name">4.12 while语句</div>
+                        <div class="node-info">
+                            <span class="difficulty hard">挑战</span>
+                            <span class="duration">⏱️ 60分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                    <div class="node-item" data-id="4-13" onclick="toggleComplete(this)">
+                        <div class="node-name">4.13 do while语句</div>
+                        <div class="node-info">
+                            <span class="difficulty hard">挑战</span>
+                            <span class="duration">⏱️ 60分钟</span>
+                            <span class="questions">📝 20题</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+        <!-- 考试信息 -->
+        <div style="margin-top: 3rem; background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+            <h3 style="color: var(--indigo); margin-bottom: 1rem; font-family: 'LXGW WenKai', serif;">📝 GESP一级考试信息</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <div>
+                    <strong>考试时长：</strong>120分钟
+                </div>
+                <div>
+                    <strong>单选题：</strong>15道 × 2分 = 30分
+                </div>
+                <div>
+                    <strong>判断题：</strong>10道 × 2分 = 20分
+                </div>
+                <div>
+                    <strong>编程题：</strong>2道 × 25分 = 50分
+                </div>
+                <div>
+                    <strong>总分：</strong>100分
+                </div>
+                <div>
+                    <strong>通过线：</strong>60分
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">默隐·蒙正堂</div>
+            <p class="footer-slogan">让所有孩子有处可学</p>
+        </div>
+    </footer>
+
+    <script>
+        // 本地存储进度
+        function toggleComplete(element) {
+            element.classList.toggle('completed');
+            saveProgress();
+            updateProgressBar();
+        }
+        
+        function saveProgress() {
+            const completed = document.querySelectorAll('.node-item.completed');
+            const ids = Array.from(completed).map(item => item.dataset.id);
+            localStorage.setItem('cpp-level1-progress', JSON.stringify(ids));
+        }
+        
+        function loadProgress() {
+            const saved = localStorage.getItem('cpp-level1-progress');
+            if (saved) {
+                const ids = JSON.parse(saved);
+                ids.forEach(id => {
+                    const item = document.querySelector(`[data-id="${id}"]`);
+                    if (item) item.classList.add('completed');
+                });
+            }
+            updateProgressBar();
+        }
+        
+        function updateProgressBar() {
+            const total = document.querySelectorAll('.node-item').length;
+            const completed = document.querySelectorAll('.node-item.completed').length;
+            const percentage = Math.round((completed / total) * 100);
+            
+            document.getElementById('completed').textContent = completed;
+            document.getElementById('progressFill').style.width = percentage + '%';
+        }
+        
+        // 页面加载时恢复进度
+        window.onload = loadProgress;
+    </script>
+</body>
+</html>
