@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>国风古典样式系统 - 演示</title>
+    <!-- 引入字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" rel="stylesheet">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="guofeng.css">
+    
+    <style>
+        /* 演示页面特有样式 */
+        .demo-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .demo-section h3 {
+            color: var(--gf-primary);
+            border-bottom: 2px solid var(--gf-border-light);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+        
+        .color-item {
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="gf-container">
+        
+        <!-- 页面标题 -->
+        <h1>☯ 国风古典样式系统</h1>
+        
+        <blockquote>
+            融合中国传统美学与现代网页设计，以易经智慧为魂，以国风色彩为形，
+            打造独特的编程教学体验。
+        </blockquote>
+        
+        <!-- 配色展示 -->
+        <div class="demo-section">
+            <h3>🎨 传统色彩体系</h3>
+            <div class="color-palette">
+                <div class="color-item" style="background: #1e3a5f;">靛蓝<br>#1e3a5f</div>
+                <div class="color-item" style="background: #c9372c;">朱砂<br>#c9372c</div>
+                <div class="color-item" style="background: #d4a574;">缃色<br>#d4a574</div>
+                <div class="color-item" style="background: #4a7c59;">竹青<br>#4a7c59</div>
+                <div class="color-item" style="background: #6b4c7a;">紫棠<br>#6b4c7a</div>
+                <div class="color-item" style="background: #2c2c2c;">墨黑<br>#2c2c2c</div>
+            </div>
+        </div>
+        
+        <!-- 易经智慧框 -->
+        <div class="demo-section">
+            <h3>☯ 易经智慧组件</h3>
+            
+            <div class="gf-yijing">
+                <div class="gf-yijing-title">《易经》第36卦：明夷</div>
+                <div class="gf-yijing-content">
+                    "明入地中，明夷。君子以莅众，用晦而明。"
+                    内在的文明与外在的柔顺相结合，正如编程中的内在逻辑与外在表达的统一。
+                </div>
+            </div>
+        </div>
+        
+        <!-- 提示框 -->
+        <div class="demo-section">
+            <h3>📢 提示框组件</h3>
+            
+            <div class="gf-alert gf-alert-info">
+                <strong>提示：</strong> 这是一个信息提示框，用于展示一般性说明。
+            </div>
+            
+            <div class="gf-alert gf-alert-warning">
+                <strong>注意：</strong> 这是一个警告提示框，用于提醒需要注意的事项。
+            </div>
+            
+            <div class="gf-alert gf-alert-success">
+                <strong>成功：</strong> 这是一个成功提示框，用于展示操作成功的信息。
+            </div>
+            
+            <div class="gf-alert gf-alert-error">
+                <strong>错误：</strong> 这是一个错误提示框，用于展示错误信息。
+            </div>
+        </div>
+        
+        <!-- 卡片组件 -->
+        <div class="demo-section">
+            <h3>🃏 卡片组件</h3>
+            
+            <div class="component-grid">
+                <div class="gf-card gf-card-primary">
+                    <h4>基础卡片</h4>
+                    <p style="text-indent: 0;">这是一个基础样式的卡片组件，带有左侧边框装饰。</p>
+                </div>
+                
+                <div class="gf-card gf-card-red">
+                    <h4>红色卡片</h4>
+                    <p style="text-indent: 0;">这是一个红色主题的卡片，用于重要提醒。</p>
+                </div>
+                
+                <div class="gf-card gf-card-gold">
+                    <h4>金色卡片</h4>
+                    <p style="text-indent: 0;">这是一个金色主题的卡片，用于特殊内容。</p>
+                </div>
+                
+                <div class="gf-card gf-card-green">
+                    <h4>绿色卡片</h4>
+                    <p style="text-indent: 0;">这是一个绿色主题的卡片，用于成功状态。</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 按钮组件 -->
+        <div class="demo-section">
+            <h3>🔘 按钮组件</h3>
+            
+            <button class="gf-btn gf-btn-primary">主要按钮</button>
+            <button class="gf-btn gf-btn-outline">边框按钮</button>
+            <button class="gf-btn gf-btn-red">红色按钮</button>
+            <button class="gf-btn gf-btn-gold">金色按钮</button>
+        </div>
+        
+        
+        <!-- 标签组件 -->
+        <div class="demo-section">
+            <h3>🏷️ 标签组件</h3>
+            
+            <span class="gf-tag gf-tag-primary">主要</span>
+            <span class="gf-tag gf-tag-red">重要</span>
+            <span class="gf-tag gf-tag-gold">提示</span>
+            <span class="gf-tag gf-tag-green">成功</span>
+            <span class="gf-tag gf-tag-outline">默认</span>
+        </div>
+        
+        
+        <!-- 代码展示 -->
+        <div class="demo-section">
+            <h3>💻 代码展示</h3>
+            
+            <p>行内代码：使用 <code>cout</code> 进行输出操作。</p>
+            
+            <div class="code-header">
+                <span>hello.cpp</span>
+                <button class="code-copy-btn">复制</button>
+            </div>
+            <pre><code>#include <iostream>
+using namespace std;
+
+int main() {
+    // 输出Hello World
+    cout << "Hello, 国风世界!" << endl;
+    return 0;
+}</code></pre>
+        </div>
+        
+        
+        <!-- 表格组件 -->
+        <div class="demo-section">
+            <h3>📊 表格组件</h3>
+            
+            <table class="gf-table">
+                <thead>
+                    <tr>
+                        <th>级别</th>
+                        <th>课时</th>
+                        <th>目标</th>
+                        <th>竞赛</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>L1</td>
+                        <td>16课</td>
+                        <td>50行程序</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>L2</td>
+                        <td>14课</td>
+                        <td>100行程序</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>L3</td>
+                        <td>16课</td>
+                        <td>150行程序</td>
+                        <td>CSP-J准备</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        
+        <!-- 导航卡片 -->
+        <div class="demo-section">
+            <h3>🧭 导航卡片</h3>
+            
+            <div class="gf-nav-grid">
+                <a href="#" class="gf-nav-card">
+                    <h4>🌱 L1：编程入门</h4>
+                    <p>计算机基础 · 变量 · 数据类型 · 输入输出 · 三大结构 · 运算符</p>
+                </a>
+                
+                <a href="#" class="gf-nav-card">
+                    <h4>🌿 L2：程序设计基础</h4>
+                    <p>存储网络 · 流程图 · ASCII编码 · 类型转换 · 嵌套结构 · 数学函数</p>
+                </a>
+                
+                <a href="#" class="gf-nav-card">
+                    <h4>🌲 L3：算法起步</h4>
+                    <p>进制转换 · 位运算 · 枚举法 · 模拟法 · 数组 · 字符串</p>
+                </a>
+            </div>
+        </div>
+        
+        
+        <!-- 折叠面板 -->
+        <div class="demo-section">
+            <h3>📁 折叠面板</h3>
+            
+            <div class="gf-accordion active">
+                <div class="gf-accordion-header">
+                    <span>什么是GESP？</span>
+                </div>
+                <div class="gf-accordion-body">
+                    <div class="gf-accordion-content">
+                        GESP（Grade Examination of Software Programming）是由中国计算机学会（CCF）主办的软件编程等级考试，
+                        分为Scratch、Python、C++三个系列，每个系列八个级别。
+                    </div>
+                </div>
+            </div>
+            
+            <div class="gf-accordion">
+                <div class="gf-accordion-header">
+                    <span>如何开始学习？</span>
+                </div>
+                <div class="gf-accordion-body">
+                    <div class="gf-accordion-content">
+                        建议从L1开始，按照课程顺序学习。每节课包含讲解、示例和练习，
+                        完成练习后再进入下一课。
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <!-- 进度与复选框 -->
+        <div class="demo-section">
+            <h3>✅ 学习进度</h3>
+            
+            <div class="gf-progress">
+                <div class="gf-progress-bar" style="width: 65%;"></div>
+            </div>
+            <p style="text-indent: 0;">整体进度：65%</p>
+            
+            <div style="margin-top: 1.5rem;">
+                <label class="gf-checkbox">
+                    <input type="checkbox" checked>
+                    <span class="gf-checkbox-mark"></span>
+                    <span>第1课：计算机的本质</span>
+                </label>
+                
+                <label class="gf-checkbox">
+                    <input type="checkbox" checked>
+                    <span class="gf-checkbox-mark"></span>
+                    <span>第2课：搭建编程环境</span>
+                </label>
+                
+                <label class="gf-checkbox">
+                    <input type="checkbox">
+                    <span class="gf-checkbox-mark"></span>
+                    <span>第3课：变量——程序的"记忆"</span>
+                </label>
+            </div>
+        </div>
+        
+        
+        <!-- 印章效果 -->
+        <div class="demo-section">
+            <h3>🔴 印章效果</h3>
+            
+            <div style="text-align: center; padding: 2rem;">
+                <div class="gf-seal">已认证</div>
+                <div class="gf-seal" style="margin-left: 2rem;">完成</div>
+                <div class="gf-seal" style="margin-left: 2rem;">优秀</div>
+            </div>
+        </div>
+        
+        
+        <!-- 分隔线 -->
+        <div class="demo-section">
+            <h3>➖ 分隔线</h3>
+            
+            <p>上面的分隔线：</p>
+            <div class="gf-divider"></div>
+            
+            <p>内容继续...分隔线用于区分不同章节。</p>
+        </div>
+        
+        
+        <!-- 页脚 -->
+        <footer class="gf-footer">
+            <div class="gf-footer-brand">默隐·蒙知苑</div>
+            <p>让所有孩子有处可学</p>
+            <p style="margin-top: 1rem;">国风古典样式系统 v1.0 | 2026-04-05</p>
+        </footer>
+        
+    </div>
+    
+    
+    <script>
+        // 折叠面板交互
+        document.querySelectorAll('.gf-accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const accordion = header.parentElement;
+                accordion.classList.toggle('active');
+            });
+        });
+        
+        // 复制按钮功能
+        document.querySelectorAll('.code-copy-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const code = btn.closest('.demo-section').querySelector('pre code').textContent;
+                navigator.clipboard.writeText(code).then(() => {
+                    btn.textContent = '已复制!';
+                    setTimeout(() => btn.textContent = '复制', 2000);
+                });
+            });
+        });
+    </script>
+    
+</body>
+</html>
