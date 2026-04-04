@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ 竞赛编程 v2.0 - 默隐·蒙知苑</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 {
+            color: #1a5276;
+            border-bottom: 4px solid #3498db;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            font-size: 2.2em;
+            text-align: center;
+        }
+        h2 {
+            color: #2874a6;
+            margin: 35px 0 20px 0;
+            font-size: 1.5em;
+            padding-left: 15px;
+            border-left: 4px solid #3498db;
+        }
+        h3 {
+            color: #2e86ab;
+            margin: 25px 0 15px 0;
+            font-size: 1.2em;
+        }
+        .highlight {
+            background: linear-gradient(120deg, #e8f4f8 0%, #d4e6f1 100%);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid #3498db;
+        }
+        .gesp-level {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 5px;
+        }
+        .l1 { background: #27ae60; color: white; }
+        .l2 { background: #2980b9; color: white; }
+        .l3 { background: #8e44ad; color: white; }
+        .l4 { background: #e67e22; color: white; }
+        .l5 { background: #c0392b; color: white; }
+        .l6 { background: #16a085; color: white; }
+        .l7 { background: #d35400; color: white; }
+        .l8 { background: #2c3e50; color: white; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th { background: #3498db; color: white; }
+        tr:nth-child(even) { background: #f8f9fa; }
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .nav-card {
+            background: #f8f9fa;
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            padding: 20px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s;
+        }
+        .nav-card:hover {
+            background: #3498db;
+            color: white;
+            transform: translateY(-3px);
+        }
+        .nav-card h4 {
+            color: inherit;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        .nav-card p {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin: 2px;
+        }
+        .badge-new { background: #e74c3c; color: white; }
+        .badge-core { background: #3498db; color: white; }
+        .badge-advanced { background: #9b59b6; color: white; }
+        .progress-bar {
+            background: #ecf0f1;
+            border-radius: 10px;
+            height: 20px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s;
+        }
+        ul, ol { margin: 10px 0 10px 20px; }
+        li { margin: 8px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+<h1>⚡ C++ 竞赛编程 v2.0</h1>
+
+<div class="highlight" style="text-align: center;">
+    <strong>🎯 严格按GESP大纲编写 · 完整覆盖L1-L8全部知识点</strong><br>
+    <span class="gesp-level l1">L1 入门</span>
+    <span class="gesp-level l2">L2 基础</span>
+    <span class="gesp-level l3">L3 进阶</span>
+    <span class="gesp-level l4">L4 提高</span>
+    <span class="gesp-level l5">L5 强化</span>
+    <span class="gesp-level l6">L6 精通</span>
+    <span class="gesp-level l7">L7 专家</span>
+    <span class="gesp-level l8">L8 大师</span>
+</div>
+
+<h2>📚 课程导航</h2>
+
+<div class="nav-grid">    
+    <a href="./l1/" class="nav-card">
+        <h4>🌱 L1：编程入门</h4>
+        <p>计算机基础 · IDE使用 · 变量 · 数据类型 · 输入输出 · 三大结构 · 运算符</p>
+        <span class="badge badge-core">7大知识块</span>
+        <span class="badge badge-new">25+知识点</span>
+    </a>
+    
+    <a href="./l2/" class="nav-card">
+        <h4>🌿 L2：程序设计基础</h4>
+        <p>计算机存储 · 流程图 · ASCII编码 · 类型转换 · 嵌套结构 · 数学函数</p>
+        <span class="badge badge-core">8大知识块</span>
+        <span class="badge badge-new">20+知识点</span>
+    </a>
+    
+    <a href="./l3/" class="nav-card">
+        <h4>🌲 L3：算法起步</h4>
+        <p>进制转换 · 位运算 · 枚举法 · 模拟法 · 数组 · 字符串</p>
+        <span class="badge badge-core">6大知识块</span>
+        <span class="badge badge-advanced">CSP-J准备</span>
+    </a>
+    
+    <a href="./l4/" class="nav-card">
+        <h4>🚀 L4：程序进阶</h4>
+        <p>指针 · 多维数组 · 结构体 · 函数 · 递推 · 排序 · 文件操作</p>
+        <span class="badge badge-core">8大知识块</span>
+        <span class="badge badge-advanced">CSP-J核心</span>
+    </a>
+    
+    <a href="./l5/" class="nav-card">
+        <h4>💎 L5：算法强化</h4>
+        <p>初等数论 · 高精度 · 链表 · 二分 · 递归 · 分治 · 贪心</p>
+        <span class="badge badge-core">8大知识块</span>
+        <span class="badge badge-advanced">CSP-S基础</span>
+    </a>
+    
+    <a href="./l6/" class="nav-card">
+        <h4>👑 L6：数据结构</h4>
+        <p>树 · 哈夫曼编码 · DFS/BFS · 简单DP · 面向对象 · 栈和队列</p>
+        <span class="badge badge-core">6大知识块</span>
+        <span class="badge badge-advanced">CSP-S核心</span>
+    </a>
+    
+    <a href="./l7/" class="nav-card">
+        <h4>🔥 L7：图论与动态规划</h4>
+        <p>数学函数 · 复杂DP · 图的遍历 · Flood Fill · 哈希表</p>
+        <span class="badge badge-core">5大知识块</span>
+        <span class="badge badge-advanced">NOIP水平</span>
+    </a>
+    
+    <a href="./l8/" class="nav-card">
+        <h4>🌟 L8：高级算法</h4>
+        <p>复杂数据结构 · 高级图论 · 网络流 · 字符串算法 · 综合应用</p>
+        <span class="badge badge-core">5大知识块</span>
+        <span class="badge badge-advanced">省选水平</span>
+    </a>
+</div>
+
+<h2>📊 GESP考级规划</h2>
+
+<table>
+    <tr><th>级别</th><th>考试时长</th><th>合格线</th><th>对应竞赛</th><th>建议年级</th></tr>
+    <tr><td><span class="gesp-level l1">L1</span></td><td>120分钟</td><td>60分</td><td>-</td><td>四年级</td></tr>
+    <tr><td><span class="gesp-level l2">L2</span></td><td>120分钟</td><td>60分</td><td>-</td><td>五年级</td></tr>
+    <tr><td><span class="gesp-level l3">L3</span></td><td>120分钟</td><td>60分</td><td>-</td><td>六年级</td></tr>
+    <tr><td><span class="gesp-level l4">L4</span></td><td>120分钟</td><td>60分</td><td>CSP-J入门</td><td>初一</td></tr>
+    <tr><td><span class="gesp-level l5">L5</span></td><td>180分钟</td><td>60分</td><td>CSP-J提高</td><td>初二</td></tr>
+    <tr><td><span class="gesp-level l6">L6</span></td><td>180分钟</td><td>60分</td><td>CSP-S</td><td>初三</td></tr>
+    <tr><td><span class="gesp-level l7">L7</span></td><td>180分钟</td><td>60分</td><td>NOIP</td><td>高一</td></tr>
+    <tr><td><span class="gesp-level l8">L8</span></td><td>180分钟</td><td>60分</td><td>NOI省选</td><td>高二+</td></tr>
+</table>
+
+<h2>🎯 竞赛体系路线</h2>
+
+<div class="highlight">
+<p style="font-size: 1.1em; text-align: center;">
+    <strong>GESP L1-L4</strong> → <strong>CSP-J</strong>（入门组）→ <strong>GESP L5-L6</strong> → <strong>CSP-S</strong>（提高组）→ <strong>NOIP</strong> → <strong>NOI</strong> → <strong>IOI</strong>
+</p>
+</div>
+
+<h2>📖 学习建议</h2>
+
+<ul>
+    <li><strong>最佳起点</strong>：四年级（9-10岁）开始L1</li>
+    <li><strong>学习节奏</strong>：每周2-3次，每次1-1.5小时</li>
+    <li><strong>练习要求</strong>：每学完一个知识点，至少完成3道练习题</li>
+    <li><strong>考试规划</strong>：学完L4可参加CSP-J，学完L6可参加CSP-S</li>
+</ul>
+
+<h2>🌐 外部资源</h2>
+
+<ul>
+    <li><a href="https://gesp.ccf.org.cn/" target="_blank">GESP 官网</a> - 报名考试</li>
+    <li><a href="https://www.luogu.com.cn/" target="_blank">洛谷</a> - 刷题平台</li>
+    <li><a href="https://oi-wiki.org/" target="_blank">OI Wiki</a> - 信息学百科</li>
+    <li><a href="https://www.noi.cn/" target="_blank">NOI官网</a> - 竞赛信息</li>
+</ul>
+
+<div style="text-align: center; margin-top: 40px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+    <strong>默隐·蒙知苑</strong> · 让所有孩子有处可学<br>
+    <span style="color: #666; font-size: 0.9em;">C++教程v2.0 | 严格按GESP大纲编写 | 2026-04-05</span>
+</div>
+
+    </div>
+</body>
+</html>
