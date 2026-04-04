@@ -1,0 +1,623 @@
+/* 国风古典样式系统 - 默隐·蒙知苑 v2.0 */
+/* 版本: 2026-04-05 */
+
+:root {
+  /* 传统五色体系 */
+  --indigo: #1e3a5f;        /* 靛蓝 - 主色 */
+  --indigo-light: #2e5984;  /* 浅靛蓝 */
+  --indigo-dark: #0f1f33;   /* 深靛蓝 */
+  
+  --cinnabar: #c9372c;      /* 朱砂 - 强调 */
+  --ochre: #d4a574;         /* 缃色 - 点缀 */
+  --bamboo: #4a7c59;        /* 竹青 - 成功 */
+  --purple: #6b4c7a;        /* 紫棠 - 辅助 */
+  
+  /* 墨色体系 */
+  --ink-900: #1a1a1a;
+  --ink-700: #2c2c2c;
+  --ink-500: #4a4a4a;
+  --ink-300: #6b6b6b;
+  --ink-100: #9a9a9a;
+  
+  /* 宣纸体系 */
+  --paper: #f5f0e6;         /* 宣纸黄 */
+  --paper-light: #faf8f3;   /* 米白 */
+  --paper-warm: #f7f3ed;    /* 暖白 */
+  
+  /* 边框 */
+  --border-light: #e0d5c5;
+  --border-medium: #c9b8a0;
+  --border-dark: #8b7355;
+  
+  /* 字体 */
+  --font-serif: 'Noto Serif SC', 'Source Han Serif SC', 'SimSun', serif;
+  --font-sans: 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+  --font-kai: 'LXGW WenKai', 'KaiTi', serif;
+  --font-mono: 'Fira Code', 'Consolas', monospace;
+  
+  /* 阴影 */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+/* ===== 基础重置 ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--ink-700);
+  background: var(--paper-light);
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(212,165,116,0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(30,58,95,0.03) 0%, transparent 50%);
+  min-height: 100vh;
+}
+
+/* ===== 导航栏 ===== */
+.navbar {
+  background: linear-gradient(180deg, var(--indigo) 0%, var(--indigo-dark) 100%);
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: var(--shadow-md);
+}
+
+.navbar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  height: 64px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: white;
+}
+
+.brand-icon {
+  font-size: 1.75rem;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+.brand-text {
+  font-family: var(--font-kai);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.nav-links {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.nav-link {
+  color: rgba(255,255,255,0.9);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.nav-link:hover, .nav-link.active {
+  background: rgba(255,255,255,0.15);
+  color: white;
+}
+
+/* ===== 主容器 ===== */
+.main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* ===== 英雄区域 ===== */
+.hero {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, rgba(30,58,95,0.05) 0%, rgba(212,165,116,0.05) 100%);
+  border-radius: 16px;
+  margin-bottom: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '☯';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20rem;
+  opacity: 0.03;
+  pointer-events: none;
+}
+
+.hero-title {
+  font-family: var(--font-kai);
+  font-size: 3rem;
+  color: var(--indigo);
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  color: var(--cinnabar);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.hero-desc {
+  font-size: 1.1rem;
+  color: var(--ink-500);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.hero-yijing {
+  margin-top: 2rem;
+  padding: 1.5rem 2rem;
+  background: rgba(212,165,116,0.1);
+  border-left: 4px solid var(--ochre);
+  border-radius: 0 8px 8px 0;
+  font-family: var(--font-kai);
+  font-style: italic;
+  color: var(--ink-500);
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ===== 入口卡片网格 ===== */
+.entrance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.entrance-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  text-decoration: none;
+  color: var(--ink-700);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+}
+
+.entrance-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--indigo);
+  transform: scaleX(0);
+  transition: transform 0.4s;
+}
+
+.entrance-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--border-medium);
+}
+
+.entrance-card:hover::before {
+  transform: scaleX(1);
+}
+
+.entrance-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.entrance-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--indigo);
+  margin-bottom: 0.5rem;
+}
+
+.entrance-desc {
+  font-size: 0.95rem;
+  color: var(--ink-300);
+  line-height: 1.6;
+}
+
+.entrance-card.student::before { background: var(--indigo); }
+.entrance-card.parent::before { background: var(--bamboo); }
+.entrance-card.private::before { background: var(--cinnabar); }
+.entrance-card.competition::before { background: var(--purple); }
+
+/* ===== 板块标题 ===== */
+.section-title {
+  font-family: var(--font-kai);
+  font-size: 1.75rem;
+  color: var(--indigo);
+  margin: 3rem 0 1.5rem;
+  padding-left: 1rem;
+  border-left: 4px solid var(--ochre);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* ===== 内容卡片 ===== */
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.content-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid var(--border-light);
+  transition: all 0.3s;
+}
+
+.content-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-medium);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.card-icon {
+  font-size: 1.5rem;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--indigo);
+}
+
+.card-body {
+  color: var(--ink-500);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.card-body ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.card-body li {
+  margin: 0.5rem 0;
+}
+
+.card-body li strong {
+  color: var(--indigo);
+}
+
+/* ===== 路线预览 ===== */
+.path-preview {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 1px solid var(--border-light);
+}
+
+.path-steps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.path-step {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem;
+  background: linear-gradient(135deg, var(--paper) 0%, white 100%);
+  border-radius: 50px;
+  border: 2px solid var(--border-light);
+  font-weight: 600;
+  color: var(--indigo);
+}
+
+.path-arrow {
+  color: var(--ochre);
+  font-size: 1.25rem;
+}
+
+/* ===== 表格样式 ===== */
+.gf-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  margin: 1.5rem 0;
+}
+
+.gf-table th {
+  background: var(--indigo);
+  color: white;
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.gf-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.gf-table tr:last-child td {
+  border-bottom: none;
+}
+
+.gf-table tr:hover td {
+  background: var(--paper-warm);
+}
+
+.gf-table td strong {
+  color: var(--indigo);
+}
+
+/* ===== 标签 ===== */
+.tag {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin: 0.25rem;
+}
+
+.tag-public { background: var(--bamboo); color: white; }
+.tag-private { background: var(--cinnabar); color: white; }
+.tag-new { background: var(--ochre); color: white; }
+.tag-hot { background: var(--purple); color: white; }
+
+/* ===== 按钮 ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.btn-primary {
+  background: var(--indigo);
+  color: white;
+  box-shadow: 0 4px 12px rgba(30,58,95,0.3);
+}
+
+.btn-primary:hover {
+  background: var(--indigo-light);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(30,58,95,0.4);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--indigo);
+  color: var(--indigo);
+}
+
+.btn-outline:hover {
+  background: var(--indigo);
+  color: white;
+}
+
+/* ===== 印章效果 ===== */
+.seal {
+  display: inline-block;
+  border: 3px solid var(--cinnabar);
+  color: var(--cinnabar);
+  padding: 0.5rem 1rem;
+  font-family: var(--font-kai);
+  font-weight: 700;
+  transform: rotate(-3deg);
+  position: relative;
+  background: white;
+  box-shadow: 2px 2px 0 rgba(201,55,44,0.2);
+}
+
+.seal::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  right: 3px;
+  bottom: 3px;
+  border: 1px solid var(--cinnabar);
+}
+
+/* ===== 分隔线 ===== */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-medium), transparent);
+  margin: 3rem 0;
+  position: relative;
+}
+
+.divider::after {
+  content: '❦';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--paper-light);
+  padding: 0 1rem;
+  color: var(--border-medium);
+  font-size: 1.25rem;
+}
+
+/* ===== 页脚 ===== */
+.footer {
+  background: var(--indigo-dark);
+  color: rgba(255,255,255,0.8);
+  padding: 3rem 2rem 2rem;
+  margin-top: 4rem;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer-brand {
+  font-family: var(--font-kai);
+  font-size: 1.5rem;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.footer-slogan {
+  font-size: 1.1rem;
+  color: var(--ochre);
+  margin-bottom: 1.5rem;
+}
+
+.footer-copy {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.5);
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+/* ===== 引用块 ===== */
+blockquote {
+  background: linear-gradient(135deg, var(--paper) 0%, #ebe4d6 100%);
+  border-left: 4px solid var(--ochre);
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 8px 8px 0;
+  font-family: var(--font-kai);
+  font-style: italic;
+  color: var(--ink-500);
+}
+
+blockquote strong {
+  color: var(--cinnabar);
+  font-style: normal;
+}
+
+/* ===== 提示框 ===== */
+.alert {
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.alert-info {
+  background: #e8f4f8;
+  border-left: 4px solid var(--indigo);
+}
+
+.alert-warning {
+  background: #fff8e6;
+  border-left: 4px solid var(--ochre);
+}
+
+/* ===== 响应式 ===== */
+@media (max-width: 768px) {
+  .navbar-inner {
+    padding: 0 1rem;
+    height: 56px;
+  }
+  
+  .brand-text {
+    font-size: 1.25rem;
+  }
+  
+  .nav-links {
+    display: none;
+  }
+  
+  .main-container {
+    padding: 1rem;
+  }
+  
+  .hero {
+    padding: 2rem 1rem;
+  }
+  
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .entrance-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .path-steps {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .path-arrow {
+    transform: rotate(90deg);
+  }
+}
+
+/* ===== 打印优化 ===== */
+@media print {
+  .navbar, .footer {
+    display: none;
+  }
+  
+  body {
+    background: white;
+  }
+  
+  .main-container {
+    max-width: 100%;
+  }
+}
