@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.2 常见操作 - C++一级 - 蒙正堂</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/guofeng-v2.css">
+    <style>
+        :root {
+            --l1-primary: #1e3a5f;
+            --l1-secondary: #2e5984;
+            --correct: #4a7c59;
+            --wrong: #c9372c;
+        }
+        
+        .topic-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .breadcrumb a {
+            color: var(--l1-primary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .topic-header {
+            background: linear-gradient(135deg, var(--l1-primary) 0%, var(--l1-secondary) 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+        
+        .topic-header .number {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+        }
+        
+        .topic-header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .topic-header .meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .content-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        
+        .content-section h2 {
+            color: var(--l1-primary);
+            border-left: 4px solid var(--l1-primary);
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .content-section h3 {
+            color: var(--ink-800);
+            margin: 1.5rem 0 1rem;
+        }
+        
+        .content-section p {
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+        
+        .content-section ul, .content-section ol {
+            margin: 1rem 0 1rem 1.5rem;
+        }
+        
+        .content-section li {
+            margin-bottom: 0.5rem;
+            line-height: 1.7;
+        }
+        
+        .highlight-box {
+            background: #f0f4f8;
+            border-left: 4px solid var(--l1-primary);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .highlight-box.warning {
+            background: #fff3cd;
+            border-left-color: #d4a574;
+        }
+        
+        .highlight-box.success {
+            background: #d4edda;
+            border-left-color: #4a7c59;
+        }
+        
+        .step-list {
+            counter-reset: step;
+            list-style: none;
+            margin-left: 0 !important;
+        }
+        
+        .step-list li {
+            position: relative;
+            padding-left: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .step-list li::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2rem;
+            height: 2rem;
+            background: var(--l1-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        .quiz-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        
+        .quiz-section h2 {
+            color: var(--l1-primary);
+            border-left: 4px solid var(--l1-primary);
+            padding-left: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .quiz-progress {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 0.75rem 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .quiz-progress-bar {
+            flex: 1;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            margin: 0 1rem;
+            overflow: hidden;
+        }
+        
+        .quiz-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--l1-primary), var(--l1-secondary));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .question-card {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .question-card.correct {
+            border-color: var(--correct);
+            background: #f0f8f0;
+        }
+        
+        .question-card.wrong {
+            border-color: var(--wrong);
+            background: #fdf0ef;
+        }
+        
+        .question-number {
+            font-weight: 600;
+            color: var(--l1-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .question-text {
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .option {
+            padding: 0.75rem 1rem;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .option:hover {
+            background: #f8f9fa;
+            border-color: var(--l1-primary);
+        }
+        
+        .option.selected {
+            background: #e3f2fd;
+            border-color: var(--l1-primary);
+        }
+        
+        .option.correct {
+            background: #d4edda;
+            border-color: var(--correct);
+        }
+        
+        .option.wrong {
+            background: #f8d7da;
+            border-color: var(--wrong);
+        }
+        
+        .explanation {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        
+        .question-card.answered .explanation {
+            display: block;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .topic-container {
+                padding: 1rem;
+            }
+            
+            .topic-header h1 {
+                font-size: 1.4rem;
+            }
+            
+            .content-section {
+                padding: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="../../" class="brand">
+                <span class="brand-icon">☯</span>
+                <span class="brand-text">默隐·蒙知苑</span>
+            </a>
+            <div class="nav-links">
+                <a href="../" class="nav-link">🎓 蒙正堂</a>
+                <a href="./" class="nav-link">C++一级</a>
+                <span class="nav-link active">1.2 常见操作</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="topic-container">
+        <!-- 面包屑导航 -->
+        <div class="breadcrumb">
+            <a href="../">蒙正堂</a>
+            <span>›</span>
+            <a href="./">C++一级</a>
+            <span>›</span>
+            <a href="./#block1">计算机基础</a>
+            <span>›</span>
+            <span>1.2 常见操作</span>
+        </div>
+
+        <!-- 知识点标题 -->
+        <div class="topic-header">
+            <div class="number">知识块 1 · 知识点 2/3</div>
+            <h1>常见操作</h1>
+            <div class="meta">
+                <span>⏱️ 预估学习时长: 30分钟</span>
+                <span>📋 验证题目: 180道</span>
+                <span>🎯 难度: 入门级</span>
+            </div>
+        </div>
+
+        <!-- 详细内容 -->
+        <div class="content-section">
+            <h2>📚 知识详解</h2>
+            
+            <h3>一、计算机的开机与关机</h3>
+            
+            <p><strong>正确开机顺序</strong>：开机时应先开启外部设备（如显示器、打印机），再开启主机电源。这是因为外部设备启动时可能会产生电流冲击，先开外设可以避免对主机造成影响。</p>
+            
+            <p><strong>正确关机顺序</strong>：关机时应先关闭主机，再关闭外部设备。更重要的是，必须使用操作系统提供的"关机"功能，而不是直接切断电源。</p>
+            
+            <div class="highlight-box warning">
+                <strong>⚠️ 重要警告</strong>：直接拔掉电源或长按电源键强制关机可能导致数据丢失、文件损坏，甚至硬盘损伤。这是因为操作系统在关机时会将内存中的数据写入硬盘，确保数据完整性。
+            </div>
+            
+            <p><strong>Windows系统关机步骤</strong>：</p>
+            <ol class="step-list">
+                <li>点击屏幕左下角的"开始"按钮（Windows图标）</li>
+                <li>点击"电源"图标</li>
+                <li>选择"关机"选项</li>
+                <li>等待系统自动关闭</li>
+            </ol>
+            
+            <p><strong>重启与睡眠的区别</strong>：</p>
+            <ul>
+                <li><strong>重启</strong>：关闭所有程序并重新启动系统，可以解决许多软件问题</li>
+                <li><strong>睡眠</strong>：将当前状态保存到内存，进入低功耗模式，唤醒速度快</li>
+                <li><strong>休眠</strong>：将当前状态保存到硬盘，完全断电，下次开机恢复到之前状态</li>
+            </ul>
+
+            <h3>二、鼠标的基本操作</h3>
+            
+            <p>鼠标是图形界面操作系统中最主要的输入设备之一，掌握鼠标操作是使用计算机的基础。</p>
+            
+            <p><strong>鼠标的基本操作</strong>：</p>
+            <ul>
+                <li><strong>移动</strong>：在鼠标垫上移动鼠标，屏幕上的指针会相应移动</li>
+                <li><strong>单击（左键）</strong>：快速按下并松开左键，用于选择项目或打开按钮</li>
+                <li><strong>双击（左键）</strong>：快速连续两次单击，用于打开文件或程序</li>
+                <li><strong>右键单击</strong>：按下右键，弹出快捷菜单，显示与当前位置相关的操作选项</li>
+                <li><strong>拖动</strong>：按住左键不放同时移动鼠标，用于移动文件或选择区域</li>
+                <li><strong>滚动</strong>：滚动滚轮，用于上下滚动页面内容</li>
+            </ul>
+            
+            <div class="highlight-box">
+                <strong>💡 小技巧</strong>：在浏览器和文档中，按住滚轮并拖动鼠标可以实现快速滚动；在桌面空白处右键单击可以刷新桌面或调整查看方式。
+            </div>
+
+            <h3>三、键盘的基本操作</h3>
+            
+            <p>键盘是输入文字、数字和执行命令的主要工具。除了字母和数字键外，还有许多功能键需要掌握。</p>
+            
+            <p><strong>常用功能键</strong>：</p>
+            <ul>
+                <li><strong>Enter（回车键）</strong>：确认输入、执行命令、换行</li>
+                <li><strong>Space（空格键）</strong>：输入空格、在网页中翻页</li>
+                <li><strong>Backspace（退格键）</strong>：删除光标左侧的字符</li>
+                <li><strong>Delete（删除键）</strong>：删除光标右侧的字符或选中的文件</li>
+                <li><strong>Tab（制表键）</strong>：插入制表符、在表单中切换输入框</li>
+                <li><strong>Caps Lock（大小写锁定）</strong>：切换字母大小写输入</li>
+                <li><strong>Shift（上档键）</strong>：输入上档字符、配合其他键执行功能</li>
+                <li><strong>Ctrl（控制键）</strong>：配合其他键执行快捷操作</li>
+                <li><strong>Alt（交替键）</strong>：配合其他键执行快捷操作</li>
+                <li><strong>Esc（退出键）</strong>：取消操作、关闭对话框、退出全屏</li>
+            </ul>
+            
+            <p><strong>常用快捷键组合</strong>：</p>
+            <ul>
+                <li><strong>Ctrl + C</strong>：复制选中的内容</li>
+                <li><strong>Ctrl + V</strong>：粘贴剪贴板中的内容</li>
+                <li><strong>Ctrl + X</strong>：剪切选中的内容</li>
+                <li><strong>Ctrl + Z</strong>：撤销上一步操作</li>
+                <li><strong>Ctrl + S</strong>：保存当前文件</li>
+                <li><strong>Ctrl + A</strong>：全选所有内容</li>
+                <li><strong>Ctrl + F</strong>：查找内容</li>
+                <li><strong>Alt + Tab</strong>：切换打开的程序窗口</li>
+                <li><strong>Ctrl + Alt + Delete</strong>：打开安全选项界面（任务管理器等）</li>
+            </ul>
+
+            <h3>四、文件和文件夹的基本操作</h3>
+            
+            <p>文件是存储数据的基本单位，文件夹（又称目录）用于组织和管理文件。理解文件和文件夹的概念及操作是计算机使用的基础。</p>
+            
+            <p><strong>文件的基本操作</strong>：</p>
+            <ul>
+                <li><strong>新建</strong>：创建新的文件或文件夹</li>
+                <li><strong>打开</strong>：用相应程序打开文件</li>
+                <li><strong>复制</strong>：创建文件的副本到另一个位置</li>
+                <li><strong>剪切（移动）</strong>：将文件从原位置移动到新位置</li>
+                <li><strong>粘贴</strong>：将复制或剪切的文件放置到目标位置</li>
+                <li><strong>重命名</strong>：修改文件或文件夹的名称</li>
+                <li><strong>删除</strong>：将文件移到回收站</li>
+                <li><strong>搜索</strong>：在计算机中查找文件</li>
+            </ul>
+            
+            <p><strong>文件路径的概念</strong>：文件路径表示文件在计算机中的位置。例如：`C:\Users\Documents\file.txt` 表示C盘Users文件夹下Documents文件夹中的file.txt文件。</p>
+            
+            <div class="highlight-box success">
+                <strong>💡 实用技巧</strong>：删除文件时按住Shift键，可以直接永久删除而不经过回收站（谨慎使用！）；误删文件后，可以从回收站恢复。
+            </div>
+
+            <h3>五、网络连接的基本操作</h3>
+            
+            <p>在信息时代，网络连接是计算机使用的重要部分。掌握基本的网络操作可以更好地利用互联网资源。</p>
+            
+            <p><strong>常见网络连接方式</strong>：</p>
+            <ul>
+                <li><strong>有线连接（网线）</strong>：通过网线连接路由器或交换机，稳定且速度快</li>
+                <li><strong>无线连接（Wi-Fi）</strong>：通过无线信号连接，方便灵活但可能受干扰</li>
+                <li><strong>移动网络</strong>：通过手机热点或4G/5G模块连接</li>
+            </ul>
+            
+            <p><strong>连接Wi-Fi的步骤</strong>：</p>
+            <ol class="step-list">
+                <li>点击任务栏右下角的网络图标</li>
+                <li>选择要连接的Wi-Fi网络名称</li>
+                <li>输入Wi-Fi密码（如有）</li>
+                <li>点击"连接"按钮</li>
+            </ol>
+            
+            <p><strong>浏览器的基本使用</strong>：浏览器是访问互联网的主要工具。常用操作包括：</p>
+            <ul>
+                <li>在地址栏输入网址（URL）访问网站</li>
+                <li>使用搜索引擎（如百度、Google）查找信息</li>
+                <li>收藏常用网站（添加书签）</li>
+                <li>管理浏览历史记录</li>
+                <li>下载网络上的文件</li>
+            </ul>
+
+            <h3>六、计算机安全与维护常识</h3>
+            
+            <p>养成良好的使用习惯，做好计算机的安全与维护，可以延长计算机寿命，保护个人数据安全。</p>
+            
+            <p><strong>日常维护建议</strong>：</p>
+            <ul>
+                <li>定期清理垃圾文件和临时文件</li>
+                <li>保持操作系统和软件更新</li>
+                <li>安装并定期更新杀毒软件</li>
+                <li>定期备份重要数据</li>
+                <li>保持计算机通风散热良好</li>
+            </ul>
+            
+            <p><strong>安全注意事项</strong>：</p>
+            <ul>
+                <li>设置开机密码，保护个人隐私</li>
+                <li>不随意下载和安装来源不明的软件</li>
+                <li>不随意点击可疑的链接或邮件附件</li>
+                <li>使用复杂密码并定期更换</li>
+                <li>离开电脑时锁定屏幕（Win+L）</li>
+            </ul>
+            
+            <div class="highlight-box warning">
+                <strong>⚠️ 重要提醒</strong>：遇到计算机问题时，首先尝试重启；定期备份重要文件到外部存储设备或云盘；不要随意删除系统文件。
+            </div>
+
+            <h3>七、常见考点总结</h3>
+            <ol>
+                <li>开机先开外设，关机先关主机；必须使用系统关机功能</li>
+                <li>鼠标基本操作：单击、双击、右键、拖动、滚动</li>
+                <li>常用快捷键：Ctrl+C复制、Ctrl+V粘贴、Ctrl+S保存、Ctrl+Z撤销</li>
+                <li>文件操作：新建、打开、复制、剪切、粘贴、删除、重命名</li>
+                <li>文件路径表示文件在计算机中的位置</li>
+                <li>网络连接方式：有线、Wi-Fi、移动网络</li>
+                <li>安全习惯：设密码、不点可疑链接、定期备份、更新系统</li>
+            </ol>
+        </div>
+
+        <!-- 验证测验 -->
+        <div class="quiz-section">
+            <h2>📝 验证测验 (180题)</h2>
+            <div class="quiz-progress">
+                <span>进度</span>
+                <div class="quiz-progress-bar">
+                    <div class="quiz-progress-fill" id="quiz-progress" style="width: 0%"></div>
+                </div>
+                <span id="quiz-count">0/180</span>
+            </div>
+            
+            <div id="quiz-container">
+                <!-- 题目通过JS动态加载 -->
+            </div>
+            
+            <div class="nav-buttons">
+                <button class="gf-btn gf-btn-secondary" id="prev-btn" onclick="prevQuestion()" disabled>← 上一题</button>
+                <button class="gf-btn gf-btn-primary" id="next-btn" onclick="nextQuestion()">下一题 →</button>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="./" class="gf-btn gf-btn-secondary">← 返回C++一级目录</a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">默隐·蒙正堂</div>
+            <p class="footer-slogan">让所有孩子有处可学</p>
+            <p class="footer-copy">© 2026 默隐 · 明夷敬制</p>
+        </div>
+    </footer>
+
+    <script>
+        // 180道验证题目
+        const questions = [
+            // 开关机操作 1-30
+            {q: "正确的开机顺序是什么？", options: ["先开主机，再开外设", "先开外设，再开主机", "同时开启", "顺序无所谓"], answer: 1, explain: "开机时应先开启外部设备，再开启主机电源，避免电流冲击对主机造成影响。"},
+            {q: "正确的关机顺序是什么？", options: ["直接切断电源", "先关主机，再关外设", "先关外设，再关主机", "只关显示器"], answer: 1, explain: "关机时应先关闭主机，再关闭外部设备；更重要的是必须使用系统提供的关机功能。"},
+            {q: "为什么不能直接拔掉电源关机？", options: ["会耗电", "可能导致数据丢失或损坏", "会浪费电", "没有影响"], answer: 1, explain: "直接拔掉电源会导致内存中的数据来不及写入硬盘，可能造成数据丢失、文件损坏甚至硬盘损伤。"},
+            {q: "Windows系统关机的正确步骤是？", options: ["直接按电源键", "开始菜单→电源→关机", "拔掉电源线", "关闭显示器"], answer: 1, explain: "Windows系统应通过开始菜单中的电源选项选择关机。"},
+            {q: "长按电源键强制关机有什么风险？", options: ["没有任何风险", "可能导致数据丢失", "会让电脑更快", "会节省电量"], answer: 1, explain: "强制关机相当于直接断电，可能导致未保存的数据丢失或文件系统损坏。"},
+            {q: "重启和关机再开机有什么区别？", options: ["没有区别", "重启速度更快，不清除内存", "关机更省电", "重启会清空硬盘"], answer: 1, explain: "重启是重新启动操作系统，速度较快；关机再开机会完全断电，下次启动需要重新初始化硬件。"},
+            {q: "Windows系统的'睡眠'模式会？", options: ["完全关闭电脑", "将状态保存到内存，进入低功耗", "保存到硬盘", "关闭所有程序"], answer: 1, explain: "睡眠模式将当前状态保存到内存，计算机进入低功耗状态，唤醒时恢复快。"},
+            {q: "Windows系统的'休眠'模式会？", options: ["完全关闭电脑", "将状态保存到内存", "将状态保存到硬盘，完全断电", "只是锁屏"], answer: 2, explain: "休眠模式将当前状态保存到硬盘，然后完全断电，下次开机恢复到之前状态。"},
+            {q: "哪种关机方式最省电？", options: ["睡眠", "休眠", "正常关机", "屏幕保护"], answer: 2, explain: "正常关机后计算机完全断电，是最省电的方式；休眠次之，睡眠仍会耗电。"},
+            {q: "计算机死机时，首先应该尝试？", options: ["立即断电", "等待一会儿看是否恢复", "用水泼", "拍打主机"], answer: 1, explain: "计算机暂时无响应时，应先等待一会儿；如果确实死机，可以尝试任务管理器或重启。"},
+            {q: "如何打开Windows任务管理器？", options: ["Ctrl+Alt+Delete或Ctrl+Shift+Esc", "Alt+F4", "Ctrl+S", "Win+L"], answer: 0, explain: "Ctrl+Alt+Delete或Ctrl+Shift+Esc可以打开任务管理器，用于结束无响应的程序。"},
+            {q: "笔记本电脑合上盖子默认会？", options: ["自动关机", "进入睡眠模式", "屏幕变暗", "没有任何变化"], answer: 1, explain: "默认设置下，笔记本电脑合上盖子会进入睡眠模式（可在电源选项中更改）。"},
+            {q: "台式电脑显示器的电源按钮应该？", options: ["和主机同时开关", "不关，一直开着", "关机后关闭", "无所谓"], answer: 2, explain: "关机后关闭显示器电源可以节省电量，延长显示器寿命。"},
+            {q: "开机后显示器无信号，首先应检查？", options: ["显示器电源和连接线", "重装系统", "更换CPU", "更换内存"], answer: 0, explain: "开机无信号首先检查显示器是否通电，视频线是否连接牢固。"},
+            {q: "电脑开机后听到'滴'的一声长响，通常表示？", options: ["正常启动", "内存故障", "显卡故障", "正常自检通过"], answer: 0, explain: "一声短响通常是正常启动的标志；不同BIOS的提示音含义可能不同。"},
+            {q: "Windows系统更新时可以关机吗？", options: ["随时可以", "最好不要，可能导致系统损坏", "必须关机", "更新时自动关机"], answer: 1, explain: "系统更新过程中关机可能导致更新失败或系统文件损坏。"},
+            {q: "电脑长时间不用，应该？", options: ["一直开着", "关机并断开电源", "保持睡眠状态", "只关显示器"], answer: 1, explain: "长时间不用应关机并断开电源，既安全又省电，还能防止雷击等意外。"},
+            {q: "雷雨天气使用电脑应该？", options: ["正常使用", "拔掉网线，最好关机", "打开窗户", "多喝水"], answer: 1, explain: "雷雨天气应拔掉网线，最好关机并断开电源，防止雷击损坏设备。"},
+            {q: "'注销'和'关机'有什么区别？", options: ["没有区别", "注销只退出当前用户，不关电源", "注销会关闭所有程序", "关机不会保存设置"], answer: 1, explain: "注销是退出当前用户账户，计算机继续运行；关机是关闭整个系统。"},
+            {q: "'锁定'计算机（Win+L）会？", options: ["关闭计算机", "进入登录界面，程序继续运行", "关闭所有程序", "进入睡眠"], answer: 1, explain: "锁定计算机后进入登录界面，当前运行的程序继续运行，需要密码才能解锁。"},
+            {q: "电脑开机后一直转圈进不了系统，可能原因不包括？", options: ["硬盘故障", "系统文件损坏", "鼠标没插好", "软件冲突"], answer: 2, explain: "鼠标没插好不会导致系统无法启动，只会影响鼠标使用。"},
+            {q: "正常关机后，主机电源指示灯？", options: ["常亮", "闪烁", "熄灭", "变红"], answer: 2, explain: "正常关机后，主机电源指示灯应该熄灭，表示已断电。"},
+            {q: "关机前应该做什么？", options: ["直接关机", "保存所有工作，关闭程序", "删除文件", "格式化硬盘"], answer: 1, explain: "关机前应保存所有工作并关闭程序，避免数据丢失。"},
+            {q: "'快速启动'功能会？", options: ["减慢开机速度", "加快开机速度", "增加耗电", "减少硬盘寿命"], answer: 1, explain: "Windows的快速启动功能通过保存系统状态到硬盘来加快开机速度。"},
+            {q: "笔记本电脑电池电量低时应该？", options: ["继续使用到自动关机", "及时充电或关机保存工作", "拆掉电池", "冷冻电池"], answer: 1, explain: "电池电量低时应及时充电或保存工作后关机，避免突然断电导致数据丢失。"},
+            {q: "电脑过热可能会？", options: ["自动关机保护", "运行更快", "屏幕更亮", "声音更大"], answer: 0, explain: "电脑过热时，系统可能自动关机保护硬件，或降低性能运行。"},
+            {q: "开机时按F8键（旧版Windows）可以？", options: ["进入安全模式", "打开浏览器", "调整音量", "切换输入法"], answer: 0, explain: "旧版Windows开机按F8可以进入高级启动选项，包括安全模式。"},
+            {q: "'安全模式'有什么特点？", options: ["功能最全", "只加载最基本的驱动和服务", "可以玩游戏", "网速最快"], answer: 1, explain: "安全模式只加载最基本的驱动和服务，用于诊断和修复系统问题。"},
+            {q: "电脑开机密码忘记了，应该？", options: ["砸电脑", "使用密码重置工具或联系管理员", "一直试到对为止", "重装系统"], answer: 1, explain: "忘记密码应使用官方密码重置工具或联系管理员，避免数据丢失。"},
+            {q: "定时关机命令'shutdown -s -t 3600'表示？", options: ["立即关机", "3600秒后关机", "3600分钟后关机", "不关机"], answer: 1, explain: "shutdown -s -t 3600表示3600秒（1小时）后关机，-t后的数字单位是秒。"},
+            // 鼠标操作 31-60
+            {q: "鼠标的基本操作不包括？", options: ["移动", "单击", "双击", "摇一摇"], answer: 3, explain: "鼠标基本操作包括移动、单击、双击、右键、拖动、滚动等，不包括摇一摇。"},
+            {q: "鼠标左键单击通常用于？", options: ["打开文件", "选择项目或按钮", "弹出菜单", "滚动页面"], answer: 1, explain: "左键单击用于选择项目、激活按钮或定位光标。"},
+            {q: "鼠标左键双击通常用于？", options: ["选择文字", "打开文件或程序", "复制文件", "删除文件"], answer: 1, explain: "双击左键通常用于打开文件、文件夹或启动程序。"},
+            {q: "鼠标右键单击通常用于？", options: ["打开文件", "弹出快捷菜单", "关闭窗口", "最小化窗口"], answer: 1, explain: "右键单击会弹出与当前位置相关的快捷菜单，显示可用操作。"},
+            {q: "拖动操作的正确方法是？", options: ["按住右键移动", "按住左键不放同时移动", "滚动滚轮", "快速点击"], answer: 1, explain: "拖动是按住左键不放同时移动鼠标，用于移动文件或选择区域。"},
+            {q: "鼠标滚轮通常用于？", options: ["打开文件", "上下滚动页面", "关闭程序", "调整音量"], answer: 1, explain: "滚轮用于上下滚动页面内容，在浏览器、文档中常用。"},
+            {q: "在浏览器中，点击鼠标滚轮（中键）可以实现？", options: ["关闭标签", "新建标签", "滚动锁定或打开链接", "刷新页面"], answer: 2, explain: "在浏览器中点击滚轮可以锁定滚动或在新标签打开链接。"},
+            {q: "鼠标指针变成'手型'表示？", options: ["系统忙", "此处可以点击", "文字输入", "移动窗口"], answer: 1, explain: "手型指针表示此处是可点击的链接或按钮。"},
+            {q: "鼠标指针变成'I型'表示？", options: ["此处可以输入文字", "系统错误", "正在加载", "可以拖动"], answer: 0, explain: "I型（光标）指针表示此处是文本区域，可以输入文字。"},
+            {q: "鼠标指针变成'双向箭头'表示？", options: ["可以调整大小", "可以移动", "正在等待", "系统错误"], answer: 0, explain: "双向箭头表示可以沿该方向调整窗口或元素大小。"},
+            {q: "在桌面上按住鼠标右键拖动可以？", options: ["没有反应", "刷新桌面", "显示菜单", "自动排列图标"], answer: 2, explain: "在桌面空白处按住右键拖动会显示菜单，可选择查看方式等。"},
+            {q: "鼠标选中多个不连续文件应使用？", options: ["Shift键", "Ctrl键", "Alt键", "Tab键"], answer: 1, explain: "按住Ctrl键单击可选择多个不连续的文件；Shift用于选择连续范围。"},
+            {q: "鼠标选中连续多个文件应使用？", options: ["Ctrl键", "Shift键", "Alt键", "Esc键"], answer: 1, explain: "单击第一个文件，按住Shift键单击最后一个文件，可选中连续范围。"},
+            {q: "在Word中，三击鼠标左键会？", options: ["选中一行", "选中一段", "选中全文", "关闭文档"], answer: 1, explain: "在Word中三击左键会选中整个段落。"},
+            {q: "在浏览器中，按住Ctrl键滚动滚轮会？", options: ["上下滚动页面", "放大或缩小页面", "切换标签", "关闭浏览器"], answer: 1, explain: "Ctrl+滚轮可以放大或缩小网页显示比例。"},
+            {q: "在桌面上双击鼠标滚轮（中键）通常会？", options: ["没有反应或显示预览", "打开回收站", "刷新桌面", "显示桌面"], answer: 0, explain: "桌面双击中键通常没有特定功能或取决于鼠标驱动设置。"},
+            {q: "鼠标灵敏度太高会导致？", options: ["无法使用", "指针移动过快，难以精确定位", "鼠标损坏", "电脑变卡"], answer: 1, explain: "灵敏度太高会使指针移动过快，难以精确控制位置。"},
+            {q: "无线鼠标需要？", options: ["网线", "电池或充电", "电话线", "HDMI线"], answer: 1, explain: "无线鼠标需要电池供电或可充电，通过无线接收器或蓝牙连接。"},
+            {q: "鼠标突然不动，首先应该？", options: ["砸鼠标", "检查连接或更换电池", "重装系统", "更换电脑"], answer: 1, explain: "鼠标不动首先检查有线连接是否松动，或无线鼠标是否没电。"},
+            {q: "触摸屏的'长按'操作相当于鼠标的？", options: ["单击", "右键单击", "双击", "滚动"], answer: 1, explain: "触摸屏上的长按通常相当于鼠标的右键单击，弹出菜单。"},
+            {q: "触摸屏的'轻扫'操作相当于鼠标的？", options: ["单击", "拖动", "双击", "右键"], answer: 1, explain: "触摸屏上的轻扫相当于鼠标的拖动操作。"},
+            {q: "笔记本电脑的触摸板可以用手指实现？", options: ["只能移动指针", "点击、滚动、缩放等多种操作", "不能操作", "只能打字"], answer: 1, explain: "现代笔记本触摸板支持单指点击、双指滚动、双指缩放等多种手势。"},
+            {q: "触摸板上双指分开或靠拢会？", options: ["没有反应", "放大或缩小", "滚动页面", "旋转图片"], answer: 1, explain: "双指分开放大，靠拢缩小，类似于手机上的缩放操作。"},
+            {q: "触摸板上双指上下滑动会？", options: ["没有反应", "滚动页面", "缩放", "旋转"], answer: 1, explain: "双指上下滑动可以滚动页面内容，相当于鼠标滚轮。"},
+            {q: "鼠标指针消失，可能原因是？", options: ["鼠标坏了或驱动问题", "屏幕坏了", "键盘坏了", "音响坏了"], answer: 0, explain: "指针消失可能是鼠标故障、驱动问题或系统设置问题。"},
+            {q: "游戏鼠标的DPI设置影响？", options: ["屏幕分辨率", "鼠标灵敏度", "电脑性能", "网速"], answer: 1, explain: "DPI（每英寸点数）设置影响鼠标灵敏度，DPI越高移动越快。"},
+            {q: "鼠标中间的滚轮除了滚动还可以？", options: ["作为中键点击", "调节音量", "调节亮度", "打开开始菜单"], answer: 0, explain: "鼠标滚轮可以向下按作为中键使用，某些软件中有特殊功能。"},
+            {q: "在文件夹中，按住右键拖动文件会？", options: ["直接移动", "弹出菜单选择移动或复制", "删除文件", "重命名文件"], answer: 1, explain: "按住右键拖动文件释放后会弹出菜单，可选择移动、复制或创建快捷方式。"},
+            {q: "'拖拽'是指什么操作？", options: ["只用键盘", "按住鼠标键移动对象", "只用滚轮", "快速点击"], answer: 1, explain: "拖拽（拖动）是指按住鼠标键不放，移动鼠标来移动对象的操作。"},
+            {q: "鼠标悬停在按钮上会？", options: ["自动点击", "可能显示提示信息", "关闭程序", "最小化窗口"], answer: 1, explain: "鼠标悬停在按钮或图标上时，通常会显示提示信息或改变外观。"},
+            // 键盘操作 61-100
+            {q: "Enter键（回车键）的主要功能是？", options: ["换行或确认输入", "删除字符", "退出程序", "保存文件"], answer: 0, explain: "回车键用于换行、确认输入或执行命令。"},
+            {q: "Space键（空格键）的主要功能是？", options: ["输入空格", "删除字符", "退出程序", "复制内容"], answer: 0, explain: "空格键用于输入空格，在网页中也可用于翻页。"},
+            {q: "Backspace键（退格键）删除哪个方向的字符？", options: ["光标左侧", "光标右侧", "光标上方", "光标下方"], answer: 0, explain: "Backspace删除光标左侧（前面）的字符。"},
+            {q: "Delete键（删除键）删除哪个方向的字符？", options: ["光标左侧", "光标右侧", "全部字符", "没有功能"], answer: 1, explain: "Delete删除光标右侧（后面）的字符，也可删除选中的文件。"},
+            {q: "Tab键的主要功能是？", options: ["切换窗口", "插入制表符或在表单间切换", "关闭程序", "刷新页面"], answer: 1, explain: "Tab键用于插入制表符或在表单中的输入框之间切换。"},
+            {q: "Caps Lock键用于？", options: ["锁定数字键", "锁定大写字母输入", "锁定屏幕", "锁定鼠标"], answer: 1, explain: "Caps Lock（大小写锁定）用于切换大写字母的连续输入。"},
+            {q: "Shift键的主要作用是？", options: ["切换输入法", "输入上档字符或配合其他键", "锁定功能", "打开菜单"], answer: 1, explain: "Shift用于输入上档字符（如@#$）或配合其他键执行功能。"},
+            {q: "Ctrl键通常如何使用？", options: ["单独使用", "配合其他键使用", "锁定功能", "切换输入法"], answer: 1, explain: "Ctrl（控制键）通常需要配合其他键使用，执行快捷操作。"},
+            {q: "Alt键通常如何使用？", options: ["单独使用", "配合其他键使用", "锁定大写", "删除字符"], answer: 1, explain: "Alt（交替键）通常需要配合其他键使用，执行快捷操作。"},
+            {q: "Esc键的主要功能是？", options: ["保存文件", "取消操作或退出", "复制内容", "粘贴内容"], answer: 1, explain: "Esc（退出键）用于取消操作、关闭对话框、退出全屏等。"},
+            {q: "Ctrl + C 是什么快捷键？", options: ["复制", "粘贴", "剪切", "保存"], answer: 0, explain: "Ctrl+C是复制快捷键，将选中的内容复制到剪贴板。"},
+            {q: "Ctrl + V 是什么快捷键？", options: ["复制", "粘贴", "剪切", "撤销"], answer: 1, explain: "Ctrl+V是粘贴快捷键，将剪贴板中的内容粘贴到当前位置。"},
+            {q: "Ctrl + X 是什么快捷键？", options: ["复制", "粘贴", "剪切", "全选"], answer: 2, explain: "Ctrl+X是剪切快捷键，将选中的内容剪切到剪贴板（原位置内容被删除）。"},
+            {q: "Ctrl + Z 是什么快捷键？", options: ["复制", "粘贴", "撤销", "重做"], answer: 2, explain: "Ctrl+Z是撤销快捷键，撤销上一步操作。"},
+            {q: "Ctrl + S 是什么快捷键？", options: ["复制", "保存", "打印", "查找"], answer: 1, explain: "Ctrl+S是保存快捷键，用于保存当前文件。"},
+            {q: "Ctrl + A 是什么快捷键？", options: ["全选", "保存", "撤销", "关闭"], answer: 0, explain: "Ctrl+A是全选快捷键，选中当前窗口中的所有内容。"},
+            {q: "Ctrl + F 是什么快捷键？", options: ["保存", "查找", "替换", "打印"], answer: 1, explain: "Ctrl+F是查找快捷键，在文档或网页中查找内容。"},
+            {q: "Alt + Tab 是什么快捷键？", options: ["切换输入法", "切换打开的程序窗口", "关闭窗口", "最小化窗口"], answer: 1, explain: "Alt+Tab用于在打开的程序窗口之间切换。"},
+            {q: "Win + L 是什么快捷键？", options: ["打开文件", "锁定计算机", "注销用户", "关机"], answer: 1, explain: "Win+L是锁定计算机快捷键，立即进入登录界面。"},
+            {q: "Win + D 是什么快捷键？", options: ["删除文件", "显示桌面", "打开文档", "复制桌面"], answer: 1, explain: "Win+D是显示桌面快捷键，最小化所有窗口或恢复窗口。"},
+            {q: "Win + E 是什么快捷键？", options: ["打开浏览器", "打开文件资源管理器", "打开邮件", "编辑文件"], answer: 1, explain: "Win+E打开文件资源管理器（我的电脑）。"},
+            {q: "Win + R 是什么快捷键？", options: ["重启计算机", "打开运行对话框", "刷新页面", "重命名文件"], answer: 1, explain: "Win+R打开运行对话框，可以输入命令快速启动程序。"},
+            {q: "Ctrl + Shift + Esc 是什么快捷键？", options: ["关机", "打开任务管理器", "打开控制面板", "切换用户"], answer: 1, explain: "Ctrl+Shift+Esc直接打开任务管理器。"},
+            {q: "Alt + F4 是什么快捷键？", options: ["打开文件", "关闭当前窗口", "全屏显示", "刷新页面"], answer: 1, explain: "Alt+F4关闭当前窗口，在桌面按此键会打开关机对话框。"},
+            {q: "Ctrl + P 是什么快捷键？", options: ["复制", "粘贴", "打印", "预览"], answer: 2, explain: "Ctrl+P是打印快捷键，打开打印对话框。"},
+            {q: "Ctrl + N 是什么快捷键？", options: ["新建文件或窗口", "打开文件", "保存文件", "关闭文件"], answer: 0, explain: "Ctrl+N新建文件或窗口（取决于当前程序）。"},
+            {q: "Ctrl + O 是什么快捷键？", options: ["新建", "打开文件", "保存", "打印"], answer: 1, explain: "Ctrl+O打开文件对话框。"},
+            {q: "Ctrl + W 是什么快捷键？", options: ["打开", "关闭当前窗口或标签", "保存", "打印"], answer: 1, explain: "Ctrl+W关闭当前窗口或浏览器标签。"},
+            {q: "Ctrl + Y 是什么快捷键？", options: ["撤销", "重做", "复制", "粘贴"], answer: 1, explain: "Ctrl+Y是重做快捷键，恢复被撤销的操作。"},
+            {q: "Ctrl + Home 会将光标移到？", options: ["文档开头", "文档结尾", "行首", "行尾"], answer: 0, explain: "Ctrl+Home将光标移到文档开头。"},
+            {q: "Ctrl + End 会将光标移到？", options: ["文档开头", "文档结尾", "行首", "行尾"], answer: 1, explain: "Ctrl+End将光标移到文档结尾。"},
+            {q: "Home键会将光标移到？", options: ["文档开头", "当前行开头", "文档结尾", "当前行结尾"], answer: 1, explain: "Home键将光标移到当前行开头。"},
+            {q: "End键会将光标移到？", options: ["文档开头", "当前行开头", "文档结尾", "当前行结尾"], answer: 3, explain: "End键将光标移到当前行结尾。"},
+            {q: "Page Up键用于？", options: ["向上翻页", "向下翻页", "回到首页", "跳转到尾页"], answer: 0, explain: "Page Up向上翻页，相当于滚动条向上滚动一页。"},
+            {q: "Page Down键用于？", options: ["向上翻页", "向下翻页", "回到首页", "跳转到尾页"], answer: 1, explain: "Page Down向下翻页，相当于滚动条向下滚动一页。"},
+            {q: "方向键（↑↓←→）用于？", options: ["移动光标或选择", "输入方向符号", "旋转屏幕", "调节音量"], answer: 0, explain: "方向键用于移动光标位置或在菜单中选择项目。"},
+            {q: "Insert键用于？", options: ["切换插入/改写模式", "插入图片", "插入表格", "插入链接"], answer: 0, explain: "Insert键切换插入模式（新字符插入）和改写模式（新字符覆盖原有字符）。"},
+            {q: "Num Lock键用于？", options: ["锁定数字键盘", "锁定大写", "锁定滚动", "锁定屏幕"], answer: 0, explain: "Num Lock锁定小键盘数字输入，关闭时小键盘变为方向键等功能。"},
+            {q: "Scroll Lock键现在通常？", options: ["控制屏幕滚动", "在Excel中有特殊用途", "锁定键盘", "没有用途"], answer: 1, explain: "Scroll Lock在现代计算机中很少使用，在Excel中用于控制方向键的行为。"},
+            {q: "Pause/Break键用于？", options: ["暂停程序或开机时查看信息", "暂停音乐", "暂停视频", "暂停打印"], answer: 0, explain: "Pause/Break用于暂停某些程序或开机时查看系统信息。"},
+            {q: "Print Screen键用于？", options: ["打印屏幕", "截取整个屏幕", "打开打印机", "打印文档"], answer: 1, explain: "Print Screen（PrtSc）截取整个屏幕图像到剪贴板。"},
+            {q: "Alt + Print Screen 会？", options: ["截取整个屏幕", "截取当前活动窗口", "打开画图", "打印文件"], answer: 1, explain: "Alt+Print Screen只截取当前活动窗口。"},
+            // 文件操作 101-140
+            {q: "文件是计算机中存储数据的？", options: ["基本单位", "临时容器", "快捷方式", "程序代码"], answer: 0, explain: "文件是计算机中存储数据的基本单位，可以是文档、图片、程序等。"},
+            {q: "文件夹（目录）的主要作用是？", options: ["运行程序", "组织和管理文件", "删除病毒", "加速电脑"], answer: 1, explain: "文件夹用于组织和分类管理文件，使文件存储更有条理。"},
+            {q: "新建文件夹的快捷键是？", options: ["Ctrl+N", "Ctrl+Shift+N", "Ctrl+Alt+N", "Alt+N"], answer: 1, explain: "在文件资源管理器中，Ctrl+Shift+N新建文件夹。"},
+            {q: "文件路径表示？", options: ["文件的大小", "文件在计算机中的位置", "文件的创建时间", "文件的作者"], answer: 1, explain: "文件路径表示文件在计算机存储中的位置，如C:\\Users\\Documents。"},
+            {q: "C:\\Users\\Doc\\file.txt 中，file.txt是？", options: ["文件夹名", "文件名", "路径名", "扩展名"], answer: 1, explain: "路径最后的部分是文件名，这里是file.txt。"},
+            {q: "C:\\Users\\Doc\\file.txt 中，.txt是？", options: ["文件名", "文件扩展名", "文件夹名", "路径名"], answer: 1, explain: ".txt是文件扩展名，表示这是文本文件。"},
+            {q: "扩展名.docx通常表示？", options: ["文本文件", "Word文档", "Excel表格", "图片文件"], answer: 1, explain: ".docx是Microsoft Word文档的扩展名。"},
+            {q: "扩展名.xlsx通常表示？", options: ["Word文档", "Excel表格", "PowerPoint", "PDF文件"], answer: 1, explain: ".xlsx是Microsoft Excel电子表格的扩展名。"},
+            {q: "扩展名.jpg或.png通常表示？", options: ["文档", "图片", "视频", "音频"], answer: 1, explain: ".jpg和.png是常见的图片文件扩展名。"},
+            {q: "扩展名.mp3通常表示？", options: ["视频", "音频", "图片", "文档"], answer: 1, explain: ".mp3是音频文件格式。"},
+            {q: "扩展名.mp4通常表示？", options: ["音频", "视频", "图片", "文档"], answer: 1, explain: ".mp4是视频文件格式。"},
+            {q: "扩展名.exe通常表示？", options: ["文档", "可执行程序", "图片", "音乐"], answer: 1, explain: ".exe是可执行程序文件，双击可以运行。"},
+            {q: "复制文件后，原文件？", options: ["被删除", "仍然存在", "被移动", "被重命名"], answer: 1, explain: "复制操作创建文件的副本，原文件仍然保留在原位置。"},
+            {q: "剪切文件后，原文件？", options: ["仍然存在", "被删除（粘贴后）", "被复制", "被重命名"], answer: 1, explain: "剪切操作将文件移动到新位置，粘贴后原位置的文件会被删除。"},
+            {q: "删除的文件首先到哪里？", options: ["直接永久删除", "回收站", "U盘", "云盘"], answer: 1, explain: "普通删除的文件会先到回收站，可以从回收站恢复。"},
+            {q: "如何永久删除文件（不经过回收站）？", options: ["Delete键", "Shift+Delete", "Ctrl+Delete", "Alt+Delete"], answer: 1, explain: "Shift+Delete直接永久删除文件，不经过回收站（谨慎使用！）"},
+            {q: "回收站中的文件？", options: ["无法恢复", "可以还原到原位置", "自动删除", "占用U盘空间"], answer: 1, explain: "回收站中的文件可以还原到删除前的位置，也可以彻底删除。"},
+            {q: "清空回收站后，文件？", options: ["可以轻易恢复", "难以恢复", "自动备份", "没有变化"], answer: 1, explain: "清空回收站后文件被标记为可覆盖，普通方法难以恢复。"},
+            {q: "重命名文件的快捷键是？", options: ["F1", "F2", "F3", "F4"], answer: 1, explain: "选中文件后按F2可以重命名。"},
+            {q: "搜索文件的快捷键是？", options: ["Ctrl+S", "Ctrl+F", "F3", "Alt+F"], answer: 2, explain: "在文件资源管理器中按F3可以激活搜索框。"},
+            {q: "通配符'*'在搜索中代表？", options: ["一个字符", "任意多个字符", "一个数字", "一个字母"], answer: 1, explain: "'*'代表任意多个字符，如*.txt表示所有txt文件。"},
+            {q: "通配符'?'在搜索中代表？", options: ["一个字符", "任意多个字符", "一个数字", "没有字符"], answer: 0, explain: "'?'代表一个字符，如file?.txt可以匹配file1.txt、fileA.txt等。"},
+            {q: "快捷方式（.lnk文件）是？", options: ["文件的副本", "指向原文件的链接", "压缩文件", "加密文件"], answer: 1, explain: "快捷方式是指向原文件的链接，删除快捷方式不会删除原文件。"},
+            {q: "压缩文件（如.zip）的作用是？", options: ["加密文件", "减小文件体积，便于传输", "删除文件", "修复文件"], answer: 1, explain: "压缩文件可以将多个文件打包并减小体积，便于存储和传输。"},
+            {q: "解压文件需要什么？", options: ["压缩软件", "杀毒软件", "浏览器", "播放器"], answer: 0, explain: "解压文件需要压缩软件，如WinRAR、7-Zip、Bandizip等。"},
+            {q: "隐藏文件在默认情况下？", options: ["不显示", "正常显示", "显示为灰色", "闪烁显示"], answer: 0, explain: "隐藏文件默认不显示，需要在文件夹选项中设置显示隐藏文件才能看到。"},
+            {q: "只读属性的文件？", options: ["不能查看", "可以查看但不能修改", "可以删除", "会自动删除"], answer: 1, explain: "只读属性的文件可以查看和复制，但不能修改内容。"},
+            {q: "如何选中文件夹中的所有文件？", options: ["Ctrl+A", "Ctrl+S", "Ctrl+O", "Ctrl+N"], answer: 0, explain: "Ctrl+A全选当前文件夹中的所有文件。"},
+            {q: "如何创建文件的快捷方式？", options: ["右键拖动文件，选择创建快捷方式", "直接复制文件", "剪切文件", "删除文件"], answer: 0, explain: "右键拖动文件释放后选择创建快捷方式，或右键文件选择发送到桌面快捷方式。"},
+            {q: "文件属性中不包含以下哪项？", options: ["文件名", "文件大小", "CPU型号", "创建时间"], answer: 2, explain: "文件属性包括名称、大小、类型、创建/修改时间等，不包括CPU型号。"},
+            {q: "如何查看文件的属性？", options: ["右键文件→属性", "双击文件", "拖动文件", "删除文件"], answer: 0, explain: "右键单击文件选择属性，可以查看和修改文件属性。"},
+            {q: "同一个文件夹中能否有两个同名文件？", options: ["可以", "不可以", "有时可以", "取决于文件大小"], answer: 1, explain: "同一个文件夹中不能有两个完全同名的文件，文件名必须唯一。"},
+            {q: "文件名中不能包含的字符是？", options: ["字母和数字", "空格", "\\ / : * ? \" < > |", "下划线"], answer: 2, explain: "Windows文件名不能包含\\ / : * ? \" < > |这些特殊字符。"},
+            // 网络和浏览器 141-160
+            {q: "浏览网页需要什么软件？", options: ["浏览器", "播放器", "压缩软件", "杀毒软件"], answer: 0, explain: "浏览器（如Chrome、Edge、Firefox）是访问网页的必备软件。"},
+            {q: "以下哪个是浏览器？", options: ["Word", "Chrome", "Excel", "Photoshop"], answer: 1, explain: "Chrome（谷歌浏览器）是网页浏览器。"},
+            {q: "在浏览器中输入网址应该在哪里？", options: ["搜索框", "地址栏", "收藏夹", "历史记录"], answer: 1, explain: "在地址栏（URL栏）输入网址可以直接访问网站。"},
+            {q: "http://www.example.com 是什么？", options: ["文件名", "网址（URL）", "电子邮件", "软件名称"], answer: 1, explain: "这是网站的URL（统一资源定位符），用于定位网页地址。"},
+            {q: "搜索引擎的作用是？", options: ["播放视频", "搜索互联网信息", "编辑文档", "压缩文件"], answer: 1, explain: "搜索引擎（如百度、Google）用于在互联网上搜索信息。"},
+            {q: "以下哪个是搜索引擎？", options: ["Word", "百度", "Windows", "Photoshop"], answer: 1, explain: "百度是中文搜索引擎。"},
+            {q: "浏览器中的'收藏夹'或'书签'用于？", options: ["删除网页", "保存常用网站地址", "下载文件", "打印网页"], answer: 1, explain: "收藏夹用于保存常用网站的地址，方便以后快速访问。"},
+            {q: "浏览器历史记录显示？", options: ["已访问过的网页", "已删除的文件", "已下载的音乐", "已打印的文档"], answer: 0, explain: "历史记录显示之前访问过的网页列表。"},
+            {q: "下载文件是指？", options: ["从互联网保存文件到本地", "上传文件", "删除文件", "复制文件"], answer: 0, explain: "下载是将互联网上的文件保存到本地计算机。"},
+            {q: "上传文件是指？", options: ["从本地发送到互联网", "从网上下载", "删除文件", "复制文件"], answer: 0, explain: "上传是将本地文件发送到互联网上的服务器。"},
+            {q: "Wi-Fi是？", options: ["有线网络", "无线网络", "蓝牙", "红外线"], answer: 1, explain: "Wi-Fi是无线局域网技术，通过无线电波连接网络。"},
+            {q: "连接Wi-Fi需要知道什么？", options: ["网络名称（SSID）和密码", "电脑的CPU型号", "显示器分辨率", "键盘型号"], answer: 0, explain: "连接Wi-Fi需要知道网络名称（SSID）和密码（如有）。"},
+            {q: "有线网络连接使用什么线缆？", options: ["电源线", "网线（以太网线）", "USB线", "HDMI线"], answer: 1, explain: "有线网络使用网线（以太网线、RJ45接口）连接。"},
+            {q: "网速的单位通常是什么？", options: ["米/秒", "Mbps（兆比特每秒）", "千克", "度"], answer: 1, explain: "网速通常用Mbps（兆比特每秒）表示，如100Mbps宽带。"},
+            {q: "浏览器中按F5或Ctrl+R会？", options: ["关闭浏览器", "刷新当前页面", "打开新窗口", "打印页面"], answer: 1, explain: "F5或Ctrl+R刷新（重新加载）当前网页。"},
+            {q: "浏览器中按Ctrl+T会？", options: ["关闭标签", "新建标签页", "刷新页面", "收藏页面"], answer: 1, explain: "Ctrl+T在浏览器中新建一个标签页。"},
+            {q: "浏览器中按Ctrl+W会？", options: ["新建标签", "关闭当前标签", "刷新页面", "全屏显示"], answer: 1, explain: "Ctrl+W关闭当前浏览器标签页。"},
+            {q: "浏览器中按Ctrl++（加号）会？", options: ["缩小页面", "放大页面", "关闭页面", "刷新页面"], answer: 1, explain: "Ctrl++放大网页显示比例。"},
+            {q: "浏览器中按Ctrl+-（减号）会？", options: ["放大页面", "缩小页面", "关闭页面", "刷新页面"], answer: 1, explain: "Ctrl+-缩小网页显示比例。"},
+            {q: "浏览器中按Ctrl+0会？", options: ["关闭浏览器", "恢复默认缩放比例", "打开新窗口", "打印页面"], answer: 1, explain: "Ctrl+0将网页缩放恢复到默认的100%。"},
+            // 安全和维护 161-180
+            {q: "计算机病毒是什么？", options: ["生物病毒", "破坏计算机系统的程序", "硬件故障", "网络信号"], answer: 1, explain: "计算机病毒是人为编写的、破坏计算机系统或数据的恶意程序。"},
+            {q: "如何预防计算机病毒？", options: ["安装杀毒软件并保持更新", "不用电脑", "多喝水", "常开空调"], answer: 0, explain: "安装并及时更新杀毒软件是预防病毒的重要措施。"},
+            {q: "不应该打开的可疑邮件附件包括？", options: [".exe可执行文件", "纯文本.txt", "普通图片.jpg", "Word文档.docx"], answer: 0, explain: "可疑的.exe可执行文件附件可能包含病毒或恶意程序。"},
+            {q: "定期备份重要数据的目的是？", options: ["占用空间", "防止数据丢失", "减慢电脑", "增加病毒"], answer: 1, explain: "定期备份可以在硬盘损坏、误删或病毒攻击时恢复数据。"},
+            {q: "设置开机密码的作用是？", options: ["保护个人隐私", "加快开机速度", "节省电量", "增加存储空间"], answer: 0, explain: "开机密码防止他人未经授权使用你的计算机。"},
+            {q: "离开电脑时应该？", options: ["保持开启", "锁定屏幕（Win+L）或关机", "打开所有文件", "拔掉网线"], answer: 1, explain: "离开电脑时应锁定屏幕或关机，防止他人查看或操作。"},
+            {q: "从不可信的网站下载软件可能？", options: ["感染病毒", "电脑变快", "节省电费", "增加存储"], answer: 0, explain: "不可信网站的软件可能捆绑病毒或恶意程序。"},
+            {q: "计算机定期清理垃圾文件可以？", options: ["释放磁盘空间", "感染病毒", "减慢速度", "增加功耗"], answer: 0, explain: "清理垃圾文件可以释放磁盘空间，保持系统运行流畅。"},
+            {q: "系统更新的作用是？", options: ["修复漏洞和提升性能", "减慢电脑", "删除文件", "增加广告"], answer: 0, explain: "系统更新修复安全漏洞、修复bug并提升系统性能。"},
+            {q: "强密码通常应该？", options: ["包含大小写字母、数字和符号", "使用生日", "使用123456", "使用密码拼音"], answer: 0, explain: "强密码应包含多种字符类型，避免使用易猜测的信息。"},
+            {q: "显示器的正确清洁方式是？", options: ["用湿布擦拭", "用专用清洁剂和软布", "用水冲洗", "用酒精浸泡"], answer: 1, explain: "应使用专用屏幕清洁剂和柔软的纤维布轻轻擦拭。"},
+            {q: "笔记本电脑使用时应该？", options: ["放在床上堵住散热口", "保持通风，不要堵住散热口", "放在阳光下", "放在水中"], answer: 1, explain: "应保持通风，不要堵住散热口，防止过热损坏。"},
+            {q: "U盘使用前应？", options: ["直接打开", "先杀毒扫描", "格式化", "加热"], answer: 1, explain: "U盘可能携带病毒，使用前应先用杀毒软件扫描。"},
+            {q: "遇到可疑弹窗应该？", options: ["立即点击", "不要点击，关闭或杀毒", "提供个人信息", "下载其中的软件"], answer: 1, explain: "可疑弹窗可能是钓鱼网站或恶意软件，不要点击。"},
+            {q: "公共Wi-Fi使用时应注意？", options: ["随意连接", "避免进行网银等敏感操作", "分享密码", "自动连接"], answer: 1, explain: "公共Wi-Fi可能不安全，应避免进行网银等敏感操作。"},
+            {q: "定期重启计算机可以？", options: ["修复系统", "清除内存泄漏，保持系统流畅", "删除文件", "安装病毒"], answer: 1, explain: "定期重启可以清除内存中的临时数据，解决一些软件问题。"},
+            {q: "电脑出现奇怪问题时，首先应尝试？", options: ["砸电脑", "重启", "重装系统", "买新电脑"], answer: 1, explain: "重启可以解决许多临时的软件问题，是首选的解决方法。"},
+            {q: "防火墙的作用是？", options: ["防止火灾", "阻止未经授权的网络访问", "加速上网", "播放音乐"], answer: 1, explain: "防火墙是网络安全系统，阻止未经授权的网络访问。"},
+            {q: "'钓鱼网站'是指？", options: ["卖鱼的网站", "伪装成正规网站的欺诈网站", "游戏网站", "购物网站"], answer: 1, explain: "钓鱼网站伪装成正规网站骗取用户账号密码等敏感信息。"},
+            {q: "使用电脑的良好姿势包括？", options: ["屏幕与眼睛平行或略低", "屏幕在头顶上方", "躺着使用", "在强光下使用"], answer: 0, explain: "屏幕应与眼睛平行或略低，保持良好坐姿，保护视力和脊椎。"}
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = {};
+
+        function loadQuestion(index) {
+            const q = questions[index];
+            const container = document.getElementById('quiz-container');
+            
+            let optionsHtml = '';
+            q.options.forEach((opt, i) => {
+                const selected = userAnswers[index] === i ? 'selected' : '';
+                const correct = userAnswers[index] !== undefined && i === q.answer ? 'correct' : '';
+                const wrong = userAnswers[index] === i && i !== q.answer ? 'wrong' : '';
+                optionsHtml += `<div class="option ${selected} ${correct} ${wrong}" onclick="selectOption(${i})">${String.fromCharCode(65 + i)}. ${opt}</div>`;
+            });
+            
+            const answered = userAnswers[index] !== undefined ? 'answered' : '';
+            
+            container.innerHTML = `
+                <div class="question-card ${answered}" id="question-card">
+                    <div class="question-number">题目 ${index + 1} / ${questions.length}</div>
+                    <div class="question-text">${q.q}</div>
+                    <div class="options">${optionsHtml}</div>
+                    <div class="explanation" id="explanation">
+                        <strong>解析：</strong>${q.explain}
+                    </div>
+                </div>
+            `;
+            
+            const progress = ((index + 1) / questions.length) * 100;
+            document.getElementById('quiz-progress').style.width = `${progress}%`;
+            document.getElementById('quiz-count').textContent = `${index + 1}/${questions.length}`;
+            
+            document.getElementById('prev-btn').disabled = index === 0;
+            document.getElementById('next-btn').textContent = index === questions.length - 1 ? '完成测验' : '下一题 →';
+        }
+
+        function selectOption(optionIndex) {
+            if (userAnswers[currentQuestion] !== undefined) return;
+            
+            userAnswers[currentQuestion] = optionIndex;
+            const q = questions[currentQuestion];
+            
+            const options = document.querySelectorAll('.option');
+            options.forEach((opt, i) => {
+                if (i === q.answer) {
+                    opt.classList.add('correct');
+                } else if (i === optionIndex && i !== q.answer) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            document.getElementById('question-card').classList.add('answered');
+            localStorage.setItem('cpp_level1_1_2_progress', JSON.stringify(userAnswers));
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion(currentQuestion);
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                loadQuestion(currentQuestion);
+            } else {
+                const correct = Object.keys(userAnswers).filter(k => userAnswers[k] === questions[k].answer).length;
+                const total = questions.length;
+                alert(`测验完成！\n正确率：${correct}/${total} (${Math.round(correct/total*100)}%)\n\n可以继续复习或返回目录。`);
+            }
+        }
+
+        const savedProgress = localStorage.getItem('cpp_level1_1_2_progress');
+        if (savedProgress) {
+            userAnswers = JSON.parse(savedProgress);
+        }
+
+        loadQuestion(0);
+    </script>
+</body>
+</html>
