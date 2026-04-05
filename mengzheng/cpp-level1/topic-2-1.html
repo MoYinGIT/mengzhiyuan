@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.1 创建文件 - C++一级 - 蒙正堂</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/guofeng-v2.css">
+    <style>
+        :root {
+            --l1-primary: #1e3a5f;
+            --l1-secondary: #2e5984;
+            --correct: #4a7c59;
+            --wrong: #c9372c;
+        }
+        
+        .topic-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .breadcrumb a {
+            color: var(--l1-primary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .topic-header {
+            background: linear-gradient(135deg, var(--l1-primary) 0%, var(--l1-secondary) 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+        
+        .topic-header .number {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+        }
+        
+        .topic-header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .topic-header .meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .content-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        
+        .content-section h2 {
+            color: var(--l1-primary);
+            border-left: 4px solid var(--l1-primary);
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .content-section h3 {
+            color: var(--ink-800);
+            margin: 1.5rem 0 1rem;
+        }
+        
+        .content-section p {
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+        
+        .content-section ul, .content-section ol {
+            margin: 1rem 0 1rem 1.5rem;
+        }
+        
+        .content-section li {
+            margin-bottom: 0.5rem;
+            line-height: 1.7;
+        }
+        
+        .highlight-box {
+            background: #f0f4f8;
+            border-left: 4px solid var(--l1-primary);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .highlight-box.warning {
+            background: #fff3cd;
+            border-left-color: #d4a574;
+        }
+        
+        .highlight-box.success {
+            background: #d4edda;
+            border-left-color: #4a7c59;
+        }
+        
+        .highlight-box.danger {
+            background: #f8d7da;
+            border-left-color: #c9372c;
+        }
+        
+        .code-block {
+            background: #1e3a5f;
+            color: #e8f4f8;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .code-block .comment {
+            color: #6a9955;
+        }
+        
+        .code-block .keyword {
+            color: #569cd6;
+        }
+        
+        .code-block .string {
+            color: #ce9178;
+        }
+        
+        .step-box {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .step-box .step-number {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background: var(--l1-primary);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+        }
+        
+        .file-list {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .file-item:last-child {
+            border-bottom: none;
+        }
+        
+        .file-icon {
+            font-size: 1.5rem;
+            margin-right: 0.75rem;
+        }
+        
+        .quiz-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        
+        .quiz-section h2 {
+            color: var(--l1-primary);
+            border-left: 4px solid var(--l1-primary);
+            padding-left: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .quiz-progress {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 0.75rem 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .quiz-progress-bar {
+            flex: 1;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            margin: 0 1rem;
+            overflow: hidden;
+        }
+        
+        .quiz-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--l1-primary), var(--l1-secondary));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .question-card {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .question-card.correct {
+            border-color: var(--correct);
+            background: #f0f8f0;
+        }
+        
+        .question-card.wrong {
+            border-color: var(--wrong);
+            background: #fdf0ef;
+        }
+        
+        .question-number {
+            font-weight: 600;
+            color: var(--l1-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .question-text {
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .option {
+            padding: 0.75rem 1rem;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .option:hover {
+            background: #f8f9fa;
+            border-color: var(--l1-primary);
+        }
+        
+        .option.selected {
+            background: #e3f2fd;
+            border-color: var(--l1-primary);
+        }
+        
+        .option.correct {
+            background: #d4edda;
+            border-color: var(--correct);
+        }
+        
+        .option.wrong {
+            background: #f8d7da;
+            border-color: var(--wrong);
+        }
+        
+        .explanation {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        
+        .question-card.answered .explanation {
+            display: block;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .topic-container {
+                padding: 1rem;
+            }
+            
+            .topic-header h1 {
+                font-size: 1.4rem;
+            }
+            
+            .content-section {
+                padding: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="../../" class="brand">
+                <span class="brand-icon">☯</span>
+                <span class="brand-text">默隐·蒙知苑</span>
+            </a>
+            <div class="nav-links">
+                <a href="../" class="nav-link">🎓 蒙正堂</a>
+                <a href="./" class="nav-link">C++一级</a>
+                <span class="nav-link active">2.1 创建文件</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="topic-container">
+        <!-- 面包屑导航 -->
+        <div class="breadcrumb">
+            <a href="../">蒙正堂</a>
+            <span>›</span>
+            <a href="./">C++一级</a>
+            <span>›</span>
+            <a href="./#block2">集成开发环境</a>
+            <span>›</span>
+            <span>2.1 创建文件</span>
+        </div>
+
+        <!-- 知识点标题 -->
+        <div class="topic-header">
+            <div class="number">知识块 2 · 知识点 1/6</div>
+            <h1>创建文件</h1>
+            <div class="meta">
+                <span>⏱️ 预估学习时长: 20分钟</span>
+                <span>📋 验证题目: 180道</span>
+                <span>🎯 难度: 入门级</span>
+            </div>
+        </div>
+
+        <!-- 详细内容 -->
+        <div class="content-section">
+            <h2>📚 知识详解</h2>
+            
+            <h3>一、什么是C++源文件</h3>
+            
+            <p>C++源文件是存储C++程序代码的文本文件。程序员在源文件中编写指令，告诉计算机如何执行特定的任务。源文件是程序开发的基础，就像作家用笔和纸写作一样，程序员用源文件来「写」程序。</p>
+
+            <div class="highlight-box">
+                <strong>💡 类比理解</strong><br>
+                源文件就像是一张「乐谱」，程序员是「作曲家」，计算机是「演奏家」。乐谱上记录着音符（代码），演奏家按照乐谱演奏出美妙的音乐（程序运行）。
+            </div>
+
+            <h3>二、C++文件的扩展名</h3>
+            
+            <p>文件扩展名是文件名中点（.）后面的部分，用于标识文件的类型。C++编程中常见的文件扩展名有：</p>
+            
+            <div class="file-list">
+                <div class="file-item">
+                    <span class="file-icon">📄</span>
+                    <div>
+                        <strong>.cpp</strong> — C++源文件（最常用）<br>
+                        <span style="color: #666; font-size: 0.9rem;">包含C++程序的主要代码，如main.cpp、hello.cpp</span>
+                    </div>
+                </div>
+                <div class="file-item">
+                    <span class="file-icon">📋</span>
+                    <div>
+                        <strong>.h 或 .hpp</strong> — 头文件<br>
+                        <span style="color: #666; font-size: 0.9rem;">包含函数声明和类定义，如iostream.h、math.h</span>
+                    </div>
+                </div>
+                <div class="file-item">
+                    <span class="file-icon">⚙️</span>
+                    <div>
+                        <strong>.o 或 .obj</strong> — 目标文件<br>
+                        <span style="color: #666; font-size: 0.9rem;">编译器生成的中间文件，不是程序员直接编写的</span>
+                    </div>
+                </div>
+                <div class="file-item">
+                    <span class="file-icon">🚀</span>
+                    <div>
+                        <strong>.exe</strong> — 可执行文件（Windows）<br>
+                        <span style="color: #666; font-size: 0.9rem;">编译链接后生成的可运行程序</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box warning">
+                <strong>⚠️ 重要提示</strong><br>
+                GESP考试中，C++源文件的标准扩展名是<strong>.cpp</strong>。在Dev-C++、VS Code等IDE中创建C++文件时，一定要使用正确的扩展名，否则可能导致编译错误。
+            </div>
+
+            <h3>三、文件命名规范</h3>
+            
+            <p>良好的文件命名习惯有助于代码管理和团队协作。以下是C++文件的命名建议：</p>
+            
+            <ol>
+                <li><strong>使用有意义的名称</strong>：文件名应反映文件的功能，如calculator.cpp（计算器）、sort.cpp（排序）</li>
+                <li><strong>使用英文字母、数字和下划线</strong>：避免使用中文、空格和特殊字符</li>
+                <li><strong>区分大小写</strong>：C++是区分大小写的语言，Hello.cpp和hello.cpp是不同的文件</li>
+                <li><strong>不要用数字开头</strong>：文件名应以字母或下划线开头</li>
+                <li><strong>主函数文件习惯命名</strong>：包含main()函数的文件常命名为main.cpp</li>
+            </ol>
+
+            <div class="highlight-box danger">
+                <strong>❌ 避免的文件名示例</strong><br>
+                • 我的程序.cpp（含中文）<br>
+                • hello world.cpp（含空格）<br>
+                • 123abc.cpp（数字开头）<br>
+                • program$.cpp（特殊字符）
+            </div>
+
+            <div class="highlight-box success">
+                <strong>✅ 推荐的文件名示例</strong><br>
+                • main.cpp<br>
+                • hello_world.cpp<br>
+                • calculate_sum.cpp<br>
+                • StudentInfo.cpp
+            </div>
+
+            <h3>四、在Dev-C++中创建文件</h3>
+            
+            <p>Dev-C++是一款轻量级的C++集成开发环境，适合初学者使用。以下是创建新文件的步骤：</p>
+
+            <div class="step-box">
+                <div><span class="step-number">1</span><strong>打开Dev-C++</strong></div>
+                <p style="margin: 0.5rem 0 0 2rem;">启动Dev-C++应用程序，进入主界面。</p>
+            </div>
+
+            <div class="step-box">
+                <div><span class="step-number">2</span><strong>新建源文件</strong></div>
+                <p style="margin: 0.5rem 0 0 2rem;">点击菜单栏「文件」→「新建」→「源代码」（快捷键：Ctrl+N）。</p>
+            </div>
+
+            <div class="step-box">
+                <div><span class="step-number">3</span><strong>保存文件</strong></div>
+                <p style="margin: 0.5rem 0 0 2rem;">点击「文件」→「保存」（快捷键：Ctrl+S），选择保存位置，输入文件名（如hello.cpp），确保扩展名为.cpp。</p>
+            </div>
+
+            <div class="step-box">
+                <div><span class="step-number">4</span><strong>开始编写代码</strong></div>
+                <p style="margin: 0.5rem 0 0 2rem;">在编辑器中输入C++代码。</p>
+            </div>
+
+            <h3>五、在VS Code中创建文件</h3>
+            
+            <p>VS Code是一款功能强大的代码编辑器，配合C++扩展可以很好地支持C++开发：</p>
+
+            <div class="step-box">
+                <div><span class="step-number">1</span><strong>打开VS Code</strong></div>
+                <p style="margin: 0.5rem 0 0 2rem;">启动VS Code，打开或创建一个文件夹作为工作区。</p>
+            </div>
+
+            <div class="step-box">
+                <div><span class="step-number">2</span><strong>新建文件</strong></div>
+                <p style="margin: 0.5rem 0 0 2rem;">点击「文件」→「新建文件」（快捷键：Ctrl+N），或点击左侧文件资源管理器的「新建文件」按钮。</p>
+            </div>
+
+            <div class="step-box">
+                <div><span class="step-number">3</span><strong>命名并保存</strong></div>
+                <p style="margin: 0.5rem 0 0 2rem;">输入文件名（如main.cpp），按回车确认。VS Code会根据扩展名.cpp自动识别为C++文件，并提供语法高亮。</p>
+            </div>
+
+            <h3>六、你的第一个C++程序</h3>
+            
+            <p>下面是一个经典的「Hello, World!」程序，通常是程序员学习新语言时编写的第一个程序：</p>
+
+            <div class="code-block">
+<span class="comment">// 这是一个简单的C++程序</span>
+<span class="comment">// 文件名: hello.cpp</span>
+
+<span class="keyword">#include</span> <span class="string"><iostream</span></span>    <span class="comment">// 包含输入输出流库</span>
+
+<span class="keyword">using namespace</span> std;       <span class="comment">// 使用标准命名空间</span>
+
+<span class="keyword">int</span> main() {                  <span class="comment">// 主函数，程序从这里开始执行</span>
+    cout << <span class="string">"Hello, World!"</span> << endl;  <span class="comment">// 输出文字到屏幕</span>
+    <span class="keyword">return</span> 0;                  <span class="comment">// 程序正常结束，返回0</span>
+}
+            </div>
+
+            <p>将上述代码输入到新建的文件中，保存为hello.cpp，你就完成了第一个C++文件的创建！接下来可以编译运行，看看程序是否成功输出「Hello, World!」。</p>
+
+            <h3>七、常见错误与注意事项</h3>
+            
+            <div class="highlight-box warning">
+                <strong>⚠️ 常见错误</strong>
+                <ol>
+                    <li><strong>忘记加扩展名</strong>：保存时只写文件名hello，没有写hello.cpp</li>
+                    <li><strong>扩展名错误</strong>：使用.txt、.c或其他扩展名代替.cpp</li>
+                    <li><strong>文件名含中文或空格</strong>：导致编译器无法识别</li>
+                    <li><strong>保存位置找不到</strong>：文件保存后不知道在哪里</li>
+                    <li><strong>没有保存就编译</strong>：修改代码后忘记保存，编译的是旧版本</li>
+                </ol>
+            </div>
+
+            <div class="highlight-box success">
+                <strong>✅ 好习惯养成</strong>
+                <ul>
+                    <li>养成「写代码→保存→编译→运行」的工作流程</li>
+                    <li>定期保存文件（Ctrl+S），避免丢失工作成果</li>
+                    <li>为不同项目创建独立的文件夹，保持文件组织有序</li>
+                    <li>使用有意义的文件名，方便日后查找</li>
+                </ul>
+            </div>
+
+            <h3>八、常见考点总结</h3>
+            
+            <ol>
+                <li>C++源文件的标准扩展名是<strong>.cpp</strong></li>
+                <li>C++头文件的扩展名是.h或.hpp</li>
+                <li>文件名不应包含中文、空格和特殊字符</li>
+                <li>文件名区分大小写</li>
+                <li>包含main()函数的文件常命名为main.cpp</li>
+                <li>编译前的文件叫源文件（源代码），编译后的可执行文件在Windows下是.exe</li>
+                <li>在Dev-C++中使用Ctrl+N新建文件，Ctrl+S保存文件</li>
+            </ol>
+        </div>
+
+        <!-- 验证测验 -->
+        <div class="quiz-section">
+            <h2>📝 验证测验 (180题)</h2>
+            <div class="quiz-progress">
+                <span>进度</span>
+                <div class="quiz-progress-bar">
+                    <div class="quiz-progress-fill" id="quiz-progress" style="width: 0%"></div>
+                </div>
+                <span id="quiz-count">0/180</span>
+            </div>
+            
+            <div id="quiz-container">
+                <!-- 题目通过JS动态加载 -->
+            </div>
+            
+            <div class="nav-buttons">
+                <button class="gf-btn gf-btn-secondary" id="prev-btn" onclick="prevQuestion()" disabled>← 上一题</button>
+                <button class="gf-btn gf-btn-primary" id="next-btn" onclick="nextQuestion()">下一题 →</button>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="./" class="gf-btn gf-btn-secondary">← 返回C++一级目录</a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">默隐·蒙正堂</div>
+            <p class="footer-slogan">让所有孩子有处可学</p>
+            <p class="footer-copy">© 2026 默隐 · 明夷敬制</p>
+        </div>
+    </footer>
+
+    <script>
+        // 180道验证题目
+        const questions = [
+            // C++文件扩展名 1-30
+            {q: 'C++源文件的标准扩展名是什么？', options: ['.txt', '.cpp', '.doc', '.jpg'], answer: 1, explain: 'C++源文件的标准扩展名是.cpp，这是C++ Programming的缩写。'},
+            {q: 'C++头文件的扩展名通常是什么？', options: ['.cpp', '.h或.hpp', '.exe', '.obj'], answer: 1, explain: 'C++头文件的扩展名通常是.h（C风格）或.hpp（C++风格）。'},
+            {q: '以下哪个不是C++源文件的扩展名？', options: ['.cpp', '.cxx', '.c', '.doc'], answer: 3, explain: '.doc是Word文档的扩展名，不是C++源文件。'},
+            {q: 'Windows系统下C++编译生成的可执行文件扩展名是？', options: ['.cpp', '.o', '.exe', '.h'], answer: 2, explain: '在Windows系统下，编译生成的可执行文件扩展名是.exe。'},
+            {q: '.cpp扩展名代表什么意思？', options: ['C Plus Plus', 'Computer Program', 'C Programming', 'Create Program'], answer: 0, explain: '.cpp是C Plus Plus的缩写，表示C++语言。'},
+            {q: 'C语言源文件的扩展名通常是什么？', options: ['.cpp', '.c', '.h', '.java'], answer: 1, explain: 'C语言源文件的扩展名通常是.c，C++是.cpp。'},
+            {q: '编译器生成的目标文件（中间文件）扩展名通常是？', options: ['.cpp', '.o或.obj', '.exe', '.txt'], answer: 1, explain: '目标文件（Object File）的扩展名在Linux下是.o，Windows下是.obj。'},
+            {q: '以下哪个扩展名表示C++头文件？', options: ['.cpp', '.hpp', '.exe', '.bat'], answer: 1, explain: '.hpp是C++风格的头文件扩展名，.h是C/C++通用头文件扩展名。'},
+            {q: '在Dev-C++中，新建C++文件应该保存为什么扩展名？', options: ['.txt', '.cpp', '.docx', '.pdf'], answer: 1, explain: '在Dev-C++中编写C++程序，文件应该保存为.cpp扩展名。'},
+            {q: '以下哪个文件名是正确的C++源文件名？', options: ['程序.cpp', 'program.cpp', 'my program.cpp', '123.cpp'], answer: 1, explain: 'program.cpp是正确的，含英文、无空格、不以数字开头。'},
+            {q: 'main.cpp通常表示什么？', options: ['头文件', '包含主函数main()的源文件', '可执行文件', '目标文件'], answer: 1, explain: 'main.cpp通常表示包含main()主函数的C++源文件。'},
+            {q: 'iostream是什么类型的文件？', options: ['C++源文件', 'C++标准库头文件', '可执行文件', '文本文件'], answer: 1, explain: 'iostream是C++标准库中的输入输出流头文件。'},
+            {q: 'C++程序文件保存后，编译前是什么类型的文件？', options: ['可执行文件', '目标文件', '源文件（源代码）', '库文件'], answer: 2, explain: '编译前是源文件（源代码），包含程序员编写的代码。'},
+            {q: '以下哪个文件是程序员直接编写的？', options: ['.o文件', '.exe文件', '.cpp文件', '.obj文件'], answer: 2, explain: '.cpp源文件是程序员直接编写的，.o/.obj和.exe是编译生成的。'},
+            {q: 'C++项目中，头文件的主要作用是？', options: ['存储主函数', '声明函数和类，供其他文件包含使用', '存储图片', '存储可执行代码'], answer: 1, explain: '头文件（.h/.hpp）主要包含函数声明和类定义，供其他源文件包含。'},
+            {q: 'cmath是什么文件？', options: ['C++数学库头文件', '计算器程序', '数学公式文档', '音频文件'], answer: 0, explain: 'cmath是C++标准库中的数学函数头文件，提供sqrt()等数学函数。'},
+            {q: '如果一个文件名为test.cpp，它最可能是什么文件？', options: ['Word文档', 'C++源文件', '图片文件', '音频文件'], answer: 1, explain: '.cpp扩展名表示这是一个C++源文件。'},
+            {q: '在VS Code中创建C++文件时，应该使用什么扩展名？', options: ['.c', '.cpp', '.h', '.java'], answer: 1, explain: '在VS Code中创建C++文件应使用.cpp扩展名，以获得C++语法高亮支持。'},
+            {q: 'C++源文件可以用记事本打开吗？', options: ['不可以', '可以，它是文本文件', '只能用Dev-C++打开', '只能用VS Code打开'], answer: 1, explain: 'C++源文件是纯文本文件，可以用任何文本编辑器打开。'},
+            {q: '以下哪个不是合法的C++文件名？', options: ['hello.cpp', 'main.cpp', 'my-code.cpp', 'hello world.cpp'], answer: 3, explain: 'hello world.cpp包含空格，不是推荐的文件名（虽然某些系统支持，但容易出问题）。'},
+            {q: 'string.h和cstring有什么区别？', options: ['没有区别', 'string.h是C风格，cstring是C++风格，功能相同', '完全不同的功能', '一个是头文件，一个是源文件'], answer: 1, explain: 'string.h是C语言头文件，cstring是C++版本的同一头文件，功能相同。'},
+            {q: '在C++项目中，通常会有多少个main函数？', options: ['0个', '1个', '多个', '任意数量'], answer: 1, explain: '一个C++项目只能有1个main函数，作为程序入口。'},
+            {q: 'iostream.h和iostream有什么区别？', options: ['没有区别', 'iostream.h是旧版，iostream是C++标准版', '完全不同', '一个是C文件，一个是C++文件'], answer: 1, explain: 'iostream.h是旧式头文件，iostream是C++标准头文件（不带.h）。'},
+            {q: '程序编译后生成的.o文件是什么？', options: ['源代码文件', '目标文件（机器码）', '可执行文件', '头文件'], answer: 1, explain: '.o文件是目标文件，包含编译后的机器码，但不是最终可执行文件。'},
+            {q: '以下哪个扩展名表示C++源文件？', options: ['.cc', '.cpp', '.cxx', '以上都是'], answer: 3, explain: '.cc、.cpp、.cxx都是合法的C++源文件扩展名。'},
+            {q: 'Makefile是什么文件？', options: ['C++源文件', '构建脚本文件', '头文件', '可执行文件'], answer: 1, explain: 'Makefile是构建脚本，用于描述如何编译链接程序。'},
+            {q: '在C++中，#include <iostream> 中的iostream是什么？', options: ['源文件', '头文件名', '函数名', '变量名'], answer: 1, explain: 'iostream是C++标准库头文件名，用于输入输出操作。'},
+            {q: 'C++源文件的大小写敏感吗？', options: ['不敏感', '敏感', '只在Windows敏感', '只在Linux敏感'], answer: 1, explain: 'C++语言本身区分大小写，Hello.cpp和hello.cpp被视为不同文件。'},
+            {q: 'test.C（大写C）和test.c（小写c）通常表示？', options: ['同一个文件', 'C++文件和C文件', '都C++文件', '都C文件'], answer: 1, explain: 'test.C（大写）通常是C++文件，test.c（小写）是C文件。'},
+            {q: 'Dev-C++项目文件的扩展名是什么？', options: ['.cpp', '.dev', '.vcxproj', '.sln'], answer: 1, explain: 'Dev-C++的项目文件扩展名是.dev。'},
+            // 文件命名规范 31-60
+            {q: '以下哪个文件名是推荐的？', options: ['我的程序.cpp', 'my program.cpp', 'my_program.cpp', '123program.cpp'], answer: 2, explain: 'my_program.cpp使用英文和下划线，不含空格和中文，是推荐格式。'},
+            {q: '文件名不应该以什么开头？', options: ['字母', '下划线', '数字', '都可以'], answer: 2, explain: '文件名不应该以数字开头，应该以字母或下划线开头。'},
+            {q: 'C++文件名中应该避免使用？', options: ['英文字母', '下划线', '中文字符', '数字'], answer: 2, explain: '文件名应避免使用中文字符，使用英文字母、数字和下划线。'},
+            {q: '以下哪个文件名包含空格？', options: ['hello.cpp', 'hello_world.cpp', 'hello world.cpp', 'helloworld.cpp'], answer: 2, explain: 'hello world.cpp在两个单词之间有空格，应该避免使用。'},
+            {q: '文件名Hello.cpp和hello.cpp在Linux下是？', options: ['同一个文件', '不同的文件', '系统会报错', '自动合并'], answer: 1, explain: 'Linux文件名区分大小写，Hello.cpp和hello.cpp是不同的文件。'},
+            {q: '良好的文件名应该？', options: ['尽可能短', '包含创建日期', '反映文件功能', '使用随机字符'], answer: 2, explain: '良好的文件名应该反映文件功能，如calculator.cpp表示计算器程序。'},
+            {q: '包含main()函数的文件通常命名为？', options: ['function.cpp', 'main.cpp', 'header.h', 'test.txt'], answer: 1, explain: '按照惯例，包含main()函数的文件通常命名为main.cpp。'},
+            {q: '以下哪个字符不应该出现在文件名中？', options: ['_', '-', '$', '以上都可以'], answer: 2, explain: '$等特殊字符不应该出现在文件名中，使用字母、数字和下划线更安全。'},
+            {q: '文件名maxValue.cpp和maxvalue.cpp在Windows下是？', options: ['同一个文件', '不同的文件', '编译错误', '运行时错误'], answer: 0, explain: 'Windows文件名不区分大小写，maxValue.cpp和maxvalue.cpp被视为同一文件。'},
+            {q: '多单词组成的文件名推荐使用什么分隔？', options: ['空格', '下划线', '逗号', '句号'], answer: 1, explain: '多单词文件名推荐使用下划线分隔，如hello_world.cpp。'},
+            {q: '以下哪个文件名使用了驼峰命名法？', options: ['hello_world.cpp', 'HelloWorld.cpp', 'helloworld.cpp', 'hello-world.cpp'], answer: 1, explain: 'HelloWorld.cpp使用了驼峰命名法（CamelCase），每个单词首字母大写。'},
+            {q: '类定义文件通常如何命名？', options: ['main.cpp', 'ClassName.cpp', 'test.cpp', 'program.cpp'], answer: 1, explain: '类定义文件通常使用类名命名，如Student.cpp、Rectangle.cpp。'},
+            {q: '文件名不应该太长，一般建议不超过多少个字符？', options: ['8个', '31个', '255个', '没有限制'], answer: 2, explain: '现代系统支持长文件名，但建议保持简洁，不超过255个字符。'},
+            {q: '文件名中不可以使用以下哪个Windows保留字？', options: ['main', 'hello', 'CON', 'test'], answer: 2, explain: 'CON是Windows系统的保留设备名，不能用作文件名。'},
+            {q: '以下哪个文件名可能导致问题？', options: ['program.cpp', 'aux.cpp', 'hello.cpp', 'main.cpp'], answer: 1, explain: 'AUX是Windows保留设备名，不能用作文件名。'},
+            {q: '在Dev-C++中创建文件时，默认的编码应该是？', options: ['UTF-8', 'GBK', 'ASCII', 'Unicode'], answer: 0, explain: '推荐使用UTF-8编码，支持中英文，兼容性好。'},
+            {q: '文件名中可以使用多个点号吗？', options: ['不可以', '可以，如my.file.cpp', '只允许一个', '系统会报错'], answer: 1, explain: '文件名可以包含多个点号，最后一个点号后是扩展名，如archive.tar.gz。'},
+            {q: '以下哪个文件名表示这是第2个版本的程序？', options: ['program.cpp', 'program2.cpp', 'program_v2.cpp', '以上都可以'], answer: 3, explain: 'program2.cpp和program_v2.cpp都可以表示第2个版本。'},
+            {q: '在大型项目中，文件通常如何组织？', options: ['全部放在根目录', '按功能放在不同文件夹', '随机存放', '按文件大小存放'], answer: 1, explain: '大型项目中，文件通常按功能放在不同文件夹中，如src/、include/、bin/等。'},
+            {q: 'include文件夹通常存放什么文件？', options: ['源文件', '头文件', '可执行文件', '图片文件'], answer: 1, explain: 'include文件夹通常存放头文件（.h/.hpp）。'},
+            {q: 'src文件夹通常存放什么文件？', options: ['头文件', '源文件', '可执行文件', '文档'], answer: 1, explain: 'src（source的缩写）文件夹通常存放源文件（.cpp）。'},
+            {q: 'bin文件夹通常存放什么文件？', options: ['源代码', '二进制可执行文件', '图片', '文档'], answer: 1, explain: 'bin（binary的缩写）文件夹通常存放编译后的可执行文件。'},
+            {q: '文件名student_info.cpp使用了什么命名风格？', options: ['驼峰命名', '蛇形命名（下划线）', '匈牙利命名', '帕斯卡命名'], answer: 1, explain: '使用下划线分隔小写单词的命名风格称为蛇形命名法（snake_case）。'},
+            {q: '文件名StudentInfo.cpp使用了什么命名风格？', options: ['驼峰命名', '蛇形命名', '匈牙利命名', '帕斯卡命名'], answer: 3, explain: '每个单词首字母大写的命名风格称为帕斯卡命名法（PascalCase）。'},
+            {q: 'C++标准库头文件通常使用什么命名风格？', options: ['蛇形命名', '无扩展名，小写', '大写', '混合大小写'], answer: 1, explain: 'C++标准库头文件如iostream、vector、cstring，无扩展名且全小写。'},
+            {q: '文件名中可以使用中文标点符号吗？', options: ['可以', '不可以，应该使用英文标点', '只在Windows可以', '只在Mac可以'], answer: 1, explain: '文件名中应该使用英文标点符号，避免使用中文标点。'},
+            {q: '以下哪个文件名格式最好？', options: ['1.cpp', 'a.cpp', 'hello_world.cpp', 'x.cpp'], answer: 2, explain: 'hello_world.cpp有明确含义，是推荐的命名方式。'},
+            {q: '文件名temp.cpp通常表示什么？', options: ['最终版本', '临时文件', '模板文件', '测试文件'], answer: 1, explain: 'temp（temporary的缩写）通常表示临时文件。'},
+            // Dev-C++操作 61-100
+            {q: 'Dev-C++中新建源代码的快捷键是？', options: ['Ctrl+O', 'Ctrl+N', 'Ctrl+S', 'Ctrl+C'], answer: 1, explain: 'Ctrl+N（New）是新建文件的快捷键。'},
+            {q: 'Dev-C++中保存文件的快捷键是？', options: ['Ctrl+N', 'Ctrl+S', 'Ctrl+O', 'Ctrl+P'], answer: 1, explain: 'Ctrl+S（Save）是保存文件的快捷键。'},
+            {q: 'Dev-C++中打开文件的快捷键是？', options: ['Ctrl+N', 'Ctrl+O', 'Ctrl+S', 'Ctrl+F'], answer: 1, explain: 'Ctrl+O（Open）是打开文件的快捷键。'},
+            {q: '在Dev-C++中，如何新建一个C++源文件？', options: ['文件→新建→源代码', '文件→打开', '文件→保存', '文件→退出'], answer: 0, explain: '通过菜单「文件」→「新建」→「源代码」可以新建C++源文件。'},
+            {q: 'Dev-C++新建文件后，编辑器是什么颜色的？', options: ['白色', '黑色', '白色背景配彩色文字', '灰色'], answer: 2, explain: 'Dev-C++编辑器默认是白色背景，代码会根据语法显示不同颜色（语法高亮）。'},
+            {q: '在Dev-C++中，代码编译的快捷键是？', options: ['F9', 'F10', 'F11', 'F12'], answer: 0, explain: 'F9是编译的快捷键，F10是运行，F11是编译运行。'},
+            {q: '在Dev-C++中，编译并运行的快捷键是？', options: ['F9', 'F10', 'F11', 'F12'], answer: 2, explain: 'F11是编译并运行的快捷键。'},
+            {q: 'Dev-C++保存文件时，默认的扩展名是？', options: ['.txt', '.cpp', '.c', '.h'], answer: 1, explain: 'Dev-C++保存C++文件时，默认扩展名是.cpp。'},
+            {q: 'Dev-C++项目文件的扩展名是？', options: ['.cpp', '.dev', '.exe', '.o'], answer: 1, explain: 'Dev-C++项目文件的扩展名是.dev。'},
+            {q: '在Dev-C++中，如何关闭当前文件？', options: ['Ctrl+W', 'Ctrl+Q', 'Ctrl+C', 'Ctrl+X'], answer: 0, explain: 'Ctrl+W通常用于关闭当前文件或标签页。'},
+            {q: 'Dev-C++中撤销操作的快捷键是？', options: ['Ctrl+Z', 'Ctrl+Y', 'Ctrl+X', 'Ctrl+V'], answer: 0, explain: 'Ctrl+Z是撤销（Undo）的快捷键。'},
+            {q: 'Dev-C++中重做操作的快捷键是？', options: ['Ctrl+Z', 'Ctrl+Y', 'Ctrl+X', 'Ctrl+V'], answer: 1, explain: 'Ctrl+Y是重做（Redo）的快捷键。'},
+            {q: 'Dev-C++中剪切选中文本的快捷键是？', options: ['Ctrl+C', 'Ctrl+X', 'Ctrl+V', 'Ctrl+Z'], answer: 1, explain: 'Ctrl+X是剪切（Cut）的快捷键。'},
+            {q: 'Dev-C++中复制选中文本的快捷键是？', options: ['Ctrl+C', 'Ctrl+X', 'Ctrl+V', 'Ctrl+Z'], answer: 0, explain: 'Ctrl+C是复制（Copy）的快捷键。'},
+            {q: 'Dev-C++中粘贴的快捷键是？', options: ['Ctrl+C', 'Ctrl+X', 'Ctrl+V', 'Ctrl+Z'], answer: 2, explain: 'Ctrl+V是粘贴（Paste）的快捷键。'},
+            {q: 'Dev-C++中查找的快捷键是？', options: ['Ctrl+F', 'Ctrl+H', 'Ctrl+G', 'Ctrl+A'], answer: 0, explain: 'Ctrl+F是查找（Find）的快捷键。'},
+            {q: 'Dev-C++中全选的快捷键是？', options: ['Ctrl+A', 'Ctrl+S', 'Ctrl+D', 'Ctrl+F'], answer: 0, explain: 'Ctrl+A是全选（Select All）的快捷键。'},
+            {q: '在Dev-C++中，代码显示不同颜色表示什么？', options: ['代码有错误', '语法高亮', '文件已损坏', '显示器故障'], answer: 1, explain: '代码显示不同颜色是语法高亮功能，帮助区分关键字、字符串、注释等。'},
+            {q: 'Dev-C++中绿色文字通常表示？', options: ['关键字', '字符串', '注释', '数字'], answer: 2, explain: '在Dev-C++默认配色中，绿色通常表示注释（//或/* */之间的内容）。'},
+            {q: 'Dev-C++中蓝色文字通常表示？', options: ['关键字', '字符串', '注释', '普通代码'], answer: 0, explain: '在Dev-C++默认配色中，蓝色通常表示C++关键字（如int、if、for等）。'},
+            {q: 'Dev-C++是一款？', options: ['文字处理软件', 'C/C++集成开发环境', '网页浏览器', '操作系统'], answer: 1, explain: 'Dev-C++是一款免费的C/C++集成开发环境（IDE）。'},
+            {q: 'Dev-C++的主要优点是什么？', options: ['功能最强大', '轻量级、适合初学者', '免费开源', '支持所有语言'], answer: 1, explain: 'Dev-C++轻量级、简单易用，非常适合C++初学者。'},
+            {q: 'Dev-C++中，编译错误会在哪里显示？', options: ['编辑器底部', '弹出窗口', '不显示', '桌面'], answer: 0, explain: '编译错误信息通常显示在编辑器底部的编译日志窗口中。'},
+            {q: '在Dev-C++中，如何注释选中的多行代码？', options: ['Ctrl+/', 'Ctrl+Shift+/', 'Ctrl+M', 'Ctrl+#'], answer: 0, explain: 'Ctrl+/可以注释/取消注释选中的代码行。'},
+            {q: 'Dev-C++支持代码自动补全吗？', options: ['不支持', '支持', '只在付费版支持', '只在Windows 10支持'], answer: 1, explain: 'Dev-C++支持基本的代码自动补全功能。'},
+            {q: '在Dev-C++中，一个项目可以包含多个.cpp文件吗？', options: ['不可以', '可以', '只能有main.cpp', '只能有2个'], answer: 1, explain: 'Dev-C++项目可以包含多个.cpp源文件，一起编译链接。'},
+            {q: 'Dev-C++中，如何添加文件到项目？', options: ['项目→添加', '直接拖拽', '右键→添加', '以上都可以'], answer: 0, explain: '可以通过「项目」菜单添加文件到项目中。'},
+            {q: 'Dev-C++是哪个国家开发的？', options: ['美国', '中国', '法国', 'Bloodshed Software（最初）'], answer: 3, explain: 'Dev-C++最初由Bloodshed Software开发，现在是开源项目。'},
+            {q: 'Dev-C++使用的编译器是？', options: ['Visual C++', 'GCC（MinGW）', 'Clang', 'Turbo C'], answer: 1, explain: 'Dev-C++使用MinGW版本的GCC作为编译器。'},
+            {q: '在Dev-C++中，如何设置代码字体大小？', options: ['工具→编辑器选项', '文件→属性', '视图→字体', '不能设置'], answer: 0, explain: '通过「工具」→「编辑器选项」可以设置代码字体和大小。'},
+            {q: 'Dev-C++的代码编辑器背景色可以更改吗？', options: ['不可以', '可以', '只能黑色', '只能白色'], answer: 1, explain: '可以更改编辑器的配色方案，包括背景色和文字颜色。'},
+            {q: '在Dev-C++中，如何运行程序但不调试？', options: ['按F9', '按F10', '按F11', '按F12'], answer: 1, explain: '按F10可以运行程序（Run），不进行调试。'},
+            {q: 'Dev-C++中，如何调试程序（设置断点）？', options: ['F9', 'F5', '点击行号左侧', '以上都可以'], answer: 3, explain: '可以通过F5开始调试，或点击行号左侧设置断点。'},
+            // VS Code操作 101-130
+            {q: 'VS Code是一款？', options: ['文字处理软件', '代码编辑器', '操作系统', '游戏软件'], answer: 1, explain: 'VS Code（Visual Studio Code）是一款流行的代码编辑器。'},
+            {q: 'VS Code是哪个公司开发的？', options: ['苹果', '谷歌', '微软', 'Facebook'], answer: 2, explain: 'VS Code由微软公司开发，是免费开源的编辑器。'},
+            {q: 'VS Code中新建文件的快捷键是？', options: ['Ctrl+N', 'Ctrl+Shift+N', 'Alt+N', 'Shift+N'], answer: 0, explain: 'Ctrl+N是新建文件的快捷键。'},
+            {q: 'VS Code中保存文件的快捷键是？', options: ['Ctrl+S', 'Ctrl+Shift+S', 'Alt+S', 'Shift+S'], answer: 0, explain: 'Ctrl+S是保存文件的快捷键。'},
+            {q: 'VS Code中另存为的快捷键是？', options: ['Ctrl+S', 'Ctrl+Shift+S', 'Alt+S', 'Ctrl+Alt+S'], answer: 1, explain: 'Ctrl+Shift+S是另存为的快捷键。'},
+            {q: 'VS Code中打开文件的快捷键是？', options: ['Ctrl+O', 'Ctrl+Shift+O', 'Alt+O', 'Shift+O'], answer: 0, explain: 'Ctrl+O是打开文件的快捷键。'},
+            {q: 'VS Code中打开文件夹的快捷键是？', options: ['Ctrl+O', 'Ctrl+K Ctrl+O', 'Ctrl+Shift+O', 'Alt+O'], answer: 1, explain: 'Ctrl+K然后Ctrl+O是打开文件夹的快捷键。'},
+            {q: 'VS Code中如何显示/隐藏侧边栏？', options: ['Ctrl+B', 'Ctrl+S', 'Ctrl+H', 'Ctrl+V'], answer: 0, explain: 'Ctrl+B可以显示或隐藏侧边栏（文件资源管理器）。'},
+            {q: 'VS Code中命令面板的快捷键是？', options: ['Ctrl+Shift+P', 'Ctrl+P', 'Alt+P', 'Shift+P'], answer: 0, explain: 'Ctrl+Shift+P打开命令面板，可以执行各种命令。'},
+            {q: 'VS Code中快速打开文件的快捷键是？', options: ['Ctrl+Shift+P', 'Ctrl+P', 'Alt+P', 'Shift+P'], answer: 1, explain: 'Ctrl+P用于快速打开项目中的文件。'},
+            {q: 'VS Code中搜索文件的快捷键是？', options: ['Ctrl+F', 'Ctrl+Shift+F', 'Alt+F', 'Shift+F'], answer: 1, explain: 'Ctrl+Shift+F用于在整个项目中搜索文件内容。'},
+            {q: 'VS Code中撤销的快捷键是？', options: ['Ctrl+Z', 'Ctrl+Y', 'Ctrl+X', 'Ctrl+V'], answer: 0, explain: 'Ctrl+Z是撤销的快捷键。'},
+            {q: 'VS Code中重做的快捷键是？', options: ['Ctrl+Z', 'Ctrl+Y', 'Ctrl+Shift+Z', 'Ctrl+Alt+Z'], answer: 2, explain: 'Ctrl+Shift+Z是重做的快捷键（也可以Ctrl+Y）。'},
+            {q: 'VS Code中多光标编辑的快捷键是？', options: ['Alt+Click', 'Ctrl+Click', 'Shift+Click', 'Alt+Shift+Click'], answer: 0, explain: '按住Alt并点击可以创建多个光标，同时编辑多个位置。'},
+            {q: 'VS Code中注释当前行的快捷键是？', options: ['Ctrl+/', 'Ctrl+Shift+/', 'Alt+/', 'Shift+/'], answer: 0, explain: 'Ctrl+/可以注释或取消注释当前行。'},
+            {q: 'VS Code中格式化代码的快捷键是？', options: ['Ctrl+Shift+I', 'Ctrl+Alt+I', 'Alt+Shift+F', 'Ctrl+F'], answer: 2, explain: 'Alt+Shift+F是格式化代码的快捷键。'},
+            {q: 'VS Code是免费的吗？', options: ['收费', '免费', '部分功能收费', '只有试用期免费'], answer: 1, explain: 'VS Code是完全免费的，且开源。'},
+            {q: 'VS Code支持哪些操作系统？', options: ['只有Windows', 'Windows、macOS、Linux', '只有macOS', '只有Linux'], answer: 1, explain: 'VS Code支持Windows、macOS和Linux三大操作系统。'},
+            {q: 'VS Code要编写C++程序，需要安装什么？', options: ['什么都不需要', 'C/C++扩展', 'Python扩展', 'Java扩展'], answer: 1, explain: '需要安装Microsoft的C/C++扩展来获得C++语法高亮和调试支持。'},
+            {q: 'VS Code中终端的快捷键是？', options: ['Ctrl+`', 'Ctrl+T', 'Ctrl+Alt+T', 'Alt+T'], answer: 0, explain: 'Ctrl+`（反引号，通常在Tab键上方）可以打开/关闭集成终端。'},
+            {q: 'VS Code中如何切换到下一个打开的编辑器标签？', options: ['Ctrl+Tab', 'Alt+Tab', 'Ctrl+Shift+Tab', 'Ctrl+PageDown'], answer: 0, explain: 'Ctrl+Tab可以切换到下一个编辑器标签。'},
+            {q: 'VS Code中关闭当前标签页的快捷键是？', options: ['Ctrl+W', 'Ctrl+Q', 'Alt+W', 'Shift+W'], answer: 0, explain: 'Ctrl+W关闭当前标签页。'},
+            {q: 'VS Code中全屏模式的快捷键是？', options: ['F11', 'F12', 'F10', 'F9'], answer: 0, explain: 'F11切换全屏模式。'},
+            {q: 'VS Code中 Zen Mode（禅模式）的快捷键是？', options: ['Ctrl+K Z', 'Ctrl+Shift+Z', 'Alt+Z', 'Ctrl+Alt+Z'], answer: 0, explain: 'Ctrl+K然后Z进入Zen Mode，隐藏干扰专注编程。'},
+            {q: 'VS Code中如何分割编辑器窗口？', options: ['Ctrl+\\', 'Ctrl+/', 'Alt+\\', 'Shift+\\'], answer: 0, explain: 'Ctrl+\\可以垂直分割编辑器窗口。'},
+            {q: 'VS Code的插件/扩展在哪里安装？', options: ['文件菜单', '左侧活动栏的扩展图标', '右键菜单', '不能安装'], answer: 1, explain: '点击左侧活动栏的扩展图标（四个方块）可以浏览和安装扩展。'},
+            {q: 'VS Code中如何放大界面字体？', options: ['Ctrl+=', 'Ctrl+-', 'Ctrl+0', 'Ctrl+9'], answer: 0, explain: 'Ctrl+=（或Ctrl++）放大界面字体。'},
+            {q: 'VS Code中如何缩小界面字体？', options: ['Ctrl+=', 'Ctrl+-', 'Ctrl+0', 'Ctrl+9'], answer: 1, explain: 'Ctrl+-缩小界面字体。'},
+            {q: 'VS Code中如何重置字体大小？', options: ['Ctrl+=', 'Ctrl+-', 'Ctrl+0', 'Ctrl+9'], answer: 2, explain: 'Ctrl+0重置字体大小为默认值。'}
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = {};
+
+        function loadQuestion(index) {
+            const q = questions[index];
+            const container = document.getElementById('quiz-container');
+            
+            let optionsHtml = '';
+            q.options.forEach((opt, i) => {
+                const selected = userAnswers[index] === i ? 'selected' : '';
+                const correct = userAnswers[index] !== undefined && i === q.answer ? 'correct' : '';
+                const wrong = userAnswers[index] === i && i !== q.answer ? 'wrong' : '';
+                optionsHtml += `<div class="option ${selected} ${correct} ${wrong}" onclick="selectOption(${i})">${String.fromCharCode(65 + i)}. ${opt}</div>`;
+            });
+            
+            const answered = userAnswers[index] !== undefined ? 'answered' : '';
+            
+            container.innerHTML = `
+                <div class="question-card ${answered}" id="question-card">
+                    <div class="question-number">题目 ${index + 1} / ${questions.length}</div>
+                    <div class="question-text">${q.q}</div>
+                    <div class="options">${optionsHtml}</div>
+                    <div class="explanation" id="explanation">
+                        <strong>解析：</strong>${q.explain}
+                    </div>
+                </div>
+            `;
+            
+            const progress = ((index + 1) / questions.length) * 100;
+            document.getElementById('quiz-progress').style.width = `${progress}%`;
+            document.getElementById('quiz-count').textContent = `${index + 1}/${questions.length}`;
+            
+            document.getElementById('prev-btn').disabled = index === 0;
+            document.getElementById('next-btn').textContent = index === questions.length - 1 ? '完成测验' : '下一题 →';
+        }
+
+        function selectOption(optionIndex) {
+            if (userAnswers[currentQuestion] !== undefined) return;
+            
+            userAnswers[currentQuestion] = optionIndex;
+            const q = questions[currentQuestion];
+            
+            const options = document.querySelectorAll('.option');
+            options.forEach((opt, i) => {
+                if (i === q.answer) {
+                    opt.classList.add('correct');
+                } else if (i === optionIndex && i !== q.answer) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            document.getElementById('question-card').classList.add('answered');
+            localStorage.setItem('cpp_level1_2_1_progress', JSON.stringify(userAnswers));
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion(currentQuestion);
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                loadQuestion(currentQuestion);
+            } else {
+                const correct = Object.keys(userAnswers).filter(k => userAnswers[k] === questions[k].answer).length;
+                const total = questions.length;
+                alert(`测验完成！\n正确率：${correct}/${total} (${Math.round(correct/total*100)}%)\n\n继续学习下一个知识点：2.2 编辑文件`);
+            }
+        }
+
+        const savedProgress = localStorage.getItem('cpp_level1_2_1_progress');
+        if (savedProgress) {
+            // 文件操作综合 131-180
+            {q: '在C++程序开发中，第一步通常是？', options: ['编译', '运行', '创建源文件', '调试'], answer: 2, explain: '编写程序的第一步是创建源文件（.cpp），然后才能编写代码。'},
+            {q: '以下哪个操作不是文件基本操作？', options: ['创建', '编辑', '保存', '打印（打印不是IDE基本操作）'], answer: 3, explain: '文件的基本操作包括创建、编辑、保存、编译等，打印不是IDE的基本文件操作。'},
+            {q: 'C++源文件保存后，下一步通常是？', options: ['直接运行', '编译', '删除', '关闭电脑'], answer: 1, explain: '编写并保存源文件后，下一步通常是编译（Compile），检查语法错误。'},
+            {q: '编译C++程序的目的是？', options: ['删除文件', '将源代码转换成机器可执行的代码', '格式化代码', '备份文件'], answer: 1, explain: '编译是将人类可读的源代码转换成计算机可执行的机器码。'},
+            {q: '如果编译成功，会生成什么文件？', options: ['.cpp文件', '.exe（Windows）或可执行文件', '.txt文件', '.doc文件'], answer: 1, explain: '编译成功后，Windows系统会生成.exe可执行文件。'},
+            {q: '如果编译出错，应该怎么做？', options: ['直接运行', '查看错误信息，修改代码后重新编译', '删除文件', '关闭IDE'], answer: 1, explain: '编译出错时，应该查看错误信息，找到问题所在，修改代码后重新编译。'},
+            {q: '编程时应该多久保存一次文件？', options: ['写完整个程序再保存', '经常保存，如每隔几分钟或完成一部分后', '一天保存一次', '从不保存'], answer: 1, explain: '应该经常保存文件，防止意外丢失工作成果。'},
+            {q: 'Ctrl+S快捷键的作用是？', options: ['打开文件', '保存文件', '关闭文件', '打印文件'], answer: 1, explain: 'Ctrl+S是保存文件的通用快捷键。'},
+            {q: '在编写代码时，突然断电，什么情况下会丢失数据？', options: ['只要编辑了就会丢失', '如果修改后没有保存就会丢失', '不会丢失任何数据', '总是丢失所有数据'], answer: 1, explain: '如果修改后没有保存，断电会导致未保存的数据丢失。'},
+            {q: '以下哪种做法可以最大程度避免数据丢失？', options: ['不编辑文件', '经常按Ctrl+S保存', '只写短程序', '不使用电脑'], answer: 1, explain: '经常按Ctrl+S保存文件可以最大程度避免数据丢失。'},
+            {q: 'C++程序中，main函数应该放在哪个文件？', options: ['头文件（.h）', '任意源文件（通常main.cpp）', '可执行文件', '不需要main函数'], answer: 1, explain: 'main函数可以放在任意源文件中，但习惯上放在main.cpp。'},
+            {q: '一个C++项目必须有且只有一个什么函数？', options: ['printf函数', 'main函数', 'cout函数', 'include函数'], answer: 1, explain: '一个C++项目必须有且只有一个main函数作为程序入口。'},
+            {q: '#include <iostream>这行代码的作用是？', options: ['定义主函数', '包含输入输出流库', '开始程序', '结束程序'], answer: 1, explain: '#include <iostream>包含C++标准输入输出库，使我们可以使用cout、cin等。'},
+            {q: 'using namespace std;的作用是？', options: ['不使用标准库', '使用标准命名空间，简化代码', '定义变量', '包含头文件'], answer: 1, explain: 'using namespace std声明使用标准命名空间，可以不用写std::前缀。'},
+            {q: 'cout << "Hello"; 这行代码的作用是？', options: ['读取输入', '输出Hello到屏幕', '定义变量', '计算数值'], answer: 1, explain: 'cout用于输出，<<是输出运算符，这行代码将Hello输出到屏幕。'},
+            {q: 'return 0;在main函数中表示？', options: ['返回0给操作系统，表示程序正常结束', '返回0给屏幕', '重新开始程序', '程序出错'], answer: 0, explain: 'return 0表示程序正常结束，将0返回给操作系统。'},
+            {q: 'C++代码中的//表示什么？', options: ['除法', '单行注释', '乘法', '等于'], answer: 1, explain: '//表示单行注释，其后的内容不会被执行。'},
+            {q: 'C++代码中的/* */表示什么？', options: ['乘法', '多行注释', '除法', '加法'], answer: 1, explain: '/* */是多行注释标记，之间的所有内容都是注释。'},
+            {q: '注释的作用是什么？', options: ['让程序运行更快', '解释代码，方便理解（给人看）', '让程序出错', '编译代码'], answer: 1, explain: '注释是给程序员看的说明文字，编译器会忽略注释。'},
+            {q: '以下哪个是正确的Hello World程序？', options: ['cout << Hello;', 'cout <> "Hello";', 'cout << "Hello";', 'print "Hello"'], answer: 2, explain: 'cout << "Hello";是正确的C++输出语句，字符串要用引号括起来。'},
+            {q: '编写C++程序时，分号的作用是？', options: ['没有作用', '表示语句结束', '表示语句开始', '表示注释'], answer: 1, explain: '在C++中，分号（;）表示一条语句的结束。'},
+            {q: '如果忘记写分号，会发生什么？', options: ['程序正常运行', '编译错误', '运行更快', '输出错误'], answer: 1, explain: '忘记分号会导致编译错误，编译器会提示缺少分号。'},
+            {q: 'C++中，花括号{}通常用于？', options: ['表示注释', '表示代码块（如函数体、循环体）', '表示字符串', '表示数字'], answer: 1, explain: '花括号{}用于定义代码块，如函数体、if语句体、循环体等。'},
+            {q: 'main()后面的{}里应该写什么？', options: ['头文件', '函数体代码', '注释', '什么都不写'], answer: 1, explain: 'main()后面的{}中是main函数的函数体，包含程序的主要代码。'},
+            {q: '在Dev-C++中，编译按钮通常显示为什么图标或文字？', options: ['放大镜', '齿轮或Compile', '打印机', '垃圾桶'], answer: 1, explain: '编译按钮通常显示为齿轮图标或标有Compile。'},
+            {q: '在Dev-C++中，运行按钮通常显示为什么？', options: ['Run或播放图标', 'Stop', 'Save', 'Open'], answer: 0, explain: '运行按钮通常显示Run或播放三角形图标。'},
+            {q: '编写C++程序的一般流程是？', options: ['运行→编写→编译', '编写→保存→编译→运行', '编译→编写→运行', '运行→编译→编写'], answer: 1, explain: '正确的流程是：编写代码→保存文件→编译→运行程序。'},
+            {q: '如果看到错误error: expected ; before ...，最可能是什么原因？', options: ['缺少分号', '缺少花括号', '缺少引号', '缺少main函数'], answer: 0, explain: 'expected ;错误通常表示缺少分号。'},
+            {q: '如果看到错误undefined reference to 'main'，是什么原因？', options: ['没有main函数', '分号太多', '引号不匹配', '文件名错误'], answer: 0, explain: 'undefined reference to 'main'表示找不到main函数，可能忘记定义。'},
+            {q: 'C++程序文件名中可以使用空格吗？', options: ['强烈不推荐', '可以，没有任何问题', '只能在Linux使用', '只能在Mac使用'], answer: 0, explain: '文件名中包含空格虽然某些系统支持，但强烈不推荐，容易出问题。'},
+            {q: '为什么C++文件名建议用英文？', options: ['好看', '避免编码问题和兼容性问题', '必须用英文才能编译', '老师要求'], answer: 1, explain: '使用英文文件名可以避免编码问题和跨平台兼容性问题。'},
+            {q: 'GESP考试中，创建文件应该用什么扩展名？', options: ['.txt', '.cpp', '.c', '.h'], answer: 1, explain: 'GESP C++考试要求使用.cpp扩展名。'},
+            {q: '在GESP考试中，编写程序的第一步应该做什么？', options: ['直接写代码', '创建cpp文件', '运行程序', '关闭电脑'], answer: 1, explain: '考试时的第一步是创建cpp文件，然后才能编写代码。'},
+            {q: '考试环境下，忘记保存文件会导致什么后果？', options: ['没有后果', '可能丢失已编写的代码', '程序运行更快', '自动保存'], answer: 1, explain: '忘记保存可能导致数据丢失，考试时应经常保存。'},
+            {q: '考试中，编译出现错误时应该？', options: ['放弃这道题', '仔细阅读错误信息，尝试修改', '直接提交', '删除文件'], answer: 1, explain: '出现编译错误时，应仔细阅读错误信息，尝试找到并修正问题。'},
+            {q: '好的编程习惯包括？', options: ['从不保存', '经常保存，文件命名规范', '随意命名', '不编译直接运行'], answer: 1, explain: '好的编程习惯包括经常保存、使用有意义的文件名、保持代码整洁等。'},
+            {q: '为什么要有良好的文件组织？', options: ['没有必要', '方便管理和查找文件', '让文件更小', '让程序更快'], answer: 1, explain: '良好的文件组织可以方便地管理和查找文件，提高开发效率。'},
+            {q: '学习C++编程，最重要的是？', options: ['背代码', '理解原理，多练习', '看别人的程序', '买贵的电脑'], answer: 1, explain: '学习编程最重要的是理解原理并通过大量练习来掌握。'},
+            {q: '遇到问题时，应该首先？', options: ['立即问老师', '自己尝试解决，查找资料', '放弃', '重启电脑'], answer: 1, explain: '遇到问题首先应自己尝试解决，这有助于提高解决问题的能力。'},
+            {q: '编程中的「语法错误」是指？', options: ['程序逻辑错误', '违反编程语言规则的错误', '电脑坏了', '键盘坏了'], answer: 1, explain: '语法错误是指代码违反了编程语言的语法规则，编译器无法编译。'},
+            {q: '编程中的「逻辑错误」是指？', options: ['语法写错了', '程序能运行但结果不对', '电脑死机', '文件丢失'], answer: 1, explain: '逻辑错误是指程序语法正确，但算法或逻辑有问题，导致结果不正确。'},
+            {q: '哪种错误在编译时就能发现？', options: ['逻辑错误', '语法错误', '运行时错误', '所有错误'], answer: 1, explain: '语法错误在编译阶段就能被编译器发现。'},
+            {q: '程序能编译通过但运行结果不对，是什么错误？', options: ['语法错误', '逻辑错误', '编译错误', '文件错误'], answer: 1, explain: '能编译通过但结果不对，通常是逻辑错误。'},
+            {q: '初学者学习编程的最佳方式是？', options: ['只看理论', '理论结合大量实践', '只背代码', '只看视频'], answer: 1, explain: '学习编程需要理论学习结合大量实践练习。'},
+            {q: '为什么要学习创建文件？', options: ['这是编程的第一步', '不学习也能编程', '考试要求', '老师要求'], answer: 0, explain: '创建文件是编写程序的第一步，是编程的基础技能。'},
+            {q: '创建文件后，文件里默认有什么内容？', options: ['Hello World程序', '空白的，什么都没有', '很多注释', '随机代码'], answer: 1, explain: '新创建的文件通常是空白的，需要程序员自己编写代码。'},
+            {q: '编写程序时，应该一次性写完整再保存吗？', options: ['是的', '不，应该经常保存', '无所谓', '写一行保存一次'], answer: 1, explain: '应该经常保存，而不是等到全部写完，防止数据丢失。'},
+            {q: '为什么推荐用IDE（集成开发环境）编程？', options: ['因为贵', '提供代码高亮、自动补全、调试等功能，提高效率', '必须用IDE', 'IDE好看'], answer: 1, explain: 'IDE提供语法高亮、自动补全、调试等功能，大大提高编程效率。'},
+            {q: 'Dev-C++和VS Code的共同点是？', options: ['都收费', '都是IDE/编辑器，用于编写C++', '都只能Windows用', '都很大'], answer: 1, explain: 'Dev-C++和VS Code都是用于编写C++代码的开发工具。'},
+            {q: '选择IDE时应该考虑什么？', options: ['只选贵的', '适合自己的，易用性好', '选最大的', '选最新的'], answer: 1, explain: '选择IDE应考虑是否适合自己的需求和学习阶段。'},
+            {q: '编程初学者适合用什么工具？', options: ['记事本', 'Dev-C++等轻量级IDE', '企业级复杂IDE', '画图软件'], answer: 1, explain: '初学者适合使用Dev-C++等轻量级、简单易用的IDE。'},
+            {q: '创建C++文件时，文件名test和test.cpp的区别是？', options: ['没有区别', 'test.cpp是正确的C++源文件', 'test更好', 'test不能打开'], answer: 1, explain: 'test.cpp有正确的扩展名，IDE能识别为C++文件并提供语法高亮。'},
+            {q: '为什么保存C++文件时要加.cpp扩展名？', options: ['好看', '让IDE识别为C++文件，提供语法高亮和编译支持', '必须加才能打字', '不加会死机'], answer: 1, explain: '.cpp扩展名让IDE识别为C++文件，提供语法高亮、自动补全等功能。'},
+            {q: '在Windows资源管理器中显示文件扩展名有什么作用？', options: ['没用', '能清楚看到文件类型，避免命名错误', '让电脑变慢', '增加病毒'], answer: 1, explain: '显示扩展名能清楚看到文件类型，避免hello.cpp.txt这类错误。'},
+            {q: '如何判断一个文件是不是C++源文件？', options: ['看图标', '看扩展名是否为.cpp/.cxx/.cc等', '看大小', '看创建时间'], answer: 1, explain: '通过扩展名可以判断文件类型，C++源文件扩展名包括.cpp/.cxx/.cc等。'},
+            {q: 'Dev-C++中如何快速编译并运行程序？', options: ['F9', 'F10', 'F11', 'F12'], answer: 2, explain: 'F11是编译并运行的快捷键，F9只编译，F10只运行。'},
+            {q: '编写代码时为什么要使用语法高亮？', options: ['好看', '帮助区分关键字、字符串、注释等，减少错误', '必须开', '为了考试'], answer: 1, explain: '语法高亮用不同颜色显示代码元素，帮助程序员更容易阅读和理解代码。'},
+            {q: '初学编程时，代码量应该？', options: ['一次写几百行', '从少量代码开始，循序渐进', '直接写操作系统', '抄别人代码'], answer: 1, explain: '初学编程应从少量代码开始，循序渐进，逐步增加复杂度。'},
+            {q: '编程学习中的「调试」是指？', options: ['删除代码', '查找和修正程序中的错误', '保存文件', '打印代码'], answer: 1, explain: '调试（Debug）是指查找、定位和修正程序中的错误。'},
+            {q: 'GESP C++一级考试中，编写的程序文件名应该是什么格式？', options: ['任意名称', '主函数所在文件的名称（通常包含main函数的文件）', '必须是hello.cpp', '必须是main.c'], answer: 1, explain: '考试中应使用包含main函数的文件，通常命名为main.cpp或有意义的名称。'}
+        ];
+            userAnswers = JSON.parse(savedProgress);
+        }
+
+        loadQuestion(0);
+    </script>
+</body>
+</html>
