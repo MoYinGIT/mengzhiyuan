@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.2 编辑文件 - C++一级 - 蒙正堂</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/guofeng-v2.css">
+    <style>
+        :root {
+            --l1-primary: #1e3a5f;
+            --l1-secondary: #2e5984;
+            --correct: #4a7c59;
+            --wrong: #c9372c;
+        }
+        .topic-container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+        .breadcrumb { display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1.5rem; font-size: 0.9rem; color: #666; }
+        .breadcrumb a { color: var(--l1-primary); text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .topic-header { background: linear-gradient(135deg, var(--l1-primary) 0%, var(--l1-secondary) 100%); color: white; padding: 2rem; border-radius: 12px; margin-bottom: 2rem; }
+        .topic-header .number { font-size: 0.9rem; opacity: 0.8; margin-bottom: 0.5rem; }
+        .topic-header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .topic-header .meta { display: flex; gap: 1.5rem; font-size: 0.9rem; opacity: 0.9; }
+        .content-section { background: white; border-radius: 12px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .content-section h2 { color: var(--l1-primary); border-left: 4px solid var(--l1-primary); padding-left: 1rem; margin-bottom: 1.5rem; }
+        .content-section h3 { color: var(--ink-800); margin: 1.5rem 0 1rem; }
+        .content-section p { line-height: 1.8; margin-bottom: 1rem; text-align: justify; }
+        .content-section ul, .content-section ol { margin: 1rem 0 1rem 1.5rem; }
+        .content-section li { margin-bottom: 0.5rem; line-height: 1.7; }
+        .highlight-box { background: #f0f4f8; border-left: 4px solid var(--l1-primary); padding: 1rem 1.5rem; margin: 1.5rem 0; border-radius: 0 8px 8px 0; }
+        .shortcut-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        .shortcut-table th, .shortcut-table td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #e9ecef; }
+        .shortcut-table th { background: #f8f9fa; font-weight: 600; }
+        .quiz-section { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .quiz-section h2 { color: var(--l1-primary); border-left: 4px solid var(--l1-primary); padding-left: 1rem; margin-bottom: 1rem; }
+        .quiz-progress { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding: 0.75rem 1rem; background: #f8f9fa; border-radius: 8px; }
+        .quiz-progress-bar { flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; margin: 0 1rem; overflow: hidden; }
+        .quiz-progress-fill { height: 100%; background: linear-gradient(90deg, var(--l1-primary), var(--l1-secondary)); border-radius: 4px; transition: width 0.3s ease; }
+        .question-card { border: 1px solid #e9ecef; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; }
+        .question-card.correct { border-color: var(--correct); background: #f0f8f0; }
+        .question-card.wrong { border-color: var(--wrong); background: #fdf0ef; }
+        .question-number { font-weight: 600; color: var(--l1-primary); margin-bottom: 0.5rem; }
+        .question-text { font-size: 1.05rem; margin-bottom: 1rem; }
+        .options { display: flex; flex-direction: column; gap: 0.5rem; }
+        .option { padding: 0.75rem 1rem; border: 1px solid #e9ecef; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; }
+        .option:hover { background: #f8f9fa; border-color: var(--l1-primary); }
+        .option.selected { background: #e3f2fd; border-color: var(--l1-primary); }
+        .option.correct { background: #d4edda; border-color: var(--correct); }
+        .option.wrong { background: #f8d7da; border-color: var(--wrong); }
+        .explanation { display: none; margin-top: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 6px; }
+        .question-card.answered .explanation { display: block; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 2rem; }
+        @media (max-width: 768px) {
+            .topic-container { padding: 1rem; }
+            .topic-header h1 { font-size: 1.4rem; }
+            .content-section { padding: 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="../../" class="brand">
+                <span class="brand-icon">☯</span>
+                <span class="brand-text">默隐·蒙知苑</span>
+            </a>
+            <div class="nav-links">
+                <a href="../" class="nav-link">🎓 蒙正堂</a>
+                <a href="./" class="nav-link">C++一级</a>
+                <span class="nav-link active">2.2 编辑文件</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="topic-container">
+        <div class="breadcrumb">
+            <a href="../">蒙正堂</a>
+            <span>›</span>
+            <a href="./">C++一级</a>
+            <span>›</span>
+            <a href="./#block2">集成开发环境</a>
+            <span>›</span>
+            <span>2.2 编辑文件</span>
+        </div>
+
+        <div class="topic-header">
+            <div class="number">知识块 2 · 知识点 2/6</div>
+            <h1>编辑文件</h1>
+            <div class="meta">
+                <span>⏱️ 预估学习时长: 25分钟</span>
+                <span>📋 验证题目: 180道</span>
+                <span>🎯 难度: 入门级</span>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>📚 知识详解</h2>
+            
+            <h3>一、光标基本操作</h3>
+            <p>光标是编辑器中闪烁的竖线，表示当前输入位置。掌握光标操作是高效编辑代码的基础。</p>
+            
+            <table class="shortcut-table">
+                <tr><th>操作</th><th>快捷键</th><th>说明</th></tr>
+                <tr><td>移动光标</td><td>方向键 ↑↓←→</td><td>逐行逐字符移动</td></tr>
+                <tr><td>行首</td><td>Home</td><td>跳到当前行开头</td></tr>
+                <tr><td>行尾</td><td>End</td><td>跳到当前行末尾</td></tr>
+                <tr><td>文档开头</td><td>Ctrl+Home</td><td>跳到文件第一行</td></tr>
+                <tr><td>文档末尾</td><td>Ctrl+End</td><td>跳到文件最后一行</td></tr>
+                <tr><td>跳转到某行</td><td>Ctrl+G</td><td>输入行号直接跳转</td></tr>
+            </table>
+
+            <h3>二、文本选择技巧</h3>
+            <p>选择文本是复制、删除、替换等操作的前提。掌握快速选择技巧能大幅提升效率。</p>
+            
+            <table class="shortcut-table">
+                <tr><th>操作</th><th>快捷键</th><th>说明</th></tr>
+                <tr><td>选择字符</td><td>Shift+方向键</td><td>逐字符选择</td></tr>
+                <tr><td>选择单词</td><td>双击鼠标</td><td>选中整个单词</td></tr>
+                <tr><td>选择整行</td><td> triple-click</td><td>选中当前整行</td></tr>
+                <tr><td>选择到行首</td><td>Shift+Home</td><td>从光标位置到行首</td></tr>
+                <tr><td>选择到行尾</td><td>Shift+End</td><td>从光标位置到行尾</td></tr>
+                <tr><td>全选</td><td>Ctrl+A</td><td>选中整个文件内容</td></tr>
+            </table>
+
+            <h3>三、复制、剪切与粘贴</h3>
+            <p>这是最常用的编辑操作，熟练掌握快捷键可以让编码效率翻倍。</p>
+            
+            <div class="highlight-box">
+                <strong>📋 基础操作</strong><br>
+                • <strong>复制 Copy</strong>：Ctrl+C — 将选中文本复制到剪贴板，原文保留<br>
+                • <strong>剪切 Cut</strong>：Ctrl+X — 将选中文本移到剪贴板，原文删除<br>
+                • <strong>粘贴 Paste</strong>：Ctrl+V — 将剪贴板内容插入光标位置<br>
+                • <strong>粘贴纯文本</strong>：Ctrl+Shift+V — 去除格式只粘贴文本
+            </div>
+
+            <h3>四、撤销与重做</h3>
+            <p>编写代码时难免出错，撤销和重做功能让我们可以轻松回退或恢复操作。</p>
+            
+            <table class="shortcut-table">
+                <tr><th>操作</th><th>快捷键</th><th>说明</th></tr>
+                <tr><td>撤销</td><td>Ctrl+Z</td><td>撤销上一步操作</td></tr>
+                <tr><td>重做</td><td>Ctrl+Y 或 Ctrl+Shift+Z</td><td>恢复被撤销的操作</td></tr>
+            </table>
+
+            <div class="highlight-box">
+                <strong>💡 小技巧</strong><br>
+                大多数编辑器支持多级撤销，可以连续按 Ctrl+Z 回退多步操作。但如果关闭了文件再打开，撤销历史通常会丢失。
+            </div>
+
+            <h3>五、查找与替换</h3>
+            <p>在大型代码文件中，查找和替换功能可以帮助我们快速定位或批量修改代码。</p>
+            
+            <table class="shortcut-table">
+                <tr><th>操作</th><th>快捷键</th><th>说明</th></tr>
+                <tr><td>查找</td><td>Ctrl+F</td><td>在当前文件中搜索</td></tr>
+                <tr><td>替换</td><td>Ctrl+H</td><td>查找并替换文本</td></tr>
+                <tr><td>查找下一个</td><td>F3</td><td>跳到下一个匹配项</td></tr>
+                <tr><td>查找上一个</td><td>Shift+F3</td><td>跳到上一个匹配项</td></tr>
+            </table>
+
+            <h3>六、代码缩进与格式化</h3>
+            <p>良好的代码缩进是编程规范的重要部分，能让代码更易读、更易维护。</p>
+            
+            <div class="highlight-box">
+                <strong>📝 缩进规则</strong><br>
+                • C++代码通常使用<strong>4个空格</strong>或<strong>1个Tab</strong>作为缩进<br>
+                • 大括号内的代码要缩进一层<br>
+                • 同一层级的代码要对齐<br>
+                • 可以使用编辑器的自动格式化功能整理代码
+            </div>
+
+            <table class="shortcut-table">
+                <tr><th>操作</th><th>快捷键</th><th>说明</th></tr>
+                <tr><td>增加缩进</td><td>Tab</td><td>将选中行向右缩进</td></tr>
+                <tr><td>减少缩进</td><td>Shift+Tab</td><td>将选中行向左缩进</td></tr>
+                <tr><td>自动格式化</td><td>Alt+Shift+F</td><td>自动整理代码格式（VS Code）</td></tr>
+            </table>
+
+            <h3>七、自动补全功能</h3>
+            <p>现代IDE都提供代码自动补全功能，可以减少输入错误、提高编码速度。</p>
+            
+            <div class="highlight-box">
+                <strong>✨ 自动补全触发方式</strong><br>
+                • 输入代码时自动弹出建议列表<br>
+                • 按 <strong>Ctrl+Space</strong> 手动触发补全<br>
+                • 按 Tab 或 Enter 接受建议<br>
+                • 按 Esc 取消补全
+            </div>
+
+            <h3>八、常见编辑快捷键总结</h3>
+            
+            <table class="shortcut-table">
+                <tr><th>功能</th><th>Windows/Linux</th><th>Mac</th></tr>
+                <tr><td>保存文件</td><td>Ctrl+S</td><td>Cmd+S</td></tr>
+                <tr><td>撤销</td><td>Ctrl+Z</td><td>Cmd+Z</td></tr>
+                <tr><td>重做</td><td>Ctrl+Y</td><td>Cmd+Shift+Z</td></tr>
+                <tr><td>复制</td><td>Ctrl+C</td><td>Cmd+C</td></tr>
+                <tr><td>剪切</td><td>Ctrl+X</td><td>Cmd+X</td></tr>
+                <tr><td>粘贴</td><td>Ctrl+V</td><td>Cmd+V</td></tr>
+                <tr><td>全选</td><td>Ctrl+A</td><td>Cmd+A</td></tr>
+                <tr><td>查找</td><td>Ctrl+F</td><td>Cmd+F</td></tr>
+                <tr><td>替换</td><td>Ctrl+H</td><td>Cmd+H</td></tr>
+            </table>
+
+            <div class="highlight-box">
+                <strong>🎯 GESP考试要点</strong><br>
+                • 掌握常用快捷键：Ctrl+S（保存）、Ctrl+Z（撤销）、Ctrl+C/V/X（复制/粘贴/剪切）<br>
+                • 理解代码缩进的重要性<br>
+                • 会使用查找替换功能<br>
+                • 了解自动补全的作用
+            </div>
+        </div>
+
+        <div class="quiz-section">
+            <h2>📝 验证测验 (180题)</h2>
+            <div class="quiz-progress">
+                <span>进度</span>
+                <div class="quiz-progress-bar">
+                    <div class="quiz-progress-fill" id="progressBar" style="width: 0%"></div>
+                </div>
+                <span id="progressText">0/180</span>
+            </div>
+            <div id="questionContainer">
+                <div class="question-card" id="questionCard">
+                    <div class="question-number" id="questionNumber">题目 1/180</div>
+                    <div class="question-text" id="questionText">加载中...</div>
+                    <div class="options" id="options"></div>
+                    <div class="explanation" id="explanation"></div>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" id="prevBtn" onclick="prevQuestion()" disabled>← 上一题</button>
+                <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">下一题 →</button>
+            </div>
+        </div>
+
+        <div style="margin-top: 2rem; text-align: center;">
+            <a href="./" class="btn btn-secondary">← 返回C++一级目录</a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-brand">默隐·蒙正堂</p>
+            <p class="footer-motto">让所有孩子有处可学</p>
+            <p class="footer-copyright">© 2026 默隐 · 明夷敬制</p>
+        </div>
+    </footer>
+
+    <script>
+        const questions = [
+            // 光标操作 1-30
+            {q: '在编辑器中，方向键的作用是什么？', options: ['删除字符', '移动光标', '复制文本', '粘贴文本'], answer: 1, explain: '方向键（↑↓←→）用于移动光标位置。'},
+            {q: '按Home键，光标会跳到哪里？', options: ['文档开头', '当前行开头', '文档末尾', '当前行末尾'], answer: 1, explain: 'Home键将光标跳到当前行的开头。'},
+            {q: '按End键，光标会跳到哪里？', options: ['文档开头', '当前行开头', '文档末尾', '当前行末尾'], answer: 3, explain: 'End键将光标跳到当前行的末尾。'},
+            {q: 'Ctrl+Home组合键的作用是什么？', options: ['跳到文档开头', '跳到当前行开头', '保存文件', '关闭文件'], answer: 0, explain: 'Ctrl+Home跳到整个文档的第一行开头。'},
+            {q: 'Ctrl+End组合键的作用是什么？', options: ['跳到文档开头', '跳到文档末尾', '保存文件', '新建文件'], answer: 1, explain: 'Ctrl+End跳到整个文档的最后一行末尾。'},
+            {q: '如何快速跳转到指定行号？', options: ['Ctrl+G', 'Ctrl+F', 'Ctrl+H', 'Ctrl+S'], answer: 0, explain: 'Ctrl+G打开「转到行」对话框，输入行号即可跳转。'},
+            {q: 'PageUp键的作用是什么？', options: ['向上滚动一屏', '向上移动一行', '跳到文档开头', '无作用'], answer: 0, explain: 'PageUp向上滚动一屏内容。'},
+            {q: 'PageDown键的作用是什么？', options: ['向下滚动一屏', '向下移动一行', '跳到文档末尾', '无作用'], answer: 0, explain: 'PageDown向下滚动一屏内容。'},
+            {q: 'Ctrl+←（左方向键）的作用是什么？', options: ['向左移动一个字符', '向左移动一个单词', '跳到行首', '无作用'], answer: 1, explain: 'Ctrl+←向左移动一个单词（跳过整个单词）。'},
+            {q: 'Ctrl+→（右方向键）的作用是什么？', options: ['向右移动一个字符', '向右移动一个单词', '跳到行尾', '无作用'], answer: 1, explain: 'Ctrl+→向右移动一个单词（跳过整个单词）。'},
+            {q: '按↑方向键，光标会怎样？', options: ['向上移动一行', '向下移动一行', '向左移动', '向右移动'], answer: 0, explain: '↑方向键将光标向上移动一行。'},
+            {q: '按↓方向键，光标会怎样？', options: ['向上移动一行', '向下移动一行', '向左移动', '向右移动'], answer: 1, explain: '↓方向键将光标向下移动一行。'},
+            {q: '按←方向键，光标会怎样？', options: ['向上移动', '向下移动', '向左移动一个字符', '向右移动'], answer: 2, explain: '←方向键将光标向左移动一个字符。'},
+            {q: '按→方向键，光标会怎样？', options: ['向上移动', '向下移动', '向左移动', '向右移动一个字符'], answer: 3, explain: '→方向键将光标向右移动一个字符。'},
+            {q: '光标闪烁表示什么？', options: ['文件出错', '当前输入位置', '正在保存', '编译中'], answer: 1, explain: '闪烁的光标表示当前文本输入位置。'},
+            {q: '如何快速跳到代码的开始处？', options: ['Ctrl+Home', 'Home', 'Ctrl+End', 'End'], answer: 0, explain: 'Ctrl+Home跳到整个文档的开头。'},
+            {q: '如何快速跳到代码的结尾处？', options: ['Ctrl+Home', 'Home', 'Ctrl+End', 'End'], answer: 2, explain: 'Ctrl+End跳到整个文档的结尾。'},
+            {q: '在Dev-C++中，Ctrl+G的作用是？', options: ['保存文件', '跳转到行', '查找替换', '编译运行'], answer: 1, explain: 'Ctrl+G用于跳转到指定行号。'},
+            {q: 'Ctrl+↑的作用是什么？', options: ['向上滚动一屏', '向上滚动一行（光标不动）', '跳到行首', '无作用'], answer: 1, explain: 'Ctrl+↑向上滚动一行，光标位置相对屏幕保持不变。'},
+            {q: 'Ctrl+↓的作用是什么？', options: ['向下滚动一屏', '向下滚动一行（光标不动）', '跳到行尾', '无作用'], answer: 1, explain: 'Ctrl+↓向下滚动一行，光标位置相对屏幕保持不变。'},
+            {q: '如何快速回到上次编辑的位置？', options: ['Ctrl+Z', 'Alt+←', 'Ctrl+Home', 'Shift+F3'], answer: 1, explain: 'Alt+←（在VS Code中）可以返回上一个光标位置。'},
+            {q: '按Ctrl+←移动光标，一次跳过多少内容？', options: ['一个字符', '一个单词', '一行', '一段'], answer: 1, explain: 'Ctrl+←一次向左跳过一个单词。'},
+            {q: '按Ctrl+→移动光标，一次跳过多少内容？', options: ['一个字符', '一个单词', '一行', '一段'], answer: 1, explain: 'Ctrl+→一次向右跳过一个单词。'},
+            {q: '长代码文件中，快速定位到第100行应该用什么？', options: ['按100次↓', 'Ctrl+G输入100', 'PageDown多次', 'Ctrl+F'], answer: 1, explain: 'Ctrl+G输入行号是最快的方法。'},
+            {q: 'End键在笔记本电脑上通常和哪个键共用？', options: ['Insert', 'Delete', 'Home', '方向键'], answer: 3, explain: '笔记本电脑上End通常和方向键（→或↓）共用，需配合Fn键使用。'},
+            {q: '光标移动到行尾后，再按End键会怎样？', options: ['报错', '无变化', '跳到下一行', '回到行首'], answer: 1, explain: '光标已经在行尾，再按End键无变化。'},
+            {q: '光标在行首时，按←方向键会怎样？', options: ['无变化', '跳到上一行末尾', '删除字符', '报错'], answer: 1, explain: '光标在行首按←，会跳到上一行的末尾。'},
+            {q: '光标在行尾时，按→方向键会怎样？', options: ['无变化', '跳到下一行开头', '插入字符', '报错'], answer: 1, explain: '光标在行尾按→，会跳到下一行的开头。'},
+            {q: '快速在代码开头和当前位置间切换，可以用？', options: ['Ctrl+Home再Ctrl+End', '两次Home键', 'Ctrl+G', 'F5'], answer: 0, explain: 'Ctrl+Home跳到开头，配合书签或记忆位置可快速切换。'},
+            {q: '同时按住Ctrl和方向键，光标移动的单位是？', options: ['字符', '单词', '行', '段落'], answer: 1, explain: 'Ctrl+方向键以单词为单位移动光标。'},
+            // 选择技巧 31-60
+            {q: 'Shift+↑的作用是什么？', options: ['向上移动光标', '向上选择一行', '向上滚动', '无作用'], answer: 1, explain: 'Shift+↑从光标位置向上选择一行文本。'},
+            {q: 'Shift+↓的作用是什么？', options: ['向下移动光标', '向下选择一行', '向下滚动', '无作用'], answer: 1, explain: 'Shift+↓从光标位置向下选择一行文本。'},
+            {q: 'Shift+←的作用是什么？', options: ['向左移动光标', '向左选择一个字符', '向左滚动', '无作用'], answer: 1, explain: 'Shift+←从光标位置向左选择一个字符。'},
+            {q: 'Shift+→的作用是什么？', options: ['向右移动光标', '向右选择一个字符', '向右滚动', '无作用'], answer: 1, explain: 'Shift+→从光标位置向右选择一个字符。'},
+            {q: '双击鼠标左键会选中什么？', options: ['整行', '整个单词', '整个段落', '全部内容'], answer: 1, explain: '双击鼠标选中光标所在位置的整个单词。'},
+            {q: '三击鼠标左键会选中什么？', options: ['整行', '整个单词', '整个段落', '全部内容'], answer: 0, explain: '三击鼠标选中光标所在的整行内容。'},
+            {q: 'Ctrl+A的作用是什么？', options: ['保存文件', '全部选中', '关闭文件', '复制内容'], answer: 1, explain: 'Ctrl+A选中整个文件的所有内容。'},
+            {q: 'Shift+Home的作用是什么？', options: ['跳到行首', '选择到行首', '选择整行', '无作用'], answer: 1, explain: 'Shift+Home从光标位置选择到行首。'},
+            {q: 'Shift+End的作用是什么？', options: ['跳到行尾', '选择到行尾', '选择整行', '无作用'], answer: 1, explain: 'Shift+End从光标位置选择到行尾。'},
+            {q: 'Ctrl+Shift+←的作用是什么？', options: ['向左移动一个单词', '向左选择一个单词', '向左选择一行', '无作用'], answer: 1, explain: 'Ctrl+Shift+←向左选择一个单词。'},
+            {q: 'Ctrl+Shift+→的作用是什么？', options: ['向右移动一个单词', '向右选择一个单词', '向右选择一行', '无作用'], answer: 1, explain: 'Ctrl+Shift+→向右选择一个单词。'},
+            {q: 'Ctrl+Shift+Home的作用是什么？', options: ['跳到文档开头', '选择到文档开头', '选择整篇文档', '无作用'], answer: 1, explain: 'Ctrl+Shift+Home从光标位置选择到文档开头。'},
+            {q: 'Ctrl+Shift+End的作用是什么？', options: ['跳到文档末尾', '选择到文档末尾', '选择整篇文档', '无作用'], answer: 1, explain: 'Ctrl+Shift+End从光标位置选择到文档末尾。'},
+            {q: '如何快速选中一行代码？', options: ['单击', '双击', '三击', 'Ctrl+A'], answer: 2, explain: '三击鼠标左键可以快速选中整行。'},
+            {q: '如何选中一个单词？', options: ['单击', '双击', '三击', 'Ctrl+单击'], answer: 1, explain: '双击鼠标左键可以选中一个单词。'},
+            {q: '选中一段代码后，背景通常会变成？', options: ['红色', '蓝色/灰色', '绿色', '黄色'], answer: 1, explain: '选中的文本通常会以蓝色或灰色背景高亮显示。'},
+            {q: 'Shift+PageUp的作用是什么？', options: ['向上滚动一屏', '向上选择一屏', '跳到文档开头', '无作用'], answer: 1, explain: 'Shift+PageUp向上选择约一屏的内容。'},
+            {q: 'Shift+PageDown的作用是什么？', options: ['向下滚动一屏', '向下选择一屏', '跳到文档末尾', '无作用'], answer: 1, explain: 'Shift+PageDown向下选择约一屏的内容。'},
+            {q: '如何用键盘选中多行？', options: ['多次按Shift+↑或Shift+↓', '按Ctrl多次', '按Alt多次', '不能选'], answer: 0, explain: '连续按Shift+↑或Shift+↓可以选中多行。'},
+            {q: '选中代码后按Delete键会？', options: ['复制代码', '删除选中的代码', '保存文件', '无作用'], answer: 1, explain: 'Delete键删除选中的内容。'},
+            {q: '选中代码后按Backspace键会？', options: ['复制代码', '删除选中的代码', '保存文件', '插入空格'], answer: 1, explain: 'Backspace键也删除选中的内容。'},
+            {q: 'Ctrl+Shift+↑的作用是什么？', options: ['向上选择一行', '向上移动选中的行', '向上滚动', '无作用'], answer: 1, explain: 'Ctrl+Shift+↑在VS Code中可向上移动选中的行。'},
+            {q: 'Ctrl+Shift+↓的作用是什么？', options: ['向下选择一行', '向下移动选中的行', '向下滚动', '无作用'], answer: 1, explain: 'Ctrl+Shift+↓在VS Code中可向下移动选中的行。'},
+            {q: '如何选中匹配的括号内的内容？', options: ['双击括号', 'Ctrl+Shift+\\', 'Ctrl+B', 'Shift+括号'], answer: 1, explain: 'Ctrl+Shift+\\可选中匹配括号内的内容（VS Code）。'},
+            {q: '如何选中当前函数的所有代码？', options: ['Ctrl+A', 'Ctrl+Shift+空格', 'Alt+Shift+F', '双击'], answer: 2, explain: '某些编辑器支持Alt+Shift+F格式化时可选中函数。'},
+            {q: '选中代码时按住Alt键可以实现？', options: ['块选择/列选择', '复制', '删除', '粘贴'], answer: 0, explain: 'Alt+鼠标拖动可以实现块选择（列选择模式）。'},
+            {q: '如何扩展选区到包含的括号？', options: ['Shift+Alt+→', 'Ctrl+Shift+→', 'Ctrl+Alt+→', 'Alt+→'], answer: 0, explain: 'Shift+Alt+→可扩展选区到包含的括号（VS Code）。'},
+            {q: '如何收缩选区？', options: ['Shift+Alt+←', 'Ctrl+Shift+←', 'Ctrl+Alt+←', 'Alt+←'], answer: 0, explain: 'Shift+Alt+←可收缩选区（VS Code）。'},
+            {q: '在VS Code中，Ctrl+D的作用是？', options: ['删除行', '选中当前单词/下一个匹配', '复制行', '注释'], answer: 1, explain: 'Ctrl+D选中当前单词，再次按可选中下一个匹配。'},
+            // 复制粘贴剪切 61-100
+            {q: 'Ctrl+C的作用是？', options: ['复制', '剪切', '粘贴', '保存'], answer: 0, explain: 'Ctrl+C复制选中的内容到剪贴板。'},
+            {q: 'Ctrl+X的作用是？', options: ['复制', '剪切', '粘贴', '撤销'], answer: 1, explain: 'Ctrl+X剪切选中的内容（复制并删除）。'},
+            {q: 'Ctrl+V的作用是？', options: ['复制', '剪切', '粘贴', '保存'], answer: 2, explain: 'Ctrl+V粘贴剪贴板的内容。'},
+            {q: '复制操作后，原内容会？', options: ['被删除', '保留不变', '被修改', '被隐藏'], answer: 1, explain: '复制后原内容保留，剪贴板有副本。'},
+            {q: '剪切操作后，原内容会？', options: ['被删除', '保留不变', '被复制', '被隐藏'], answer: 0, explain: '剪切后原内容被删除，剪贴板有副本。'},
+            {q: '粘贴操作会把内容放到哪里？', options: ['文档开头', '光标位置', '文档末尾', '随机位置'], answer: 1, explain: '粘贴将内容插入到当前光标位置。'},
+            {q: '没有选中内容时按Ctrl+C会？', options: ['复制整行', '什么都不做', '报错', '复制全部'], answer: 1, explain: '没有选中内容时复制操作通常不生效。'},
+            {q: '没有选中内容时按Ctrl+X会？', options: ['剪切整行', '什么都不做', '报错', '删除全部'], answer: 1, explain: '没有选中内容时剪切操作通常不生效。'},
+            {q: 'Ctrl+Shift+V的作用是什么？', options: ['普通粘贴', '粘贴纯文本', '粘贴带格式', '剪切'], answer: 1, explain: 'Ctrl+Shift+V粘贴纯文本，去除原有格式。'},
+            {q: '剪贴板可以保存几次复制的内容？', options: ['1次', '多次（历史记录）', '无限次', '不能保存'], answer: 1, explain: '现代编辑器通常支持剪贴板历史，可保存多次复制。'},
+            {q: '在VS Code中查看剪贴板历史的快捷键是？', options: ['Ctrl+Shift+V', 'Ctrl+Alt+V', 'Shift+Alt+V', 'Ctrl+V'], answer: 1, explain: 'Ctrl+Alt+V可打开剪贴板历史（需配置）。'},
+            {q: '复制一整行的快捷键是？', options: ['Ctrl+C', 'Ctrl+Shift+C', 'Ctrl+L', 'Ctrl+X'], answer: 0, explain: '光标在该行时按Ctrl+C可复制整行（VS Code）。'},
+            {q: '剪切一整行的快捷键是？', options: ['Ctrl+X', 'Ctrl+Shift+X', 'Ctrl+L', 'Ctrl+D'], answer: 0, explain: '光标在该行时按Ctrl+X可剪切整行。'},
+            {q: 'Ctrl+Insert的作用是什么？', options: ['复制', '剪切', '粘贴', '删除'], answer: 0, explain: 'Ctrl+Insert是复制的另一种快捷键。'},
+            {q: 'Shift+Insert的作用是什么？', options: ['复制', '剪切', '粘贴', '删除'], answer: 2, explain: 'Shift+Insert是粘贴的另一种快捷键。'},
+            {q: 'Shift+Delete的作用是什么？', options: ['复制', '剪切', '粘贴', '删除'], answer: 1, explain: 'Shift+Delete是剪切的另一种快捷键。'},
+            {q: 'Ctrl+Shift+C在VS Code中的作用是？', options: ['复制', '复制文件路径', '复制行', '剪切'], answer: 1, explain: 'Ctrl+Shift+C复制当前文件的完整路径。'},
+            {q: '粘贴代码后，原光标位置的内容会？', options: ['被覆盖', '向后移动', '被删除', '不变'], answer: 1, explain: '粘贴的内容插入后，原有内容会后移。'},
+            {q: '如何复制文件路径？', options: ['Ctrl+C', 'Ctrl+Shift+C', 'Alt+Shift+C', 'Ctrl+P'], answer: 1, explain: 'Ctrl+Shift+C复制文件完整路径（VS Code）。'},
+            {q: '剪贴板里的内容是保存在？', options: ['硬盘', '内存', 'CPU', '显示器'], answer: 1, explain: '剪贴板内容暂时保存在内存中。'},
+            {q: '复制后关闭电脑，剪贴板内容会？', options: ['保留', '丢失', '保存到硬盘', '发送到云端'], answer: 1, explain: '剪贴板内容在内存中，关机后丢失。'},
+            {q: 'Ctrl+V粘贴时，格式会保留吗？', options: ['总是保留', '取决于目标程序', '从不保留', '只保留颜色'], answer: 1, explain: '格式是否保留取决于目标程序的处理方式。'},
+            {q: '在Dev-C++中复制代码的快捷键是？', options: ['Ctrl+C', 'Ctrl+Insert', '两者都可以', 'Shift+Insert'], answer: 2, explain: 'Dev-C++中Ctrl+C和Ctrl+Insert都可以复制。'},
+            {q: '粘贴时如何避免格式混乱？', options: ['用Ctrl+V', '用Ctrl+Shift+V', '用Ctrl+Alt+V', '不能避免'], answer: 1, explain: 'Ctrl+Shift+V粘贴纯文本，不带格式。'},
+            {q: '如何复制多行不连续的代码？', options: ['Alt+鼠标选择再复制', 'Ctrl+选择再复制', 'Shift+选择', '不能复制'], answer: 1, explain: '按住Alt或Ctrl可选择不连续区域再复制。'},
+            {q: '复制操作是否会改变文件？', options: ['会', '不会', '有时', '取决于内容'], answer: 1, explain: '单纯复制不会改变文件内容。'},
+            {q: '剪切操作是否会改变文件？', options: ['会', '不会', '有时', '取决于内容'], answer: 0, explain: '剪切会删除原内容，改变文件。'},
+            {q: '如何撤销粘贴操作？', options: ['Ctrl+Z', 'Ctrl+Y', 'Delete', 'Backspace'], answer: 0, explain: 'Ctrl+Z可以撤销粘贴操作。'},
+            {q: '复制代码后没有粘贴，内容在哪里？', options: ['硬盘', '剪贴板/内存', '被删除', '显示器'], answer: 1, explain: '内容暂存在剪贴板（内存）中。'},
+            {q: '粘贴失败通常是因为？', options: ['剪贴板为空', '格式不兼容', '内存不足', '以上都可能'], answer: 3, explain: '粘贴失败可能由多种原因造成。'},
+            {q: '如何提高复制粘贴效率？', options: ['多用鼠标右键', '多用快捷键', '多用菜单', '不能提高'], answer: 1, explain: '使用快捷键比鼠标操作更高效。'},
+            // 查找替换 101-130
+            {q: 'Ctrl+F的作用是？', options: ['保存文件', '查找', '替换', '格式化'], answer: 1, explain: 'Ctrl+F打开查找功能。'},
+            {q: 'Ctrl+H的作用是？', options: ['保存文件', '查找', '替换', '格式化'], answer: 2, explain: 'Ctrl+H打开替换功能。'},
+            {q: 'F3的作用是？', options: ['查找下一个', '查找上一个', '打开查找', '关闭查找'], answer: 0, explain: 'F3查找下一个匹配项。'},
+            {q: 'Shift+F3的作用是？', options: ['查找下一个', '查找上一个', '打开查找', '关闭查找'], answer: 1, explain: 'Shift+F3查找上一个匹配项。'},
+            {q: '查找时区分大小写是什么意思？', options: ['A和a视为相同', 'A和a视为不同', '只查找大写', '只查找小写'], answer: 1, explain: '区分大小写时，大写A和小写a是不同的字符。'},
+            {q: '查找时不区分大小写，搜索「abc」会匹配？', options: ['abc', 'ABC', '两者都匹配', '都不匹配'], answer: 2, explain: '不区分大小写时，abc、ABC、Abc等都匹配。'},
+            {q: '全字匹配选项的作用是什么？', options: ['匹配整个文档', '匹配整个单词', '匹配整行', '匹配全部字符'], answer: 1, explain: '全字匹配只匹配完整的单词，不是部分匹配。'},
+            {q: '正则表达式查找的作用是什么？', options: ['简单查找', '模式匹配查找', '只查找数字', '只查找字母'], answer: 1, explain: '正则表达式可以用模式匹配复杂的查找条件。'},
+            {q: '替换功能可以做什么？', options: ['只能替换一处', '批量替换所有匹配', '只能查找不能替换', '只能替换第一个'], answer: 1, explain: '替换功能可以批量替换所有匹配的内容。'},
+            {q: '「全部替换」按钮会？', options: ['只替换第一处', '替换所有匹配处', '不替换', '替换一半'], answer: 1, explain: '「全部替换」替换文档中所有匹配的内容。'},
+            {q: '替换前通常建议先？', options: ['保存文件', '关闭文件', '删除文件', '复制文件'], answer: 0, explain: '替换前先保存，方便出问题后恢复。'},
+            {q: '如何只替换当前选中的匹配项？', options: ['点「替换」', '点「全部替换」', '点「跳过」', '点「关闭」'], answer: 0, explain: '点「替换」或「替换/查找」只替换当前匹配。'},
+            {q: '查找框通常出现在编辑器的？', options: ['顶部', '底部', '左侧', '右侧'], answer: 0, explain: '查找框通常出现在编辑器顶部。'},
+            {q: '如何关闭查找框？', options: ['按Esc', '按Enter', '按Ctrl+F', '按Delete'], answer: 0, explain: '按Esc键关闭查找框。'},
+            {q: '查找时输入「cout」会匹配？', options: ['只匹配cout', '匹配acount', '两者都匹配', '都不匹配'], answer: 2, explain: '默认情况下，cout和acount中的cout部分都匹配。'},
+            {q: '开启全字匹配后，查找「cout」会匹配？', options: ['只匹配cout', '匹配acount', '两者都匹配', '都不匹配'], answer: 0, explain: '全字匹配只匹配独立的单词cout。'},
+            {q: '查找历史记录可以保存吗？', options: ['可以', '不可以', '只能保存1条', '只能保存5条'], answer: 0, explain: '编辑器通常保存查找历史，方便重复使用。'},
+            {q: '如何快速查找选中的文本？', options: ['Ctrl+F再粘贴', 'Ctrl+F3', '直接按F3', 'Ctrl+Shift+F'], answer: 1, explain: '选中文字后按Ctrl+F3可直接查找选中内容。'},
+            {q: '替换时「查找内容」为空会怎样？', options: ['正常替换', '报错或警告', '替换所有内容', '无反应'], answer: 1, explain: '查找内容为空通常会报错或警告。'},
+            {q: '替换时「替换为」为空会怎样？', options: ['报错', '删除匹配内容', '无变化', '插入空格'], answer: 1, explain: '替换为空相当于删除匹配的内容。'},
+            {q: '如何在多个文件中查找？', options: ['Ctrl+F', 'Ctrl+Shift+F', 'Ctrl+H', 'Ctrl+Alt+F'], answer: 1, explain: 'Ctrl+Shift+F在文件夹/工作区中查找（VS Code）。'},
+            {q: '查找时如何输入特殊字符？', options: ['直接输入', '使用转义序列', '不能输入', '复制粘贴'], answer: 1, explain: '特殊字符通常需要转义序列如\\n表示换行。'},
+            {q: '替换功能可以撤销吗？', options: ['可以，用Ctrl+Z', '不可以', '只能撤销一次', '只能撤销一半'], answer: 0, explain: '替换操作可以像其他编辑一样用Ctrl+Z撤销。'},
+            {q: '查找时「循环」选项的作用是？', options: ['只查一次', '查完末尾后回到开头继续', '无限循环查找', '反向查找'], answer: 1, explain: '循环选项让查找到达末尾后回到开头继续。'},
+            {q: '如何查找换行符？', options: ['按Enter', '输入\\n', '输入\\r\\n', '不能查找'], answer: 2, explain: '正则模式下\\n或\\r\\n可匹配换行符。'},
+            {q: '如何查找制表符Tab？', options: ['按Tab键', '输入\\t', '输入tab', '不能查找'], answer: 1, explain: '\\t在查找中代表制表符Tab。'},
+            {q: '「在当前文件中查找」和「在文件中查找」的区别是？', options: ['没有区别', '前者在当前文件，后者在多个文件', '前者快后者慢', '前者慢后者快'], answer: 1, explain: '前者只在当前打开的文件中查找。'},
+            {q: '查找框中的「↑」和「↓」按钮是？', options: ['放大缩小', '查找上一个/下一个', '向上向下滚动', '增加减少选项'], answer: 1, explain: '上下箭头分别查找上一个和下一个匹配。'},
+            {q: '如何替换所有匹配并查看替换了多少处？', options: ['点「全部替换」看提示', '自己数', '看状态栏', '不能知道'], answer: 0, explain: '「全部替换」后通常会提示替换了多少处。'},
+            {q: '查找时高亮显示匹配项的好处是？', options: ['好看', '快速定位所有匹配位置', '没有好处', '减慢速度'], answer: 1, explain: '高亮让所有匹配位置一目了然。'},
+            // 缩进格式化 131-150
+            {q: 'Tab键的作用是？', options: ['删除字符', '插入缩进', '换行', '保存文件'], answer: 1, explain: 'Tab键插入缩进（通常是4个空格或制表符）。'},
+            {q: 'Shift+Tab的作用是？', options: ['增加缩进', '减少缩进', '插入Tab字符', '删除Tab'], answer: 1, explain: 'Shift+Tab减少选中行的缩进。'},
+            {q: 'C++代码通常使用几个空格缩进？', options: ['1个', '2个', '4个', '8个'], answer: 2, explain: 'C++代码通常使用4个空格作为缩进。'},
+            {q: '代码缩进的主要作用是？', options: ['让代码好看', '表示代码层次结构', '减少代码量', '加快运行速度'], answer: 1, explain: '缩进表示代码的层次和嵌套关系。'},
+            {q: '大括号内的代码应该？', options: ['不缩进', '缩进一层', '缩进两层', '随机缩进'], answer: 1, explain: '大括号内的代码通常缩进一层。'},
+            {q: '同一层级的代码应该？', options: ['缩进不同', '对齐', '随意', '不缩进'], answer: 1, explain: '同一层级的代码应该保持相同的缩进对齐。'},
+            {q: 'VS Code中格式化代码的快捷键是？', options: ['Ctrl+Shift+F', 'Alt+Shift+F', 'Ctrl+Alt+F', 'Shift+F'], answer: 1, explain: 'Alt+Shift+F格式化整个文档（VS Code）。'},
+            {q: '格式化代码会改变代码的？', options: ['逻辑', '外观布局', '功能', '变量名'], answer: 1, explain: '格式化只改变代码的外观布局，不改变逻辑。'},
+            {q: '选中代码后按Tab键会？', options: ['删除选中代码', '增加选中代码的缩进', '替换选中代码', '无作用'], answer: 1, explain: '选中多行后按Tab增加这些行的缩进。'},
+            {q: '选中代码后按Shift+Tab会？', options: ['删除选中代码', '减少选中代码的缩进', '替换选中代码', '无作用'], answer: 1, explain: '选中多行后按Shift+Tab减少这些行的缩进。'},
+            {q: '缩进使用空格和Tab的区别是？', options: ['没有区别', '显示宽度可能不同', 'Tab更好', '空格更好'], answer: 1, explain: 'Tab显示宽度可在编辑器设置，空格固定为1字符宽。'},
+            {q: '混合使用空格和Tab缩进会导致？', options: ['代码更快', '代码错误', '显示不整齐', '无影响'], answer: 2, explain: '混合缩进可能导致代码显示不整齐。'},
+            {q: 'VS Code右下角显示的「Tab Size」是？', options: ['文件大小', 'Tab字符宽度', '代码行数', '错误数量'], answer: 1, explain: '显示Tab字符的宽度设置（如4）。'},
+            {q: '如何设置缩进为空格还是Tab？', options: ['不能设置', '在编辑器设置中', '在代码中', '在操作系统中'], answer: 1, explain: '在编辑器的设置中配置缩进方式。'},
+            {q: '格式化时「Insert Spaces」选项表示？', options: ['插入空格代替Tab', '删除空格', '添加注释', '无作用'], answer: 0, explain: '按Tab时插入空格而不是制表符。'},
+            {q: '代码格式化后会改变注释吗？', options: ['会', '不会', '有时会', '只改变单行注释'], answer: 1, explain: '格式化通常不改变注释内容。'},
+            {q: '缩进错误会导致编译错误吗？', options: ['C++中会', 'C++中不会', 'Python中会', '所有语言都会'], answer: 1, explain: 'C++缩进错误不会导致编译错误（Python会）。'},
+            {q: '为什么需要良好的缩进？', options: ['编译需要', '美观', '可读性和维护性', '减少代码'], answer: 2, explain: '良好缩进让代码更易读、更易维护。'},
+            {q: '如何自动修正整个文件的缩进？', options: ['手动调整', '格式化功能', '重新打字', '不能修正'], answer: 1, explain: '使用编辑器的格式化功能自动修正。'},
+            {q: '选中多行后按Ctrl+]的作用是？', options: ['删除行', '增加缩进', '减少缩进', '注释代码'], answer: 1, explain: 'Ctrl+]增加选中行的缩进（VS Code）。'},
+            // 综合应用 151-180
+            {q: '编写代码后第一步应该做什么？', options: ['运行', '保存', '关闭', '删除'], answer: 1, explain: '编写后应先保存（Ctrl+S）。'},
+            {q: '发现刚才的修改有误，应该？', options: ['Ctrl+Z撤销', '重新打字', '关闭文件', '删除文件'], answer: 0, explain: 'Ctrl+Z撤销错误的修改。'},
+            {q: '想重复上一次的修改，应该？', options: ['Ctrl+Z', 'Ctrl+Y', 'Ctrl+S', 'Ctrl+C'], answer: 1, explain: 'Ctrl+Y重做被撤销的操作。'},
+            {q: '想把一行代码移到另一位置，最快的方式是？', options: ['剪切+粘贴', '复制+删除原行', '重新打字', '拖动'], answer: 0, explain: '剪切+粘贴是移动代码最快的方式。'},
+            {q: '想复制一行代码到多个位置，应该？', options: ['剪切+多次粘贴', '复制+多次粘贴', '多次打字', '拖动'], answer: 1, explain: '复制+多次粘贴最方便。'},
+            {q: '想把变量名「a」全部改为「count」，应该用？', options: ['手动修改', '查找替换', '删除重写', '格式化'], answer: 1, explain: '使用查找替换功能批量修改变量名。'},
+            {q: '代码缩进混乱时应该？', options: ['手动调整', '使用格式化功能', '不管它', '删除重写'], answer: 1, explain: '使用格式化功能自动整理缩进。'},
+            {q: '想快速选中一个函数的所有代码，可以？', options: ['Ctrl+A', '三击', 'Shift+Alt+→扩展选区', '双击'], answer: 2, explain: 'Shift+Alt+→可扩展选区到包含的大括号。'},
+            {q: '编写长代码时，如何快速回到之前的位置？', options: ['滚动查找', 'Ctrl+Home再找到', '使用书签或Alt+←', '记不住'], answer: 2, explain: 'Alt+←返回上一个光标位置（VS Code）。'},
+            {q: '想同时编辑多处相同的代码，可以用？', options: ['逐个修改', 'Ctrl+D多光标', '查找替换', '以上都可以'], answer: 3, explain: '根据情况选择，多光标适合少量处，替换适合大量处。'},
+            {q: '编辑时突然断电，如何减少损失？', options: ['无法减少', '经常保存', '使用自动保存', 'B和C'], answer: 3, explain: '经常保存或开启自动保存功能。'},
+            {q: 'VS Code的自动保存功能在哪里设置？', options: ['文件菜单', '编辑菜单', '文件→自动保存', '不能设置'], answer: 2, explain: '文件菜单中可选择开启自动保存。'},
+            {q: '如何选中大括号内的所有内容？', options: ['手动选择', 'Ctrl+Shift+\\', '双击大括号', '三击'], answer: 1, explain: 'Ctrl+Shift+\\可选中匹配括号内内容。'},
+            {q: '代码写完后发现少了一个分号，应该？', options: ['重写给行', '找到位置添加', '删除代码', '不管它'], answer: 1, explain: '定位到缺少分号的位置添加。'},
+            {q: '想把一段代码注释掉，最快的方式是？', options: ['每行前加//', '选中后Ctrl+/', '删除代码', '重写给行'], answer: 1, explain: 'Ctrl+/快速注释/取消注释选中代码。'},
+            {q: '取消注释的快捷键通常是？', options: ['Ctrl+/', 'Ctrl+Shift+/', 'Ctrl+C', 'Ctrl+Z'], answer: 0, explain: 'Ctrl+/可切换注释状态。'},
+            {q: '编写代码时，良好的习惯包括？', options: ['经常保存', '使用快捷键', '保持缩进整齐', '以上都是'], answer: 3, explain: '这些都是良好的编程习惯。'},
+            {q: '想查看代码中的错误提示，可以？', options: ['看编辑器标记', '按F8', '看问题面板', '以上都可以'], answer: 3, explain: '编辑器多种方式显示错误提示。'},
+            {q: '编辑大型文件时，如何提高效率？', options: ['使用查找跳转', '使用书签', '使用大纲视图', '以上都可以'], answer: 3, explain: '多种方式帮助在大型文件中导航。'},
+            {q: '最后一步完成编辑后应该？', options: ['直接关闭', '保存后关闭', '删除文件', '不管它'], answer: 1, explain: '养成保存后关闭的好习惯。'}
+        ];
+
+        let currentQuestion = 0;
+        let answers = new Array(questions.length).fill(null);
+        let correctCount = 0;
+
+        function loadQuestion(index) {
+            currentQuestion = index;
+            const q = questions[index];
+            document.getElementById('questionNumber').textContent = `题目 ${index + 1}/${questions.length}`;
+            document.getElementById('questionText').textContent = q.q;
+            
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+            
+            q.options.forEach((opt, i) => {
+                const btn = document.createElement('div');
+                btn.className = 'option';
+                btn.textContent = `${String.fromCharCode(65 + i)}. ${opt}`;
+                btn.onclick = () => selectAnswer(i);
+                
+                if (answers[index] !== null) {
+                    btn.classList.add('disabled');
+                    if (i === answers[index]) {
+                        btn.classList.add(i === q.answer ? 'correct' : 'wrong');
+                    }
+                    if (i === q.answer && answers[index] !== q.answer) {
+                        btn.classList.add('correct');
+                    }
+                }
+                
+                optionsDiv.appendChild(btn);
+            });
+            
+            const explanation = document.getElementById('explanation');
+            if (answers[index] !== null) {
+                explanation.textContent = `解析：${q.explain}`;
+                document.getElementById('questionCard').classList.add('answered');
+            } else {
+                explanation.textContent = '';
+                document.getElementById('questionCard').classList.remove('answered');
+            }
+            
+            updateProgress();
+            updateNavButtons();
+        }
+
+        function selectAnswer(optionIndex) {
+            if (answers[currentQuestion] !== null) return;
+            
+            answers[currentQuestion] = optionIndex;
+            const q = questions[currentQuestion];
+            
+            if (optionIndex === q.answer) {
+                correctCount++;
+            }
+            
+            const options = document.querySelectorAll('.option');
+            options[optionIndex].classList.add(optionIndex === q.answer ? 'correct' : 'wrong');
+            
+            if (optionIndex !== q.answer) {
+                options[q.answer].classList.add('correct');
+            }
+            
+            document.getElementById('explanation').textContent = `解析：${q.explain}`;
+            document.getElementById('questionCard').classList.add('answered');
+            
+            updateProgress();
+            saveProgress();
+        }
+
+        function updateProgress() {
+            const answered = answers.filter(a => a !== null).length;
+            const progress = (answered / questions.length) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+            document.getElementById('progressText').textContent = `${answered}/${questions.length}`;
+        }
+
+        function updateNavButtons() {
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            document.getElementById('nextBtn').textContent = 
+                currentQuestion === questions.length - 1 ? '完成' : '下一题 →';
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                loadQuestion(currentQuestion - 1);
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                loadQuestion(currentQuestion + 1);
+            } else {
+                const answered = answers.filter(a => a !== null).length;
+                const accuracy = answered > 0 ? Math.round((correctCount / answered) * 100) : 0;
+                alert(`测验完成！\n答对：${correctCount}/${answered}\n正确率：${accuracy}%`);
+            }
+        }
+
+        function saveProgress() {
+            localStorage.setItem('cpp-l1-topic-2-2-progress', JSON.stringify(answers));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('cpp-l1-topic-2-2-progress');
+            if (saved) {
+                answers = JSON.parse(saved);
+                correctCount = answers.reduce((sum, ans, idx) => 
+                    sum + (ans === questions[idx].answer ? 1 : 0), 0);
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' && currentQuestion > 0) prevQuestion();
+            if (e.key === 'ArrowRight') nextQuestion();
+        });
+
+        loadProgress();
+        loadQuestion(0);
+    </script>
+</body>
+</html>
