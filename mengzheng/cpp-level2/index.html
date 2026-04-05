@@ -11,171 +11,266 @@
     <link rel="stylesheet" href="../../assets/guofeng-v2.css">
     <style>
         :root {
-            --level-2: #2e5984;
-            --level-easy: #4a7c59;
-            --level-medium: #d4a574;
-            --level-hard: #c9372c;
+            --l2-primary: #2e5984;
+            --l2-secondary: #4a7c9b;
+            --easy: #4a7c59;
+            --medium: #d4a574;
+            --hard: #c9372c;
         }
         
-        /* 脑图容器 */
-        .mindmap-container {
-            position: relative;
-            width: 100%;
-            height: 900px;
-            margin: 2rem 0;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 12px;
-            overflow: hidden;
+        .l2-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
         }
         
-        /* 中心节点 */
-        .center-node {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 140px;
-            height: 140px;
-            background: linear-gradient(135deg, var(--level-2) 0%, #1e3a5f 100%);
-            border-radius: 50%;
-            display: flex;
+        /* 顶部中心标题 */
+        .l2-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .l2-center-badge {
+            display: inline-flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-weight: 700;
-            font-size: 1.1rem;
-            box-shadow: 0 8px 32px rgba(30, 58, 95, 0.3);
-            z-index: 10;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .center-node:hover {
-            transform: translate(-50%, -50%) scale(1.05);
-            box-shadow: 0 12px 40px rgba(30, 58, 95, 0.4);
-        }
-        
-        .center-node .icon {
-            font-size: 2rem;
-            margin-bottom: 0.25rem;
-        }
-        
-        /* 知识块节点 */
-        .block-node {
-            position: absolute;
             width: 160px;
-            padding: 1rem;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-left: 4px solid var(--level-2);
+            height: 160px;
+            background: linear-gradient(135deg, var(--l2-primary) 0%, var(--l2-secondary) 100%);
+            border-radius: 50%;
+            color: white;
+            box-shadow: 0 8px 32px rgba(46, 89, 132, 0.3);
+            margin-bottom: 1rem;
         }
         
-        .block-node:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-        }
-        
-        .block-node .icon {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .block-node .title {
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: var(--ink-900);
+        .l2-center-badge .icon {
+            font-size: 2.5rem;
             margin-bottom: 0.25rem;
         }
         
-        .block-node .meta {
-            font-size: 0.75rem;
+        .l2-center-badge .title {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        
+        .l2-center-badge .subtitle {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+        
+        .l2-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .l2-stat-item {
+            text-align: center;
+            padding: 0.75rem 1.5rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .l2-stat-item .number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--l2-primary);
+        }
+        
+        .l2-stat-item .label {
+            font-size: 0.85rem;
             color: var(--ink-500);
         }
         
-        /* 连接线 */
-        .connection-line {
-            position: absolute;
-            height: 2px;
-            background: linear-gradient(90deg, var(--level-2), transparent);
-            transform-origin: left center;
-            opacity: 0.4;
+        /* 知识块网格 */
+        .knowledge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
         }
         
-        /* 知识点子节点 */
-        .topic-node {
-            position: absolute;
-            padding: 0.5rem 0.75rem;
+        .knowledge-card {
             background: white;
-            border-radius: 8px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .knowledge-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        
+        .knowledge-card .card-header {
+            padding: 1rem 1.25rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .knowledge-card.block-1 .card-header { background: linear-gradient(135deg, #1e3a5f 0%, #2e5984 100%); }
+        .knowledge-card.block-2 .card-header { background: linear-gradient(135deg, #2e5984 0%, #4a7c9b 100%); }
+        .knowledge-card.block-3 .card-header { background: linear-gradient(135deg, #4a7c59 0%, #6b9b7a 100%); }
+        .knowledge-card.block-4 .card-header { background: linear-gradient(135deg, #6b4c7a 0%, #8b6c9a 100%); }
+        .knowledge-card.block-5 .card-header { background: linear-gradient(135deg, #8b6c4c 0%, #ab8c6c 100%); }
+        .knowledge-card.block-6 .card-header { background: linear-gradient(135deg, #c9372c 0%, #e9574c 100%); }
+        .knowledge-card.block-7 .card-header { background: linear-gradient(135deg, #d4a574 0%, #f4c594 100%); color: #333; }
+        .knowledge-card.block-8 .card-header { background: linear-gradient(135deg, #4a90a4 0%, #6ab0c4 100%); }
+        
+        .knowledge-card .card-header .icon {
+            font-size: 1.5rem;
+        }
+        
+        .knowledge-card .card-header .title {
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+        
+        .knowledge-card .card-header .count {
+            margin-left: auto;
+            background: rgba(255,255,255,0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
             font-size: 0.8rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .knowledge-card.block-7 .card-header .count,
+        .knowledge-card.block-8 .card-header .count {
+            background: rgba(0,0,0,0.1);
+        }
+        
+        .knowledge-card .card-body {
+            padding: 1rem;
+        }
+        
+        .topic-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .topic-item {
+            display: flex;
+            align-items: center;
+            padding: 0.6rem 0.75rem;
+            background: #f8f9fa;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s ease;
-            border-left: 3px solid var(--level-easy);
-            max-width: 140px;
+            border-left: 3px solid transparent;
         }
         
-        .topic-node:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        .topic-item:hover {
+            background: #e9ecef;
+            border-left-color: var(--l2-primary);
         }
         
-        .topic-node.medium { border-left-color: var(--level-medium); }
-        .topic-node.hard { border-left-color: var(--level-hard); }
+        .topic-item.completed {
+            opacity: 0.6;
+            background: #e8f5e9;
+        }
         
-        .topic-node .difficulty {
-            display: inline-block;
-            width: 6px;
-            height: 6px;
+        .topic-item .difficulty {
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            margin-right: 4px;
+            margin-right: 0.5rem;
+            flex-shrink: 0;
         }
         
-        .topic-node.easy .difficulty { background: var(--level-easy); }
-        .topic-node.medium .difficulty { background: var(--level-medium); }
-        .topic-node.hard .difficulty { background: var(--level-hard); }
+        .topic-item.easy .difficulty { background: var(--easy); }
+        .topic-item.medium .difficulty { background: var(--medium); }
+        .topic-item.hard .difficulty { background: var(--hard); }
         
-        /* 进度追踪 */
+        .topic-item .name {
+            flex: 1;
+            font-size: 0.9rem;
+        }
+        
+        .topic-item .meta {
+            font-size: 0.75rem;
+            color: #666;
+            white-space: nowrap;
+        }
+        
+        .topic-item .check {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            margin-left: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: white;
+            transition: all 0.2s ease;
+        }
+        
+        .topic-item.completed .check {
+            background: var(--easy);
+            border-color: var(--easy);
+        }
+        
+        /* 进度条 */
         .progress-section {
             background: white;
             border-radius: 12px;
             padding: 1.5rem;
-            margin: 2rem 0;
+            margin-bottom: 2rem;
             box-shadow: 0 2px 12px rgba(0,0,0,0.06);
         }
         
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        
+        .progress-title {
+            font-weight: 600;
+            color: var(--ink-700);
+        }
+        
+        .progress-value {
+            color: var(--l2-primary);
+            font-weight: 600;
+        }
+        
         .progress-bar {
-            height: 8px;
+            height: 10px;
             background: #e9ecef;
-            border-radius: 4px;
+            border-radius: 5px;
             overflow: hidden;
-            margin: 1rem 0;
         }
         
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--level-2), #4a90a4);
-            border-radius: 4px;
+            background: linear-gradient(90deg, var(--l2-primary), var(--l2-secondary));
+            border-radius: 5px;
             transition: width 0.5s ease;
         }
         
         /* 图例 */
         .legend {
             display: flex;
-            gap: 1.5rem;
             justify-content: center;
-            margin: 1rem 0;
+            gap: 1.5rem;
+            margin-top: 1rem;
             flex-wrap: wrap;
         }
         
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
             font-size: 0.85rem;
             color: var(--ink-600);
         }
@@ -186,22 +281,21 @@
             border-radius: 50%;
         }
         
-        .legend-dot.easy { background: var(--level-easy); }
-        .legend-dot.medium { background: var(--level-medium); }
-        .legend-dot.hard { background: var(--level-hard); }
+        .legend-dot.easy { background: var(--easy); }
+        .legend-dot.medium { background: var(--medium); }
+        .legend-dot.hard { background: var(--hard); }
         
-        /* 考试信息卡片 */
-        .exam-info {
+        /* 考试信息 */
+        .exam-section {
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             border-radius: 12px;
             padding: 1.5rem;
-            margin-top: 2rem;
-            border-left: 4px solid var(--level-2);
+            border-left: 4px solid var(--l2-primary);
         }
         
         .exam-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 1rem;
             margin-top: 1rem;
         }
@@ -226,16 +320,21 @@
         }
         
         @media (max-width: 768px) {
-            .mindmap-container {
-                height: 1200px;
+            .knowledge-grid {
+                grid-template-columns: 1fr;
             }
-            .block-node {
-                width: 130px;
-                padding: 0.75rem;
+            
+            .l2-center-badge {
+                width: 120px;
+                height: 120px;
             }
-            .topic-node {
-                max-width: 110px;
-                font-size: 0.75rem;
+            
+            .l2-center-badge .icon {
+                font-size: 1.8rem;
+            }
+            
+            .l2-center-badge .title {
+                font-size: 1rem;
             }
         }
     </style>
@@ -254,22 +353,39 @@
         </div>
     </nav>
 
-    <main class="main-container">
-        <section class="hero">
-            <h1 class="hero-title">C++ 二级学习路线</h1>
-            <p class="hero-subtitle">GESP等级考试 · 21个知识点 · 进阶提升</p>
-            <div class="hero-yijing">
-                「穷则变，变则通，通则久。」
-                <br>——《易经·系辞下》
+    <main class="l2-container">
+        <!-- 顶部标题区 -->
+        <div class="l2-header">
+            <div class="l2-center-badge">
+                <span class="icon">☯</span>
+                <span class="title">C++二级</span>
+                <span class="subtitle">进阶提升</span>
             </div>
-        </section>
+            <div class="l2-stats">
+                <div class="l2-stat-item">
+                    <div class="number">8</div>
+                    <div class="label">知识块</div>
+                </div>
+                <div class="l2-stat-item">
+                    <div class="number">21</div>
+                    <div class="label">知识点</div>
+                </div>
+                <div class="l2-stat-item">
+                    <div class="number">~22h</div>
+                    <div class="label">预估时长</div>
+                </div>
+                <div class="l2-stat-item">
+                    <div class="number">420</div>
+                    <div class="label">验证题目</div>
+                </div>
+            </div>
+        </div>
 
         <!-- 进度追踪 -->
-        <section class="progress-section">
-            <h3 style="margin-bottom: 0.5rem;">📊 学习进度</h3>
-            <div style="display: flex; justify-content: space-between; font-size: 0.9rem; color: var(--ink-600);">
-                <span id="progress-text">0 / 21 知识点</span>
-                <span id="progress-percent">0%</span>
+        <div class="progress-section">
+            <div class="progress-header">
+                <span class="progress-title">📊 学习进度</span>
+                <span class="progress-value" id="progress-text">0 / 21 知识点</span>
             </div>
             <div class="progress-bar">
                 <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
@@ -278,163 +394,246 @@
                 <div class="legend-item"><span class="legend-dot easy"></span>入门级</div>
                 <div class="legend-item"><span class="legend-dot medium"></span>提高级</div>
                 <div class="legend-item"><span class="legend-dot hard"></span>挑战级</div>
-                <div class="legend-item">📝 20题验证</div>
+                <div class="legend-item">📝 每点20题验证</div>
             </div>
-        </section>
+        </div>
 
-        <!-- 脑图 -->
-        <section class="mindmap-container" id="mindmap">
-            <!-- 中心节点 -->
-            <div class="center-node" onclick="toggleAll()">
-                <span class="icon">☯</span>
-                <span>C++二级</span>
-                <small style="font-size: 0.7rem; opacity: 0.9;">进阶提升</small>
-            </div>
-
-            <!-- 知识块1: 计算机存储与网络 (左上) -->
-            <div class="block-node" style="top: 8%; left: 5%;" onclick="toggleTopics('block1')">
-                <div class="icon">💾</div>
-                <div class="title">计算机存储与网络</div>
-                <div class="meta">4个知识点 · ⏱️ 3小时</div>
-            </div>
-            <div class="topic-node easy" style="top: 5%; left: 22%;" data-id="1.1">
-                <span class="difficulty"></span>1.1 ROM、RAM、CACHE
-                <div style="font-size: 0.7rem; color: #666; margin-top: 2px;">⏱️ 45分钟 📝 20题</div>
-            </div>
-            <div class="topic-node easy" style="top: 12%; left: 24%;" data-id="1.2">
-                <span class="difficulty"></span>1.2 计算机网络分类
-                <div style="font-size: 0.7rem; color: #666; margin-top: 2px;">⏱️ 45分钟 📝 20题</div>
-            </div>
-            <div class="topic-node medium" style="top: 5%; left: 36%;" data-id="1.3">
-                <span class="difficulty"></span>1.3 TCP/IP与OSI模型
-                <div style="font-size: 0.7rem; color: #666; margin-top: 2px;">⏱️ 45分钟 📝 20题</div>
-            </div>
-            <div class="topic-node hard" style="top: 12%; left: 38%;" data-id="1.4">
-                <span class="difficulty"></span>1.4 IP地址及子网划分
-                <div style="font-size: 0.7rem; color: #666; margin-top: 2px;">⏱️ 45分钟 📝 20题</div>
-            </div>
-
-            <!-- 知识块2: 程序设计语言 (右上) -->
-            <div class="block-node" style="top: 8%; right: 5%;" onclick="toggleTopics('block2')">
-                <div class="icon">🌐</div>
-                <div class="title">程序设计语言</div>
-                <div class="meta">2个知识点 · ⏱️ 1.5小时</div>
-            </div>
-            <div class="topic-node easy" style="top: 5%; right: 22%;" data-id="2.1">
-                <span class="difficulty"></span>2.1 程序设计语言分类
-                <div style="font-size: 0.7rem; color: #666; margin-top: 2px;">⏱️ 45分钟 📝 20题</div>
-            </div>
-            <div class="topic-node easy" style="top: 12%; right: 24%;" data-id="2.2">
-                <span class="difficulty"></span>2.2 常见的高级语言
-                <div style="font-size: 0.7rem; color: #666; margin-top: 2px;">⏱️ 45分钟 📝 20题</div>
+        <!-- 知识块网格 -->
+        <div class="knowledge-grid">
+            <!-- 知识块1: 计算机存储与网络 -->
+            <div class="knowledge-card block-1">
+                <div class="card-header">
+                    <span class="icon">💾</span>
+                    <span class="title">计算机存储与网络</span>
+                    <span class="count">4个</span>
+                </div>
+                <div class="card-body">
+                    <div class="topic-list">
+                        <div class="topic-item easy" data-id="1.1">
+                            <span class="difficulty"></span>
+                            <span class="name">1.1 ROM、RAM、CACHE</span>
+                            <span class="meta">45min</span>
+                            <span class="check">✓</span>
+                        </div>
+                        <div class="topic-item easy" data-id="1.2">
+                            <span class="difficulty"></span>
+                            <span class="name">1.2 计算机网络分类</span>
+                            <span class="meta">45min</span>
+                            <span class="check">✓</span>
+                        </div>
+                        <div class="topic-item medium" data-id="1.3">
+                            <span class="difficulty"></span>
+                            <span class="name">1.3 TCP/IP与OSI模型</span>
+                            <span class="meta">45min</span>
+                            <span class="check">✓</span>
+                        </div>
+                        <div class="topic-item hard" data-id="1.4">
+                            <span class="difficulty"></span>
+                            <span class="name">1.4 IP地址及子网划分</span>
+                            <span class="meta">45min</span>
+                            <span class="check">✓</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- 知识块3: 流程图 (左中) -->
-            <div class="block-node" style="top: 32%; left: 3%;" onclick="toggleTopics('block3')">
-                <div class="icon">📊</div>
-                <div class="title">流程图</div>
-                <div class="meta">1个知识点 · ⏱️ 1小时</div>
-            </div>
-            <div class="topic-node medium" style="top: 32%; left: 20%;" data-id="3.1">
-                <span class="difficulty"></span>3.1 流程图概念与绘制
-                <div style="font-size: 0.7rem; color: #666; margin-top: 2px;">⏱️ 60分钟 📝 20题</div>
-            </div>
-
-            <!-- 知识块4: ASCII编码 (右中) -->
-            <div class="block-node" style="top: 32%; right: 3%;" onclick="toggleTopics('block4')">
-                <div class="icon">🔤</div>
-                <div class="title">ASCII编码</div>
-                <div class="meta">1个知识点 · ⏱️ 1小时</div>
-            </div>
-            <div class="topic-node medium" style="top: 32%; right: 20%;" data-id="4.1">
-                <span class="difficulty"></span>4.1 ASCII编码与转换
-                <div style="font-size: 0.7rem; color: #666; margin-top: 2px;">⏱️ 60分钟 📝 20题</div>
-            </div>
-
-            <!-- 知识块5: 数据类型转换 (左下) -->
-            <div class="block-node" style="top: 56%; left: 5%;" onclick="toggleTopics('block5')">
-                <div class="icon">🔄</div>
-                <div class="title">数据类型转换</div>
-                <div class="meta">2个知识点 · ⏱️ 2小时</div>
-            </div>
-            <div class="topic-node medium" style="top: 54%; left: 22%;" data-id="5.1">
-                <span class="difficulty"></span>5.1 强制类型转换
-                <div style="font-size: 0.7rem; color: #666; margin-top: 2px;">⏱️ 60分钟 📝 20题</div>
-            </div>
-            <div class="topic-node medium" style="top: 61%; left: 24%;" data-id="5.2">
-                <span class="difficulty"></span>5.2 隐式类型转换
-                <div style="font-size: 0.7rem; color: #666; margin-top: 2px;">⏱️ 60分钟 📝 20题</div>
+            <!-- 知识块2: 程序设计语言 -->
+            <div class="knowledge-card block-2">
+                <div class="card-header">
+                    <span class="icon">🌐</span>
+                    <span class="title">程序设计语言</span>
+                    <span class="count">2个</span>
+                </div>
+                <div class="card-body">
+                    <div class="topic-list">
+                        <div class="topic-item easy" data-id="2.1">
+                            <span class="difficulty"></span>
+                            <span class="name">2.1 程序设计语言分类</span>
+                            <span class="meta">45min</span>
+                            <span class="check">✓</span>
+                        </div>
+                        <div class="topic-item easy" data-id="2.2">
+                            <span class="difficulty"></span>
+                            <span class="name">2.2 常见的高级语言</span>
+                            <span class="meta">45min</span>
+                            <span class="check">✓</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- 知识块6: 多层分支结构 (中下) -->
-            <div class="block-node" style="bottom: 18%; left: 20%;" onclick="toggleTopics('block6')">
-                <div class="icon">🔀</div>
-                <div class="title">多层分支结构</div>
-                <div class="meta">3个知识点 · ⏱️ 4小时</div>
-            </div>
-            <div class="topic-node hard" style="bottom: 28%; left: 8%;" data-id="6.1">
-                <span class="difficulty"></span>6.1 if 嵌套
-                <div style="font-size: 0.7rem; color: #666; margin-top: 2px;">⏱️ 80分钟 📝 20题</div>
-            </div>
-            <div class="topic-node hard" style="bottom: 20%; left: 5%;" data-id="6.2">
-                <span class="difficulty"></span>6.2 if else 嵌套
-                <div style="font-size: 0.7rem; color: #666; margin-top: 2px;">⏱️ 80分钟 📝 20题</div>
-            </div>
-            <div class="topic-node hard" style="bottom: 12%; left: 8%;" data-id="6.3">
-                <span class="difficulty"></span>6.3 switch 嵌套
-                <div style="font-size: 0.7rem; color: #666; margin-top: 2px;">⏱️ 80分钟 📝 20题</div>
-            </div>
-
-            <!-- 知识块7: 多层循环语句 (右下) -->
-            <div class="block-node" style="bottom: 18%; right: 20%;" onclick="toggleTopics('block7')">
-                <div class="icon">🔁</div>
-                <div class="title">多层循环语句</div>
-                <div class="meta">3个知识点 · ⏱️ 5小时</div>
-            </div>
-            <div class="topic-node hard" style="bottom: 28%; right: 8%;" data-id="7.1">
-                <span class="difficulty"></span>7.1 while 嵌套
-                <div style="font-size: 0.7rem; color: #666; margin-top: 2px;">⏱️ 100分钟 📝 20题</div>
-            </div>
-            <div class="topic-node hard" style="bottom: 20%; right: 5%;" data-id="7.2">
-                <span class="difficulty"></span>7.2 do...while 嵌套
-                <div style="font-size: 0.7rem; color: #666; margin-top: 2px;">⏱️ 100分钟 📝 20题</div>
-            </div>
-            <div class="topic-node hard" style="bottom: 12%; right: 8%;" data-id="7.3">
-                <span class="difficulty"></span>7.3 for 嵌套
-                <div style="font-size: 0.7rem; color: #666; margin-top: 2px;">⏱️ 100分钟 📝 20题</div>
+            <!-- 知识块3: 流程图 -->
+            <div class="knowledge-card block-3">
+                <div class="card-header">
+                    <span class="icon">📊</span>
+                    <span class="title">流程图</span>
+                    <span class="count">1个</span>
+                </div>
+                <div class="card-body">
+                    <div class="topic-list">
+                        <div class="topic-item medium" data-id="3.1">
+                            <span class="difficulty"></span>
+                            <span class="name">3.1 流程图概念与绘制</span>
+                            <span class="meta">60min</span>
+                            <span class="check">✓</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- 知识块8: 数学函数 (上中) -->
-            <div class="block-node" style="top: 3%; left: 50%; transform: translateX(-50%);" onclick="toggleTopics('block8')">
-                <div class="icon">📐</div>
-                <div class="title">数学函数</div>
-                <div class="meta">5个知识点 · ⏱️ 4小时</div>
+            <!-- 知识块4: ASCII编码 -->
+            <div class="knowledge-card block-4">
+                <div class="card-header">
+                    <span class="icon">🔤</span>
+                    <span class="title">ASCII编码</span>
+                    <span class="count">1个</span>
+                </div>
+                <div class="card-body">
+                    <div class="topic-list">
+                        <div class="topic-item medium" data-id="4.1">
+                            <span class="difficulty"></span>
+                            <span class="name">4.1 ASCII编码与转换</span>
+                            <span class="meta">60min</span>
+                            <span class="check">✓</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="topic-node medium" style="top: 16%; left: 35%;" data-id="8.1">
-                <span class="difficulty"></span>8.1 abs() 绝对值
-                <div style="font-size: 0.7rem; color: #666; margin-top: 2px;">⏱️ 45分钟 📝 20题</div>
+
+            <!-- 知识块5: 数据类型转换 -->
+            <div class="knowledge-card block-5">
+                <div class="card-header">
+                    <span class="icon">🔄</span>
+                    <span class="title">数据类型转换</span>
+                    <span class="count">2个</span>
+                </div>
+                <div class="card-body">
+                    <div class="topic-list">
+                        <div class="topic-item medium" data-id="5.1">
+                            <span class="difficulty"></span>
+                            <span class="name">5.1 强制类型转换</span>
+                            <span class="meta">60min</span>
+                            <span class="check">✓</span>
+                        </div>
+                        <div class="topic-item medium" data-id="5.2">
+                            <span class="difficulty"></span>
+                            <span class="name">5.2 隐式类型转换</span>
+                            <span class="meta">60min</span>
+                            <span class="check">✓</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="topic-node medium" style="top: 18%; left: 48%;" data-id="8.2">
-                <span class="difficulty"></span>8.2 sqrt() 平方根
-                <div style="font-size: 0.7rem; color: #666; margin-top: 2px;">⏱️ 45分钟 📝 20题</div>
+
+            <!-- 知识块6: 多层分支结构 -->
+            <div class="knowledge-card block-6">
+                <div class="card-header">
+                    <span class="icon">🔀</span>
+                    <span class="title">多层分支结构</span>
+                    <span class="count">3个</span>
+                </div>
+                <div class="card-body">
+                    <div class="topic-list">
+                        <div class="topic-item hard" data-id="6.1">
+                            <span class="difficulty"></span>
+                            <span class="name">6.1 if 嵌套</span>
+                            <span class="meta">80min</span>
+                            <span class="check">✓</span>
+                        </div>
+                        <div class="topic-item hard" data-id="6.2">
+                            <span class="difficulty"></span>
+                            <span class="name">6.2 if else 嵌套</span>
+                            <span class="meta">80min</span>
+                            <span class="check">✓</span>
+                        </div>
+                        <div class="topic-item hard" data-id="6.3">
+                            <span class="difficulty"></span>
+                            <span class="name">6.3 switch 嵌套</span>
+                            <span class="meta">80min</span>
+                            <span class="check">✓</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="topic-node medium" style="top: 16%; left: 61%;" data-id="8.3">
-                <span class="difficulty"></span>8.3 max() 最大值
-                <div style="font-size: 0.7rem; color: #666; margin-top: 2px;">⏱️ 45分钟 📝 20题</div>
+
+            <!-- 知识块7: 多层循环语句 -->
+            <div class="knowledge-card block-7">
+                <div class="card-header">
+                    <span class="icon">🔁</span>
+                    <span class="title">多层循环语句</span>
+                    <span class="count">3个</span>
+                </div>
+                <div class="card-body">
+                    <div class="topic-list">
+                        <div class="topic-item hard" data-id="7.1">
+                            <span class="difficulty"></span>
+                            <span class="name">7.1 while 嵌套</span>
+                            <span class="meta">100min</span>
+                            <span class="check">✓</span>
+                        </div>
+                        <div class="topic-item hard" data-id="7.2">
+                            <span class="difficulty"></span>
+                            <span class="name">7.2 do...while 嵌套</span>
+                            <span class="meta">100min</span>
+                            <span class="check">✓</span>
+                        </div>
+                        <div class="topic-item hard" data-id="7.3">
+                            <span class="difficulty"></span>
+                            <span class="name">7.3 for 嵌套</span>
+                            <span class="meta">100min</span>
+                            <span class="check">✓</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="topic-node medium" style="top: 23%; left: 42%;" data-id="8.4">
-                <span class="difficulty"></span>8.4 min() 最小值
-                <div style="font-size: 0.7rem; color: #666; margin-top: 2px;">⏱️ 45分钟 📝 20题</div>
+
+            <!-- 知识块8: 数学函数 -->
+            <div class="knowledge-card block-8">
+                <div class="card-header">
+                    <span class="icon">📐</span>
+                    <span class="title">数学函数</span>
+                    <span class="count">5个</span>
+                </div>
+                <div class="card-body">
+                    <div class="topic-list">
+                        <div class="topic-item medium" data-id="8.1">
+                            <span class="difficulty"></span>
+                            <span class="name">8.1 abs() 绝对值</span>
+                            <span class="meta">45min</span>
+                            <span class="check">✓</span>
+                        </div>
+                        <div class="topic-item medium" data-id="8.2">
+                            <span class="difficulty"></span>
+                            <span class="name">8.2 sqrt() 平方根</span>
+                            <span class="meta">45min</span>
+                            <span class="check">✓</span>
+                        </div>
+                        <div class="topic-item medium" data-id="8.3">
+                            <span class="difficulty"></span>
+                            <span class="name">8.3 max() 最大值</span>
+                            <span class="meta">45min</span>
+                            <span class="check">✓</span>
+                        </div>
+                        <div class="topic-item medium" data-id="8.4">
+                            <span class="difficulty"></span>
+                            <span class="name">8.4 min() 最小值</span>
+                            <span class="meta">45min</span>
+                            <span class="check">✓</span>
+                        </div>
+                        <div class="topic-item hard" data-id="8.5">
+                            <span class="difficulty"></span>
+                            <span class="name">8.5 rand()/srand() 随机数</span>
+                            <span class="meta">60min</span>
+                            <span class="check">✓</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="topic-node hard" style="top: 23%; left: 56%;" data-id="8.5">
-                <span class="difficulty"></span>8.5 rand()/srand() 随机数
-                <div style="font-size: 0.7rem; color: #666; margin-top: 2px;">⏱️ 60分钟 📝 20题</div>
-            </div>
-        </section>
+        </div>
 
         <!-- 考试信息 -->
-        <section class="exam-info">
-            <h3>📝 GESP二级考试信息</h3>
+        <div class="exam-section">
+            <h3 style="margin-bottom: 0.5rem;">📝 GESP二级考试信息</h3>
             <div class="exam-grid">
                 <div class="exam-item">
                     <div class="label">考试时长</div>
@@ -442,15 +641,15 @@
                 </div>
                 <div class="exam-item">
                     <div class="label">单选题</div>
-                    <div class="value">15道 × 2分 = 30分</div>
+                    <div class="value">15道 × 2分</div>
                 </div>
                 <div class="exam-item">
                     <div class="label">判断题</div>
-                    <div class="value">10道 × 2分 = 20分</div>
+                    <div class="value">10道 × 2分</div>
                 </div>
                 <div class="exam-item">
                     <div class="label">编程题</div>
-                    <div class="value">2道 × 25分 = 50分</div>
+                    <div class="value">2道 × 25分</div>
                 </div>
                 <div class="exam-item">
                     <div class="label">总分</div>
@@ -461,7 +660,7 @@
                     <div class="value">60分</div>
                 </div>
             </div>
-        </section>
+        </div>
 
         <div style="text-align: center; margin-top: 2rem;">
             <a href="../" class="gf-btn gf-btn-secondary">← 返回蒙正堂</a>
@@ -479,36 +678,31 @@
     <script>
         // 进度追踪
         const totalTopics = 21;
-        let completedTopics = JSON.parse(localStorage.getItem('cpp_level2_progress') || '[]');
+        let completedTopics = JSON.parse(localStorage.getItem('cpp_level2_progress_v2') || '[]');
         
         function updateProgress() {
             const percent = Math.round((completedTopics.length / totalTopics) * 100);
             document.getElementById('progress-text').textContent = `${completedTopics.length} / ${totalTopics} 知识点`;
-            document.getElementById('progress-percent').textContent = `${percent}%`;
             document.getElementById('progress-fill').style.width = `${percent}%`;
         }
         
-        function toggleTopic(id) {
-            if (completedTopics.includes(id)) {
-                completedTopics = completedTopics.filter(t => t !== id);
-                event.target.closest('.topic-node').style.opacity = '1';
-            } else {
-                completedTopics.push(id);
-                event.target.closest('.topic-node').style.opacity = '0.6';
-            }
-            localStorage.setItem('cpp_level2_progress', JSON.stringify(completedTopics));
-            updateProgress();
-        }
-        
-        // 为所有知识点节点添加点击事件
-        document.querySelectorAll('.topic-node').forEach(node => {
-            node.addEventListener('click', function() {
+        document.querySelectorAll('.topic-item').forEach(item => {
+            item.addEventListener('click', function() {
                 const id = this.dataset.id;
-                toggleTopic(id);
+                if (completedTopics.includes(id)) {
+                    completedTopics = completedTopics.filter(t => t !== id);
+                    this.classList.remove('completed');
+                } else {
+                    completedTopics.push(id);
+                    this.classList.add('completed');
+                }
+                localStorage.setItem('cpp_level2_progress_v2', JSON.stringify(completedTopics));
+                updateProgress();
             });
-            // 恢复进度状态
-            if (completedTopics.includes(node.dataset.id)) {
-                node.style.opacity = '0.6';
+            
+            // 恢复状态
+            if (completedTopics.includes(item.dataset.id)) {
+                item.classList.add('completed');
             }
         });
         
