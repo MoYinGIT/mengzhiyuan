@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++七级学习路线 - 蒙正堂</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/guofeng-v2.css">
+    <style>
+        :root {
+            --l7-primary: #c9a227;
+            --l7-secondary: #e9c247;
+            --easy: #4a7c59;
+            --medium: #d4a574;
+            --hard: #c9372c;
+        }
+        
+        .l7-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .l7-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .l7-center-badge {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 160px;
+            height: 160px;
+            background: linear-gradient(135deg, var(--l7-primary) 0%, var(--l7-secondary) 100%);
+            border-radius: 50%;
+            color: white;
+            box-shadow: 0 8px 32px rgba(201, 162, 39, 0.3);
+            margin-bottom: 1rem;
+        }
+        
+        .l7-center-badge .icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .l7-center-badge .title {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        
+        .l7-center-badge .subtitle {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+        
+        .l7-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .l7-stat-item {
+            text-align: center;
+            padding: 0.75rem 1.5rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .l7-stat-item .number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--l7-primary);
+        }
+        
+        .l7-stat-item .label {
+            font-size: 0.85rem;
+            color: var(--ink-500);
+        }
+        
+        .knowledge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .knowledge-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .knowledge-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        
+        .knowledge-card .card-header {
+            padding: 1rem 1.25rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .knowledge-card.block-1 .card-header { background: linear-gradient(135deg, #1e3a5f 0%, #2e5984 100%); }
+        .knowledge-card.block-2 .card-header { background: linear-gradient(135deg, #6b4c7a 0%, #8b6c9a 100%); }
+        .knowledge-card.block-3 .card-header { background: linear-gradient(135deg, #4a7c59 0%, #6b9b7a 100%); }
+        .knowledge-card.block-4 .card-header { background: linear-gradient(135deg, #8b6c4c 0%, #ab8c6c 100%); }
+        .knowledge-card.block-5 .card-header { background: linear-gradient(135deg, #c9a227 0%, #e9c247 100%); color: #1a1a1a; }
+        
+        .knowledge-card .card-header .icon {
+            font-size: 1.5rem;
+        }
+        
+        .knowledge-card .card-header .title {
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+        
+        .knowledge-card .card-header .count {
+            margin-left: auto;
+            background: rgba(255,255,255,0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+        
+        .knowledge-card .card-body {
+            padding: 1rem;
+        }
+        
+        .topic-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .topic-item {
+            display: flex;
+            align-items: center;
+            padding: 0.6rem 0.75rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .topic-item:hover {
+            background: #e9ecef;
+            border-left-color: var(--l7-primary);
+        }
+        
+        .topic-item.completed {
+            opacity: 0.6;
+            background: #e8f5e9;
+        }
+        
+        .topic-item .difficulty {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            flex-shrink: 0;
+        }
+        
+        .topic-item.easy .difficulty { background: var(--easy); }
+        .topic-item.medium .difficulty { background: var(--medium); }
+        .topic-item.hard .difficulty { background: var(--hard); }
+        
+        .topic-item .name {
+            flex: 1;
+            font-size: 0.9rem;
+        }
+        
+        .topic-item .meta {
+            font-size: 0.75rem;
+            color: #666;
+            white-space: nowrap;
+        }
+        
+        .topic-item .check {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            margin-left: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: white;
+            transition: all 0.2s ease;
+        }
+        
+        .topic-item.completed .check {
+            background: var(--easy);
+            border-color: var(--easy);
+        }
+        
+        .progress-section {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        
+        .progress-title {
+            font-weight: 600;
+            color: var(--ink-700);
+        }
+        
+        .progress-value {
+            color: var(--l7-primary);
+            font-weight: 600;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--l7-primary), var(--l7-secondary));
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+            color: var(--ink-600);
+        }
+        
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        
+        .legend-dot.easy { background: var(--easy); }
+        .legend-dot.medium { background: var(--medium); }
+        .legend-dot.hard { background: var(--hard); }
+        
+        .exam-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--l7-primary);
+        }
+        
+        .exam-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .exam-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .exam-item .label {
+            font-size: 0.8rem;
+            color: var(--ink-500);
+            margin-bottom: 0.25rem;
+        }
+        
+        .exam-item .value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--ink-900);
+        }
+        
+        @media (max-width: 768px) {
+            .knowledge-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .l7-center-badge {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .l7-center-badge .icon {
+                font-size: 1.8rem;
+            }
+            
+            .l7-center-badge .title {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="../../" class="brand">
+                <span class="brand-icon">☯</span>
+                <span class="brand-text">默隐·蒙知苑</span>
+            </a>
+            <div class="nav-links">
+                <a href="../" class="nav-link">🎓 蒙正堂</a>
+                <span class="nav-link active">C++七级</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="l7-container">
+        <!-- 顶部标题区 -->
+        <div class="l7-header">
+            <div class="l7-center-badge">
+                <span class="icon">☯</span>
+                <span class="title">C++七级</span>
+                <span class="subtitle">图论与高级算法</span>
+            </div>
+            <div class="l7-stats">
+                <div class="l7-stat-item">
+                    <div class="number">5</div>
+                    <div class="label">知识块</div>
+                </div>
+                <div class="l7-stat-item">
+                    <div class="number">13</div>
+                    <div class="label">知识点</div>
+                </div>
+                <div class="l7-stat-item">
+                    <div class="number">~35h</div>
+                    <div class="label">预估时长</div>
+                </div>
+                <div class="l7-stat-item">
+                    <div class="number">260</div>
+                    <div class="label">验证题目</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 进度追踪 -->
+        <div class="progress-section">
+            <div class="progress-header">
+                <span class="progress-title">📊 学习进度</span>
+                <span class="progress-value" id="progress-text">0 / 13 知识点</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+            </div>
+            <div class="legend">
+                <div class="legend-item"><span class="legend-dot easy"></span>入门级</div>
+                <div class="legend-item"><span class="legend-dot medium"></span>提高级</div>
+                <div class="legend-item"><span class="legend-dot hard"></span>挑战级</div>
+                <div class="legend-item">📝 每点20题验证</div>
+            </div>
+        </div>
+
+        <!-- 知识块网格 -->
+        <div class="knowledge-grid">
+            <!-- 知识块1: 数学库函数 -->
+            <div class="knowledge-card block-1">
+                <div class="card-header">
+                    <span class="icon">📐</span>
+                    <span class="title">数学库函数</span>
+                    <span class="count">3个</span>
+                </div>
+                <div class="card-body">
+                    <div class="topic-list">
+                        <div class="topic-item easy" data-id="1.1">
+                            <span class="difficulty"></span>
+                            <span class="name">1.1 三角函数</span>
+                            <span class="meta">40min</span>
+                            <span class="check">✓</span>
+                        </div>
+                        <div class="topic-item easy" data-id="1.2">
+                            <span class="difficulty"></span>
+                            <span class="name">1.2 对数函数</span>
+                            <span class="meta">40min</span>
+                            <span class="check">✓</span>
+                        </div>
+                        <div class="topic-item easy" data-id="1.3">
+                            <span class="difficulty"></span>
+                            <span class="name">1.3 指数函数</span>
+                            <span class="meta">40min</span>
+                            <span class="check">✓</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 知识块2: 复杂动态规划 -->
+            <div class="knowledge-card block-2">
+                <div class="card-header">
+                    <span class="icon">🎯</span>
+                    <span class="title">复杂动态规划</span>
+                    <span class="count">5个</span>
+                </div>
+                <div class="card-body">
+                    <div class="topic-list">
+                        <div class="topic-item hard" data-id="2.1">
+                            <span class="difficulty"></span>
+                            <span class="name">2.1 二维动态规划、最值优化</span>
+                            <span class="meta">120min</span>
+                            <span class="check">✓</span>
+                        </div>
+                        <div class="topic-item hard" data-id="2.2">
+                            <span class="difficulty"></span>
+                            <span class="name">2.2 区间动态规划</span>
+                            <span class="meta">110min</span>
+                            <span class="check">✓</span>
+                        </div>
+                        <div class="topic-item hard" data-id="2.3">
+                            <span class="difficulty"></span>
+                            <span class="name">2.3 最长上升子序列(LIS)</span>
+                            <span class="meta">100min</span>
+                            <span class="check">✓</span>
+                        </div>
+                        <div class="topic-item hard" data-id="2.4">
+                            <span class="difficulty"></span>
+                            <span class="name">2.4 最长公共子序列(LCS)</span>
+                            <span class="meta">100min</span>
+                            <span class="check">✓</span>
+                        </div>
+                        <div class="topic-item hard" data-id="2.5">
+                            <span class="difficulty"></span>
+                            <span class="name">2.5 滚动数组空间优化</span>
+                            <span class="meta">90min</span>
+                            <span class="check">✓</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 知识块3: 图的定义及遍历 -->
+            <div class="knowledge-card block-3">
+                <div class="card-header">
+                    <span class="icon">🌐</span>
+                    <span class="title">图的定义及遍历</span>
+                    <span class="count">3个</span>
+                </div>
+                <div class="card-body">
+                    <div class="topic-list">
+                        <div class="topic-item medium" data-id="3.1">
+                            <span class="difficulty"></span>
+                            <span class="name">3.1 图的概念</span>
+                            <span class="meta">70min</span>
+                            <span class="check">✓</span>
+                        </div>
+                        <div class="topic-item hard" data-id="3.2">
+                            <span class="difficulty"></span>
+                            <span class="name">3.2 图的广度优先遍历(BFS)</span>
+                            <span class="meta">100min</span>
+                            <span class="check">✓</span>
+                        </div>
+                        <div class="topic-item hard" data-id="3.3">
+                            <span class="difficulty"></span>
+                            <span class="name">3.3 图的深度优先遍历(DFS)</span>
+                            <span class="meta">100min</span>
+                            <span class="check">✓</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 知识块4: 图论算法 -->
+            <div class="knowledge-card block-4">
+                <div class="card-header">
+                    <span class="icon">⚡</span>
+                    <span class="title">图论算法</span>
+                    <span class="count">1个</span>
+                </div>
+                <div class="card-body">
+                    <div class="topic-list">
+                        <div class="topic-item hard" data-id="4.1">
+                            <span class="difficulty"></span>
+                            <span class="name">4.1 图的泛洪算法(flood fill)</span>
+                            <span class="meta">100min</span>
+                            <span class="check">✓</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 知识块5: 哈希表 -->
+            <div class="knowledge-card block-5">
+                <div class="card-header">
+                    <span class="icon">🗝️</span>
+                    <span class="title">哈希表</span>
+                    <span class="count">1个</span>
+                </div>
+                <div class="card-body">
+                    <div class="topic-list">
+                        <div class="topic-item medium" data-id="5.1">
+                            <span class="difficulty"></span>
+                            <span class="name">5.1 哈希表的概念与应用</span>
+                            <span class="meta">80min</span>
+                            <span class="check">✓</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 考试信息 -->
+        <div class="exam-section">
+            <h3 style="margin-bottom: 0.5rem;">📝 GESP七级考试信息</h3>
+            <div class="exam-grid">
+                <div class="exam-item">
+                    <div class="label">考试时长</div>
+                    <div class="value">180分钟</div>
+                </div>
+                <div class="exam-item">
+                    <div class="label">单选题</div>
+                    <div class="value">15道 × 2分</div>
+                </div>
+                <div class="exam-item">
+                    <div class="label">判断题</div>
+                    <div class="value">10道 × 2分</div>
+                </div>
+                <div class="exam-item">
+                    <div class="label">编程题</div>
+                    <div class="value">2道 × 25分</div>
+                </div>
+                <div class="exam-item">
+                    <div class="label">总分</div>
+                    <div class="value">100分</div>
+                </div>
+                <div class="exam-item">
+                    <div class="label">通过线</div>
+                    <div class="value">60分</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="../" class="gf-btn gf-btn-secondary">← 返回蒙正堂</a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">默隐·蒙正堂</div>
+            <p class="footer-slogan">让所有孩子有处可学</p>
+            <p class="footer-copy">© 2026 默隐 · 明夷敬制</p>
+        </div>
+    </footer>
+
+    <script>
+        // 进度追踪
+        const totalTopics = 13;
+        let completedTopics = JSON.parse(localStorage.getItem('cpp_level7_progress') || '[]');
+        
+        function updateProgress() {
+            const percent = Math.round((completedTopics.length / totalTopics) * 100);
+            document.getElementById('progress-text').textContent = `${completedTopics.length} / ${totalTopics} 知识点`;
+            document.getElementById('progress-fill').style.width = `${percent}%`;
+        }
+        
+        document.querySelectorAll('.topic-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const id = this.dataset.id;
+                if (completedTopics.includes(id)) {
+                    completedTopics = completedTopics.filter(t => t !== id);
+                    this.classList.remove('completed');
+                } else {
+                    completedTopics.push(id);
+                    this.classList.add('completed');
+                }
+                localStorage.setItem('cpp_level7_progress', JSON.stringify(completedTopics));
+                updateProgress();
+            });
+            
+            if (completedTopics.includes(item.dataset.id)) {
+                item.classList.add('completed');
+            }
+        });
+        
+        updateProgress();
+    </script>
+</body>
+</html>
