@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang=「zh-CN「>
+<html lang="zh-CN">
 <head>
-    <meta charset=「UTF-8「>
-    <meta name=「viewport「 content=「width=device-width, initial-scale=1.0「>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>2.1 创建文件 - C++一级 - 蒙正堂</title>
-    <link rel=「preconnect「 href=「https://fonts.googleapis.com「>
-    <link rel=「preconnect「 href=「https://fonts.gstatic.com「 crossorigin>
-    <link href=「https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap「 rel=「stylesheet「>
-    <link href=「https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css「 rel=「stylesheet「>
-    <link rel=「stylesheet「 href=「../../assets/guofeng-v2.css「>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/guofeng-v2.css">
     <style>
         :root {
             --l1-primary: #1e3a5f;
@@ -329,37 +329,37 @@
     </style>
 </head>
 <body>
-    <nav class=「navbar「>
-        <div class=「navbar-inner「>
-            <a href=「../../「 class=「brand「>
-                <span class=「brand-icon「>☯</span>
-                <span class=「brand-text「>默隐·蒙知苑</span>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="../../" class="brand">
+                <span class="brand-icon">☯</span>
+                <span class="brand-text">默隐·蒙知苑</span>
             </a>
-            <div class=「nav-links「>
-                <a href=「../「 class=「nav-link「>🎓 蒙正堂</a>
-                <a href=「./「 class=「nav-link「>C++一级</a>
-                <span class=「nav-link active「>2.1 创建文件</span>
+            <div class="nav-links">
+                <a href="../" class="nav-link">🎓 蒙正堂</a>
+                <a href="./" class="nav-link">C++一级</a>
+                <span class="nav-link active">2.1 创建文件</span>
             </div>
         </div>
     </nav>
 
-    <main class=「topic-container「>
+    <main class="topic-container">
         <!-- 面包屑导航 -->
-        <div class=「breadcrumb「>
-            <a href=「../「>蒙正堂</a>
+        <div class="breadcrumb">
+            <a href="../">蒙正堂</a>
             <span>›</span>
-            <a href=「./「>C++一级</a>
+            <a href="./">C++一级</a>
             <span>›</span>
-            <a href=「./#block2「>集成开发环境</a>
+            <a href="./#block2">集成开发环境</a>
             <span>›</span>
             <span>2.1 创建文件</span>
         </div>
 
         <!-- 知识点标题 -->
-        <div class=「topic-header「>
-            <div class=「number「>知识块 2 · 知识点 1/6</div>
+        <div class="topic-header">
+            <div class="number">知识块 2 · 知识点 1/6</div>
             <h1>创建文件</h1>
-            <div class=「meta「>
+            <div class="meta">
                 <span>⏱️ 预估学习时长: 20分钟</span>
                 <span>📋 验证题目: 180道</span>
                 <span>🎯 难度: 入门级</span>
@@ -367,14 +367,14 @@
         </div>
 
         <!-- 详细内容 -->
-        <div class=「content-section「>
+        <div class="content-section">
             <h2>📚 知识详解</h2>
             
             <h3>一、什么是C++源文件</h3>
             
             <p>C++源文件是存储C++程序代码的文本文件。程序员在源文件中编写指令，告诉计算机如何执行特定的任务。源文件是程序开发的基础，就像作家用笔和纸写作一样，程序员用源文件来「写」程序。</p>
 
-            <div class=「highlight-box「>
+            <div class="highlight-box">
                 <strong>💡 类比理解</strong><br>
                 源文件就像是一张「乐谱」，程序员是「作曲家」，计算机是「演奏家」。乐谱上记录着音符（代码），演奏家按照乐谱演奏出美妙的音乐（程序运行）。
             </div>
@@ -383,38 +383,38 @@
             
             <p>文件扩展名是文件名中点（.）后面的部分，用于标识文件的类型。C++编程中常见的文件扩展名有：</p>
             
-            <div class=「file-list「>
-                <div class=「file-item「>
-                    <span class=「file-icon「>📄</span>
+            <div class="file-list">
+                <div class="file-item">
+                    <span class="file-icon">📄</span>
                     <div>
                         <strong>.cpp</strong> — C++源文件（最常用）<br>
-                        <span style=「color: #666; font-size: 0.9rem;「>包含C++程序的主要代码，如main.cpp、hello.cpp</span>
+                        <span style="color: #666; font-size: 0.9rem;">包含C++程序的主要代码，如main.cpp、hello.cpp</span>
                     </div>
                 </div>
-                <div class=「file-item「>
-                    <span class=「file-icon「>📋</span>
+                <div class="file-item">
+                    <span class="file-icon">📋</span>
                     <div>
                         <strong>.h 或 .hpp</strong> — 头文件<br>
-                        <span style=「color: #666; font-size: 0.9rem;「>包含函数声明和类定义，如iostream.h、math.h</span>
+                        <span style="color: #666; font-size: 0.9rem;">包含函数声明和类定义，如iostream.h、math.h</span>
                     </div>
                 </div>
-                <div class=「file-item「>
-                    <span class=「file-icon「>⚙️</span>
+                <div class="file-item">
+                    <span class="file-icon">⚙️</span>
                     <div>
                         <strong>.o 或 .obj</strong> — 目标文件<br>
-                        <span style=「color: #666; font-size: 0.9rem;「>编译器生成的中间文件，不是程序员直接编写的</span>
+                        <span style="color: #666; font-size: 0.9rem;">编译器生成的中间文件，不是程序员直接编写的</span>
                     </div>
                 </div>
-                <div class=「file-item「>
-                    <span class=「file-icon「>🚀</span>
+                <div class="file-item">
+                    <span class="file-icon">🚀</span>
                     <div>
                         <strong>.exe</strong> — 可执行文件（Windows）<br>
-                        <span style=「color: #666; font-size: 0.9rem;「>编译链接后生成的可运行程序</span>
+                        <span style="color: #666; font-size: 0.9rem;">编译链接后生成的可运行程序</span>
                     </div>
                 </div>
             </div>
 
-            <div class=「highlight-box warning「>
+            <div class="highlight-box warning">
                 <strong>⚠️ 重要提示</strong><br>
                 GESP考试中，C++源文件的标准扩展名是<strong>.cpp</strong>。在Dev-C++、VS Code等IDE中创建C++文件时，一定要使用正确的扩展名，否则可能导致编译错误。
             </div>
@@ -431,7 +431,7 @@
                 <li><strong>主函数文件习惯命名</strong>：包含main()函数的文件常命名为main.cpp</li>
             </ol>
 
-            <div class=「highlight-box danger「>
+            <div class="highlight-box danger">
                 <strong>❌ 避免的文件名示例</strong><br>
                 • 我的程序.cpp（含中文）<br>
                 • hello world.cpp（含空格）<br>
@@ -439,7 +439,7 @@
                 • program$.cpp（特殊字符）
             </div>
 
-            <div class=「highlight-box success「>
+            <div class="highlight-box success">
                 <strong>✅ 推荐的文件名示例</strong><br>
                 • main.cpp<br>
                 • hello_world.cpp<br>
@@ -451,60 +451,60 @@
             
             <p>Dev-C++是一款轻量级的C++集成开发环境，适合初学者使用。以下是创建新文件的步骤：</p>
 
-            <div class=「step-box「>
-                <div><span class=「step-number「>1</span><strong>打开Dev-C++</strong></div>
-                <p style=「margin: 0.5rem 0 0 2rem;「>启动Dev-C++应用程序，进入主界面。</p>
+            <div class="step-box">
+                <div><span class="step-number">1</span><strong>打开Dev-C++</strong></div>
+                <p style="margin: 0.5rem 0 0 2rem;">启动Dev-C++应用程序，进入主界面。</p>
             </div>
 
-            <div class=「step-box「>
-                <div><span class=「step-number「>2</span><strong>新建源文件</strong></div>
-                <p style=「margin: 0.5rem 0 0 2rem;「>点击菜单栏「文件」→「新建」→「源代码」（快捷键：Ctrl+N）。</p>
+            <div class="step-box">
+                <div><span class="step-number">2</span><strong>新建源文件</strong></div>
+                <p style="margin: 0.5rem 0 0 2rem;">点击菜单栏「文件」→「新建」→「源代码」（快捷键：Ctrl+N）。</p>
             </div>
 
-            <div class=「step-box「>
-                <div><span class=「step-number「>3</span><strong>保存文件</strong></div>
-                <p style=「margin: 0.5rem 0 0 2rem;「>点击「文件」→「保存」（快捷键：Ctrl+S），选择保存位置，输入文件名（如hello.cpp），确保扩展名为.cpp。</p>
+            <div class="step-box">
+                <div><span class="step-number">3</span><strong>保存文件</strong></div>
+                <p style="margin: 0.5rem 0 0 2rem;">点击「文件」→「保存」（快捷键：Ctrl+S），选择保存位置，输入文件名（如hello.cpp），确保扩展名为.cpp。</p>
             </div>
 
-            <div class=「step-box「>
-                <div><span class=「step-number「>4</span><strong>开始编写代码</strong></div>
-                <p style=「margin: 0.5rem 0 0 2rem;「>在编辑器中输入C++代码。</p>
+            <div class="step-box">
+                <div><span class="step-number">4</span><strong>开始编写代码</strong></div>
+                <p style="margin: 0.5rem 0 0 2rem;">在编辑器中输入C++代码。</p>
             </div>
 
             <h3>五、在VS Code中创建文件</h3>
             
             <p>VS Code是一款功能强大的代码编辑器，配合C++扩展可以很好地支持C++开发：</p>
 
-            <div class=「step-box「>
-                <div><span class=「step-number「>1</span><strong>打开VS Code</strong></div>
-                <p style=「margin: 0.5rem 0 0 2rem;「>启动VS Code，打开或创建一个文件夹作为工作区。</p>
+            <div class="step-box">
+                <div><span class="step-number">1</span><strong>打开VS Code</strong></div>
+                <p style="margin: 0.5rem 0 0 2rem;">启动VS Code，打开或创建一个文件夹作为工作区。</p>
             </div>
 
-            <div class=「step-box「>
-                <div><span class=「step-number「>2</span><strong>新建文件</strong></div>
-                <p style=「margin: 0.5rem 0 0 2rem;「>点击「文件」→「新建文件」（快捷键：Ctrl+N），或点击左侧文件资源管理器的「新建文件」按钮。</p>
+            <div class="step-box">
+                <div><span class="step-number">2</span><strong>新建文件</strong></div>
+                <p style="margin: 0.5rem 0 0 2rem;">点击「文件」→「新建文件」（快捷键：Ctrl+N），或点击左侧文件资源管理器的「新建文件」按钮。</p>
             </div>
 
-            <div class=「step-box「>
-                <div><span class=「step-number「>3</span><strong>命名并保存</strong></div>
-                <p style=「margin: 0.5rem 0 0 2rem;「>输入文件名（如main.cpp），按回车确认。VS Code会根据扩展名.cpp自动识别为C++文件，并提供语法高亮。</p>
+            <div class="step-box">
+                <div><span class="step-number">3</span><strong>命名并保存</strong></div>
+                <p style="margin: 0.5rem 0 0 2rem;">输入文件名（如main.cpp），按回车确认。VS Code会根据扩展名.cpp自动识别为C++文件，并提供语法高亮。</p>
             </div>
 
             <h3>六、你的第一个C++程序</h3>
             
             <p>下面是一个经典的「Hello, World!」程序，通常是程序员学习新语言时编写的第一个程序：</p>
 
-            <div class=「code-block「>
-<span class=「comment「>// 这是一个简单的C++程序</span>
-<span class=「comment「>// 文件名: hello.cpp</span>
+            <div class="code-block">
+<span class="comment">// 这是一个简单的C++程序</span>
+<span class="comment">// 文件名: hello.cpp</span>
 
-<span class=「keyword「>#include</span> <span class=「string「><iostream</span></span>    <span class=「comment「>// 包含输入输出流库</span>
+<span class="keyword">#include</span> <span class="string"><iostream</span></span>    <span class="comment">// 包含输入输出流库</span>
 
-<span class=「keyword「>using namespace</span> std;       <span class=「comment「>// 使用标准命名空间</span>
+<span class="keyword">using namespace</span> std;       <span class="comment">// 使用标准命名空间</span>
 
-<span class=「keyword「>int</span> main() {                  <span class=「comment「>// 主函数，程序从这里开始执行</span>
-    cout << <span class=「string「>「Hello, World!「</span> << endl;  <span class=「comment「>// 输出文字到屏幕</span>
-    <span class=「keyword「>return</span> 0;                  <span class=「comment「>// 程序正常结束，返回0</span>
+<span class="keyword">int</span> main() {                  <span class="comment">// 主函数，程序从这里开始执行</span>
+    cout << <span class="string">"Hello, World!"</span> << endl;  <span class="comment">// 输出文字到屏幕</span>
+    <span class="keyword">return</span> 0;                  <span class="comment">// 程序正常结束，返回0</span>
 }
             </div>
 
@@ -512,7 +512,7 @@
 
             <h3>七、常见错误与注意事项</h3>
             
-            <div class=「highlight-box warning「>
+            <div class="highlight-box warning">
                 <strong>⚠️ 常见错误</strong>
                 <ol>
                     <li><strong>忘记加扩展名</strong>：保存时只写文件名hello，没有写hello.cpp</li>
@@ -523,7 +523,7 @@
                 </ol>
             </div>
 
-            <div class=「highlight-box success「>
+            <div class="highlight-box success">
                 <strong>✅ 好习惯养成</strong>
                 <ul>
                     <li>养成「写代码→保存→编译→运行」的工作流程</li>
@@ -547,42 +547,41 @@
         </div>
 
         <!-- 验证测验 -->
-        <div class=「quiz-section「>
+        <div class="quiz-section">
             <h2>📝 验证测验 (180题)</h2>
-            <div class=「quiz-progress「>
+            <div class="quiz-progress">
                 <span>进度</span>
-                <div class=「quiz-progress-bar「>
-                    <div class=「quiz-progress-fill「 id=「quiz-progress「 style=「width: 0%「></div>
+                <div class="quiz-progress-bar">
+                    <div class="quiz-progress-fill" id="quiz-progress" style="width: 0%"></div>
                 </div>
-                <span id=「quiz-count「>0/180</span>
+                <span id="quiz-count">0/180</span>
             </div>
             
-            <div id=「quiz-container「>
+            <div id="quiz-container">
                 <!-- 题目通过JS动态加载 -->
             </div>
             
-            <div class=「nav-buttons「>
-                <button class=「gf-btn gf-btn-secondary「 id=「prev-btn「 onclick=「prevQuestion()「 disabled>← 上一题</button>
-                <button class=「gf-btn gf-btn-primary「 id=「next-btn「 onclick=「nextQuestion()「>下一题 →</button>
+            <div class="nav-buttons">
+                <button class="gf-btn gf-btn-secondary" id="prev-btn" onclick="prevQuestion()" disabled>← 上一题</button>
+                <button class="gf-btn gf-btn-primary" id="next-btn" onclick="nextQuestion()">下一题 →</button>
             </div>
         </div>
 
-        <div style=「text-align: center; margin-top: 2rem;「>
-            <a href=「./「 class=「gf-btn gf-btn-secondary「>← 返回C++一级目录</a>
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="./" class="gf-btn gf-btn-secondary">← 返回C++一级目录</a>
         </div>
     </main>
 
-    <footer class=「footer「>
-        <div class=「footer-inner「>
-            <div class=「footer-brand「>默隐·蒙正堂</div>
-            <p class=「footer-slogan「>让所有孩子有处可学</p>
-            <p class=「footer-copy「>© 2026 默隐 · 明夷敬制</p>
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">默隐·蒙正堂</div>
+            <p class="footer-slogan">让所有孩子有处可学</p>
+            <p class="footer-copy">© 2026 默隐 · 明夷敬制</p>
         </div>
     </footer>
 
     <script>
-        // 180道验证题目
-        const questions = [
+
             // C++文件扩展名 1-30
             {q: 'C++源文件的标准扩展名是什么？', options: ['.txt', '.cpp', '.doc', '.jpg'], answer: 1, explain: 'C++源文件的标准扩展名是.cpp，这是C++ Programming的缩写。'},
             {q: 'C++头文件的扩展名通常是什么？', options: ['.cpp', '.h或.hpp', '.exe', '.obj'], answer: 1, explain: 'C++头文件的扩展名通常是.h（C风格）或.hpp（C++风格）。'},
@@ -676,117 +675,41 @@
             {q: '在Dev-C++中，如何设置代码字体大小？', options: ['工具→编辑器选项', '文件→属性', '视图→字体', '不能设置'], answer: 0, explain: '通过「工具」→「编辑器选项」可以设置代码字体和大小。'},
             {q: 'Dev-C++的代码编辑器背景色可以更改吗？', options: ['不可以', '可以', '只能黑色', '只能白色'], answer: 1, explain: '可以更改编辑器的配色方案，包括背景色和文字颜色。'},
             {q: '在Dev-C++中，如何运行程序但不调试？', options: ['按F9', '按F10', '按F11', '按F12'], answer: 1, explain: '按F10可以运行程序（Run），不进行调试。'},
-            {q: 'Dev-C++中，如何调试程序（设置断点）？', options: ['F9', 'F5', '点击行号左侧', '以上都可以'], answer: 3, explain: '可以通过F5开始调试，或点击行号左侧设置断点。'},
+            {q: 'Dev-C++中，如何调试程序（设置断点）？', options: ['F9', 'F5', '点击行号左侧', '以上都可以'], answer: 3, explain: '可以通过F5开始调试，或点击行号左侧设置断点。'}
             // VS Code操作 101-130
             {q: 'VS Code是一款？', options: ['文字处理软件', '代码编辑器', '操作系统', '游戏软件'], answer: 1, explain: 'VS Code（Visual Studio Code）是一款流行的代码编辑器。'},
             {q: 'VS Code是哪个公司开发的？', options: ['苹果', '谷歌', '微软', 'Facebook'], answer: 2, explain: 'VS Code由微软公司开发，是免费开源的编辑器。'},
             {q: 'VS Code中新建文件的快捷键是？', options: ['Ctrl+N', 'Ctrl+Shift+N', 'Alt+N', 'Shift+N'], answer: 0, explain: 'Ctrl+N是新建文件的快捷键。'},
-            {q: 'VS Code中保存文件的快捷键是？', options: ['Ctrl+S', 'Ctrl+Shift+S', 'Alt+S', 'Shift+S'], answer: 0, explain: 'Ctrl+S是保存文件的快捷键。'},
-            {q: 'VS Code中另存为的快捷键是？', options: ['Ctrl+S', 'Ctrl+Shift+S', 'Alt+S', 'Ctrl+Alt+S'], answer: 1, explain: 'Ctrl+Shift+S是另存为的快捷键。'},
-            {q: 'VS Code中打开文件的快捷键是？', options: ['Ctrl+O', 'Ctrl+Shift+O', 'Alt+O', 'Shift+O'], answer: 0, explain: 'Ctrl+O是打开文件的快捷键。'},
-            {q: 'VS Code中打开文件夹的快捷键是？', options: ['Ctrl+O', 'Ctrl+K Ctrl+O', 'Ctrl+Shift+O', 'Alt+O'], answer: 1, explain: 'Ctrl+K然后Ctrl+O是打开文件夹的快捷键。'},
-            {q: 'VS Code中如何显示/隐藏侧边栏？', options: ['Ctrl+B', 'Ctrl+S', 'Ctrl+H', 'Ctrl+V'], answer: 0, explain: 'Ctrl+B可以显示或隐藏侧边栏（文件资源管理器）。'},
-            {q: 'VS Code中命令面板的快捷键是？', options: ['Ctrl+Shift+P', 'Ctrl+P', 'Alt+P', 'Shift+P'], answer: 0, explain: 'Ctrl+Shift+P打开命令面板，可以执行各种命令。'},
-            {q: 'VS Code中快速打开文件的快捷键是？', options: ['Ctrl+Shift+P', 'Ctrl+P', 'Alt+P', 'Shift+P'], answer: 1, explain: 'Ctrl+P用于快速打开项目中的文件。'},
-            {q: 'VS Code中搜索文件的快捷键是？', options: ['Ctrl+F', 'Ctrl+Shift+F', 'Alt+F', 'Shift+F'], answer: 1, explain: 'Ctrl+Shift+F用于在整个项目中搜索文件内容。'},
-            {q: 'VS Code中撤销的快捷键是？', options: ['Ctrl+Z', 'Ctrl+Y', 'Ctrl+X', 'Ctrl+V'], answer: 0, explain: 'Ctrl+Z是撤销的快捷键。'},
-            {q: 'VS Code中重做的快捷键是？', options: ['Ctrl+Z', 'Ctrl+Y', 'Ctrl+Shift+Z', 'Ctrl+Alt+Z'], answer: 2, explain: 'Ctrl+Shift+Z是重做的快捷键（也可以Ctrl+Y）。'},
-            {q: 'VS Code中多光标编辑的快捷键是？', options: ['Alt+Click', 'Ctrl+Click', 'Shift+Click', 'Alt+Shift+Click'], answer: 0, explain: '按住Alt并点击可以创建多个光标，同时编辑多个位置。'},
-            {q: 'VS Code中注释当前行的快捷键是？', options: ['Ctrl+/', 'Ctrl+Shift+/', 'Alt+/', 'Shift+/'], answer: 0, explain: 'Ctrl+/可以注释或取消注释当前行。'},
-            {q: 'VS Code中格式化代码的快捷键是？', options: ['Ctrl+Shift+I', 'Ctrl+Alt+I', 'Alt+Shift+F', 'Ctrl+F'], answer: 2, explain: 'Alt+Shift+F是格式化代码的快捷键。'},
-            {q: 'VS Code是免费的吗？', options: ['收费', '免费', '部分功能收费', '只有试用期免费'], answer: 1, explain: 'VS Code是完全免费的，且开源。'},
-            {q: 'VS Code支持哪些操作系统？', options: ['只有Windows', 'Windows、macOS、Linux', '只有macOS', '只有Linux'], answer: 1, explain: 'VS Code支持Windows、macOS和Linux三大操作系统。'},
-            {q: 'VS Code要编写C++程序，需要安装什么？', options: ['什么都不需要', 'C/C++扩展', 'Python扩展', 'Java扩展'], answer: 1, explain: '需要安装Microsoft的C/C++扩展来获得C++语法高亮和调试支持。'},
-            {q: 'VS Code中终端的快捷键是？', options: ['Ctrl+`', 'Ctrl+T', 'Ctrl+Alt+T', 'Alt+T'], answer: 0, explain: 'Ctrl+`（反引号，通常在Tab键上方）可以打开/关闭集成终端。'},
-            {q: 'VS Code中如何切换到下一个打开的编辑器标签？', options: ['Ctrl+Tab', 'Alt+Tab', 'Ctrl+Shift+Tab', 'Ctrl+PageDown'], answer: 0, explain: 'Ctrl+Tab可以切换到下一个编辑器标签。'},
-            {q: 'VS Code中关闭当前标签页的快捷键是？', options: ['Ctrl+W', 'Ctrl+Q', 'Alt+W', 'Shift+W'], answer: 0, explain: 'Ctrl+W关闭当前标签页。'},
-            {q: 'VS Code中全屏模式的快捷键是？', options: ['F11', 'F12', 'F10', 'F9'], answer: 0, explain: 'F11切换全屏模式。'},
-            {q: 'VS Code中 Zen Mode（禅模式）的快捷键是？', options: ['Ctrl+K Z', 'Ctrl+Shift+Z', 'Alt+Z', 'Ctrl+Alt+Z'], answer: 0, explain: 'Ctrl+K然后Z进入Zen Mode，隐藏干扰专注编程。'},
-            {q: 'VS Code中如何分割编辑器窗口？', options: ['Ctrl+\\', 'Ctrl+/', 'Alt+\\', 'Shift+\\'], answer: 0, explain: 'Ctrl+\\可以垂直分割编辑器窗口。'},
-            {q: 'VS Code的插件/扩展在哪里安装？', options: ['文件菜单', '左侧活动栏的扩展图标', '右键菜单', '不能安装'], answer: 1, explain: '点击左侧活动栏的扩展图标（四个方块）可以浏览和安装扩展。'},
-            {q: 'VS Code中如何放大界面字体？', options: ['Ctrl+=', 'Ctrl+-', 'Ctrl+0', 'Ctrl+9'], answer: 0, explain: 'Ctrl+=（或Ctrl++）放大界面字体。'},
-            {q: 'VS Code中如何缩小界面字体？', options: ['Ctrl+=', 'Ctrl+-', 'Ctrl+0', 'Ctrl+9'], answer: 1, explain: 'Ctrl+-缩小界面字体。'},
-            {q: 'VS Code中如何重置字体大小？', options: ['Ctrl+=', 'Ctrl+-', 'Ctrl+0', 'Ctrl+9'], answer: 2, explain: 'Ctrl+0重置字体大小为默认值。'}
-        ];
-
-        let currentQuestion = 0;
-        let userAnswers = {};
-
-        function loadQuestion(index) {
-            const q = questions[index];
-            const container = document.getElementById('quiz-container');
-            
-            let optionsHtml = '';
-            q.options.forEach((opt, i) => {
-                const selected = userAnswers[index] === i ? 'selected' : '';
-                const correct = userAnswers[index] !== undefined && i === q.answer ? 'correct' : '';
-                const wrong = userAnswers[index] === i && i !== q.answer ? 'wrong' : '';
-                optionsHtml += `<div class=「option ${selected} ${correct} ${wrong}「 onclick=「selectOption(${i})「>${String.fromCharCode(65 + i)}. ${opt}</div>`;
-            });
-            
-            const answered = userAnswers[index] !== undefined ? 'answered' : '';
-            
-            container.innerHTML = `
-                <div class=「question-card ${answered}「 id=「question-card「>
-                    <div class=「question-number「>题目 ${index + 1} / ${questions.length}</div>
-                    <div class=「question-text「>${q.q}</div>
-                    <div class=「options「>${optionsHtml}</div>
-                    <div class=「explanation「 id=「explanation「>
-                        <strong>解析：</strong>${q.explain}
-                    </div>
-                </div>
-            `;
-            
-            const progress = ((index + 1) / questions.length) * 100;
-            document.getElementById('quiz-progress').style.width = `${progress}%`;
-            document.getElementById('quiz-count').textContent = `${index + 1}/${questions.length}`;
-            
-            document.getElementById('prev-btn').disabled = index === 0;
-            document.getElementById('next-btn').textContent = index === questions.length - 1 ? '完成测验' : '下一题 →';
-        }
-
-        function selectOption(optionIndex) {
-            if (userAnswers[currentQuestion] !== undefined) return;
-            
-            userAnswers[currentQuestion] = optionIndex;
-            const q = questions[currentQuestion];
-            
-            const options = document.querySelectorAll('.option');
-            options.forEach((opt, i) => {
-                if (i === q.answer) {
-                    opt.classList.add('correct');
-                } else if (i === optionIndex && i !== q.answer) {
-                    opt.classList.add('wrong');
-                }
-            });
-            
-            document.getElementById('question-card').classList.add('answered');
-            localStorage.setItem('cpp_level1_2_1_progress', JSON.stringify(userAnswers));
-        }
-
-        function prevQuestion() {
-            if (currentQuestion > 0) {
-                currentQuestion--;
-                loadQuestion(currentQuestion);
-            }
-        }
-
-        function nextQuestion() {
-            if (currentQuestion < questions.length - 1) {
-                currentQuestion++;
-                loadQuestion(currentQuestion);
-            } else {
-                const correct = Object.keys(userAnswers).filter(k => userAnswers[k] === questions[k].answer).length;
-                const total = questions.length;
-                alert(`测验完成！\n正确率：${correct}/${total} (${Math.round(correct/total*100)}%)\n\n继续学习下一个知识点：2.2 编辑文件`);
-            }
-        }
-
-        const savedProgress = localStorage.getItem('cpp_level1_2_1_progress');
-        if (savedProgress) {
+            {q: 'VS Code中保存文件的快捷键是？', options: ['Ctrl+N', 'Ctrl+S', 'Ctrl+O', 'Ctrl+P'], answer: 1, explain: 'Ctrl+S是保存文件的快捷键。'},
+            {q: 'VS Code中打开文件的快捷键是？', options: ['Ctrl+N', 'Ctrl+O', 'Ctrl+S', 'Ctrl+F'], answer: 1, explain: 'Ctrl+O是打开文件的快捷键。'},
+            {q: 'VS Code中打开文件夹的快捷键是？', options: ['Ctrl+K Ctrl+O', 'Ctrl+O', 'Ctrl+Shift+O', 'Ctrl+Alt+O'], answer: 0, explain: 'Ctrl+K然后Ctrl+O是打开文件夹的快捷键。'},
+            {q: '在VS Code中创建C++文件，应该？', options: ['新建文件后保存为.cpp', '直接双击打开', '用画笔创建', '拍照上传'], answer: 0, explain: '在VS Code中创建C++文件，先新建文件然后保存为.cpp扩展名。'},
+            {q: 'VS Code如何识别C++文件？', options: ['看图标', '通过文件扩展名.cpp', '看文件大小', '随机识别'], answer: 1, explain: 'VS Code通过文件扩展名（如.cpp）来识别文件类型并提供相应支持。'},
+            {q: 'VS Code中，代码显示不同颜色是因为？', options: ['显示器坏了', '语法高亮功能', '文件损坏了', 'Bug'], answer: 1, explain: 'VS Code的语法高亮功能会用不同颜色显示不同类型的代码元素。'},
+            {q: 'VS Code中如何安装C++扩展？', options: ['文件→安装扩展', '左侧扩展图标→搜索C++→安装', '视图→安装', '不需要安装'], answer: 1, explain: '点击左侧扩展图标，搜索C++，然后安装Microsoft的C++扩展。'},
+            {q: 'VS Code的主要优点是什么？', options: ['功能简单', '轻量、插件丰富、跨平台', '只能写C++', '收费软件'], answer: 1, explain: 'VS Code轻量、有丰富的插件生态、支持多平台（Windows/Mac/Linux）。'},
+            {q: 'VS Code中，如何快速打开最近打开的文件？', options: ['Ctrl+R', 'Ctrl+Shift+T', 'Ctrl+Tab', 'Ctrl+E'], answer: 3, explain: 'Ctrl+E或Ctrl+P可以快速打开最近使用的文件。'},
+            {q: 'VS Code的文件资源管理器在哪里？', options: ['顶部', '底部', '左侧活动栏', '右侧'], answer: 2, explain: 'VS Code的文件资源管理器在左侧活动栏中，点击文件图标可以打开。'},
+            {q: '在VS Code中，如何新建文件夹？', options: ['文件→新建文件夹', '在文件资源管理器空白处右键→新建文件夹', 'Ctrl+Shift+N', '不能新建'], answer: 1, explain: '在文件资源管理器空白处右键，选择「新建文件夹」。'},
+            {q: 'VS Code支持哪些操作系统？', options: ['只Windows', 'Windows、Mac、Linux', '只Mac', '只Linux'], answer: 1, explain: 'VS Code支持Windows、Mac和Linux三大操作系统。'},
+            {q: 'VS Code中如何搜索文件内容？', options: ['Ctrl+F', 'Ctrl+H', 'Ctrl+Shift+F', 'Ctrl+G'], answer: 2, explain: 'Ctrl+Shift+F可以在整个工作区中搜索文件内容。'},
+            {q: 'VS Code中如何格式化代码？', options: ['右键→格式化文档', 'Ctrl+Shift+I', '以上都可以', '不能格式化'], answer: 2, explain: '可以右键选择「格式化文档」或使用快捷键Ctrl+Shift+I（Windows/Linux）。'},
+            {q: 'VS Code中，终端在哪里打开？', options: ['顶部菜单', '左侧', '视图→终端 或 Ctrl+`', '没有终端'], answer: 2, explain: '通过「视图」→「终端」或使用Ctrl+`（反引号）可以打开集成终端。'},
+            {q: 'VS Code的settings.json文件是什么？', options: ['源代码文件', '配置文件', '可执行文件', '图片文件'], answer: 1, explain: 'settings.json是VS Code的配置文件，用于保存用户设置。'},
+            {q: 'VS Code中如何快速跳转到某一行？', options: ['Ctrl+G', 'Ctrl+L', 'Ctrl+J', 'Ctrl+K'], answer: 0, explain: 'Ctrl+G可以快速跳转到指定行号。'},
+            {q: 'VS Code中，如何同时编辑多个地方？', options: ['Alt+点击', 'Ctrl+点击', 'Shift+点击', '不能同时编辑'], answer: 0, explain: '按住Alt键点击可以在多处创建光标，同时编辑多个地方。'},
+            {q: 'VS Code中如何折叠/展开代码块？', options: ['Ctrl+Shift+[ 或 ]', 'Ctrl+[ 或 ]', 'Alt+[ 或 ]', 'Shift+[ 或 ]'], answer: 0, explain: 'Ctrl+Shift+[折叠，Ctrl+Shift+]展开代码块。'},
+            {q: 'VS Code中， Emmet是做什么的？', options: ['代码提示', '代码片段快速扩展', '调试工具', '版本控制'], answer: 1, explain: 'Emmet是一种代码片段快速扩展技术，可以快速编写HTML/CSS等。'},
+            {q: '在VS Code中编写C++需要安装什么？', options: ['什么都不用', 'C/C++扩展', 'Python扩展', 'Java扩展'], answer: 1, explain: '编写C++代码建议安装Microsoft的C/C++扩展以获得语法高亮和调试支持。'},
+            {q: 'VS Code中，IntelliSense是什么功能？', options: ['智能代码补全和提示', '拼写检查', '语法检查', '版本控制'], answer: 0, explain: 'IntelliSense是VS Code的智能代码补全和提示功能。'},
+            {q: 'VS Code中如何重命名文件？', options: ['右键→重命名', 'F2', '以上都可以', '不能重命名'], answer: 2, explain: '可以右键文件选择重命名，或选中文件按F2。'},
+            {q: 'VS Code中如何删除文件？', options: ['右键→删除', 'Delete键', '以上都可以', '不能删除'], answer: 2, explain: '可以右键文件选择删除，或选中文件按Delete键。'},
+            {q: 'VS Code的工作区是什么？', options: ['一个文件', '一个文件夹及其所有内容', '一个窗口', '一个扩展'], answer: 1, explain: 'VS Code的工作区通常是一个文件夹，包含相关的项目和文件。'},
+            {q: 'VS Code中，如何切换已打开的文件？', options: ['Ctrl+Tab', 'Alt+Tab', 'Ctrl+Shift+Tab', 'Ctrl+PageUp/PageDown'], answer: 0, explain: 'Ctrl+Tab可以在已打开的文件之间切换。'},
+            {q: 'VS Code和Dev-C++的主要区别是？', options: ['VS Code是编辑器，Dev-C++是IDE', '没有区别', '都是IDE', '都是浏览器'], answer: 0, explain: 'VS Code是代码编辑器（配合扩展可成为IDE），Dev-C++是集成开发环境（IDE）。'},
             // 文件操作综合 131-180
             {q: '在C++程序开发中，第一步通常是？', options: ['编译', '运行', '创建源文件', '调试'], answer: 2, explain: '编写程序的第一步是创建源文件（.cpp），然后才能编写代码。'},
-            {q: '以下哪个操作不是文件基本操作？', options: ['创建', '编辑', '保存', '打印（打印不是IDE基本操作）'], answer: 3, explain: '文件的基本操作包括创建、编辑、保存、编译等，打印不是IDE的基本文件操作。'},
+            {q: '以下哪个操作不是文件基本操作？', options: ['创建', '编辑', '保存', '打印'], answer: 3, explain: '文件的基本操作包括创建、编辑、保存、编译等，打印不是IDE的基本文件操作。'},
             {q: 'C++源文件保存后，下一步通常是？', options: ['直接运行', '编译', '删除', '关闭电脑'], answer: 1, explain: '编写并保存源文件后，下一步通常是编译（Compile），检查语法错误。'},
             {q: '编译C++程序的目的是？', options: ['删除文件', '将源代码转换成机器可执行的代码', '格式化代码', '备份文件'], answer: 1, explain: '编译是将人类可读的源代码转换成计算机可执行的机器码。'},
             {q: '如果编译成功，会生成什么文件？', options: ['.cpp文件', '.exe（Windows）或可执行文件', '.txt文件', '.doc文件'], answer: 1, explain: '编译成功后，Windows系统会生成.exe可执行文件。'},
@@ -799,12 +722,12 @@
             {q: '一个C++项目必须有且只有一个什么函数？', options: ['printf函数', 'main函数', 'cout函数', 'include函数'], answer: 1, explain: '一个C++项目必须有且只有一个main函数作为程序入口。'},
             {q: '#include <iostream>这行代码的作用是？', options: ['定义主函数', '包含输入输出流库', '开始程序', '结束程序'], answer: 1, explain: '#include <iostream>包含C++标准输入输出库，使我们可以使用cout、cin等。'},
             {q: 'using namespace std;的作用是？', options: ['不使用标准库', '使用标准命名空间，简化代码', '定义变量', '包含头文件'], answer: 1, explain: 'using namespace std声明使用标准命名空间，可以不用写std::前缀。'},
-            {q: 'cout << 「Hello「; 这行代码的作用是？', options: ['读取输入', '输出Hello到屏幕', '定义变量', '计算数值'], answer: 1, explain: 'cout用于输出，<<是输出运算符，这行代码将Hello输出到屏幕。'},
+            {q: 'cout << "Hello"; 这行代码的作用是？', options: ['读取输入', '输出Hello到屏幕', '定义变量', '计算数值'], answer: 1, explain: 'cout用于输出，<<是输出运算符，这行代码将Hello输出到屏幕。'},
             {q: 'return 0;在main函数中表示？', options: ['返回0给操作系统，表示程序正常结束', '返回0给屏幕', '重新开始程序', '程序出错'], answer: 0, explain: 'return 0表示程序正常结束，将0返回给操作系统。'},
             {q: 'C++代码中的//表示什么？', options: ['除法', '单行注释', '乘法', '等于'], answer: 1, explain: '//表示单行注释，其后的内容不会被执行。'},
             {q: 'C++代码中的/* */表示什么？', options: ['乘法', '多行注释', '除法', '加法'], answer: 1, explain: '/* */是多行注释标记，之间的所有内容都是注释。'},
             {q: '注释的作用是什么？', options: ['让程序运行更快', '解释代码，方便理解（给人看）', '让程序出错', '编译代码'], answer: 1, explain: '注释是给程序员看的说明文字，编译器会忽略注释。'},
-            {q: '以下哪个是正确的Hello World程序？', options: ['cout << Hello;', 'cout <> 「Hello「;', 'cout << 「Hello「;', 'print 「Hello「'], answer: 2, explain: 'cout << 「Hello「;是正确的C++输出语句，字符串要用引号括起来。'},
+            {q: '以下哪个是正确的Hello World程序？', options: ['cout << Hello;', 'cout <> "Hello";', 'cout << "Hello";', 'print "Hello"'], answer: 2, explain: 'cout << "Hello";是正确的C++输出语句，字符串要用引号括起来。'},
             {q: '编写C++程序时，分号的作用是？', options: ['没有作用', '表示语句结束', '表示语句开始', '表示注释'], answer: 1, explain: '在C++中，分号（;）表示一条语句的结束。'},
             {q: '如果忘记写分号，会发生什么？', options: ['程序正常运行', '编译错误', '运行更快', '输出错误'], answer: 1, explain: '忘记分号会导致编译错误，编译器会提示缺少分号。'},
             {q: 'C++中，花括号{}通常用于？', options: ['表示注释', '表示代码块（如函数体、循环体）', '表示字符串', '表示数字'], answer: 1, explain: '花括号{}用于定义代码块，如函数体、if语句体、循环体等。'},
@@ -812,8 +735,8 @@
             {q: '在Dev-C++中，编译按钮通常显示为什么图标或文字？', options: ['放大镜', '齿轮或Compile', '打印机', '垃圾桶'], answer: 1, explain: '编译按钮通常显示为齿轮图标或标有Compile。'},
             {q: '在Dev-C++中，运行按钮通常显示为什么？', options: ['Run或播放图标', 'Stop', 'Save', 'Open'], answer: 0, explain: '运行按钮通常显示Run或播放三角形图标。'},
             {q: '编写C++程序的一般流程是？', options: ['运行→编写→编译', '编写→保存→编译→运行', '编译→编写→运行', '运行→编译→编写'], answer: 1, explain: '正确的流程是：编写代码→保存文件→编译→运行程序。'},
-            {q: '如果看到错误error: expected ; before ...，最可能是什么原因？', options: ['缺少分号', '缺少花括号', '缺少引号', '缺少main函数'], answer: 0, explain: 'expected ;错误通常表示缺少分号。'},
-            {q: '如果看到错误undefined reference to 'main'，是什么原因？', options: ['没有main函数', '分号太多', '引号不匹配', '文件名错误'], answer: 0, explain: 'undefined reference to 'main'表示找不到main函数，可能忘记定义。'},
+            {q: '如果看到错误expected ; before ...，最可能是什么原因？', options: ['缺少分号', '缺少花括号', '缺少引号', '缺少main函数'], answer: 0, explain: 'expected ;错误通常表示缺少分号。'},
+            {q: '如果看到错误undefined reference to main，是什么原因？', options: ['没有main函数', '分号太多', '引号不匹配', '文件名错误'], answer: 0, explain: 'undefined reference to main表示找不到main函数，可能忘记定义。'},
             {q: 'C++程序文件名中可以使用空格吗？', options: ['强烈不推荐', '可以，没有任何问题', '只能在Linux使用', '只能在Mac使用'], answer: 0, explain: '文件名中包含空格虽然某些系统支持，但强烈不推荐，容易出问题。'},
             {q: '为什么C++文件名建议用英文？', options: ['好看', '避免编码问题和兼容性问题', '必须用英文才能编译', '老师要求'], answer: 1, explain: '使用英文文件名可以避免编码问题和跨平台兼容性问题。'},
             {q: 'GESP考试中，创建文件应该用什么扩展名？', options: ['.txt', '.cpp', '.c', '.h'], answer: 1, explain: 'GESP C++考试要求使用.cpp扩展名。'},
@@ -846,10 +769,119 @@
             {q: '编程学习中的「调试」是指？', options: ['删除代码', '查找和修正程序中的错误', '保存文件', '打印代码'], answer: 1, explain: '调试（Debug）是指查找、定位和修正程序中的错误。'},
             {q: 'GESP C++一级考试中，编写的程序文件名应该是什么格式？', options: ['任意名称', '主函数所在文件的名称（通常包含main函数的文件）', '必须是hello.cpp', '必须是main.c'], answer: 1, explain: '考试中应使用包含main函数的文件，通常命名为main.cpp或有意义的名称。'}
         ];
-            userAnswers = JSON.parse(savedProgress);
+        let currentQuestion = 0;
+        let userAnswers = new Array(180).fill(null);
+        
+        const quizContainer = document.getElementById('quiz-container');
+        const quizCount = document.getElementById('quiz-count');
+        const quizProgress = document.getElementById('quiz-progress');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        
+        // 从localStorage加载进度
+        const savedProgress = localStorage.getItem('cpp_l1_2_1_progress');
+        if (savedProgress) {
+            const progress = JSON.parse(savedProgress);
+            currentQuestion = progress.current || 0;
+            if (progress.answers) {
+                userAnswers = progress.answers;
+            }
         }
-
-        loadQuestion(0);
+        
+        function saveProgress() {
+            localStorage.setItem('cpp_l1_2_1_progress', JSON.stringify({
+                current: currentQuestion,
+                answers: userAnswers
+            }));
+        }
+        
+        function loadQuestion(index) {
+            if (index < 0 || index >= questions.length) return;
+            
+            const q = questions[index];
+            const answered = userAnswers[index] !== null;
+            const isCorrect = answered && userAnswers[index] === q.answer;
+            
+            let html = `
+                <div class="question-card ${answered ? (isCorrect ? 'correct' : 'wrong') : ''}">
+                    <div class="question-number">题目 ${index + 1} / ${questions.length}</div>
+                    <div class="question-text">${q.q}</div>
+                    <div class="options">
+            `;
+            
+            q.options.forEach((opt, i) => {
+                let optClass = 'option';
+                if (answered) {
+                    if (i === q.answer) {
+                        optClass += ' correct';
+                    } else if (i === userAnswers[index] && i !== q.answer) {
+                        optClass += ' wrong';
+                    }
+                } else if (i === userAnswers[index]) {
+                    optClass += ' selected';
+                }
+                
+                html += `<div class="${optClass}" onclick="selectOption(${i})">${String.fromCharCode(65 + i)}. ${opt}</div>`;
+            });
+            
+            html += `
+                    </div>
+                    <div class="explanation">
+                        <strong>${isCorrect ? '✓ 回答正确！' : '✗ 回答错误'}</strong><br>
+                        正确答案：${String.fromCharCode(65 + q.answer)}<br>
+                        ${q.explain}
+                    </div>
+                </div>
+            `;
+            
+            quizContainer.innerHTML = html;
+            quizCount.textContent = `${index + 1}/${questions.length}`;
+            quizProgress.style.width = `${((index + 1) / questions.length) * 100}%`;
+            
+            prevBtn.disabled = index === 0;
+            nextBtn.textContent = index === questions.length - 1 ? '完成测验 ✓' : '下一题 →';
+        }
+        
+        function selectOption(optionIndex) {
+            if (userAnswers[currentQuestion] !== null) return; // 已答题不能修改
+            
+            userAnswers[currentQuestion] = optionIndex;
+            saveProgress();
+            loadQuestion(currentQuestion);
+        }
+        
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion(currentQuestion);
+            }
+        }
+        
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                loadQuestion(currentQuestion);
+            } else {
+                // 显示完成信息
+                const correct = userAnswers.filter((a, i) => a === questions[i].answer).length;
+                alert(`测验完成！\n正确率：${correct}/${questions.length} (${Math.round(correct/questions.length*100)}%)`);
+            }
+        }
+        
+        // 键盘导航
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') prevQuestion();
+            if (e.key === 'ArrowRight') nextQuestion();
+            if (e.key >= '1' && e.key <= '4') {
+                const opt = parseInt(e.key) - 1;
+                if (opt < questions[currentQuestion].options.length) {
+                    selectOption(opt);
+                }
+            }
+        });
+        
+        // 加载第一题
+        loadQuestion(currentQuestion);
     </script>
 </body>
 </html>
