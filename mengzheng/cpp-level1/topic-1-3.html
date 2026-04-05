@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.3 发展历程 - C++一级 - 蒙正堂</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/guofeng-v2.css">
+    <style>
+        :root {
+            --l1-primary: #1e3a5f;
+            --l1-secondary: #2e5984;
+            --correct: #4a7c59;
+            --wrong: #c9372c;
+        }
+        
+        .topic-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .breadcrumb a {
+            color: var(--l1-primary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .topic-header {
+            background: linear-gradient(135deg, var(--l1-primary) 0%, var(--l1-secondary) 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+        
+        .topic-header .number {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+        }
+        
+        .topic-header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .topic-header .meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .content-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        
+        .content-section h2 {
+            color: var(--l1-primary);
+            border-left: 4px solid var(--l1-primary);
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .content-section h3 {
+            color: var(--ink-800);
+            margin: 1.5rem 0 1rem;
+        }
+        
+        .content-section p {
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+        
+        .content-section ul, .content-section ol {
+            margin: 1rem 0 1rem 1.5rem;
+        }
+        
+        .content-section li {
+            margin-bottom: 0.5rem;
+            line-height: 1.7;
+        }
+        
+        .highlight-box {
+            background: #f0f4f8;
+            border-left: 4px solid var(--l1-primary);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .highlight-box.warning {
+            background: #fff3cd;
+            border-left-color: #d4a574;
+        }
+        
+        .highlight-box.success {
+            background: #d4edda;
+            border-left-color: #4a7c59;
+        }
+        
+        .timeline {
+            position: relative;
+            margin: 2rem 0;
+            padding-left: 2rem;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, var(--l1-primary), var(--l1-secondary));
+            border-radius: 2px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: calc(-2rem - 6px);
+            top: 1.25rem;
+            width: 12px;
+            height: 12px;
+            background: var(--l1-primary);
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+        
+        .timeline-item .year {
+            font-weight: 700;
+            color: var(--l1-primary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .generation-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        .generation-table th, .generation-table td {
+            border: 1px solid #e9ecef;
+            padding: 0.75rem 1rem;
+            text-align: left;
+        }
+        
+        .generation-table th {
+            background: var(--l1-primary);
+            color: white;
+        }
+        
+        .generation-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .quiz-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        
+        .quiz-section h2 {
+            color: var(--l1-primary);
+            border-left: 4px solid var(--l1-primary);
+            padding-left: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .quiz-progress {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 0.75rem 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .quiz-progress-bar {
+            flex: 1;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            margin: 0 1rem;
+            overflow: hidden;
+        }
+        
+        .quiz-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--l1-primary), var(--l1-secondary));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .question-card {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .question-card.correct {
+            border-color: var(--correct);
+            background: #f0f8f0;
+        }
+        
+        .question-card.wrong {
+            border-color: var(--wrong);
+            background: #fdf0ef;
+        }
+        
+        .question-number {
+            font-weight: 600;
+            color: var(--l1-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .question-text {
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .option {
+            padding: 0.75rem 1rem;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .option:hover {
+            background: #f8f9fa;
+            border-color: var(--l1-primary);
+        }
+        
+        .option.selected {
+            background: #e3f2fd;
+            border-color: var(--l1-primary);
+        }
+        
+        .option.correct {
+            background: #d4edda;
+            border-color: var(--correct);
+        }
+        
+        .option.wrong {
+            background: #f8d7da;
+            border-color: var(--wrong);
+        }
+        
+        .explanation {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        
+        .question-card.answered .explanation {
+            display: block;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .topic-container {
+                padding: 1rem;
+            }
+            
+            .topic-header h1 {
+                font-size: 1.4rem;
+            }
+            
+            .content-section {
+                padding: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="../../" class="brand">
+                <span class="brand-icon">☯</span>
+                <span class="brand-text">默隐·蒙知苑</span>
+            </a>
+            <div class="nav-links">
+                <a href="../" class="nav-link">🎓 蒙正堂</a>
+                <a href="./" class="nav-link">C++一级</a>
+                <span class="nav-link active">1.3 发展历程</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="topic-container">
+        <!-- 面包屑导航 -->
+        <div class="breadcrumb">
+            <a href="../">蒙正堂</a>
+            <span>›</span>
+            <a href="./">C++一级</a>
+            <span>›</span>
+            <a href="./#block1">计算机基础</a>
+            <span>›</span>
+            <span>1.3 发展历程</span>
+        </div>
+
+        <!-- 知识点标题 -->
+        <div class="topic-header">
+            <div class="number">知识块 1 · 知识点 3/3</div>
+            <h1>发展历程</h1>
+            <div class="meta">
+                <span>⏱️ 预估学习时长: 35分钟</span>
+                <span>📋 验证题目: 180道</span>
+                <span>🎯 难度: 入门级</span>
+            </div>
+        </div>
+
+        <!-- 详细内容 -->
+        <div class="content-section">
+            <h2>📚 知识详解</h2>
+            
+            <h3>一、计算机发展简史</h3>
+            
+            <p>计算机的发展经历了漫长的历程，从最早的计算工具到现代超级计算机，每一次技术突破都深刻改变了人类社会的面貌。了解计算机的发展历程，有助于我们理解计算机技术的本质和发展趋势。</p>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="year">1946年</div>
+                    <strong>ENIAC诞生</strong> — 世界上第一台电子数字计算机在美国宾夕法尼亚大学诞生，重达30吨，占地170平方米，使用18000个电子管。
+                </div>
+                <div class="timeline-item">
+                    <div class="year">1949年</div>
+                    <strong>EDSAC</strong> — 第一台存储程序计算机，实现了冯·诺依曼体系结构。
+                </div>
+                <div class="timeline-item">
+                    <div class="year">1958年</div>
+                    <strong>集成电路发明</strong> — 德州仪器的基尔比发明了集成电路，开启了计算机小型化的大门。
+                </div>
+                <div class="timeline-item">
+                    <div class="year">1971年</div>
+                    <strong>微处理器诞生</strong> — 英特尔推出4004处理器，世界上第一款商用微处理器。
+                </div>
+                <div class="timeline-item">
+                    <div class="year">1981年</div>
+                    <strong>IBM PC</strong> — IBM推出个人计算机，开启了个人电脑时代。
+                </div>
+                <div class="timeline-item">
+                    <div class="year">1989年</div>
+                    <strong>万维网WWW</strong> — 蒂姆·伯纳斯-李发明万维网，互联网开始普及。
+                </div>
+                <div class="timeline-item">
+                    <div class="year">2007年</div>
+                    <strong>智能手机时代</strong> — iPhone发布，开启移动互联网新时代。
+                </div>
+            </div>
+
+            <h3>二、计算机的四代发展</h3>
+            
+            <p>根据计算机所使用的电子元器件不同，计算机的发展通常划分为四个时代（四代）：</p>
+            
+            <table class="generation-table">
+                <tr>
+                    <th>代际</th>
+                    <th>时间</th>
+                    <th>核心器件</th>
+                    <th>特点</th>
+                </tr>
+                <tr>
+                    <td><strong>第一代</strong></td>
+                    <td>1946-1958</td>
+                    <td>电子管</td>
+                    <td>体积庞大、耗电多、可靠性差、运算速度慢（每秒几千次）</td>
+                </tr>
+                <tr>
+                    <td><strong>第二代</strong></td>
+                    <td>1958-1964</td>
+                    <td>晶体管</td>
+                    <td>体积减小、耗电减少、可靠性提高、运算速度提升（每秒几十万次）</td>
+                </tr>
+                <tr>
+                    <td><strong>第三代</strong></td>
+                    <td>1964-1971</td>
+                    <td>中小规模集成电路</td>
+                    <td>体积更小、成本降低、出现操作系统、运算速度达每秒百万次</td>
+                </tr>
+                <tr>
+                    <td><strong>第四代</strong></td>
+                    <td>1971至今</td>
+                    <td>大规模和超大规模集成电路</td>
+                    <td>微型化、个人电脑普及、互联网发展、运算速度达每秒亿次以上</td>
+                </tr>
+            </table>
+
+            <div class="highlight-box">
+                <strong>💡 记忆技巧</strong>：四代计算机的核心器件分别是"电子管→晶体管→集成电路→大规模集成电路"，一代比一代小，一代比一代强。
+            </div>
+
+            <h3>三、中国计算机发展历程</h3>
+            
+            <p>中国计算机事业起步于20世纪50年代，经过几代科研人员的不懈努力，取得了举世瞩目的成就：</p>
+            
+            <ul>
+                <li><strong>1958年</strong> — 中国第一台电子管计算机103机诞生</li>
+                <li><strong>1964年</strong> — 中国第一台晶体管计算机119机研制成功</li>
+                <li><strong>1983年</strong> — "银河-I"巨型计算机诞生，中国成为少数能研制巨型机的国家</li>
+                <li><strong>2009年</strong> — "天河一号"超级计算机问世，首次进入全球超算TOP500榜首</li>
+                <li><strong>2016年</strong> — "神威·太湖之光"超级计算机，采用中国自主芯片，多次蝉联世界第一</li>
+                <li><strong>2020年代</strong> — 中国芯片技术和人工智能计算平台持续发展</li>
+            </ul>
+            
+            <div class="highlight-box success">
+                <strong>🇨🇳 骄傲成就</strong>：从"银河"到"天河"再到"神威·太湖之光"，中国超级计算机技术已跻身世界前列，展现了中国在高科技领域的自主创新能力。
+            </div>
+
+            <h3>四、编程语言的发展</h3>
+            
+            <p>编程语言是人与计算机交流的工具，也经历了从低级到高级的发展过程：</p>
+            
+            <p><strong>第一代：机器语言（1940年代）</strong></p>
+            <ul>
+                <li>由0和1组成的二进制代码</li>
+                <li>计算机能直接执行，效率高</li>
+                <li>难以编写和理解，容易出错</li>
+            </ul>
+            
+            <p><strong>第二代：汇编语言（1950年代）</strong></p>
+            <ul>
+                <li>用助记符代替机器指令</li>
+                <li>如MOV、ADD、SUB等</li>
+                <li>需要通过汇编程序翻译成机器语言</li>
+                <li>仍然依赖具体硬件</li>
+            </ul>
+            
+            <p><strong>第三代：高级语言（1950年代末至今）</strong></p>
+            <ul>
+                <li>接近自然语言和数学表达</li>
+                <li>不依赖具体硬件，可移植性好</li>
+                <li>需要通过编译或解释执行</li>
+                <li>代表语言：FORTRAN（1957）、COBOL（1959）、BASIC（1964）、C（1972）、C++（1985）、Python（1991）、Java（1995）</li>
+            </ul>
+
+            <h3>五、计算机发展的趋势</h3>
+            
+            <p>当前计算机技术正在向以下方向发展：</p>
+            
+            <ul>
+                <li><strong>巨型化</strong> — 超级计算机持续突破性能极限，用于科学计算、气象预报、基因测序等领域</li>
+                <li><strong>微型化</strong> — 可穿戴设备、嵌入式系统无处不在，计算机融入日常生活的方方面面</li>
+                <li><strong>网络化</strong> — 5G/6G、物联网、云计算使万物互联成为现实</li>
+                <li><strong>智能化</strong> — 人工智能、机器学习、深度学习让计算机具备"思考"能力</li>
+                <li><strong>量子计算</strong> — 利用量子力学原理，理论上能解决传统计算机难以解决的问题</li>
+            </ul>
+            
+            <div class="highlight-box warning">
+                <strong>🚀 展望未来</strong>：计算机技术仍在快速发展，人工智能、量子计算、脑机接口等前沿技术可能在未来几十年内彻底改变人类的生活方式。
+            </div>
+
+            <h3>六、常见考点总结</h3>
+            
+            <ol>
+                <li>世界上第一台电子计算机ENIAC诞生于1946年</li>
+                <li>计算机按电子元器件划分为四代：电子管→晶体管→集成电路→大规模集成电路</li>
+                <li>第一代计算机使用电子管，体积大、耗电多、可靠性差</li>
+                <li>第四代计算机使用大规模/超大规模集成电路，微型化、个人电脑普及</li>
+                <li>编程语言三代：机器语言（二进制）→汇编语言（助记符）→高级语言（接近自然语言）</li>
+                <li>C++是一种高级编程语言，由C语言发展而来</li>
+                <li>计算机发展趋势：巨型化、微型化、网络化、智能化</li>
+            </ol>
+        </div>
+
+        <!-- 验证测验 -->
+        <div class="quiz-section">
+            <h2>📝 验证测验 (180题)</h2>
+            <div class="quiz-progress">
+                <span>进度</span>
+                <div class="quiz-progress-bar">
+                    <div class="quiz-progress-fill" id="quiz-progress" style="width: 0%"></div>
+                </div>
+                <span id="quiz-count">0/180</span>
+            </div>
+            
+            <div id="quiz-container">
+                <!-- 题目通过JS动态加载 -->
+            </div>
+            
+            <div class="nav-buttons">
+                <button class="gf-btn gf-btn-secondary" id="prev-btn" onclick="prevQuestion()" disabled>← 上一题</button>
+                <button class="gf-btn gf-btn-primary" id="next-btn" onclick="nextQuestion()">下一题 →</button>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="./" class="gf-btn gf-btn-secondary">← 返回C++一级目录</a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">默隐·蒙正堂</div>
+            <p class="footer-slogan">让所有孩子有处可学</p>
+            <p class="footer-copy">© 2026 默隐 · 明夷敬制</p>
+        </div>
+    </footer>
+
+    <script>
+        // 180道验证题目
+        const questions = [
+            // 第一台计算机 1-25
+            {q: "世界上第一台电子数字计算机诞生于哪一年？", options: ["1945年", "1946年", "1950年", "1960年"], answer: 1, explain: "世界上第一台电子数字计算机ENIAC于1946年在美国宾夕法尼亚大学诞生。"},
+            {q: "世界上第一台电子计算机的名字是？", options: ["IBM PC", "ENIAC", "Macintosh", "Windows"], answer: 1, explain: "ENIAC（Electronic Numerical Integrator and Computer）是世界上第一台电子计算机。"},
+            {q: "ENIAC诞生于哪个国家？", options: ["中国", "英国", "美国", "德国"], answer: 2, explain: "ENIAC于1946年在美国宾夕法尼亚大学诞生。"},
+            {q: "ENIAC的主要用途最初是？", options: ["文字处理", "军事计算（炮弹弹道）", "天气预报", "游戏娱乐"], answer: 1, explain: "ENIAC最初主要用于计算炮弹弹道表，服务于二战军事需求。"},
+            {q: "ENIAC的重量约为？", options: ["3吨", "30吨", "300吨", "3000吨"], answer: 1, explain: "ENIAC重达30吨，是一个庞然大物。"},
+            {q: "ENIAC使用了多少个电子管？", options: ["约1800个", "约18000个", "约180000个", "约1800000个"], answer: 1, explain: "ENIAC使用了约18000个电子管，耗电量很大。"},
+            {q: "ENIAC的占地面积约为？", options: ["17平方米", "170平方米", "1700平方米", "17000平方米"], answer: 1, explain: "ENIAC占地约170平方米，相当于几个房间的大小。"},
+            {q: "ENIAC每秒能进行多少次运算？", options: ["约500次", "约5000次", "约50000次", "约500000次"], answer: 1, explain: "ENIAC每秒能进行约5000次加法运算，在当时已经非常快了。"},
+            {q: "第一台存储程序计算机是？", options: ["ENIAC", "EDSAC", "UNIVAC", "IBM 360"], answer: 1, explain: "EDSAC（1949年）是第一台存储程序计算机，实现了冯·诺依曼体系结构。"},
+            {q: "冯·诺依曼体系结构的核心思想是？", options: ["使用电子管", "程序存储", "使用晶体管", "网络连接"], answer: 1, explain: "冯·诺依曼体系结构的核心是"程序存储"概念，程序和数据都存储在存储器中。"},
+            {q: "UNIVAC I（1951年）是？", options: ["第一台商用计算机", "第一台个人电脑", "第一台笔记本", "第一台平板"], answer: 0, explain: "UNIVAC I是第一台商用电子计算机，用于美国人口普查。"},
+            {q: "IBM PC（1981年）的意义是？", options: ["第一台计算机", "开启个人电脑时代", "第一台巨型机", "第一台笔记本"], answer: 1, explain: "IBM PC的推出标志着个人电脑时代的开始，计算机进入千家万户。"},
+            {q: "苹果公司Apple II发布于哪一年？", options: ["1976年", "1977年", "1981年", "1984年"], answer: 1, explain: "Apple II于1977年发布，是最早成功的个人电脑之一。"},
+            {q: "Macintosh电脑发布于哪一年？", options: ["1981年", "1984年", "1990年", "2000年"], answer: 1, explain: "Macintosh于1984年发布，带来了图形用户界面（GUI）的革命。"},
+            {q: "万维网WWW发明于哪一年？", options: ["1981年", "1989年", "1995年", "2000年"], answer: 1, explain: "蒂姆·伯纳斯-李于1989年发明万维网（WWW），互联网开始普及。"},
+            {q: "第一部智能手机IBM Simon出现于？", options: ["1989年", "1994年", "2000年", "2007年"], answer: 1, explain: "IBM Simon于1994年发布，被认为是第一部智能手机。"},
+            {q: "iPhone发布于哪一年，开启移动互联网时代？", options: ["2004年", "2007年", "2010年", "2012年"], answer: 1, explain: "iPhone于2007年发布，彻底改变了移动电话和移动互联网。"},
+            {q: "Android系统首次发布于哪一年？", options: ["2005年", "2008年", "2010年", "2012年"], answer: 1, explain: "Android 1.0于2008年发布，成为iOS的主要竞争对手。"},
+            {q: "第一台晶体管计算机诞生于大约哪一年？", options: ["1946年", "1958年", "1964年", "1971年"], answer: 1, explain: "1958年左右，晶体管计算机开始出现，标志着第二代计算机的诞生。"},
+            {q: "集成电路发明于哪一年？", options: ["1946年", "1958年", "1964年", "1971年"], answer: 1, explain: "1958年，德州仪器的基尔比发明了集成电路，获得诺贝尔奖。"},
+            {q: "第一款商用微处理器Intel 4004发布于哪一年？", options: ["1969年", "1971年", "1974年", "1981年"], answer: 1, explain: "Intel 4004于1971年发布，是世界上第一款商用微处理器。"},
+            {q: "Altair 8800（1975年）是？", options: ["第一台个人电脑套件", "第一台笔记本", "第一台平板", "第一台手机"], answer: 0, explain: "Altair 8800是早期的个人电脑套件，启发了许多计算机爱好者。"},
+            {q: "微软公司成立于是哪一年？", options: ["1972年", "1975年", "1981年", "1985年"], answer: 1, explain: "微软公司于1975年由比尔·盖茨和保罗·艾伦创立。"},
+            {q: "苹果公司的创始人不包括？", options: ["史蒂夫·乔布斯", "史蒂夫·沃兹尼亚克", "罗纳德·韦恩", "比尔·盖茨"], answer: 3, explain: "比尔·盖茨是微软创始人，不是苹果公司创始人。"},
+            {q: "世界上第一台笔记本电脑被认为是？", options: ["IBM PC", "Osborne 1", "Macintosh", "ThinkPad"], answer: 1, explain: "Osborne 1（1981年）被认为是世界上第一台真正意义上的便携式计算机。"},
+            // 计算机四代 26-75
+            {q: "第一代计算机使用的主要电子元件是？", options: ["晶体管", "电子管", "集成电路", "大规模集成电路"], answer: 1, explain: "第一代计算机（1946-1958）使用电子管作为主要电子元件。"},
+            {q: "第二代计算机使用的主要电子元件是？", options: ["电子管", "晶体管", "集成电路", "大规模集成电路"], answer: 1, explain: "第二代计算机（1958-1964）使用晶体管作为主要电子元件。"},
+            {q: "第三代计算机使用的主要电子元件是？", options: ["电子管", "晶体管", "中小规模集成电路", "大规模集成电路"], answer: 2, explain: "第三代计算机（1964-1971）使用中小规模集成电路。"},
+            {q: "第四代计算机使用的主要电子元件是？", options: ["电子管", "晶体管", "集成电路", "大规模和超大规模集成电路"], answer: 3, explain: "第四代计算机（1971至今）使用大规模和超大规模集成电路。"},
+            {q: "第一代计算机的时间范围大约是？", options: ["1940-1950", "1946-1958", "1950-1960", "1960-1970"], answer: 1, explain: "第一代计算机大约是1946-1958年。"},
+            {q: "第二代计算机的时间范围大约是？", options: ["1946-1958", "1958-1964", "1964-1971", "1971至今"], answer: 1, explain: "第二代计算机大约是1958-1964年。"},
+            {q: "第三代计算机的时间范围大约是？", options: ["1946-1958", "1958-1964", "1964-1971", "1971至今"], answer: 2, explain: "第三代计算机大约是1964-1971年。"},
+            {q: "第四代计算机的时间范围是？", options: ["1946-1958", "1958-1964", "1964-1971", "1971年至今"], answer: 3, explain: "第四代计算机从1971年开始，一直持续到现在。"},
+            {q: "第一代计算机的特点是？", options: ["体积小、速度快", "体积大、耗电多、可靠性差", "价格便宜", "使用集成电路"], answer: 1, explain: "第一代计算机体积庞大、耗电多、可靠性差、运算速度相对慢。"},
+            {q: "第一代计算机主要用于？", options: ["个人娱乐", "科学计算和军事", "办公文字处理", "互联网浏览"], answer: 1, explain: "第一代计算机主要用于科学计算和军事目的。"},
+            {q: "第二代计算机相比第一代，主要改进是？", options: ["使用电子管", "使用晶体管，体积减小", "使用互联网", "使用触摸屏"], answer: 1, explain: "第二代计算机使用晶体管代替电子管，体积减小、耗电减少、可靠性提高。"},
+            {q: "晶体管相比电子管的优势不包括？", options: ["体积小", "耗电少", "发热多", "可靠性高"], answer: 2, explain: "晶体管相比电子管发热更少，这是其优势之一。"},
+            {q: "第三代计算机开始使用？", options: ["操作系统", "集成电路", "互联网", "触摸屏"], answer: 0, explain: "第三代计算机开始出现操作系统，使计算机使用更加方便。"},
+            {q: "第三代计算机的运算速度达到？", options: ["每秒几千次", "每秒几十万次", "每秒百万次", "每秒亿次"], answer: 2, explain: "第三代计算机运算速度达到每秒百万次指令。"},
+            {q: "第四代计算机最重要的特征是？", options: ["使用电子管", "微型化和个人电脑普及", "只能科学家使用", "使用晶体管"], answer: 1, explain: "第四代计算机的特征是微型化、个人电脑普及、互联网发展。"},
+            {q: "微处理器的发明标志着哪一代计算机的开始？", options: ["第一代", "第二代", "第三代", "第四代"], answer: 3, explain: "1971年微处理器的发明标志着第四代计算机的开始。"},
+            {q: "个人电脑（PC）普及开始于第几代计算机？", options: ["第一代", "第二代", "第三代", "第四代"], answer: 3, explain: "个人电脑普及是第四代计算机的特征。"},
+            {q: "以下哪项不是第四代计算机的特征？", options: ["微型化", "网络化", "使用电子管", "智能化"], answer: 2, explain: "使用电子管是第一代计算机的特征，不是第四代。"},
+            {q: "电子管的主要缺点是？", options: ["太小", "易碎、体积大、发热量大", "太便宜", "速度太快"], answer: 1, explain: "电子管体积大、易碎、发热量大、寿命短。"},
+            {q: "晶体管的发明者是？", options: ["爱因斯坦", "肖克利、巴丁、布拉顿", "冯·诺依曼", "比尔·盖茨"], answer: 1, explain: "晶体管由贝尔实验室的肖克利、巴丁、布拉顿发明，获诺贝尔物理学奖。"},
+            {q: "集成电路的英文缩写是？", options: ["CPU", "IC", "RAM", "ROM"], answer: 1, explain: "IC是Integrated Circuit（集成电路）的缩写。"},
+            {q: "LSI是指？", options: ["大规模集成电路", "小规模集成电路", " liquid屏幕", " long存储"], answer: 0, explain: "LSI是Large Scale Integration（大规模集成电路）的缩写。"},
+            {q: "VLSI是指？", options: ["超大规模集成电路", "虚拟逻辑系统", "视频处理接口", "语音输入系统"], answer: 0, explain: "VLSI是Very Large Scale Integration（超大规模集成电路）的缩写。"},
+            {q: "摩尔定律指出，集成电路上可容纳的晶体管数量大约每多少个月翻一番？", options: ["6个月", "12个月", "18-24个月", "60个月"], answer: 2, explain: "摩尔定律指出集成电路上晶体管数量约每18-24个月翻一番。"},
+            {q: "摩尔定律是由谁提出的？", options: ["比尔·盖茨", "戈登·摩尔", "史蒂夫·乔布斯", "冯·诺依曼"], answer: 1, explain: "摩尔定律由英特尔联合创始人戈登·摩尔于1965年提出。"},
+            {q: "以下哪种计算机属于微型计算机？", options: ["ENIAC", "个人电脑（PC）", "银河巨型机", "天河超算"], answer: 1, explain: "个人电脑（PC）属于微型计算机，使用微处理器。"},
+            {q: "大型机（Mainframe）主要用于？", options: ["个人娱乐", "大型企业数据处理", "家庭办公", "手机游戏"], answer: 1, explain: "大型机主要用于大型企业、银行、政府的数据处理。"},
+            {q: "工作站（Workstation）主要用于？", options: ["科学计算和专业设计", "打字", "听音乐", "看视频"], answer: 0, explain: "工作站是高性能计算机，用于科学计算、工程设计等专业领域。"},
+            {q: "嵌入式计算机通常用于？", options: ["独立办公", "家电和智能设备中", "只有科学家使用", "只有军队使用"], answer: 1, explain: "嵌入式计算机用于家电（洗衣机、空调）、智能设备等。"},
+            {q: "以下哪个设备包含嵌入式计算机？", options: ["只有台式电脑", "智能手表、智能冰箱、汽车", "只有计算器", "只有手机"], answer: 1, explain: "智能手表、智能冰箱、现代汽车等都包含嵌入式计算机。"},
+            {q: "当前我们使用的计算机属于第几代？", options: ["第二代", "第三代", "第四代", "第五代"], answer: 2, explain: "当前使用的计算机仍属于第四代计算机的范畴。"},
+            {q: "关于"第五代计算机"，正确的是？", options: ["已经普及", "仍在研究中，主要指人工智能计算机", "使用电子管", "只能用于游戏"], answer: 1, explain: "第五代计算机指人工智能计算机，是正在研究发展的方向。"},
+            {q: "量子计算机属于？", options: ["第四代计算机", "正在研究的新型计算机", "第一代计算机", "已经过时的技术"], answer: 1, explain: "量子计算机是正在研究的新型计算技术，不属于传统四代划分。"},
+            {q: "生物计算机利用什么进行计算？", options: ["电子管", "DNA或蛋白质分子", "晶体管", "集成电路"], answer: 1, explain: "生物计算机利用DNA或蛋白质分子进行信息处理和计算。"},
+            {q: "光计算机利用什么进行计算？", options: ["电子", "光子（光）", "声音", "磁场"], answer: 1, explain: "光计算机利用光子代替电子进行信息传输和处理。"},
+            // 中国计算机发展 76-100
+            {q: "中国第一台电子管计算机诞生于哪一年？", options: ["1956年", "1958年", "1960年", "1964年"], answer: 1, explain: "中国第一台电子管计算机103机于1958年诞生。"},
+            {q: "中国第一台电子管计算机的名字是？", options: ["银河", "103机", "天河", "神威"], answer: 1, explain: "中国第一台电子管计算机命名为103机。"},
+            {q: "中国第一台晶体管计算机研制成功于哪一年？", options: ["1958年", "1964年", "1970年", "1980年"], answer: 1, explain: "中国第一台晶体管计算机119机于1964年研制成功。"},
+            {q: "中国第一台晶体管计算机的名字是？", options: ["103机", "119机", "银河", "天河"], answer: 1, explain: "中国第一台晶体管计算机命名为119机。"},
+            {q: "中国第一台巨型计算机"银河-I"诞生于哪一年？", options: ["1978年", "1983年", "1990年", "2000年"], answer: 1, explain: ""银河-I"巨型计算机于1983年在国防科技大学诞生。"},
+            {q: ""银河-I"巨型计算机的运算速度达到？", options: ["每秒百万次", "每秒千万次", "每秒亿次", "每秒十亿次"], answer: 2, explain: ""银河-I"运算速度达到每秒1亿次，使中国成为少数能研制巨型机的国家。"},
+            {q: "研制"银河"系列巨型机的单位是？", options: ["清华大学", "国防科技大学", "北京大学", "中科院"], answer: 1, explain: "国防科技大学是"银河"和"天河"系列超级计算机的主要研制单位。"},
+            {q: ""天河一号"超级计算机首次进入全球超算TOP500榜首是哪一年？", options: ["2005年", "2009年", "2010年", "2015年"], answer: 2, explain: ""天河一号"于2010年首次进入全球超算TOP500榜首。"},
+            {q: ""神威·太湖之光"超级计算机采用什么芯片？", options: ["Intel芯片", "AMD芯片", "中国自主芯片（申威）", "ARM芯片"], answer: 2, explain: ""神威·太湖之光"采用中国自主研发的申威处理器，实现核心芯片国产化。"},
+            {q: ""神威·太湖之光"位于中国哪个城市？", options: ["北京", "上海", "无锡", "广州"], answer: 2, explain: ""神威·太湖之光"部署在国家超级计算无锡中心。"},
+            {q: "中国超级计算机技术在国际上处于什么水平？", options: ["落后", "中等", "领先/前列", "没有超级计算机"], answer: 2, explain: "中国超级计算机技术已跻身世界前列，多次获得世界第一。"},
+            {q: "研制超级计算机的主要目的是？", options: ["玩游戏", "科学计算、工程模拟、天气预报等", "看电影", "聊天"], answer: 1, explain: "超级计算机用于科学计算、工程模拟、天气预报、基因测序等复杂计算。"},
+            {q: "TOP500是指什么排行榜？", options: ["全球500强公司", "全球500强超级计算机", "全球500所大学", "全球500座城市"], answer: 1, explain: "TOP500是全球超级计算机500强排行榜，每半年发布一次。"},
+            {q: ""银河"系列超级计算机的命名来源是？", options: ["公司名字", "银河系的银河", "人名", "地名"], answer: 1, explain: ""银河"取自银河系，寓意计算能力的浩瀚无边。"},
+            {q: "中国第一台亿次巨型机的名字是？", options: ["银河-I", "银河-II", "天河一号", "神威"], answer: 0, explain: ""银河-I"是中国第一台亿次巨型计算机。"},
+            {q: "中国首台千万亿次超级计算机是？", options: ["银河-I", "天河一号", "天河二号", "神威·太湖之光"], answer: 1, explain: ""天河一号"是中国首台千万亿次超级计算机。"},
+            {q: "中国芯片"龙芯"是哪个机构研制的？", options: ["华为", "中科院计算所", "清华大学", "国防科大"], answer: 1, explain: "龙芯处理器由中科院计算技术研究所研制。"},
+            {q: "华为推出的移动芯片品牌是？", options: ["酷睿", "骁龙", "麒麟", "奔腾"], answer: 2, explain: "华为推出的移动芯片品牌是"麒麟"（Kirin）。"},
+            {q: ""中国芯"的发展目标是什么？", options: ["进口更多芯片", "实现芯片自主可控", "停止芯片研发", "只买国外芯片"], answer: 1, explain: ""中国芯"的发展目标是实现芯片技术的自主可控，减少对国外的依赖。"},
+            {q: "中国计算机事业起步于20世纪？", options: ["40年代", "50年代", "60年代", "70年代"], answer: 1, explain: "中国计算机事业起步于20世纪50年代。"},
+            {q: "华罗庚对中国计算机事业的贡献是？", options: ["发明了第一台计算机", "中国计算机事业的奠基人之一", "写了第一本小说", "设计了第一款游戏"], answer: 1, explain: "华罗庚是中国计算机事业的奠基人之一，推动了计算机科学的发展。"},
+            {q: "中国第一台小型计算机是？", options: ["103机", "DJS-130", "银河", "天河"], answer: 1, explain: "DJS-130是中国早期的小型计算机代表。"},
+            {q: ""863计划"对计算机领域的影响是？", options: ["没有影响", "推动了中国高技术发展，包括计算机", "只发展农业", "只发展医学"], answer: 1, explain: ""863计划"推动了包括计算机在内的高技术发展。"},
+            {q: "阿里云、腾讯云属于中国的？", options: ["云计算服务商", "快递公司", "餐饮公司", "服装品牌"], answer: 0, explain: "阿里云、腾讯云是中国主要的云计算服务提供商。"},
+            {q: "中国在人工智能领域的进展如何？", options: ["处于世界前列", "完全落后", "没有任何研究", "只有理论研究"], answer: 0, explain: "中国在人工智能领域处于世界前列，有众多优秀企业和研究成果。"},
+            // 编程语言发展 101-140
+            {q: "第一代编程语言是？", options: ["高级语言", "机器语言", "汇编语言", "自然语言"], answer: 1, explain: "第一代编程语言是机器语言，由0和1组成。"},
+            {q: "机器语言由什么组成？", options: ["英文字母", "0和1的二进制代码", "汉字", "图形符号"], answer: 1, explain: "机器语言由0和1组成的二进制代码构成。"},
+            {q: "机器语言的优点是？", options: ["容易编写", "计算机能直接执行，效率高", "易于理解", "可移植性好"], answer: 1, explain: "机器语言的优点是计算机能直接执行，执行效率最高。"},
+            {q: "机器语言的缺点是？", options: ["执行太慢", "难以编写和理解，容易出错", "占用太多内存", "不能运行"], answer: 1, explain: "机器语言难以编写和理解，容易出错，是低级语言。"},
+            {q: "第二代编程语言是？", options: ["机器语言", "汇编语言", "高级语言", "自然语言"], answer: 1, explain: "第二代编程语言是汇编语言。"},
+            {q: "汇编语言使用什么表示指令？", options: ["二进制", "助记符", "汉字", "图片"], answer: 1, explain: "汇编语言使用助记符（如MOV、ADD）代替机器指令。"},
+            {q: "汇编语言的MOV指令通常表示？", options: ["加法", "数据传送/移动", "减法", "乘法"], answer: 1, explain: "MOV是Move的缩写，表示数据传送或移动操作。"},
+            {q: "汇编语言的ADD指令表示？", options: ["减法", "加法", "传送", "跳转"], answer: 1, explain: "ADD表示加法操作。"},
+            {q: "汇编语言的SUB指令表示？", options: ["加法", "减法", "传送", "跳转"], answer: 1, explain: "SUB表示减法操作。"},
+            {q: "汇编语言需要通过什么程序翻译成机器语言？", options: ["编译器", "汇编器", "解释器", "浏览器"], answer: 1, explain: "汇编语言通过汇编器（Assembler）翻译成机器语言。"},
+            {q: "汇编语言相比机器语言的优点是？", options: ["计算机直接执行", "更易读写，使用助记符", "执行更快", "不需要翻译"], answer: 1, explain: "汇编语言使用助记符，比机器语言更易读写。"},
+            {q: "汇编语言的缺点是？", options: ["执行太慢", "仍依赖具体硬件，可移植性差", "太高级", "不能控制硬件"], answer: 1, explain: "汇编语言仍依赖具体硬件，不同CPU的汇编语言不同，可移植性差。"},
+            {q: "第三代编程语言是？", options: ["机器语言", "汇编语言", "高级语言", "自然语言"], answer: 2, explain: "第三代编程语言是高级语言。"},
+            {q: "高级语言的特点是？", options: ["接近自然语言和数学表达", "只有0和1", "只能科学家使用", "不能编程"], answer: 0, explain: "高级语言接近自然语言和数学表达，易于学习和使用。"},
+            {q: "高级语言的优点是？", options: ["依赖具体硬件", "不依赖具体硬件，可移植性好", "难以学习", "执行最快"], answer: 1, explain: "高级语言不依赖具体硬件，同一段代码可以在不同计算机上运行，可移植性好。"},
+            {q: "高级语言需要通过什么执行？", options: ["直接执行", "编译或解释", "人工翻译", "画图"], answer: 1, explain: "高级语言需要通过编译器编译或解释器解释执行。"},
+            {q: "FORTRAN语言诞生于哪一年？", options: ["1946年", "1957年", "1970年", "1990年"], answer: 1, explain: "FORTRAN于1957年诞生，是最早的高级语言之一，用于科学计算。"},
+            {q: "COBOL语言主要用于？", options: ["科学计算", "商业数据处理", "游戏开发", "网页设计"], answer: 1, explain: "COBOL主要用于商业数据处理，曾广泛应用于金融领域。"},
+            {q: "BASIC语言的特点是什么？", options: ["适合初学者学习", "只适合专家", "不能运行", "最高级"], answer: 0, explain: "BASIC语言设计简单易学，非常适合编程初学者。"},
+            {q: "C语言诞生于哪一年？", options: ["1960年", "1972年", "1985年", "2000年"], answer: 1, explain: "C语言于1972年由丹尼斯·里奇在贝尔实验室开发。"},
+            {q: "C++语言诞生于哪一年？", options: ["1972年", "1985年", "1991年", "2000年"], answer: 1, explain: "C++由比雅尼·斯特劳斯特鲁普于1985年开发，是C语言的扩展。"},
+            {q: "C++语言相比C语言增加了什么特性？", options: ["面向对象编程", "二进制编程", "图形界面", "网络功能"], answer: 0, explain: "C++相比C语言最主要增加了面向对象编程特性。"},
+            {q: "Java语言诞生于哪一年？", options: ["1985年", "1991年", "1995年", "2000年"], answer: 2, explain: "Java于1995年由Sun公司发布，以"一次编写，到处运行"著称。"},
+            {q: "Java语言的主要特点是？", options: ["只能Windows运行", "跨平台（一次编写到处运行）", "只能苹果运行", "只能Linux运行"], answer: 1, explain: "Java的主要特点是跨平台，编译后的字节码可在任何安装JVM的平台上运行。"},
+            {q: "Python语言诞生于哪一年？", options: ["1989年", "1991年", "2000年", "2010年"], answer: 1, explain: "Python由吉多·范罗苏姆于1991年发布，以简洁易读著称。"},
+            {q: "Python语言的主要特点是？", options: ["语法复杂", "语法简洁，易于学习", "只能科学计算", "只能网页开发"], answer: 1, explain: "Python语法简洁清晰，易于学习，被广泛用于各种领域。"},
+            {q: "JavaScript语言主要用于？", options: ["仅写操作系统", "网页前端开发", "只能写数据库", "只能写游戏"], answer: 1, explain: "JavaScript主要用于网页前端开发，实现网页的交互功能。"},
+            {q: "C语言被称为？", options: ["最低级语言", "中级语言（介于高级和低级之间）", "最高级语言", "自然语言"], answer: 1, explain: "C语言被称为中级语言，既有高级语言的特性，又能进行底层操作。"},
+            {q: "以下哪种语言是面向对象语言？", options: ["只有C", "C++、Java、Python", "只有汇编", "只有机器语言"], answer: 1, explain: "C++、Java、Python都是支持面向对象编程的语言。"},
+            {q: "编译型语言和解释型语言的区别是？", options: ["没有区别", "编译型先编译后执行，解释型边解释边执行", "编译型更慢", "解释型不能直接运行"], answer: 1, explain: "编译型语言（如C、C++）先编译成机器码再执行；解释型语言（如Python）边解释边执行。"},
+            {q: "以下哪个是编译型语言？", options: ["Python", "JavaScript", "C/C++", "HTML"], answer: 2, explain: "C/C++是典型的编译型语言，需要通过编译器编译成可执行文件。"},
+            {q: "以下哪个是解释型语言？", options: ["C", "C++", "Python", "汇编"], answer: 2, explain: "Python是解释型语言，由解释器逐行解释执行。"},
+            {q: "GESP C++考级使用的是什么语言？", options: ["C语言", "C++语言", "Java语言", "Python语言"], answer: 1, explain: "GESP C++考级使用的是C++编程语言。"},
+            {q: "Scratch属于什么类型的编程？", options: ["文本编程", "图形化/可视化编程", "机器语言编程", "汇编编程"], answer: 1, explain: "Scratch是图形化编程工具，通过拖拽积木块进行编程，适合初学者。"},
+            // 发展趋势 141-165
+            {q: "计算机发展趋势中的'巨型化'是指？", options: ["计算机变得更大更重", "超级计算机性能不断提升", "只能用于科研", "被淘汰"], answer: 1, explain: "巨型化指超级计算机性能不断提升，用于解决复杂科学问题。"},
+            {q: "计算机发展趋势中的'微型化'是指？", options: ["计算机只能变大", "计算机越来越小，嵌入各种设备", "不能使用", "被淘汰"], answer: 1, explain: "微型化指计算机越来越小，可以嵌入各种设备和日常用品中。"},
+            {q: "计算机发展趋势中的'网络化'是指？", options: ["计算机孤立使用", "万物互联，网络无处不在", "不能使用网络", "只有科学家使用"], answer: 1, explain: "网络化指计算机网络无处不在，万物互联。"},
+            {q: "计算机发展趋势中的'智能化'是指？", options: ["计算机越来越笨", "人工智能，计算机具备'思考'能力", "不能使用", "只能计算"], answer: 1, explain: "智能化指人工智能技术发展，计算机具备学习、推理等"智能"能力。"},
+            {q: "5G和6G网络主要提升的是？", options: ["计算机体积", "网络速度和连接能力", "键盘手感", "显示器大小"], answer: 1, explain: "5G/6G主要提升网络速度、降低延迟、增强连接能力。"},
+            {q: "物联网（IoT）是指？", options: ["只有计算机联网", "万物互联，各种设备都联网", "只有手机联网", "不能联网"], answer: 1, explain: "物联网指各种设备（家电、汽车、传感器等）都连接到互联网。"},
+            {q: "云计算的本质是？", options: ["在天上计算", "通过网络使用远程计算资源", "一种新CPU", "一种新语言"], answer: 1, explain: "云计算是通过网络使用远程数据中心的计算资源和服务。"},
+            {q: "边缘计算是指？", options: ["在网络边缘（靠近数据源）进行处理", "只在大城市计算", "不能用", "被淘汰"], answer: 0, explain: "边缘计算将计算放在靠近数据源的边缘设备上，减少延迟。"},
+            {q: "人工智能（AI）的主要分支包括？", options: ["只有玩游戏", "机器学习、深度学习、自然语言处理等", "只有打字", "只有画图"], answer: 1, explain: "AI包括机器学习、深度学习、自然语言处理、计算机视觉等多个分支。"},
+            {q: "深度学习是？", options: ["很深的水", "机器学习的一种方法，使用神经网络", "一种游戏", "一种语言"], answer: 1, explain: "深度学习是机器学习的一种方法，基于多层神经网络。"},
+            {q: "ChatGPT属于什么技术？", options: ["传统计算", "大型语言模型/人工智能", "数据库", "图形处理"], answer: 1, explain: "ChatGPT是基于大型语言模型的人工智能技术。"},
+            {q: "量子计算利用什么原理？", options: ["牛顿力学", "量子力学", "经典物理", "化学"], answer: 1, explain: "量子计算利用量子力学原理（如叠加、纠缠）进行计算。"},
+            {q: "量子比特（qubit）与传统比特的区别是？", options: ["没有区别", "量子比特可同时处于0和1状态", "量子比特更大", "量子比特更慢"], answer: 1, explain: "量子比特可同时处于0和1的叠加状态，这是量子计算的优势。"},
+            {q: "谷歌声称实现'量子优越性'是哪一年？", options: ["2000年", "2019年", "2030年", "1990年"], answer: 1, explain: "谷歌于2019年声称其量子计算机实现了"量子优越性"。"},
+            {q: "中国'九章'量子计算机的主要成就是？", options: ["玩游戏", "在特定问题上实现量子计算优越性", "只能打字", "不能运行"], answer: 1, explain: "中国"九章"光量子计算机在特定计算问题上实现了量子优越性。"},
+            {q: "脑机接口（BCI）是指？", options: ["大脑和计算机的直接连接", "只能用键盘", "只能用鼠标", "被淘汰"], answer: 0, explain: "脑机接口实现大脑和计算机之间的直接信息交换。"},
+            {q: "可穿戴计算机包括？", options: ["只有台式机", "智能手表、智能眼镜等", "只有服务器", "只有笔记本"], answer: 1, explain: "可穿戴计算机包括智能手表、智能眼镜、智能手环等。"},
+            {q: "元宇宙（Metaverse）涉及的技术包括？", options: ["只有打字", "VR/AR、区块链、人工智能等", "只有计算器", "只能打电话"], answer: 1, explain: "元宇宙涉及VR/AR虚拟现实、区块链、人工智能等多种技术。"},
+            {q: "区块链技术最初用于？", options: ["比特币/数字货币", "文字处理", "网页设计", "游戏开发"], answer: 0, explain: "区块链技术最初用于比特币等数字货币，现在应用更广泛。"},
+            {q: "自动驾驶汽车主要使用什么技术？", options: ["只有机械", "人工智能、传感器、计算机视觉等", "只能人工驾驶", "不能使用"], answer: 1, explain: "自动驾驶使用人工智能、各种传感器、计算机视觉等技术。"},
+            {q: "智能家居是指？", options: ["只有传统家电", "通过网络连接和控制的智能家电系统", "不能使用", "只有电脑"], answer: 1, explain: "智能家居是通过网络连接，可以远程控制和自动化运行的家电系统。"},
+            {q: "虚拟现实（VR）是指？", options: ["真实世界", "计算机生成的虚拟环境", "只能看书", "只能写字"], answer: 1, explain: "虚拟现实（VR）是计算机生成的沉浸式虚拟环境。"},
+            {q: "增强现实（AR）是指？", options: ["完全虚拟的世界", "虚拟信息叠加到真实世界", "只能打电话", "只能发短信"], answer: 1, explain: "增强现实（AR）将虚拟信息叠加到真实世界中，如Pokemon Go。"},
+            {q: "数字孪生（Digital Twin）是指？", options: ["完全虚拟的东西", "物理实体的数字化映射/虚拟副本", "只能用一次", "不能复制"], answer: 1, explain: "数字孪生是物理实体的数字化映射，用于模拟、监控和优化。"},
+            {q: "绿色计算（Green Computing）是指？", options: ["只有绿色电脑", "环保、节能的计算技术", "不能用", "被淘汰"], answer: 1, explain: "绿色计算是指环保的、节能的计算技术和实践。"},
+            // 综合考点 166-180
+            {q: "从ENIAC到现代计算机，体积变化趋势是？", options: ["越来越大", "越来越小", "没有变化", "先小后大"], answer: 1, explain: "计算机从ENIAC的30吨发展到现在可以装进口袋，体积越来越小。"},
+            {q: "从第一代到第四代，计算机价格变化趋势是？", options: ["越来越贵", "越来越便宜（性价比提高）", "没有变化", "先贵后便宜再贵"], answer: 1, explain: "随着技术进步，计算机性能提升的同时价格下降，性价比不断提高。"},
+            {q: "计算机发展最重要的推动力是？", options: ["只有游戏", "科技进步和应用需求", "只有打字", "只有看电影"], answer: 1, explain: "科技进步和应用需求是计算机发展的最重要推动力。"},
+            {q: "学习编程的最佳途径是？", options: ["只看理论", "理论学习+大量实践练习", "只玩游戏", "只看视频"], answer: 1, explain: "学习编程需要理论学习和大量实践练习相结合。"},
+            {q: "C++语言适合用于？", options: ["只能写网页", "系统软件、游戏、嵌入式等多种领域", "只能画图", "只能打字"], answer: 1, explain: "C++用途广泛，可用于系统软件、游戏开发、嵌入式系统、高性能计算等。"},
+            {q: "为什么选择学习C++？", options: ["只能为了考试", "性能高、应用广、打下良好编程基础", "不能使用", "只能玩游戏"], answer: 1, explain: "C++性能高、应用广泛，学习C++可以打下良好的编程基础。"},
+            {q: "GESP考级的目的是？", options: ["只为了好玩", "检验编程能力，获得等级认证", "不能使用", "只能聊天"], answer: 1, explain: "GESP考级用于检验青少年编程能力，获得相应的等级认证。"},
+            {q: "未来计算机可能的发展方向不包括？", options: ["量子计算", "生物计算", "光计算", "回到机械计算"], answer: 3, explain: "未来计算机会向量子、生物、光计算等方向发展，不会回到机械计算。"},
+            {q: "人工智能会完全取代人类吗？", options: ["很快会", "在某些领域辅助人类，但无法完全取代", "已经取代", "不能发展"], answer: 1, explain: "人工智能在某些领域可以辅助或替代人类工作，但无法完全取代人类的创造力和情感。"},
+            {q: "学习计算机科学的意义是？", options: ["只能玩游戏", "理解技术本质，适应数字时代", "不能使用", "只能打字"], answer: 1, explain: "学习计算机科学有助于理解技术本质，培养逻辑思维，适应数字时代。"},
+            {q: "计算机科学的奠基人之一是？", options: ["只有乔布斯", "冯·诺依曼、图灵等", "只有比尔盖茨", "只有扎克伯格"], answer: 1, explain: "冯·诺依曼、图灵等是计算机科学的奠基人。"},
+            {q: "图灵（Turing）的主要贡献是？", options: ["发明了第一台电脑", "图灵机理论和人工智能测试", "发明了鼠标", "发明了键盘"], answer: 1, explain: "图灵提出了图灵机理论模型和图灵测试，是计算机科学和AI的奠基人。"},
+            {q: "图灵奖是什么领域的最高奖项？", options: ["物理学", "计算机科学", "化学", "医学"], answer: 1, explain: "图灵奖是计算机科学领域的最高荣誉，被誉为"计算机界的诺贝尔奖"。"},
+            {q: "计算机科学的两大支柱是？", options: ["只有硬件", "理论和实践/软件", "只有游戏", "只有娱乐"], answer: 1, explain: "计算机科学包含理论（算法、计算理论）和实践/软件两大支柱。"},
+            {q: "青少年学习编程的好处包括？", options: ["只能玩游戏", "培养逻辑思维、创造力和解决问题能力", "不能使用电脑", "只能打字"], answer: 1, explain: "学习编程可以培养逻辑思维、创造力和解决问题的能力。"}
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = {};
+
+        function loadQuestion(index) {
+            const q = questions[index];
+            const container = document.getElementById('quiz-container');
+            
+            let optionsHtml = '';
+            q.options.forEach((opt, i) => {
+                const selected = userAnswers[index] === i ? 'selected' : '';
+                const correct = userAnswers[index] !== undefined && i === q.answer ? 'correct' : '';
+                const wrong = userAnswers[index] === i && i !== q.answer ? 'wrong' : '';
+                optionsHtml += `<div class="option ${selected} ${correct} ${wrong}" onclick="selectOption(${i})">${String.fromCharCode(65 + i)}. ${opt}</div>`;
+            });
+            
+            const answered = userAnswers[index] !== undefined ? 'answered' : '';
+            
+            container.innerHTML = `
+                <div class="question-card ${answered}" id="question-card">
+                    <div class="question-number">题目 ${index + 1} / ${questions.length}</div>
+                    <div class="question-text">${q.q}</div>
+                    <div class="options">${optionsHtml}</div>
+                    <div class="explanation" id="explanation">
+                        <strong>解析：</strong>${q.explain}
+                    </div>
+                </div>
+            `;
+            
+            const progress = ((index + 1) / questions.length) * 100;
+            document.getElementById('quiz-progress').style.width = `${progress}%`;
+            document.getElementById('quiz-count').textContent = `${index + 1}/${questions.length}`;
+            
+            document.getElementById('prev-btn').disabled = index === 0;
+            document.getElementById('next-btn').textContent = index === questions.length - 1 ? '完成测验' : '下一题 →';
+        }
+
+        function selectOption(optionIndex) {
+            if (userAnswers[currentQuestion] !== undefined) return;
+            
+            userAnswers[currentQuestion] = optionIndex;
+            const q = questions[currentQuestion];
+            
+            const options = document.querySelectorAll('.option');
+            options.forEach((opt, i) => {
+                if (i === q.answer) {
+                    opt.classList.add('correct');
+                } else if (i === optionIndex && i !== q.answer) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            document.getElementById('question-card').classList.add('answered');
+            localStorage.setItem('cpp_level1_1_3_progress', JSON.stringify(userAnswers));
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion(currentQuestion);
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                loadQuestion(currentQuestion);
+            } else {
+                const correct = Object.keys(userAnswers).filter(k => userAnswers[k] === questions[k].answer).length;
+                const total = questions.length;
+                alert(`测验完成！\n正确率：${correct}/${total} (${Math.round(correct/total*100)}%)\n\nC++ L1 知识块1（计算机基础）已全部完成！\n可以继续学习其他知识块。`);
+            }
+        }
+
+        const savedProgress = localStorage.getItem('cpp_level1_1_3_progress');
+        if (savedProgress) {
+            userAnswers = JSON.parse(savedProgress);
+        }
+
+        loadQuestion(0);
+    </script>
+</body>
+</html>
