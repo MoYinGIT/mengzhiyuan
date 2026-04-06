@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.6 调试 - C++一级 - 蒙正堂</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/guofeng-v2.css">
+    <style>
+        :root {
+            --l1-primary: #1e3a5f;
+            --l1-secondary: #2e5984;
+            --correct: #4a7c59;
+            --wrong: #c9372c;
+        }
+        .topic-container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+        .breadcrumb { display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1.5rem; font-size: 0.9rem; color: #666; }
+        .breadcrumb a { color: var(--l1-primary); text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .topic-header { background: linear-gradient(135deg, var(--l1-primary) 0%, var(--l1-secondary) 100%); color: white; padding: 2rem; border-radius: 12px; margin-bottom: 2rem; }
+        .topic-header .number { font-size: 0.9rem; opacity: 0.8; margin-bottom: 0.5rem; }
+        .topic-header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .topic-header .meta { display: flex; gap: 1.5rem; font-size: 0.9rem; opacity: 0.9; }
+        .content-section { background: white; border-radius: 12px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .content-section h2 { color: var(--l1-primary); border-left: 4px solid var(--l1-primary); padding-left: 1rem; margin-bottom: 1.5rem; }
+        .content-section h3 { color: var(--ink-800); margin: 1.5rem 0 1rem; }
+        .content-section p { line-height: 1.8; margin-bottom: 1rem; text-align: justify; }
+        .content-section ul, .content-section ol { margin: 1rem 0 1rem 1.5rem; }
+        .content-section li { margin-bottom: 0.5rem; line-height: 1.7; }
+        .highlight-box { background: #f0f4f8; border-left: 4px solid var(--l1-primary); padding: 1rem 1.5rem; margin: 1.5rem 0; border-radius: 0 8px 8px 0; }
+        .highlight-box.warning { background: #fff3cd; border-left-color: #d4a574; }
+        .highlight-box.danger { background: #f8d7da; border-left-color: #c9372c; }
+        .highlight-box.success { background: #d4edda; border-left-color: #4a7c59; }
+        .shortcut-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        .shortcut-table th, .shortcut-table td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #e9ecef; }
+        .shortcut-table th { background: #f8f9fa; font-weight: 600; }
+        .code-block { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 6px; padding: 1rem; margin: 1rem 0; font-family: 'Consolas', 'Monaco', monospace; font-size: 0.9rem; overflow-x: auto; }
+        .code-block .comment { color: #6a9955; }
+        .code-block .keyword { color: #0000ff; }
+        .code-block .string { color: #a31515; }
+        .quiz-section { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .quiz-section h2 { color: var(--l1-primary); border-left: 4px solid var(--l1-primary); padding-left: 1rem; margin-bottom: 1rem; }
+        .quiz-progress { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding: 0.75rem 1rem; background: #f8f9fa; border-radius: 8px; }
+        .quiz-progress-bar { flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; margin: 0 1rem; overflow: hidden; }
+        .quiz-progress-fill { height: 100%; background: linear-gradient(90deg, var(--l1-primary), var(--l1-secondary)); border-radius: 4px; transition: width 0.3s ease; }
+        .question-card { border: 1px solid #e9ecef; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; }
+        .question-card.correct { border-color: var(--correct); background: #f0f8f0; }
+        .question-card.wrong { border-color: var(--wrong); background: #fdf0ef; }
+        .question-number { font-weight: 600; color: var(--l1-primary); margin-bottom: 0.5rem; }
+        .question-text { font-size: 1.05rem; margin-bottom: 1rem; }
+        .options { display: flex; flex-direction: column; gap: 0.5rem; }
+        .option { padding: 0.75rem 1rem; border: 1px solid #e9ecef; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; }
+        .option:hover { background: #f8f9fa; border-color: var(--l1-primary); }
+        .option.selected { background: #e3f2fd; border-color: var(--l1-primary); }
+        .option.correct { background: #d4edda; border-color: var(--correct); }
+        .option.wrong { background: #f8d7da; border-color: var(--wrong); }
+        .explanation { display: none; margin-top: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 6px; }
+        .question-card.answered .explanation { display: block; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 2rem; }
+        .debug-steps { display: flex; flex-direction: column; gap: 1rem; margin: 1.5rem 0; }
+        .debug-step { display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid var(--l1-primary); }
+        .debug-step-number { background: var(--l1-primary); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0; }
+        .debug-step-content { flex: 1; }
+        .debug-step-content h4 { margin: 0 0 0.5rem 0; color: var(--l1-primary); }
+        .debug-step-content p { margin: 0; color: #666; }
+        .error-type-box { padding: 1rem; border-radius: 8px; margin: 1rem 0; }
+        .error-type-box.syntax { background: #fff3cd; border-left: 4px solid #f0ad4e; }
+        .error-type-box.logic { background: #d4edda; border-left: 4px solid #5cb85c; }
+        .error-type-box.runtime { background: #f8d7da; border-left: 4px solid #d9534f; }
+        @media (max-width: 768px) {
+            .topic-container { padding: 1rem; }
+            .topic-header h1 { font-size: 1.4rem; }
+            .content-section { padding: 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="../../" class="brand">
+                <span class="brand-icon">☯</span>
+                <span class="brand-text">默隐·蒙知苑</span>
+            </a>
+            <div class="nav-links">
+                <a href="../" class="nav-link">🎓 蒙正堂</a>
+                <a href="./" class="nav-link">C++一级</a>
+                <span class="nav-link active">2.6 调试</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="topic-container">
+        <div class="breadcrumb">
+            <a href="../">蒙正堂</a>
+            <span>›</span>
+            <a href="./">C++一级</a>
+            <span>›</span>
+            <a href="./#block2">集成开发环境</a>
+            <span>›</span>
+            <span>2.6 调试</span>
+        </div>
+
+        <div class="topic-header">
+            <div class="number">知识块 2 · 知识点 6/6</div>
+            <h1>调试</h1>
+            <div class="meta">
+                <span>⏱️ 预估学习时长: 60分钟</span>
+                <span>📋 验证题目: 120题</span>
+                <span>🎯 难度: 提高级</span>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>📚 知识详解</h2>
+            
+            <h3>一、什么是调试</h3>
+            <p><strong>调试（Debug）</strong>是查找和修复程序中错误的过程。程序中的错误通常被称为「Bug」（虫子），发现和修复 Bug 的过程就像捉虫子一样，所以叫做「Debug」（除虫）。</p>
+            
+            <div class="highlight-box">
+                <strong>💡 一句话理解</strong><br>
+                调试就是「找错误 → 分析原因 → 修复错误」的过程。
+            </div>
+
+            <h3>二、程序错误的三种类型</h3>
+            
+            <div class="error-type-box syntax">
+                <h4>🔴 语法错误（Syntax Error）</h4>
+                <p>代码不符合语言规范，编译器无法理解。</p>
+                <p><strong>示例：</strong>缺少分号、括号不匹配、拼写错误</p>
+                <p><strong>发现时机：</strong>编译时</p>
+                <p><strong>修复难度：</strong>⭐ 容易（编译器会提示）</p>
+            </div>
+
+            <div class="error-type-box runtime">
+                <h4>🟠 运行时错误（Runtime Error）</h4>
+                <p>程序运行时发生的错误，导致程序崩溃。</p>
+                <p><strong>示例：</strong>除以零、数组越界、内存溢出</p>
+                <p><strong>发现时机：</strong>程序运行时</p>
+                <p><strong>修复难度：</strong>⭐⭐⭐ 较难（需要追踪执行过程）</p>
+            </div>
+
+            <div class="error-type-box logic">
+                <h4>🟡 逻辑错误（Logic Error）</h4>
+                <p>程序能正常运行，但结果不符合预期。</p>
+                <p><strong>示例：</strong>算法错误、条件判断错误、计算错误</p>
+                <p><strong>发现时机：</strong>测试时发现结果错误</p>
+                <p><strong>修复难度：</strong>⭐⭐⭐⭐⭐ 最难（需要理解程序逻辑）</p>
+            </div>
+
+            <h3>三、调试的基本步骤</h3>
+            
+            <div class="debug-steps">
+                <div class="debug-step">
+                    <div class="debug-step-number">1</div>
+                    <div class="debug-step-content">
+                        <h4>发现问题</h4>
+                        <p>通过编译错误、运行崩溃或测试失败发现问题</p>
+                    </div>
+                </div>
+                <div class="debug-step">
+                    <div class="debug-step-number">2</div>
+                    <div class="debug-step-content">
+                        <h4>定位错误</h4>
+                        <p>确定错误发生的位置（行号）和类型</p>
+                    </div>
+                </div>
+                <div class="debug-step">
+                    <div class="debug-step-number">3</div>
+                    <div class="debug-step-content">
+                        <h4>分析原因</h4>
+                        <p>理解为什么会发生这个错误</p>
+                    </div>
+                </div>
+                <div class="debug-step">
+                    <div class="debug-step-number">4</div>
+                    <div class="debug-step-content">
+                        <h4>修复错误</h4>
+                        <p>修改代码，消除错误</p>
+                    </div>
+                </div>
+                <div class="debug-step">
+                    <div class="debug-step-number">5</div>
+                    <div class="debug-step-content">
+                        <h4>验证修复</h4>
+                        <p>重新编译运行，确认问题已解决</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3>四、常用的调试方法</h3>
+
+            <h4>1. 输出调试法（Print Debugging）</h4>
+            <p>在代码关键位置插入输出语句，观察程序执行过程和变量值。</p>
+            
+            <div class="code-block">
+<span class="comment">// 使用 cout 输出变量值进行调试</span>
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int a = 5, b = 0;
+    cout &lt;&lt; "a = " &lt;&lt; a &lt;&lt; endl;  <span class="comment">// 输出: a = 5</span>
+    cout &lt;&lt; "b = " &lt;&lt; b &lt;&lt; endl;  <span class="comment">// 输出: b = 0</span>
+    
+    if (b != 0) {
+        cout &lt;&lt; "a/b = " &lt;&lt; a/b &lt;&lt; endl;
+    } else {
+        cout &lt;&lt; "错误：b不能为0" &lt;&lt; endl;  <span class="comment">// 发现并避免除零错误</span>
+    }
+    return 0;
+}
+            </div>
+
+            <div class="highlight-box success">
+                <strong>✅ 输出调试法的优点</strong><br>
+                • 简单直观，不需要特殊工具<br>
+                • 可以观察程序执行流程<br>
+                • 适合初学者快速定位问题
+            </div>
+
+            <h4>2. 单步调试法（Step Debugging）</h4>
+            <p>使用调试器逐行执行代码，观察每一步的执行状态和变量变化。</p>
+
+            <table class="shortcut-table">
+                <tr><th>调试操作</th><th>功能说明</th><th>快捷键（Dev-C++）</th></tr>
+                <tr><td>设置断点</td><td>在指定行暂停程序执行</td><td>Ctrl + F5</td></tr>
+                <tr><td>单步执行</td><td>执行一行代码后暂停</td><td>F7</td></tr>
+                <tr><td>继续执行</td><td>运行到下一个断点</td><td>Ctrl + F7</td></tr>
+                <tr><td>查看变量</td><td>观察变量的当前值</td><td>调试面板</td></tr>
+            </table>
+
+            <h4>3. 二分调试法（Binary Search Debugging）</h4>
+            <p>对于复杂的逻辑错误，在代码中间位置插入检查点，快速缩小错误范围。</p>
+
+            <div class="highlight-box">
+                <strong>🔍 二分调试示例</strong><br>
+                如果有100行代码出错了：<br>
+                1. 先检查第50行 → 确定前半段还是后半段<br>
+                2. 如果在前半段，检查第25行<br>
+                3. 继续折半，直到找到错误位置<br>
+                这样可以快速将范围从100行缩小到几行
+            </div>
+
+            <h3>五、常见错误及调试技巧</h3>
+
+            <table class="shortcut-table">
+                <tr><th>错误现象</th><th>可能原因</th><th>调试技巧</th></tr>
+                <tr>
+                    <td>编译失败，提示语法错误</td>
+                    <td>缺少分号、括号不匹配</td>
+                    <td>从第一个错误开始修复，双击跳转到对应行</td>
+                </tr>
+                <tr>
+                    <td>程序运行后闪退</td>
+                    <td>数组越界、除以零</td>
+                    <td>添加输出语句，在关键位置检查变量值</td>
+                </tr>
+                <tr>
+                    <td>输出结果不对</td>
+                    <td>逻辑错误、算法错误</td>
+                    <td>单步调试，观察每一步的计算过程</td>
+                </tr>
+                <tr>
+                    <td>死循环（程序不结束）</td>
+                    <td>循环条件错误</td>
+                    <td>检查循环变量是否在循环体内更新</td>
+                </tr>
+                <tr>
+                    <td>变量值异常</td>
+                    <td>未初始化、类型溢出</td>
+                    <td>在声明时初始化，检查数据类型范围</td>
+                </tr>
+            </table>
+
+            <h3>六、Dev-C++ 中的调试</h3>
+
+            <ol>
+                <li><strong>设置断点：</strong>在代码行号左侧单击，或按 Ctrl + F5</li>
+                <li><strong>启动调试：</strong>按 F5 或点击「调试」→「开始调试」</li>
+                <li><strong>单步执行：</strong>按 F7 逐行执行代码</li>
+                <li><strong>查看变量：</strong>在「调试」面板中观察变量值</li>
+                <li><strong>停止调试：</strong>按 Ctrl + F2 或点击「停止执行」</li>
+            </ol>
+
+            <div class="highlight-box warning">
+                <strong>⚠️ 调试模式须知</strong><br>
+                • 调试前需要先保存文件<br>
+                • 调试时程序运行速度会变慢<br>
+                • 使用 -g 选项编译才能调试（Dev-C++默认开启）
+            </div>
+
+            <h3>七、预防错误的编程习惯</h3>
+
+            <div class="highlight-box success">
+                <strong>✨ 良好的编程习惯</strong><br>
+                • <strong>及时保存</strong>：写一段代码就保存（Ctrl + S）<br>
+                • <strong>频繁编译</strong>：写几行就编译检查<br>
+                • <strong>变量初始化</strong>：声明变量时立即初始化<br>
+                • <strong>注释清晰</strong>：关键逻辑添加注释<br>
+                • <strong>代码缩进</strong>：保持代码层次清晰<br>
+                • <strong>逐步测试</strong>：写一部分测试一部分
+            </div>
+
+            <h3>八、GESP 考试调试相关要点</h3>
+
+            <ul>
+                <li><strong>错误类型识别</strong>：能区分语法错误、运行时错误、逻辑错误</li>
+                <li><strong>错误定位</strong>：根据错误信息找到错误位置</li>
+                <li><strong>常见错误</strong>：了解数组越界、除以零、未初始化等常见问题</li>
+                <li><strong>调试方法</strong>：掌握基本的输出调试和单步调试</li>
+            </ul>
+
+            <div class="highlight-box">
+                <strong>🎯 核心口诀</strong><br>
+                「报错莫慌张，先看行号行；<br>
+                语法查细节，逻辑要思量；<br>
+                输出加断点，步步追踪忙；<br>
+                修复再验证，程序健康康。」
+            </div>
+        </div>
+
+        <!-- 易经智慧 -->
+        <div class="content-section">
+            <h2>☯ 调试之道：知错能改，善莫大焉</h2>
+            
+            <blockquote style="background: #f8f9fa; padding: 1.5rem; border-left: 4px solid var(--l1-primary); margin: 1.5rem 0; font-style: italic;">
+                《论语》云：「过而不改，是谓过矣。」<br>
+                《易经》云：「穷则变，变则通，通则久。」
+            </blockquote>
+            
+            <p>程序中的错误，犹如人之过失。发现错误不可怕，可怕的是不知错、不改错。<strong>调试之道，在于「知错 → 思过 → 改正」</strong>。</p>
+
+            <table class="shortcut-table">
+                <tr><th>调试阶段</th><th>易经智慧</th><th>寓意</th></tr>
+                <tr><td>发现问题</td><td>「知几其神乎」</td><td>见微知著，于细微处发现端倪</td></tr>
+                <tr><td>定位错误</td><td>「明辨之」</td><td>审问慎思，精准定位问题所在</td></tr>
+                <tr><td>分析原因</td><td>「穷理尽性」</td><td>深入探究，理解问题本质</td></tr>
+                <tr><td>修复错误</td><td>「改过迁善」</td><td>知错能改，不断完善</td></tr>
+                <tr><td>验证修复</td><td>「慎终如始」</td><td>始终如一，确保问题彻底解决</td></tr>
+            </table>
+
+            <div class="highlight-box success">
+                <strong>💡 圣人启示</strong><br>
+                Bug 是程序成长的阶梯，每一次调试都是一次修行。「<strong>失败乃成功之母</strong>」，在错误中学习，在调试中成长。<br><br>
+                「<strong>温故而知新</strong>」—— 记录错误，总结规律，下次便不会重蹈覆辙。
+            </div>
+        </div>
+
+        <!-- 检查清单 -->
+        <div class="content-section">
+            <h2>✅ 本模块检查清单</h2>
+            
+            <h3>学习前</h3>
+            <ul style="list-style: none;">
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 了解程序可能出现的错误类型</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 已经写过一些简单的C++程序</li>
+            </ul>
+
+            <h3>学习中</h3>
+            <ul style="list-style: none;">
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 能区分三种类型的错误</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 掌握输出调试法</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 学会在Dev-C++中设置断点</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 能根据错误信息定位问题</li>
+            </ul>
+
+            <h3>学习后</h3>
+            <ul style="list-style: none;">
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 能独立修复常见的语法错误</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 能使用输出调试法排查问题</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 养成良好的编程习惯</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 测验正确率达到 80% 以上</li>
+            </ul>
+        </div>
+
+        <div class="quiz-section">
+            <h2>📝 验证测验 (120题)</h2>
+            <div class="quiz-progress">
+                <span>进度</span>
+                <div class="quiz-progress-bar">
+                    <div class="quiz-progress-fill" id="progressBar" style="width: 0%"></div>
+                </div>
+                <span id="progressText">0/120</span>
+            </div>
+            <div id="questionContainer">
+                <div class="question-card" id="questionCard">
+                    <div class="question-number" id="questionNumber">题目 1/120</div>
+                    <div class="question-text" id="questionText">加载中...</div>
+                    <div class="options" id="options"></div>
+                    <div class="explanation" id="explanation"></div>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" id="prevBtn" onclick="prevQuestion()" disabled>← 上一题</button>
+                <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">下一题 →</button>
+            </div>
+        </div>
+
+        <!-- 拓展阅读 -->
+        <div class="content-section">
+            <h2>📚 拓展阅读</h2>
+            
+            <h3>调试工具介绍</h3>
+            
+            <table class="shortcut-table">
+                <tr><th>工具</th><th>平台</th><th>特点</th></tr>
+                <tr><td>Dev-C++ 调试器</td><td>Windows</td><td>轻量级，适合初学者</td></tr>
+                <tr><td>Visual Studio 调试器</td><td>Windows</td><td>功能强大，企业级</td></tr>
+                <tr><td>VS Code + C++扩展</td><td>跨平台</td><td>轻量且功能丰富</td></tr>
+                <tr><td>GDB</td><td>Linux/Mac</td><td>命令行调试器，专业级</td></tr>
+                <tr><td>LLDB</td><td>Mac</td><td>Xcode默认调试器</td></tr>
+            </table>
+
+            <h3>GDB 基本命令</h3>
+            
+            <div class="code-block">
+<span class="comment">// 编译时添加 -g 选项以支持调试</span>
+g++ -g program.cpp -o program
+
+<span class="comment">// 启动 GDB</span>
+gdb ./program
+
+<span class="comment">// 常用命令</span>
+(gdb) break main      <span class="comment">// 在 main 函数设置断点</span>
+(gdb) run             <span class="comment">// 运行程序</span>
+(gdb) next            <span class="comment">// 单步执行（不进入函数）</span>
+(gdb) step            <span class="comment">// 单步执行（进入函数）</span>
+(gdb) print var       <span class="comment">// 查看变量值</span>
+(gdb) continue        <span class="comment">// 继续执行到下一个断点</span>
+(gdb) quit            <span class="comment">// 退出 GDB</span>
+            </div>
+
+            <h3>调试进阶技巧</h3>
+            
+            <ul>
+                <li><strong>条件断点：</strong>只在特定条件下暂停，如 <code>break 10 if i == 5</code></li>
+                <li><strong>监视变量：</strong>持续观察变量值的变化</li>
+                <li><strong>调用栈：</strong>查看函数调用关系，定位递归问题</li>
+                <li><strong>内存检查：</strong>检测内存泄漏和非法访问</li>
+            </ul>
+
+            <div class="highlight-box">
+                <strong>💡 调试心得</strong><br>
+                「调试是编程的一部分，不是编程的例外。」<br><br>
+                不要害怕 Bug，每一个 Bug 都是学习的机会。优秀的程序员不是不犯错误，而是能快速定位和修复错误。
+            </div>
+        </div>
+
+        <div style="margin-top: 2rem; text-align: center;">
+            <a href="./" class="btn btn-secondary">← 返回C++一级目录</a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-brand">默隐·蒙正堂</p>
+            <p class="footer-motto">让所有孩子有处可学</p>
+            <p class="footer-copyright">© 2026 默隐 · 明夷敬制</p>
+        </div>
+    </footer>
+
+    <script>
+        const questions = [
+            // 调试基础概念 1-30
+            {q: '什么是调试（Debug）？', options: ['删除程序', '查找和修复程序错误', '编译程序', '运行程序'], answer: 1, explain: '调试是查找和修复程序中错误的过程。'},
+            {q: '程序中的错误通常被称为什么？', options: ['Error', 'Bug', 'Mistake', 'Fault'], answer: 1, explain: '程序中的错误通常被称为「Bug」（虫子）。'},
+            {q: '「Debug」一词的原意是？', options: ['编写代码', '除虫', '编译', '测试'], answer: 1, explain: 'Debug原意是「除虫」，因为早期计算机故障真的是由虫子引起的。'},
+            {q: '程序错误的三种类型是？', options: ['大错、中错、小错', '语法错误、运行时错误、逻辑错误', '编译错误、链接错误、运行错误', '简单错误、复杂错误、致命错误'], answer: 1, explain: '程序错误分为语法错误、运行时错误和逻辑错误三种。'},
+            {q: '语法错误在什么阶段发现？', options: ['运行时', '编译时', '测试时', '设计时'], answer: 1, explain: '语法错误在编译时由编译器检查发现。'},
+            {q: '运行时错误在什么阶段发现？', options: ['编译时', '程序运行时', '设计时', '测试时'], answer: 1, explain: '运行时错误在程序执行过程中发现。'},
+            {q: '逻辑错误在什么阶段发现？', options: ['编译时', '运行时', '测试时发现结果不正确', '设计时'], answer: 2, explain: '逻辑错误通常在测试时发现程序结果不符合预期。'},
+            {q: '以下哪个是语法错误？', options: ['算法错误', '缺少分号', '除以零', '数组越界'], answer: 1, explain: '缺少分号是语法错误，代码不符合语言规范。'},
+            {q: '以下哪个是运行时错误？', options: ['缺少分号', '除以零', '拼写错误', '括号不匹配'], answer: 1, explain: '除以零是运行时错误，程序执行时发生。'},
+            {q: '以下哪个是逻辑错误？', options: ['缺少分号', '除以零', '算法计算结果错误', '括号不匹配'], answer: 2, explain: '算法计算结果错误是逻辑错误，程序能运行但结果不对。'},
+            {q: '哪种类型的错误最容易修复？', options: ['语法错误', '运行时错误', '逻辑错误', '都一样'], answer: 0, explain: '语法错误最容易修复，编译器会给出明确的错误提示。'},
+            {q: '哪种类型的错误最难发现和修复？', options: ['语法错误', '运行时错误', '逻辑错误', '都一样'], answer: 2, explain: '逻辑错误最难发现，因为程序能正常运行，只是结果不正确。'},
+            {q: '调试的第一步是什么？', options: ['修复错误', '发现问题', '分析问题', '验证修复'], answer: 1, explain: '调试的第一步是发现问题，知道程序有错误需要修复。'},
+            {q: '调试的最后一步是什么？', options: ['修复错误', '发现问题', '验证修复', '定位错误'], answer: 2, explain: '调试的最后一步是验证修复，确认问题已解决。'},
+            {q: '什么是输出调试法？', options: ['删除输出语句', '插入输出语句观察程序执行', '使用调试器', '单步执行'], answer: 1, explain: '输出调试法是在代码中插入输出语句，观察程序执行过程和变量值。'},
+            {q: '什么是单步调试？', options: ['一次性运行完程序', '逐行执行代码', '跳过某些代码', '加速执行'], answer: 1, explain: '单步调试是逐行执行代码，观察每一步的执行状态。'},
+            {q: '什么是断点？', options: ['程序结束的位置', '程序暂停执行的位置', '错误发生的位置', '注释的位置'], answer: 1, explain: '断点是调试器设置的暂停位置，程序执行到这里会暂停。'},
+            {q: '在Dev-C++中如何设置断点？', options: ['按F5', '按Ctrl+F5或在行号左侧单击', '按F9', '按F11'], answer: 1, explain: '在Dev-C++中按Ctrl+F5或在行号左侧单击设置断点。'},
+            {q: '在Dev-C++中如何单步执行？', options: ['按F5', '按F7', '按F9', '按F11'], answer: 1, explain: '在Dev-C++中按F7进行单步执行。'},
+            {q: '二分调试法的核心思想是？', options: ['从头到尾检查', '折半缩小错误范围', '随机检查', '只检查关键代码'], answer: 1, explain: '二分调试法通过折半快速缩小错误范围。'},
+            {q: '程序死循环通常是什么原因？', options: ['语法错误', '循环条件错误或变量未更新', '内存不足', '编译器错误'], answer: 1, explain: '死循环通常是循环条件错误或循环变量未在循环体内更新。'},
+            {q: '数组越界属于什么类型的错误？', options: ['语法错误', '运行时错误', '逻辑错误', '编译错误'], answer: 1, explain: '数组越界访问非法内存，属于运行时错误。'},
+            {q: '除以零属于什么类型的错误？', options: ['语法错误', '运行时错误', '逻辑错误', '编译错误'], answer: 1, explain: '除以零在运行时发现，属于运行时错误。'},
+            {q: '变量未初始化可能导致什么问题？', options: ['编译错误', '运行时错误或逻辑错误', '没问题', '程序加速'], answer: 1, explain: '未初始化的变量可能包含随机值，导致运行时错误或逻辑错误。'},
+            {q: '什么是良好的编程习惯？', options: ['写完所有代码再测试', '写一段测一段', '不写注释', '不保存文件'], answer: 1, explain: '良好的习惯是写一段代码就测试一段，及时发现和修复问题。'},
+            {q: '调试时使用cout输出的主要目的是？', options: ['美化输出', '观察变量值和程序流程', '提高速度', '减少内存'], answer: 1, explain: '使用cout输出是为了观察变量值和程序执行流程。'},
+            {q: '编译器错误信息通常包含什么？', options: ['仅错误类型', '文件名、行号、错误描述', '仅文件名', '仅错误编号'], answer: 1, explain: '编译器错误信息通常包含文件名、行号和详细的错误描述。'},
+            {q: '遇到编译错误应该？', options: ['放弃', '从第一个错误开始修复', '直接运行', '删除代码'], answer: 1, explain: '应该从第一个错误开始修复，修复前面的错误可能解决后面的很多错误。'},
+            {q: '程序能编译运行但结果不对，应该？', options: ['认为是编译器问题', '检查算法逻辑', '重装系统', '换电脑'], answer: 1, explain: '程序能运行但结果不对是逻辑错误，需要检查算法逻辑。'},
+            {q: '调试时最重要的是？', options: ['耐心', '耐心和分析能力', '运气', '猜测'], answer: 1, explain: '调试最重要的是耐心和分析能力，系统地排查问题。'},
+            // 调试方法与技巧 31-60
+            {q: '如何避免语法错误？', options: ['不写代码', '仔细检查语法，注意符号配对', '多运行', '祈祷'], answer: 1, explain: '避免语法错误需要仔细检查语法，注意括号、引号等符号配对。'},
+            {q: '如何避免运行时错误？', options: ['不运行程序', '检查边界条件，避免除零等', '多编译', '使用大内存'], answer: 1, explain: '避免运行时错误需要检查边界条件，避免除以零、数组越界等。'},
+            {q: '如何避免逻辑错误？', options: ['不写逻辑', '仔细设计算法，多测试', '少写代码', '不使用变量'], answer: 1, explain: '避免逻辑错误需要仔细设计算法，并多进行测试验证。'},
+            {q: '变量声明时应该？', options: ['不初始化', '立即初始化', '等用的时候再初始化', '随机初始化'], answer: 1, explain: '良好的习惯是声明变量时立即初始化，避免使用随机值。'},
+            {q: '循环变量应该在哪里更新？', options: ['循环外部', '循环体内', '任何地方', '不更新'], answer: 1, explain: '循环变量通常应在循环体内更新，避免死循环。'},
+            {q: '数组索引从几开始？', options: ['1', '0', '看情况', '随机'], answer: 1, explain: 'C++数组索引从0开始，最后一个元素是长度-1。'},
+            {q: '访问数组时应该检查什么？', options: ['不检查', '索引是否在有效范围内', '数组名', '数组类型'], answer: 1, explain: '访问数组时应检查索引是否在有效范围内（0到长度-1）。'},
+            {q: '除法运算前应该检查什么？', options: ['不检查', '除数是否为零', '被除数', '结果'], answer: 1, explain: '除法运算前应检查除数是否为零，避免运行时错误。'},
+            {q: '什么是防御式编程？', options: ['不写程序', '在关键点添加检查，预防错误', '只写简单程序', '不写注释'], answer: 1, explain: '防御式编程是在关键点添加检查，预防潜在错误。'},
+            {q: '调试时添加的输出语句，调试结束后应该？', options: ['保留', '删除或注释掉', '修改', '不管'], answer: 1, explain: '调试用的输出语句调试结束后应删除或注释掉，保持代码整洁。'},
+            {q: '程序崩溃时首先应该？', options: ['重启电脑', '分析错误信息，定位问题', '删除程序', '抱怨'], answer: 1, explain: '程序崩溃时应分析错误信息，定位问题所在。'},
+            {q: '什么是栈溢出？', options: ['内存太多', '递归太深或局部变量太大', '程序太快', '输出太多'], answer: 1, explain: '栈溢出通常是递归调用太深或局部变量占用空间太大。'},
+            {q: '如何调试递归程序？', options: ['不调试', '添加输出观察递归深度和参数', '减少递归', '增加递归'], answer: 1, explain: '调试递归程序可以添加输出观察递归深度和参数变化。'},
+            {q: '调试时应该一次修改多少处代码？', options: ['越多越好', '一次修改一处', '不修改', '随机修改'], answer: 1, explain: '调试时建议一次只修改一处，这样可以确定哪处修改解决了问题。'},
+            {q: '修复错误后应该做什么？', options: ['继续写新代码', '验证修复是否成功', '删除测试用例', '提交代码'], answer: 1, explain: '修复错误后应验证修复是否成功，确保问题真正解决。'},
+            {q: '什么是回归测试？', options: ['测试回归', '修复后确保没有引入新问题', '不测试', '只测一次'], answer: 1, explain: '回归测试是修复后再次测试，确保没有引入新问题。'},
+            {q: '调试复杂的逻辑错误时，应该？', options: ['放弃', '将问题分解，逐步排查', '重写整个程序', '请教他人'], answer: 1, explain: '调试复杂问题应将问题分解，逐步缩小范围排查。'},
+            {q: '什么是边界条件？', options: ['正常情况', '极端或特殊情况', '不测试的情况', '忽略的情况'], answer: 1, explain: '边界条件是极端或特殊情况，如数组的第一个/最后一个元素。'},
+            {q: '测试时为什么要测试边界条件？', options: ['没必要', '边界条件容易出错', '简单', '快速'], answer: 1, explain: '边界条件容易出错，测试时应特别关注。'},
+            {q: '如何快速定位错误所在函数？', options: ['随机找', '在函数入口添加输出', '删除函数', '重命名函数'], answer: 1, explain: '在函数入口添加输出可以快速定位程序执行到哪个函数。'},
+            {q: '调试时观察变量值变化的目的是？', options: ['浪费时间', '理解程序执行过程', '增加代码', '减慢程序'], answer: 1, explain: '观察变量值变化有助于理解程序执行过程和发现异常。'},
+            {q: '什么是最小可复现示例？', options: ['完整程序', '能复现问题的最简代码', '复杂程序', '随机代码'], answer: 1, explain: '最小可复现示例是去掉无关代码后仍能复现问题的最简代码。'},
+            {q: '为什么要创建最小可复现示例？', options: ['浪费时间', '帮助定位问题，便于求助', '增加代码量', '展示技术'], answer: 1, explain: '最小可复现示例帮助定位问题核心，也便于向他人求助。'},
+            {q: '调试时Google/百度错误信息有用吗？', options: ['没用', '很有用，通常能找到解决方案', '浪费时间', '不道德'], answer: 1, explain: '搜索错误信息通常能找到其他人遇到的相同问题和解决方案。'},
+            {q: '注释在调试中的作用是什么？', options: ['浪费时间', '帮助理解代码逻辑', '减慢程序', '增加代码量'], answer: 1, explain: '清晰的注释帮助理解代码逻辑，便于调试。'},
+            {q: '代码缩进对齐的作用是？', options: ['美观', '帮助发现括号不匹配等错误', '减慢编译', '增加文件大小'], answer: 1, explain: '良好的缩进帮助发现括号不匹配等结构性错误。'},
+            {q: '什么是版本控制？', options: ['控制程序版本号', '管理代码变更历史', '控制编译版本', '控制运行版本'], answer: 1, explain: '版本控制是管理代码变更历史，如Git，便于回溯和协作。'},
+            {q: '调试时Git版本控制有什么用？', options: ['没用', '可以回退到之前的正常版本', '增加工作量', '减慢开发'], answer: 1, explain: '版本控制可以在调试失败时回退到之前的正常版本。'},
+            {q: '什么是橡皮鸭调试法？', options: ['用橡皮鸭编程', '向他人/物品解释代码以发现问题', '购买橡皮鸭', '玩具调试'], answer: 1, explain: '橡皮鸭调试法是向他人（或物品）解释代码，往往能在解释过程中发现问题。'},
+            {q: '遇到解决不了的Bug应该？', options: ['放弃编程', '休息一会儿再回来', '一直死磕', '删除项目'], answer: 1, explain: '遇到难题时休息一下，换换思路往往能有新的发现。'},
+            // GDB与工具 61-80
+            {q: 'GDB是什么？', options: ['编辑器', 'GNU调试器', '编译器', '链接器'], answer: 1, explain: 'GDB是GNU调试器，用于调试C/C++程序。'},
+            {q: '使用GDB调试前需要做什么？', options: ['什么都不用', '用-g选项编译', '优化', '链接'], answer: 1, explain: '需要用-g选项编译，生成调试信息。'},
+            {q: 'GDB中设置断点的命令是？', options: ['stop', 'break', 'pause', 'halt'], answer: 1, explain: 'break命令用于在指定位置设置断点。'},
+            {q: 'GDB中查看变量值的命令是？', options: ['show', 'print', 'display', 'view'], answer: 1, explain: 'print命令用于查看变量的当前值。'},
+            {q: 'Visual Studio的调试器适合？', options: ['仅初学者', '各水平开发者', '仅专家', '仅学生'], answer: 1, explain: 'Visual Studio的调试器功能强大，适合各水平开发者。'},
+            {q: 'VS Code如何调试C++程序？', options: ['不能直接调试', '安装C/C++扩展后调试', '只能用命令行', '不能调C++'], answer: 1, explain: 'VS Code安装C/C++扩展后可以调试C++程序。'},
+            {q: '调试器中的「调用栈」显示什么？', options: ['变量值', '函数调用顺序', '内存地址', '编译时间'], answer: 1, explain: '调用栈显示函数的调用顺序和层次关系。'},
+            {q: '什么是内存泄漏？', options: ['内存太多', '申请了内存没有释放', '内存损坏', '内存太小'], answer: 1, explain: '内存泄漏是动态申请了内存但没有释放，导致内存占用持续增长。'},
+            {q: 'Valgrind是什么工具？', options: ['编辑器', '内存检测工具', '编译器', '版本控制'], answer: 1, explain: 'Valgrind是用于检测内存泄漏和内存错误的工具。'},
+            {q: '条件断点的作用是什么？', options: ['无条件暂停', '只在特定条件下暂停', '加快执行', '跳过代码'], answer: 1, explain: '条件断点只在特定条件满足时才暂停程序执行。'},
+            {q: '什么是监视（Watch）？', options: ['手表', '持续观察变量值变化', '只看一次', '不看变量'], answer: 1, explain: '监视是持续观察某个变量值的变化。'},
+            {q: '调试多线程程序的难点是？', options: ['太简单', '问题难以复现，执行顺序不确定', '代码太长', '变量太多'], answer: 1, explain: '多线程程序问题难以复现，因为执行顺序不确定。'},
+            {q: '什么是核心转储（Core Dump）？', options: ['程序正常退出', '程序崩溃时的内存快照', '编译错误', '逻辑错误'], answer: 1, explain: '核心转储是程序崩溃时的内存状态快照，用于事后分析。'},
+            {q: '如何使用核心转储调试？', options: ['直接查看', '用调试器加载分析', '删除它', '忽略它'], answer: 1, explain: '使用调试器加载核心转储文件进行事后分析。'},
+            {q: '远程调试适用于什么场景？', options: ['本地开发', '服务器/嵌入式设备调试', '学习', '测试'], answer: 1, explain: '远程调试适用于调试运行在服务器或嵌入式设备上的程序。'},
+            {q: '什么是静态分析工具？', options: ['运行时工具', '不运行程序就能发现潜在问题的工具', '手动检查', '动态工具'], answer: 1, explain: '静态分析工具不运行程序就能发现代码中的潜在问题。'},
+            {q: '静态分析和动态调试的区别是？', options: ['没有区别', '静态不运行代码，动态在运行时分析', '静态更快', '动态更快'], answer: 1, explain: '静态分析不运行代码，动态调试在程序运行时分析。'},
+            {q: 'IDE的自动补全能预防什么错误？', options: ['逻辑错误', '拼写错误和语法错误', '运行时错误', '所有错误'], answer: 1, explain: 'IDE的自动补全可以预防拼写错误和部分语法错误。'},
+            {q: '代码Lint工具的作用是？', options: ['运行代码', '检查代码风格和潜在问题', '编译代码', '优化代码'], answer: 1, explain: 'Lint工具检查代码风格和潜在问题，帮助提高代码质量。'},
+            {q: '调试大型项目时最重要的是？', options: ['速度快', '理解代码结构和模块化', '代码量少', '变量少'], answer: 1, explain: '调试大型项目需要理解代码结构和模块化设计。'},
+            // 调试思想与哲学 81-100
+            {q: 'Bug是坏事吗？', options: ['绝对是', '是学习的机会', '无所谓', '好事'], answer: 1, explain: 'Bug是学习的机会，通过调试可以深入理解程序运行机制。'},
+            {q: '优秀的程序员和新手的主要区别是？', options: ['不写Bug', '能快速定位和修复Bug', '写代码快', '代码短'], answer: 1, explain: '优秀程序员也会写Bug，但能快速定位和修复。'},
+            {q: '调试能力可以通过练习提高吗？', options: ['不可以', '可以，经验积累', '看天赋', '靠运气'], answer: 1, explain: '调试能力可以通过不断练习和经验积累来提高。'},
+            {q: '遇到Bug时的心态应该是？', options: ['沮丧放弃', '冷静分析，当作挑战', '愤怒', '忽视'], answer: 1, explain: '应保持冷静，将Bug视为学习和提升的机会。'},
+            {q: '记录Bug和解决方案的好处是？', options: ['浪费时间', '积累经验，下次更快解决', '给别人看', '增加工作量'], answer: 1, explain: '记录Bug和解决方案可以积累经验，下次遇到类似问题更快解决。'},
+            {q: '什么是调试的艺术？', options: ['随机尝试', '系统性思考和分析', '快速猜测', '频繁重启'], answer: 1, explain: '调试的艺术在于系统性思考和分析，而非随机尝试。'},
+            {q: '调试时需要理解什么？', options: ['什么都不用', '程序的预期行为和实际行为', '硬件原理', '操作系统内核'], answer: 1, explain: '调试需要理解程序的预期行为和实际行为的差异。'},
+            {q: '「知其然，知其所以然」在调试中的含义是？', options: ['不用知道原因', '不仅要知道错误，还要理解原因', '只要结果', '不用调试'], answer: 1, explain: '调试不仅要找到错误，还要深入理解错误产生的原因。'},
+            {q: '团队协作时如何有效调试？', options: ['独自调试', '沟通问题，分享信息', '指责他人', '隐藏Bug'], answer: 1, explain: '团队协作时应沟通问题，分享信息，共同解决。'},
+            {q: '代码审查（Code Review）能预防Bug吗？', options: ['不能', '能，通过他人检查发现潜在问题', '浪费时间', '减慢开发'], answer: 1, explain: '代码审查通过他人检查可以发现潜在问题，预防Bug。'},
+            {q: '测试驱动开发（TDD）的核心理念是？', options: ['先写代码后测试', '先写测试后写代码', '不写测试', '不写代码'], answer: 1, explain: '测试驱动开发先写测试，然后写代码使测试通过。'},
+            {q: '单元测试的作用是什么？', options: ['浪费时间', '验证小模块功能正确', '集成测试', '系统测试'], answer: 1, explain: '单元测试验证小模块（单元）的功能是否正确。'},
+            {q: '为什么测试不能发现所有Bug？', options: ['测试无用', '测试只能覆盖部分情况', '测试太多', '测试太复杂'], answer: 1, explain: '测试只能覆盖部分情况，不可能测试所有可能的输入。'},
+            {q: '持续集成（CI）对调试的帮助是？', options: ['没有帮助', '及时发现问题，快速定位', '增加Bug', '减慢开发'], answer: 1, explain: '持续集成可以及时发现问题，在问题还小时快速定位和修复。'},
+            {q: '什么是技术债务？', options: ['欠钱', '为赶进度而写的劣质代码', '借钱', '投资'], answer: 1, explain: '技术债务是为赶进度而写的劣质代码，日后需要花时间重构。'},
+            {q: '技术债务会导致什么问题？', options: ['没问题', 'Bug增多，难以调试', '代码变短', '程序变快'], answer: 1, explain: '技术债务会导致Bug增多，代码难以理解和调试。'},
+            {q: '好的代码注释应该？', options: ['越多越好', '解释「为什么」而非「做了什么」', '越少越好', '只写中文'], answer: 1, explain: '好的注释解释「为什么」这么做，代码本身说明「做了什么」。'},
+            {q: '命名规范对调试的帮助是？', options: ['没有帮助', '提高可读性，便于理解', '减慢编程', '增加代码量'], answer: 1, explain: '好的命名规范提高代码可读性，便于理解和调试。'},
+            {q: '重构代码应该在什么时候进行？', options: ['从不', '发现问题或技术债务积累时', '每天', '每周'], answer: 1, explain: '应在发现问题或技术债务积累时适时重构。'},
+            {q: '调试的最高境界是什么？', options: ['不写程序', '预防Bug的产生', '快速修复', '不写Bug'], answer: 1, explain: '调试的最高境界是通过良好设计和习惯预防Bug的产生。'},
+            // GESP考试要点 101-120
+            {q: 'GESP考试中，调试主要考察什么？', options: ['使用特定调试工具', '理解错误类型和基本调试方法', '编写调试器', '分析操作系统'], answer: 1, explain: '考察对错误类型的理解和基本调试方法的掌握。'},
+            {q: '考试中遇到编译错误，首先应该？', options: ['放弃', '查看错误信息中的行号和描述', '重启电脑', '换题'], answer: 1, explain: '应查看错误信息中的行号和描述，定位问题。'},
+            {q: '考试中程序运行时崩溃，应该？', options: ['提交', '检查数组越界、除零等常见问题', '认为系统错误', '不处理'], answer: 1, explain: '应检查数组越界、除以零等常见的运行时错误。'},
+            {q: '考试中输出结果不对，应该？', options: ['直接提交', '检查算法逻辑和边界条件', '修改输入', '认为是评测错误'], answer: 1, explain: '应检查算法逻辑和边界条件，修正逻辑错误。'},
+            {q: '考试中调试时间有限，应该？', options: ['不用调试', '优先检查常见错误类型', '重写程序', '猜测答案'], answer: 1, explain: '时间有限时应优先检查常见的错误类型。'},
+            {q: '以下哪种是语法错误？', options: ['数组越界', '缺少分号', '除以零', '无限循环'], answer: 1, explain: '缺少分号是语法错误，代码不符合语言规范。'},
+            {q: '以下哪种是运行时错误？', options: ['缺少分号', '括号不匹配', '数组越界', '拼写错误'], answer: 2, explain: '数组越界是运行时错误，程序执行时发生。'},
+            {q: '以下哪种是逻辑错误？', options: ['缺少头文件', '算法计算结果错误', '编译失败', '程序崩溃'], answer: 1, explain: '算法计算结果错误是逻辑错误，程序能运行但结果不对。'},
+            {q: '考试中如何避免语法错误？', options: ['不检查', '写完仔细检查符号配对', '多运行', '祈祷'], answer: 1, explain: '写完代码后仔细检查符号配对可以避免很多语法错误。'},
+            {q: '考试中如何避免运行时错误？', options: ['不运行', '检查数组边界、除数等', '多编译', '使用大数组'], answer: 1, explain: '检查数组边界、除数是否为零等可以预防运行时错误。'},
+            {q: '考试中如何避免逻辑错误？', options: ['不测试', '仔细分析算法，多测试边界情况', '少写代码', '不用循环'], answer: 1, explain: '仔细分析算法，多测试边界情况可以发现逻辑错误。'},
+            {q: '考试中调试的最佳实践是？', options: ['一次改多处', '一次改一处，验证后再继续', '随机修改', '大量添加输出'], answer: 1, explain: '一次只修改一处，验证后再继续，可以确定修改是否有效。'},
+            {q: '考试中遇到死循环怎么办？', options: ['等它结束', '检查循环条件和变量更新', '提交', '认为是系统问题'], answer: 1, explain: '应检查循环条件和循环变量是否正确更新。'},
+            {q: '考试中变量值异常应该检查什么？', options: ['不检查', '是否初始化、类型是否正确', '电脑', '编译器'], answer: 1, explain: '应检查变量是否初始化、数据类型是否正确。'},
+            {q: '考试中程序超时应该优化什么？', options: ['输出格式', '算法复杂度', '变量名', '注释'], answer: 1, explain: '程序超时通常需要优化算法复杂度。'},
+            {q: '考试中内存超限应该检查什么？', options: ['输出太多', '数组大小和内存使用', '变量名太长', '注释太多'], answer: 1, explain: '应检查数组大小是否合理，是否有内存泄漏。'},
+            {q: '考试中最好的调试策略是？', options: ['不调试', '预防为主，测试为辅', '只测试', '只预防'], answer: 1, explain: '最好的策略是预防为主，同时通过测试验证。'},
+            {q: '考试中保持冷静的重要性是？', options: ['不重要', '有助于理性分析问题', '浪费时间', '没必要'], answer: 1, explain: '保持冷静有助于理性分析问题，提高调试效率。'},
+            {q: '考试中调试时间应该如何分配？', options: ['不分配', '预留足够时间检查和调试', '全部时间调试', '不调试'], answer: 1, explain: '应预留足够的时间用于检查和调试。'},
+            {q: '考试中提交前最后应该做什么？', options: ['直接提交', '重新编译运行，测试样例', '关闭电脑', '删除代码'], answer: 1, explain: '提交前应重新编译运行，确保程序能正常工作。'}
+        ];
+
+        let currentQuestion = 0;
+        let answers = new Array(questions.length).fill(null);
+        let correctCount = 0;
+
+        function loadQuestion(index) {
+            currentQuestion = index;
+            const q = questions[index];
+            document.getElementById('questionNumber').textContent = `题目 ${index + 1}/${questions.length}`;
+            document.getElementById('questionText').textContent = q.q;
+            
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+            
+            q.options.forEach((opt, i) => {
+                const btn = document.createElement('div');
+                btn.className = 'option';
+                btn.textContent = `${String.fromCharCode(65 + i)}. ${opt}`;
+                btn.onclick = () => selectAnswer(i);
+                
+                if (answers[index] !== null) {
+                    btn.classList.add('disabled');
+                    if (i === answers[index]) {
+                        btn.classList.add(i === q.answer ? 'correct' : 'wrong');
+                    }
+                    if (i === q.answer && answers[index] !== q.answer) {
+                        btn.classList.add('correct');
+                    }
+                }
+                
+                optionsDiv.appendChild(btn);
+            });
+            
+            const explanation = document.getElementById('explanation');
+            if (answers[index] !== null) {
+                explanation.textContent = `解析：${q.explain}`;
+                document.getElementById('questionCard').classList.add('answered');
+            } else {
+                explanation.textContent = '';
+                document.getElementById('questionCard').classList.remove('answered');
+            }
+            
+            updateProgress();
+            updateNavButtons();
+        }
+
+        function selectAnswer(optionIndex) {
+            if (answers[currentQuestion] !== null) return;
+            
+            answers[currentQuestion] = optionIndex;
+            const q = questions[currentQuestion];
+            
+            if (optionIndex === q.answer) {
+                correctCount++;
+            }
+            
+            const options = document.querySelectorAll('.option');
+            options[optionIndex].classList.add(optionIndex === q.answer ? 'correct' : 'wrong');
+            
+            if (optionIndex !== q.answer) {
+                options[q.answer].classList.add('correct');
+            }
+            
+            document.getElementById('explanation').textContent = `解析：${q.explain}`;
+            document.getElementById('questionCard').classList.add('answered');
+            
+            updateProgress();
+            saveProgress();
+        }
+
+        function updateProgress() {
+            const answered = answers.filter(a => a !== null).length;
+            const progress = (answered / questions.length) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+            document.getElementById('progressText').textContent = `${answered}/${questions.length}`;
+        }
+
+        function updateNavButtons() {
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            document.getElementById('nextBtn').textContent = 
+                currentQuestion === questions.length - 1 ? '完成' : '下一题 →';
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                loadQuestion(currentQuestion - 1);
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                loadQuestion(currentQuestion + 1);
+            } else {
+                const answered = answers.filter(a => a !== null).length;
+                const accuracy = answered > 0 ? Math.round((correctCount / answered) * 100) : 0;
+                alert(`测验完成！\n答对：${correctCount}/${answered}\n正确率：${accuracy}%`);
+            }
+        }
+
+        function saveProgress() {
+            localStorage.setItem('cpp-l1-topic-2-6-progress', JSON.stringify(answers));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('cpp-l1-topic-2-6-progress');
+            if (saved) {
+                answers = JSON.parse(saved);
+                correctCount = answers.reduce((sum, ans, idx) => 
+                    sum + (ans === questions[idx].answer ? 1 : 0), 0);
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' && currentQuestion > 0) prevQuestion();
+            if (e.key === 'ArrowRight') nextQuestion();
+        });
+
+        loadProgress();
+        loadQuestion(0);
+    </script>
+</body>
+</html>
