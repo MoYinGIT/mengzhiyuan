@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.5 解释 - C++一级 - 蒙正堂</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/guofeng-v2.css">
+    <style>
+        :root {
+            --l1-primary: #1e3a5f;
+            --l1-secondary: #2e5984;
+            --correct: #4a7c59;
+            --wrong: #c9372c;
+        }
+        .topic-container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+        .breadcrumb { display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1.5rem; font-size: 0.9rem; color: #666; }
+        .breadcrumb a { color: var(--l1-primary); text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .topic-header { background: linear-gradient(135deg, var(--l1-primary) 0%, var(--l1-secondary) 100%); color: white; padding: 2rem; border-radius: 12px; margin-bottom: 2rem; }
+        .topic-header .number { font-size: 0.9rem; opacity: 0.8; margin-bottom: 0.5rem; }
+        .topic-header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .topic-header .meta { display: flex; gap: 1.5rem; font-size: 0.9rem; opacity: 0.9; }
+        .content-section { background: white; border-radius: 12px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .content-section h2 { color: var(--l1-primary); border-left: 4px solid var(--l1-primary); padding-left: 1rem; margin-bottom: 1.5rem; }
+        .content-section h3 { color: var(--ink-800); margin: 1.5rem 0 1rem; }
+        .content-section p { line-height: 1.8; margin-bottom: 1rem; text-align: justify; }
+        .content-section ul, .content-section ol { margin: 1rem 0 1rem 1.5rem; }
+        .content-section li { margin-bottom: 0.5rem; line-height: 1.7; }
+        .highlight-box { background: #f0f4f8; border-left: 4px solid var(--l1-primary); padding: 1rem 1.5rem; margin: 1.5rem 0; border-radius: 0 8px 8px 0; }
+        .highlight-box.warning { background: #fff3cd; border-left-color: #d4a574; }
+        .highlight-box.danger { background: #f8d7da; border-left-color: #c9372c; }
+        .highlight-box.success { background: #d4edda; border-left-color: #4a7c59; }
+        .shortcut-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        .shortcut-table th, .shortcut-table td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #e9ecef; }
+        .shortcut-table th { background: #f8f9fa; font-weight: 600; }
+        .code-block { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 6px; padding: 1rem; margin: 1rem 0; font-family: 'Consolas', 'Monaco', monospace; font-size: 0.9rem; overflow-x: auto; }
+        .code-block .comment { color: #6a9955; }
+        .code-block .keyword { color: #0000ff; }
+        .code-block .string { color: #a31515; }
+        .quiz-section { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .quiz-section h2 { color: var(--l1-primary); border-left: 4px solid var(--l1-primary); padding-left: 1rem; margin-bottom: 1rem; }
+        .quiz-progress { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding: 0.75rem 1rem; background: #f8f9fa; border-radius: 8px; }
+        .quiz-progress-bar { flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; margin: 0 1rem; overflow: hidden; }
+        .quiz-progress-fill { height: 100%; background: linear-gradient(90deg, var(--l1-primary), var(--l1-secondary)); border-radius: 4px; transition: width 0.3s ease; }
+        .question-card { border: 1px solid #e9ecef; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; }
+        .question-card.correct { border-color: var(--correct); background: #f0f8f0; }
+        .question-card.wrong { border-color: var(--wrong); background: #fdf0ef; }
+        .question-number { font-weight: 600; color: var(--l1-primary); margin-bottom: 0.5rem; }
+        .question-text { font-size: 1.05rem; margin-bottom: 1rem; }
+        .options { display: flex; flex-direction: column; gap: 0.5rem; }
+        .option { padding: 0.75rem 1rem; border: 1px solid #e9ecef; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; }
+        .option:hover { background: #f8f9fa; border-color: var(--l1-primary); }
+        .option.selected { background: #e3f2fd; border-color: var(--l1-primary); }
+        .option.correct { background: #d4edda; border-color: var(--correct); }
+        .option.wrong { background: #f8d7da; border-color: var(--wrong); }
+        .explanation { display: none; margin-top: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 6px; }
+        .question-card.answered .explanation { display: block; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 2rem; }
+        .vs-box { display: flex; align-items: center; justify-content: center; gap: 2rem; margin: 2rem 0; padding: 2rem; background: #f8f9fa; border-radius: 12px; flex-wrap: wrap; }
+        .vs-item { text-align: center; padding: 1.5rem; border-radius: 8px; min-width: 200px; }
+        .vs-item.compile { background: #e3f2fd; border: 2px solid #2196f3; }
+        .vs-item.interpret { background: #f3e5f5; border: 2px solid #9c27b0; }
+        .vs-divider { font-size: 1.5rem; font-weight: bold; color: #666; }
+        @media (max-width: 768px) {
+            .topic-container { padding: 1rem; }
+            .topic-header h1 { font-size: 1.4rem; }
+            .content-section { padding: 1.25rem; }
+            .vs-box { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="../../" class="brand">
+                <span class="brand-icon">☯</span>
+                <span class="brand-text">默隐·蒙知苑</span>
+            </a>
+            <div class="nav-links">
+                <a href="../" class="nav-link">🎓 蒙正堂</a>
+                <a href="./" class="nav-link">C++一级</a>
+                <span class="nav-link active">2.5 解释</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="topic-container">
+        <div class="breadcrumb">
+            <a href="../">蒙正堂</a>
+            <span>›</span>
+            <a href="./">C++一级</a>
+            <span>›</span>
+            <a href="./#block2">集成开发环境</a>
+            <span>›</span>
+            <span>2.5 解释</span>
+        </div>
+
+        <div class="topic-header">
+            <div class="number">知识块 2 · 知识点 5/6</div>
+            <h1>解释</h1>
+            <div class="meta">
+                <span>⏱️ 预估学习时长: 40分钟</span>
+                <span>📋 验证题目: 100题</span>
+                <span>🎯 难度: 入门级</span>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>📚 知识详解</h2>
+            
+            <h3>一、什么是解释</h3>
+            <p>与编译不同，<strong>解释</strong>是一种边翻译边执行的程序运行方式。解释器逐行读取源代码，逐行翻译成机器指令并立即执行，不需要生成独立的可执行文件。</p>
+            
+            <div class="highlight-box">
+                <strong>💡 一句话理解</strong><br>
+                解释就像「同声传译」——说一句、翻译一句、执行一句，不需要等待全部翻译完成。
+            </div>
+
+            <h3>二、编译 vs 解释 对比</h3>
+            
+            <div class="vs-box">
+                <div class="vs-item compile">
+                    <h4>🔨 编译型语言</h4>
+                    <p><strong>代表：C++</strong></p>
+                    <p>先编译 → 后执行</p>
+                    <p>生成可执行文件</p>
+                    <p>执行速度快</p>
+                </div>
+                <div class="vs-divider">VS</div>
+                <div class="vs-item interpret">
+                    <h4>🐍 解释型语言</h4>
+                    <p><strong>代表：Python</strong></p>
+                    <p>边解释 → 边执行</p>
+                    <p>无需生成可执行文件</p>
+                    <p>开发效率高</p>
+                </div>
+            </div>
+
+            <table class="shortcut-table">
+                <tr><th>特性</th><th>编译型（C++）</th><th>解释型（Python）</th></tr>
+                <tr><td>执行方式</td><td>先全部编译，再执行</td><td>边解释边执行</td></tr>
+                <tr><td>执行速度</td><td>快（直接运行机器码）</td><td>较慢（需要实时解释）</td></tr>
+                <tr><td>开发效率</td><td>较低（需要编译步骤）</td><td>高（即写即运行）</td></tr>
+                <tr><td>错误发现</td><td>编译时发现语法错误</td><td>运行时发现错误</td></tr>
+                <tr><td>可移植性</td><td>需针对不同平台编译</td><td>源代码可直接运行</td></tr>
+                <tr><td>调试便利性</td><td>较复杂（需重新编译）</td><td>方便（即改即运行）</td></tr>
+            </table>
+
+            <h3>三、Python 解释器</h3>
+            
+            <p>Python 是最流行的解释型语言之一，它的运行依赖 Python 解释器。</p>
+            
+            <div class="code-block">
+                <span class="comment"># Python 代码示例</span><br>
+                print("Hello, World!")r>
+                <span class="comment"># 直接运行，无需编译</span>
+            </div>
+
+            <h4>Python 运行流程</h4>
+            <ol>
+                <li>用户编写 <code>.py</code> 源代码文件</li>
+                <li>Python 解释器逐行读取代码</li>
+                <li>解释器将每行代码翻译成字节码</li>
+                <li>Python 虚拟机执行字节码</li>
+                <li>输出结果</li>
+            </ol>
+
+            <div class="highlight-box success">
+                <strong>🎯 Python 的优势</strong><br>
+                • <strong>简单易学</strong>：语法简洁，适合初学者<br>
+                • <strong>即写即运行</strong>：无需编译，修改后可直接运行<br>
+                • <strong>跨平台</strong>：同一份代码可在 Windows/Linux/Mac 上运行<br>
+                • <strong>丰富的库</strong>：大量现成功能可直接使用
+            </div>
+
+            <h3>四、解释型语言的优缺点</h3>
+            
+            <table class="shortcut-table">
+                <tr><th>优点</th><th>缺点</th></tr>
+                <tr>
+                    <td>✅ 开发效率高，即写即运行</td>
+                    <td>❌ 运行速度相对较慢</td>
+                </tr>
+                <tr>
+                    <td>✅ 跨平台性好，一次编写到处运行</td>
+                    <td>❌ 需要安装解释器环境</td>
+                </tr>
+                <tr>
+                    <td>✅ 调试方便，错误定位容易</td>
+                    <td>❌ 源代码暴露，不易保护</td>
+                </tr>
+                <tr>
+                    <td>✅ 语法简洁，代码量少</td>
+                    <td>❌ 内存占用相对较高</td>
+                </tr>
+            </table>
+
+            <h3>五、常见的解释型语言</h3>
+            
+            <table class="shortcut-table">
+                <tr><th>语言</th><th>特点</th><th>主要用途</th></tr>
+                <tr><td>Python</td><td>语法简洁，库丰富</td><td>人工智能、数据分析、Web开发</td></tr>
+                <tr><td>JavaScript</td><td>网页脚本语言</td><td>网页交互、前端开发</td></tr>
+                <tr><td>PHP</td><td>专为Web设计</td><td>服务器端Web开发</td></tr>
+                <tr><td>Ruby</td><td>优雅简洁</td><td>Web开发、脚本编写</td></tr>
+                <tr><td>Java*</td><td>编译+解释混合</td><td>企业级应用、Android开发</td></tr>
+            </table>
+
+            <div class="highlight-box warning">
+                <strong>⚠️ 注意 Java 的特殊性</strong><br>
+                Java 是一种特殊的语言：先编译成字节码（.class文件），再由 JVM（Java虚拟机）解释执行。所以它是「半编译半解释」的语言。
+            </div>
+
+            <h3>六、如何选择语言</h3>
+            
+            <div class="highlight-box">
+                <strong>🏆 选择 C++ 的场景</strong><br>
+                • 算法竞赛（运行速度要求高）<br>
+                • 游戏开发（性能要求高）<br>
+                • 系统编程（操作系统、驱动程序）<br>
+                • 嵌入式开发（资源受限环境）
+            </div>
+
+            <div class="highlight-box success">
+                <strong>🐍 选择 Python 的场景</strong><br>
+                • 快速原型开发<br>
+                • 数据分析与人工智能<br>
+                • 自动化脚本<br>
+                • Web 后端开发<br>
+                • 编程入门学习
+            </div>
+
+            <h3>七、GESP考试要点</h3>
+            
+            <ul>
+                <li><strong>解释的概念</strong>：边翻译边执行的运行方式</li>
+                <li><strong>编译 vs 解释</strong>：两种方式的主要区别</li>
+                <li><strong>Python 特点</strong>：解释型、简洁、跨平台</li>
+                <li><strong>适用场景</strong>：了解两种语言类型的适用场景</li>
+            </ul>
+
+            <div class="highlight-box">
+                <strong>🎯 核心口诀</strong><br>
+                「编译像笔译，先译后看；解释像口译，边听边译。」
+            </div>
+        </div>
+
+        <!-- 易经智慧 -->
+        <div class="content-section">
+            <h2>☯ 解释之道：顺势而为，随方就圆</h2>
+            
+            <blockquote style="background: #f8f9fa; padding: 1.5rem; border-left: 4px solid var(--l1-primary); margin: 1.5rem 0; font-style: italic;">
+                《道德经》云：「上善若水，水善利万物而不争。」
+            </blockquote>
+            
+            <p>解释型语言如水般灵活，不拘泥于形式，随器就形，顺势而为。C++ 如烈火般迅捷刚猛，Python 如流水般柔韧通达。<strong>阴阳相济，各尽其用</strong>。</p>
+            
+            <table class="shortcut-table">
+                <tr><th>语言特性</th><th>易经智慧</th><th>寓意</th></tr>
+                <tr><td>编译型（C++）</td><td>「天行健，君子以自强不息」</td><td>追求极致，刚健有力</td></tr>
+                <tr><td>解释型（Python）</td><td>「地势坤，君子以厚德载物」</td><td>包容万物，柔韧通达</td></tr>
+                <tr><td>两者结合</td><td>「一阴一阳之谓道」</td><td>刚柔并济，各得其所</td></tr>
+            </table>
+
+            <div class="highlight-box success">
+                <strong>💡 圣人启示</strong><br>
+                「穷则变，变则通，通则久。」—— 编译与解释各有所长，知其所长而用之，方为上策。
+            </div>
+        </div>
+
+        <!-- 检查清单 -->
+        <div class="content-section">
+            <h2>✅ 本模块检查清单</h2>
+            
+            <h3>学习前</h3>
+            <ul style="list-style: none;">
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 了解 C++ 的基本概念</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 知道什么是编程语言</li>
+            </ul>
+
+            <h3>学习中</h3>
+            <ul style="list-style: none;">
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 理解编译与解释的区别</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 能举例说明解释型语言的特点</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 了解 Python 的基本特性</li>
+            </ul>
+
+            <h3>学习后</h3>
+            <ul style="list-style: none;">
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 能对比编译与解释的优缺点</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 知道何时选择编译型/解释型语言</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 测验正确率达到 80% 以上</li>
+            </ul>
+        </div>
+
+        <div class="quiz-section">
+            <h2>📝 验证测验 (100题)</h2>
+            <div class="quiz-progress">
+                <span>进度</span>
+                <div class="quiz-progress-bar">
+                    <div class="quiz-progress-fill" id="progressBar" style="width: 0%"></div>
+                </div>
+                <span id="progressText">0/100</span>
+            </div>
+            <div id="questionContainer">
+                <div class="question-card" id="questionCard">
+                    <div class="question-number" id="questionNumber">题目 1/100</div>
+                    <div class="question-text" id="questionText">加载中...</div>
+                    <div class="options" id="options"></div>
+                    <div class="explanation" id="explanation"></div>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" id="prevBtn" onclick="prevQuestion()" disabled>← 上一题</button>
+                <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">下一题 →</button>
+            </div>
+        </div>
+
+        <!-- 拓展阅读 -->
+        <div class="content-section">
+            <h2>📚 拓展阅读</h2>
+            
+            <h3>Python 安装与运行</h3>
+            
+            <div class="code-block">
+                <span class="comment"># 1. 安装 Python（官网 python.org）</span><br>
+                <span class="comment"># 2. 验证安装</span><br>
+                python --version<br><br>
+                <span class="comment"># 3. 运行 Python 程序</span><br>
+                python hello.py<br><br>
+                <span class="comment"># 4. 交互式运行（即时执行）</span><br>
+                python<br>
+                >>> print("Hello")
+            </div>
+
+            <h3>其他执行方式</h3>
+            
+            <table class="shortcut-table">
+                <tr><th>方式</th><th>说明</th><th>示例</th></tr>
+                <tr><td>交互式</td><td>逐行输入，即时执行</td><td>在命令行输入 python</td></tr>
+                <tr><td>脚本式</td><td>运行 .py 文件</td><td>python program.py</td></tr>
+                <tr><td>IDE</td><td>集成开发环境</td><td>PyCharm、VS Code</td></tr>
+                <tr><td>在线</td><td>网页版解释器</td><td>Python 在线运行网站</td></tr>
+            </table>
+
+            <div class="highlight-box">
+                <strong>💡 学习建议</strong><br>
+                GESP C++ 一级考试中，「解释」部分主要考察概念理解。建议：1）理解编译与解释的区别；2）了解 Python 是解释型语言；3）知道两种方式的优缺点。
+            </div>
+        </div>
+
+        <div style="margin-top: 2rem; text-align: center;">
+            <a href="./" class="btn btn-secondary">← 返回C++一级目录</a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-brand">默隐·蒙正堂</p>
+            <p class="footer-motto">让所有孩子有处可学</p>
+            <p class="footer-copyright">© 2026 默隐 · 明夷敬制</p>
+        </div>
+    </footer>
+
+    <script>
+        const questions = [
+            // 解释基础概念 1-30
+            {q: '什么是解释？', options: ['先编译再执行', '边翻译边执行', '直接执行机器码', '只翻译不执行'], answer: 1, explain: '解释是边翻译源代码边执行的方式，不需要生成独立的可执行文件。'},
+            {q: 'Python是编译型语言还是解释型语言？', options: ['编译型', '解释型', '两者都是', '两者都不是'], answer: 1, explain: 'Python是解释型语言，由Python解释器逐行执行。'},
+            {q: '解释型语言的执行方式是？', options: ['先全部编译再执行', '边解释边执行', '直接运行二进制', '不需要执行'], answer: 1, explain: '解释型语言是边解释源代码边执行的运行方式。'},
+            {q: '解释型语言需要生成可执行文件吗？', options: ['必须生成', '不需要生成', '有时需要', '看情况'], answer: 1, explain: '解释型语言直接运行源代码，不需要生成独立的可执行文件。'},
+            {q: '以下哪个是解释型语言？', options: ['C++', 'Python', 'C', 'Rust'], answer: 1, explain: 'Python是解释型语言，C++、C、Rust都是编译型语言。'},
+            {q: 'JavaScript是解释型语言吗？', options: ['不是', '是', '是编译型', '不确定'], answer: 1, explain: 'JavaScript是解释型语言，由浏览器或Node.js解释执行。'},
+            {q: '解释型语言的执行速度通常？', options: ['比编译型快', '比编译型慢', '一样快', '不确定'], answer: 1, explain: '解释型语言需要实时翻译，执行速度通常比编译型语言慢。'},
+            {q: '解释型语言的开发效率通常？', options: ['较低', '较高', '一样', '不确定'], answer: 1, explain: '解释型语言即写即运行，开发效率通常比编译型语言高。'},
+            {q: '解释型语言的错误在什么时候发现？', options: ['编译时', '运行时', '保存时', '安装时'], answer: 1, explain: '解释型语言在运行代码时才检查错误，有错误会立即停止。'},
+            {q: 'Python代码的文件扩展名是什么？', options: ['.cpp', '.py', '.java', '.c'], answer: 1, explain: 'Python源代码文件使用.py作为扩展名。'},
+            {q: '运行Python程序需要什么？', options: ['编译器', '解释器', '链接器', '汇编器'], answer: 1, explain: '运行Python需要Python解释器来执行代码。'},
+            {q: 'Python解释器的作用是什么？', options: ['编译代码', '解释执行Python代码', '链接程序', '优化代码'], answer: 1, explain: 'Python解释器读取Python代码并逐行解释执行。'},
+            {q: '解释型语言的跨平台性如何？', options: ['差', '好', '一般', '不确定'], answer: 1, explain: '解释型语言源代码可直接在不同平台运行，跨平台性好。'},
+            {q: 'Python可以在哪些操作系统上运行？', options: ['仅Windows', 'Windows/Linux/Mac', '仅Linux', '仅Mac'], answer: 1, explain: 'Python是跨平台的，可在Windows、Linux、Mac等系统上运行。'},
+            {q: '修改Python代码后需要重新编译吗？', options: ['需要', '不需要', '有时需要', '看情况'], answer: 1, explain: 'Python是解释型语言，修改后直接运行即可，不需要编译。'},
+            {q: '解释型语言调试方便吗？', options: ['不方便', '方便', '一般', '不确定'], answer: 1, explain: '解释型语言即改即运行，调试比较方便。'},
+            {q: 'PHP是解释型语言吗？', options: ['不是', '是', '是编译型', '不确定'], answer: 1, explain: 'PHP是解释型语言，主要用于Web服务器端开发。'},
+            {q: 'Ruby是解释型语言吗？', options: ['不是', '是', '是编译型', '不确定'], answer: 1, explain: 'Ruby是解释型语言，以优雅简洁著称。'},
+            {q: '编译型语言和解释型语言哪个更适合竞赛？', options: ['编译型', '解释型', '都一样', '看情况'], answer: 0, explain: '竞赛通常使用编译型语言（如C++），因为执行速度更快。'},
+            {q: 'GESP C++一级考试使用什么类型的语言？', options: ['解释型', '编译型', '混合型', '脚本型'], answer: 1, explain: 'GESP C++一级使用C++，属于编译型语言。'},
+            {q: 'Python适合用于什么场景？', options: ['系统编程', '快速开发/数据分析/AI', '嵌入式开发', '驱动程序'], answer: 1, explain: 'Python适合快速开发、数据分析、人工智能等场景。'},
+            {q: 'C++适合用于什么场景？', options: ['网页设计', '算法竞赛/系统编程', '简单脚本', '数据分析'], answer: 1, explain: 'C++适合算法竞赛、系统编程、游戏开发等性能要求高的场景。'},
+            {q: '解释型语言的主要优点是什么？', options: ['运行速度快', '开发效率高', '内存占用小', '源代码安全'], answer: 1, explain: '解释型语言主要优点是开发效率高，即写即运行。'},
+            {q: '解释型语言的主要缺点是什么？', options: ['开发效率低', '运行速度相对较慢', '语法复杂', '不能跨平台'], answer: 1, explain: '解释型语言主要缺点是运行速度相对较慢。'},
+            {q: 'Python语法特点是什么？', options: ['复杂冗长', '简洁优雅', '与C++相同', '难以学习'], answer: 1, explain: 'Python以语法简洁优雅著称，代码可读性高。'},
+            {q: '运行Python程序的正确命令是？', options: ['gcc program.py', 'python program.py', 'javac program.py', 'rustc program.py'], answer: 1, explain: '使用python命令运行Python程序。'},
+            {q: 'Java是纯粹的解释型语言吗？', options: ['是', '不是，是编译+解释混合', '是纯粹的编译型', '不确定'], answer: 1, explain: 'Java先编译成字节码，再由JVM解释执行，是混合模式。'},
+            {q: '解释型语言的源代码是否容易被看到？', options: ['不容易', '容易', '看情况', '加密后不能'], answer: 1, explain: '解释型语言直接分发源代码，容易被看到。'},
+            {q: '编译型语言和解释型语言的选择取决于？', options: ['个人喜好', '具体应用场景', '操作系统', '编程习惯'], answer: 1, explain: '选择语言类型应根据具体应用场景的需求来决定。'},
+            {q: '「即写即运行」是哪个类型语言的特点？', options: ['编译型', '解释型', '两者都是', '两者都不是'], answer: 1, explain: '「即写即运行」是解释型语言的特点。'},
+            // 深入理解 31-60
+            {q: 'Python虚拟机（PVM）的作用是什么？', options: ['编译代码', '执行字节码', '链接程序', '优化代码'], answer: 1, explain: 'Python虚拟机执行解释器生成的字节码。'},
+            {q: 'Python代码执行前会被转换成什么？', options: ['机器码', '字节码', '汇编代码', 'C代码'], answer: 1, explain: 'Python代码先被转换成字节码，再由虚拟机执行。'},
+            {q: '解释型语言内存占用通常？', options: ['较低', '较高', '一样', '不确定'], answer: 1, explain: '解释型语言需要解释器常驻内存，内存占用通常较高。'},
+            {q: '为什么解释型语言适合初学者？', options: ['运行快', '语法简洁，即写即运行', '功能强大', '商业应用多'], answer: 1, explain: '解释型语言语法简洁，可立即看到运行结果，适合初学者。'},
+            {q: 'Python在人工智能领域流行的原因是？', options: ['运行速度快', '有丰富的AI库和简洁语法', '是编译型语言', '内存占用小'], answer: 1, explain: 'Python有丰富的AI库（如TensorFlow、PyTorch）和简洁语法。'},
+            {q: '解释型语言的「交互模式」是什么？', options: ['编译模式', '逐行输入即时执行', '批量执行', '后台运行'], answer: 1, explain: '交互模式下可逐行输入代码并立即看到执行结果。'},
+            {q: '如何进入Python交互模式？', options: ['输入py', '输入python', '输入cpp', '输入java'], answer: 1, explain: '在命令行输入python可进入Python交互模式。'},
+            {q: '退出Python交互模式的命令是？', options: ['quit()', 'exit()', 'stop()', 'A和B都可以'], answer: 3, explain: 'quit()或exit()都可以退出Python交互模式。'},
+            {q: 'Python的创始人是谁？', options: ['Linus Torvalds', 'Guido van Rossum', 'Dennis Ritchie', 'Bjarne Stroustrup'], answer: 1, explain: 'Python由Guido van Rossum（吉多·范罗苏姆）创建。'},
+            {q: 'Python的命名来源是？', options: ['蟒蛇', '英国喜剧团体Monty Python', '数学家', '创始人名字'], answer: 1, explain: 'Python命名来源于英国喜剧团体Monty Python。'},
+            {q: '以下哪个不是Python的应用领域？', options: ['Web开发', '数据分析', '操作系统内核', '人工智能'], answer: 2, explain: 'Python不用于操作系统内核开发，那是C/C++的领域。'},
+            {q: '解释型语言的程序分发方式通常是？', options: ['分发可执行文件', '分发源代码', '分发机器码', '分发汇编代码'], answer: 1, explain: '解释型语言通常直接分发源代码。'},
+            {q: 'Python代码中的注释符号是？', options: ['//', '#', '/* */', '--'], answer: 1, explain: 'Python使用#作为单行注释符号。'},
+            {q: 'Python打印输出的函数是？', options: ['printf()', 'cout', 'print()', 'echo'], answer: 2, explain: 'Python使用print()函数输出内容。'},
+            {q: '解释型语言适合快速原型开发吗？', options: ['不适合', '适合', '看情况', '不确定'], answer: 1, explain: '解释型语言开发效率高，非常适合快速原型开发。'},
+            {q: 'Python的主要实现有哪些？', options: ['仅CPython', 'CPython、PyPy、Jython等', '仅Jython', '仅PyPy'], answer: 1, explain: 'Python有CPython、PyPy、Jython等多种实现。'},
+            {q: 'CPython是什么？', options: ['C语言编译器', 'Python的标准实现', 'Python的IDE', 'Python的库'], answer: 1, explain: 'CPython是用C语言编写的Python标准实现。'},
+            {q: 'PyPy与CPython的主要区别是？', options: ['语法不同', 'PyPy使用JIT编译，速度更快', 'PyPy是编译型', 'PyPy不能运行Python代码'], answer: 1, explain: 'PyPy使用JIT（即时编译）技术，执行速度通常比CPython快。'},
+            {q: 'JIT编译是什么？', options: ['静态编译', '即时编译', '预编译', '不编译'], answer: 1, explain: 'JIT（Just-In-Time）是即时编译，在运行时动态编译代码。'},
+            {q: '解释型语言可以调用编译型语言写的库吗？', options: ['不可以', '可以', '看情况', '不确定'], answer: 1, explain: '解释型语言可以调用编译型语言编写的库以提高性能。'},
+            {q: 'Python可以调用C/C++写的模块吗？', options: ['不可以', '可以', '仅Windows可以', '仅Linux可以'], answer: 1, explain: 'Python可以通过扩展接口调用C/C++编写的模块。'},
+            {q: '为什么Python的科学计算库（如NumPy）运行快？', options: ['Python本身快', '底层用C/Fortran编写', '使用了特殊硬件', '解释器优化好'], answer: 1, explain: 'NumPy等库的底层是用C/Fortran等编译型语言编写，执行效率高。'},
+            {q: '解释型语言的「脚本」是什么意思？', options: ['电影剧本', '可直接解释执行的小程序', '编译后的程序', '系统程序'], answer: 1, explain: '脚本是指可直接由解释器执行的小型程序。'},
+            {q: 'Python被称为「胶水语言」的原因是？', options: ['粘性强', '可以连接不同语言的模块', '语法粘滞', '运行慢'], answer: 1, explain: 'Python可以方便地调用其他语言（C/C++/Fortran）的库，像胶水一样连接它们。'},
+            {q: '解释型语言在Web开发中的优势是？', options: ['运行速度快', '开发效率高，部署方便', '安全性高', '内存占用小'], answer: 1, explain: '解释型语言开发效率高，修改后无需重新编译即可部署。'},
+            {q: 'GESP考试中为什么主要考察C++而非Python？', options: ['Python太难', 'C++更能培养算法思维', 'Python不能用', 'C++更简单'], answer: 1, explain: 'C++更能培养算法思维和计算机底层理解，且是竞赛主流语言。'},
+            {q: '初学者应该先学Python还是C++？', options: ['必须学C++', '都可以，Python入门更容易', '必须学Python', '都不适合'], answer: 1, explain: '都可以作为入门语言，Python语法更简洁，入门相对容易。'},
+            {q: '解释型语言的变量需要声明类型吗？', options: ['必须声明', '通常不需要', '看情况', '仅Python不需要'], answer: 1, explain: '大多数解释型语言（如Python、JavaScript）是动态类型，不需要显式声明变量类型。'},
+            {q: 'Python中如何查看变量的类型？', options: ['typeof()', 'type()', 'class()', 'vartype()'], answer: 1, explain: 'Python使用type()函数查看变量类型。'},
+            {q: '动态类型语言的特点是什么？', options: ['变量类型固定不变', '变量类型可在运行时改变', '必须先声明类型', '没有变量类型'], answer: 1, explain: '动态类型语言中，变量的类型可以在运行时改变。'},
+            // 对比与应用 61-90
+            {q: '编译型语言的优势是什么？', options: ['开发效率高', '执行速度快', '跨平台性好', '代码简洁'], answer: 1, explain: '编译型语言编译成机器码直接执行，运行速度快。'},
+            {q: '解释型语言的优势是什么？', options: ['执行速度快', '开发效率高，跨平台性好', '内存占用小', '源代码安全'], answer: 1, explain: '解释型语言开发效率高，跨平台性好，即写即运行。'},
+            {q: '游戏开发通常选择什么类型的语言？', options: ['解释型', '编译型', '都可以', '不确定'], answer: 1, explain: '游戏开发对性能要求高，通常选择编译型语言（如C++）。'},
+            {q: '数据分析通常选择什么类型的语言？', options: ['编译型', '解释型', '都可以', '不确定'], answer: 1, explain: '数据分析注重开发效率，通常选择解释型语言（如Python）。'},
+            {q: '操作系统通常用什么语言编写？', options: ['Python', 'C/C++', 'JavaScript', 'PHP'], answer: 1, explain: '操作系统对性能要求极高，通常用C/C++等编译型语言编写。'},
+            {q: '网站前端开发主要用什么语言？', options: ['C++', 'JavaScript', 'Python', 'Java'], answer: 1, explain: '网站前端开发主要使用JavaScript（解释型语言）。'},
+            {q: '网站后端开发可以用什么语言？', options: ['仅PHP', 'Python/PHP/Java等都可以', '仅C++', '仅JavaScript'], answer: 1, explain: '网站后端可使用多种语言，包括Python、PHP、Java、Node.js等。'},
+            {q: '手机App开发可以用什么语言？', options: ['仅Java', 'Java/Kotlin/Swift/Flutter等', '仅C++', '仅Python'], answer: 1, explain: '手机App开发可用Java、Kotlin（Android）、Swift（iOS）或跨平台框架。'},
+            {q: '「一次编写，到处运行」最符合哪种语言类型？', options: ['编译型', '解释型', '都可以', '不确定'], answer: 1, explain: '解释型语言源代码可直接在不同平台运行，最符合此描述。'},
+            {q: '编译型语言的调试周期通常？', options: ['较短', '较长', '一样', '不确定'], answer: 1, explain: '编译型语言修改后需重新编译，调试周期相对较长。'},
+            {q: '解释型语言的调试周期通常？', options: ['较短', '较长', '一样', '不确定'], answer: 0, explain: '解释型语言修改后直接运行，调试周期相对较短。'},
+            {q: 'Linux系统自带Python解释器吗？', options: ['不带', '通常自带', '仅服务器版带', '不确定'], answer: 1, explain: '大多数Linux发行版默认自带Python解释器。'},
+            {q: 'macOS系统自带Python吗？', options: ['不带', '通常自带Python 2/3', '仅新版带', '不确定'], answer: 1, explain: 'macOS通常自带Python（旧版带Python 2，新版可能需安装）。'},
+            {q: 'Windows系统自带Python吗？', options: ['自带', '通常不自带，需安装', '仅专业版带', '不确定'], answer: 1, explain: 'Windows通常不自带Python，需要从官网下载安装。'},
+            {q: 'Python的最新主要版本是？', options: ['Python 2', 'Python 3', 'Python 4', 'Python 5'], answer: 1, explain: 'Python 3是当前的主流版本，Python 2已停止维护。'},
+            {q: 'Python 2和Python 3兼容吗？', options: ['完全兼容', '不完全兼容', '完全不兼容', '不确定'], answer: 1, explain: 'Python 2和3不完全兼容，存在一些语法差异。'},
+            {q: 'GESP考试中的「解释」知识点主要考察什么？', options: ['如何写解释器', '理解解释的概念和特点', 'Python语法', '编译原理'], answer: 1, explain: '主要考察对「解释」这一概念的理解，以及与编译的区别。'},
+            {q: '学习C++对理解其他语言有帮助吗？', options: ['没有帮助', '有帮助，C++基础扎实后学其他语言更快', '仅对学Python有帮助', '不确定'], answer: 1, explain: 'C++语法严谨，学完C++后再学其他语言会更容易理解。'},
+            {q: '编译和解释的本质区别是什么？', options: ['语法不同', '执行时机和方式不同', '文件大小不同', '作者不同'], answer: 1, explain: '本质是代码执行时机和方式不同：编译是先全译后执行，解释是边译边执行。'},
+            {q: '未来编程语言的发展趋势是？', options: ['只用编译型', '只用解释型', '两者融合，取长补短', '不确定'], answer: 2, explain: '现代语言趋向于融合两种模式，如JIT编译等技术。'},
+            {q: '选择编程语言时最应该考虑什么？', options: ['语言的流行度', '具体应用场景和需求', '个人喜好', '工资高低'], answer: 1, explain: '应根据具体应用场景和需求选择最适合的语言。'},
+            {q: '「工欲善其事，必先利其器」在编程中的含义是？', options: ['工具要贵', '选择合适的编程语言/工具', '要购买好电脑', '要学很多语言'], answer: 1, explain: '意思是选择合适的编程语言和工具来完成任务。'},
+            {q: 'Python中的「胶水语言」称呼体现了什么特点？', options: ['运行慢', '可连接各种语言和库', '语法粘滞', '只能写小脚本'], answer: 1, explain: '体现了Python可方便地调用其他语言编写的模块的特点。'},
+            {q: '编译型语言和解释型语言的关系是？', options: ['互相排斥', '相辅相成，各有用途', '解释型会取代编译型', '编译型会取代解释型'], answer: 1, explain: '两种类型相辅相成，各有适用场景，不会被互相取代。'},
+            {q: '计算机竞赛中为什么C++是主流？', options: ['C++最简单', 'C++运行效率高，符合竞赛需求', '其他语言不能用', 'C++代码最短'], answer: 1, explain: '竞赛对运行效率要求高，C++执行速度快，是主流选择。'},
+            {q: '人工智能领域为什么Python是主流？', options: ['Python运行快', 'Python生态丰富，开发效率高', 'AI只能用Python', 'Python最简单'], answer: 1, explain: 'Python有丰富的AI库和框架，开发效率高，适合AI开发。'},
+            {q: '学习多种编程语言的好处是？', options: ['没用', '开阔思路，理解不同范式', '浪费时间', '会混淆'], answer: 1, explain: '学习多种语言可以开阔思路，理解不同的编程范式。'},
+            {q: '编程语言的选择体现了什么哲学思想？', options: ['非此即彼', '因地制宜，因时制宜', '随大流', '坚持一种'], answer: 1, explain: '体现了「因地制宜，因时制宜」的哲学思想。'},
+            // 总结与考试 91-100
+            {q: '解释型语言的代表是？', options: ['C++', 'Python', 'C', 'Rust'], answer: 1, explain: 'Python是解释型语言的代表。'},
+            {q: '编译型语言的代表是？', options: ['Python', 'C++', 'JavaScript', 'PHP'], answer: 1, explain: 'C++是编译型语言的代表。'},
+            {q: '「边翻译边执行」描述的是？', options: ['编译', '解释', '链接', '汇编'], answer: 1, explain: '「边翻译边执行」是解释型语言的执行方式。'},
+            {q: '「先翻译后执行」描述的是？', options: ['编译', '解释', '调试', '运行'], answer: 0, explain: '「先翻译后执行」是编译型语言的执行方式。'},
+            {q: 'Python的主要优点不包括？', options: ['语法简洁', '开发效率高', '运行速度极快', '跨平台'], answer: 2, explain: 'Python运行速度不是极快（相对编译型语言），这是它的缺点。'},
+            {q: 'C++的主要优点不包括？', options: ['运行速度快', '语法简洁', '控制力强大', '适合竞赛'], answer: 1, explain: 'C++语法相对复杂，不是「简洁」的语言。'},
+            {q: 'GESP C++一级考试包含「解释」知识点的目的是？', options: ['让学生学Python', '让学生了解不同语言类型', '比较两种语言优劣', '推销解释型语言'], answer: 1, explain: '目的是让学生了解编程语言的不同类型和特点。'},
+            {q: '初学编程应该关注什么？', options: ['语言类型', '编程思维和逻辑', '运行速度', '语法细节'], answer: 1, explain: '初学编程应关注编程思维和逻辑，语言是工具。'},
+            {q: '「编译」与「解释」两种方式的共同点是？', options: ['都需要生成可执行文件', '都是将源代码转换成可执行的形式', '执行速度相同', '都不能跨平台'], answer: 1, explain: '两者都是将源代码转换成计算机可执行的形式，只是方式不同。'},
+            {q: '学习「编译」和「解释」的意义是？', options: ['为了考试', '理解程序运行机制，为后续学习打基础', '为了炫耀', '为了找工作'], answer: 1, explain: '理解编译和解释有助于理解程序运行机制，为后续学习打下基础。'}
+        ];
+
+        let currentQuestion = 0;
+        let answers = new Array(questions.length).fill(null);
+        let correctCount = 0;
+
+        function loadQuestion(index) {
+            currentQuestion = index;
+            const q = questions[index];
+            document.getElementById('questionNumber').textContent = `题目 ${index + 1}/${questions.length}`;
+            document.getElementById('questionText').textContent = q.q;
+            
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+            
+            q.options.forEach((opt, i) => {
+                const btn = document.createElement('div');
+                btn.className = 'option';
+                btn.textContent = `${String.fromCharCode(65 + i)}. ${opt}`;
+                btn.onclick = () => selectAnswer(i);
+                
+                if (answers[index] !== null) {
+                    btn.classList.add('disabled');
+                    if (i === answers[index]) {
+                        btn.classList.add(i === q.answer ? 'correct' : 'wrong');
+                    }
+                    if (i === q.answer && answers[index] !== q.answer) {
+                        btn.classList.add('correct');
+                    }
+                }
+                
+                optionsDiv.appendChild(btn);
+            });
+            
+            const explanation = document.getElementById('explanation');
+            if (answers[index] !== null) {
+                explanation.textContent = `解析：${q.explain}`;
+                document.getElementById('questionCard').classList.add('answered');
+            } else {
+                explanation.textContent = '';
+                document.getElementById('questionCard').classList.remove('answered');
+            }
+            
+            updateProgress();
+            updateNavButtons();
+        }
+
+        function selectAnswer(optionIndex) {
+            if (answers[currentQuestion] !== null) return;
+            
+            answers[currentQuestion] = optionIndex;
+            const q = questions[currentQuestion];
+            
+            if (optionIndex === q.answer) {
+                correctCount++;
+            }
+            
+            const options = document.querySelectorAll('.option');
+            options[optionIndex].classList.add(optionIndex === q.answer ? 'correct' : 'wrong');
+            
+            if (optionIndex !== q.answer) {
+                options[q.answer].classList.add('correct');
+            }
+            
+            document.getElementById('explanation').textContent = `解析：${q.explain}`;
+            document.getElementById('questionCard').classList.add('answered');
+            
+            updateProgress();
+            saveProgress();
+        }
+
+        function updateProgress() {
+            const answered = answers.filter(a => a !== null).length;
+            const progress = (answered / questions.length) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+            document.getElementById('progressText').textContent = `${answered}/${questions.length}`;
+        }
+
+        function updateNavButtons() {
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            document.getElementById('nextBtn').textContent = 
+                currentQuestion === questions.length - 1 ? '完成' : '下一题 →';
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                loadQuestion(currentQuestion - 1);
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                loadQuestion(currentQuestion + 1);
+            } else {
+                const answered = answers.filter(a => a !== null).length;
+                const accuracy = answered > 0 ? Math.round((correctCount / answered) * 100) : 0;
+                alert(`测验完成！\n答对：${correctCount}/${answered}\n正确率：${accuracy}%`);
+            }
+        }
+
+        function saveProgress() {
+            localStorage.setItem('cpp-l1-topic-2-5-progress', JSON.stringify(answers));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('cpp-l1-topic-2-5-progress');
+            if (saved) {
+                answers = JSON.parse(saved);
+                correctCount = answers.reduce((sum, ans, idx) => 
+                    sum + (ans === questions[idx].answer ? 1 : 0), 0);
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' && currentQuestion > 0) prevQuestion();
+            if (e.key === 'ArrowRight') nextQuestion();
+        });
+
+        loadProgress();
+        loadQuestion(0);
+    </script>
+</body>
+</html>
