@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.2 关键字 - C++一级 - 蒙正堂</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/guofeng-v2.css">
+    <style>
+        :root {
+            --l1-primary: #1e3a5f;
+            --l1-secondary: #2e5984;
+            --correct: #4a7c59;
+            --wrong: #c9372c;
+        }
+        .topic-container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+        .breadcrumb { display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1.5rem; font-size: 0.9rem; color: #666; }
+        .breadcrumb a { color: var(--l1-primary); text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .topic-header { background: linear-gradient(135deg, var(--l1-primary) 0%, var(--l1-secondary) 100%); color: white; padding: 2rem; border-radius: 12px; margin-bottom: 2rem; }
+        .topic-header .number { font-size: 0.9rem; opacity: 0.8; margin-bottom: 0.5rem; }
+        .topic-header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .topic-header .meta { display: flex; gap: 1.5rem; font-size: 0.9rem; opacity: 0.9; }
+        .content-section { background: white; border-radius: 12px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .content-section h2 { color: var(--l1-primary); border-left: 4px solid var(--l1-primary); padding-left: 1rem; margin-bottom: 1.5rem; }
+        .content-section h3 { color: var(--ink-800); margin: 1.5rem 0 1rem; }
+        .content-section p { line-height: 1.8; margin-bottom: 1rem; text-align: justify; }
+        .content-section ul, .content-section ol { margin: 1rem 0 1rem 1.5rem; }
+        .content-section li { margin-bottom: 0.5rem; line-height: 1.7; }
+        .highlight-box { background: #f0f4f8; border-left: 4px solid var(--l1-primary); padding: 1rem 1.5rem; margin: 1.5rem 0; border-radius: 0 8px 8px 0; }
+        .highlight-box.warning { background: #fff3cd; border-left-color: #d4a574; }
+        .highlight-box.danger { background: #f8d7da; border-left-color: #c9372c; }
+        .highlight-box.success { background: #d4edda; border-left-color: #4a7c59; }
+        .shortcut-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        .shortcut-table th, .shortcut-table td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #e9ecef; }
+        .shortcut-table th { background: #f8f9fa; font-weight: 600; }
+        .code-block { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 6px; padding: 1rem; margin: 1rem 0; font-family: 'Consolas', 'Monaco', monospace; font-size: 0.9rem; overflow-x: auto; }
+        .code-block .comment { color: #6a9955; }
+        .code-block .keyword { color: #0000ff; }
+        .code-block .string { color: #a31515; }
+        .quiz-section { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .quiz-section h2 { color: var(--l1-primary); border-left: 4px solid var(--l1-primary); padding-left: 1rem; margin-bottom: 1rem; }
+        .quiz-progress { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding: 0.75rem 1rem; background: #f8f9fa; border-radius: 8px; }
+        .quiz-progress-bar { flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; margin: 0 1rem; overflow: hidden; }
+        .quiz-progress-fill { height: 100%; background: linear-gradient(90deg, var(--l1-primary), var(--l1-secondary)); border-radius: 4px; transition: width 0.3s ease; }
+        .question-card { border: 1px solid #e9ecef; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; }
+        .question-card.correct { border-color: var(--correct); background: #f0f8f0; }
+        .question-card.wrong { border-color: var(--wrong); background: #fdf0ef; }
+        .question-number { font-weight: 600; color: var(--l1-primary); margin-bottom: 0.5rem; }
+        .question-text { font-size: 1.05rem; margin-bottom: 1rem; }
+        .options { display: flex; flex-direction: column; gap: 0.5rem; }
+        .option { padding: 0.75rem 1rem; border: 1px solid #e9ecef; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; }
+        .option:hover { background: #f8f9fa; border-color: var(--l1-primary); }
+        .option.selected { background: #e3f2fd; border-color: var(--l1-primary); }
+        .option.correct { background: #d4edda; border-color: var(--correct); }
+        .option.wrong { background: #f8d7da; border-color: var(--wrong); }
+        .explanation { display: none; margin-top: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 6px; }
+        .question-card.answered .explanation { display: block; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 2rem; }
+        .keyword-category { margin: 1.5rem 0; padding: 1rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid var(--l1-primary); }
+        .keyword-category h4 { color: var(--l1-primary); margin: 0 0 0.5rem 0; }
+        .keyword-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+        .keyword-tag { background: white; padding: 0.4rem 0.8rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem; border: 1px solid #e9ecef; }
+        .keyword-tag.l1 { background: #e3f2fd; border-color: var(--l1-primary); color: var(--l1-primary); font-weight: 600; }
+        .comparison-box { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+        .comparison-item { padding: 1rem; border-radius: 8px; }
+        .comparison-item.keyword { background: #e3f2fd; border: 2px solid #2196f3; }
+        .comparison-item.identifier { background: #f3e5f5; border: 2px solid #9c27b0; }
+        @media (max-width: 768px) {
+            .topic-container { padding: 1rem; }
+            .topic-header h1 { font-size: 1.4rem; }
+            .content-section { padding: 1.25rem; }
+            .comparison-box { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="../../" class="brand">
+                <span class="brand-icon">☯</span>
+                <span class="brand-text">默隐·蒙知苑</span>
+            </a>
+            <div class="nav-links">
+                <a href="../" class="nav-link">🎓 蒙正堂</a>
+                <a href="./" class="nav-link">C++一级</a>
+                <span class="nav-link active">3.2 关键字</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="topic-container">
+        <div class="breadcrumb">
+            <a href="../">蒙正堂</a>
+            <span>›</span>
+            <a href="./">C++一级</a>
+            <span>›</span>
+            <a href="./#block3">程序的基本概念</a>
+            <span>›</span>
+            <span>3.2 关键字</span>
+        </div>
+
+        <div class="topic-header">
+            <div class="number">知识块 3 · 知识点 2/6</div>
+            <h1>关键字</h1>
+            <div class="meta">
+                <span>⏱️ 预估学习时长: 45分钟</span>
+                <span>📋 验证题目: 100题</span>
+                <span>🎯 难度: 入门级</span>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>📚 知识详解</h2>
+            
+            <h3>一、什么是关键字</h3>
+            <p><strong>关键字（Keyword）</strong>是C++语言预定义的保留字，具有特定的语法含义和功能。它们是C++语言的「基础词汇」，就像汉语中的「主谓宾」一样，是构成程序的基本元素。</p>
+            
+            <div class="highlight-box">
+                <strong>💡 一句话理解</strong><br>
+                关键字是C++语言预定义的「保留字」，有特定含义，不能用作变量名或函数名。
+            </div>
+
+            <h3>二、关键字的特点</h3>
+            
+            <ol>
+                <li><strong>预定义性</strong>：由C++语言预先定义，用户不能创造新的关键字</li>
+                <li><strong>特定含义</strong>：每个关键字都有固定的语法功能和含义</li>
+                <li><strong>全部小写</strong>：C++关键字都是小写字母（如 int, not INT）</li>
+                <li><strong>不能作为标识符</strong>：关键字不能用作变量名、函数名等标识符</li>
+            </ol>
+
+            <div class="code-block">
+<span class="comment">// ❌ 错误：关键字不能作为标识符</span>
+<span class="keyword">int</span> <span class="keyword">if</span> = 10;       <span class="comment">// if 是关键字，不能用作变量名</span>
+<span class="keyword">int</span> <span class="keyword">for</span> = 5;       <span class="comment">// for 是关键字，不能用作变量名</span>
+
+<span class="comment">// ✅ 正确：使用非关键字作为标识符</span>
+<span class="keyword">int</span> num = 10;         <span class="comment">// num 不是关键字</span>
+<span class="keyword">int</span> count = 5;       <span class="comment">// count 不是关键字</span>
+            </div>
+
+            <h3>三、GESP一级常用关键字</h3>
+
+            <div class="keyword-category">
+                <h4>🔵 数据类型关键字（5个）</h4>
+                <p>用于声明变量的类型</p>
+                <div class="keyword-tags">
+                    <span class="keyword-tag l1">int</span>
+                    <span class="keyword-tag l1">char</span>
+                    <span class="keyword-tag l1">bool</span>
+                    <span class="keyword-tag l1">float</span>
+                    <span class="keyword-tag l1">double</span>
+                    <span class="keyword-tag">void</span>
+                    <span class="keyword-tag">short</span>
+                    <span class="keyword-tag">long</span>
+                    <span class="keyword-tag">signed</span>
+                    <span class="keyword-tag">unsigned</span>
+                </div>
+            </div>
+
+            <div class="keyword-category">
+                <h4>🟢 控制语句关键字（10个）</h4>
+                <p>用于控制程序流程</p>
+                <div class="keyword-tags">
+                    <span class="keyword-tag l1">if</span>
+                    <span class="keyword-tag l1">else</span>
+                    <span class="keyword-tag l1">for</span>
+                    <span class="keyword-tag l1">while</span>
+                    <span class="keyword-tag l1">do</span>
+                    <span class="keyword-tag l1">switch</span>
+                    <span class="keyword-tag l1">case</span>
+                    <span class="keyword-tag l1">break</span>
+                    <span class="keyword-tag l1">continue</span>
+                    <span class="keyword-tag l1">return</span>
+                </div>
+            </div>
+
+            <div class="keyword-category">
+                <h4>🟡 其他常用关键字（8个）</h4>
+                <p>其他重要功能</p>
+                <div class="keyword-tags">
+                    <span class="keyword-tag l1">const</span>
+                    <span class="keyword-tag l1">true</span>
+                    <span class="keyword-tag l1">false</span>
+                    <span class="keyword-tag l1">sizeof</span>
+                    <span class="keyword-tag l1">namespace</span>
+                    <span class="keyword-tag l1">using</span>
+                    <span class="keyword-tag">struct</span>
+                    <span class="keyword-tag">class</span>
+                    <span class="keyword-tag">enum</span>
+                    <span class="keyword-tag">typedef</span>
+                </div>
+            </div>
+
+            <div class="highlight-box success">
+                <strong>🎯 GESP一级必背关键字（23个）</strong><br>
+                <strong>数据类型（5个）</strong>：int, char, bool, float, double<br>
+                <strong>控制语句（10个）</strong>：if, else, for, while, do, switch, case, break, continue, return<br>
+                <strong>其他（8个）</strong>：const, true, false, sizeof, namespace, using, void, default
+            </div>
+
+            <h3>四、关键字 vs 标识符</h3>
+
+            <div class="comparison-box">
+                <div class="comparison-item keyword">
+                    <h4>🔵 关键字</h4>
+                    <ul>
+                        <li>C++预定义</li>
+                        <li>有特定含义</li>
+                        <li>全部小写</li>
+                        <li>不能作为标识符</li>
+                        <li>如：int, if, for</li>
+                    </ul>
+                </div>
+                <div class="comparison-item identifier">
+                    <h4>🟣 标识符</h4>
+                    <ul>
+                        <li>用户自定义</li>
+                        <li>表示变量/函数名</li>
+                        <li>区分大小写</li>
+                        <li>不能是关键字</li>
+                        <li>如：num, count, sum</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="code-block">
+<span class="comment">// 关键字 vs 标识符示例</span>
+
+<span class="comment">// int 是关键字，表示整数类型</span>
+<span class="comment">// age 是标识符（变量名）</span>
+<span class="keyword">int</span> age = 18;
+
+<span class="comment">// if 是关键字，表示条件判断</span>
+<span class="comment">// score 是标识符（变量名）</span>
+<span class="keyword">if</span> (score >= 60) {
+    <span class="comment">// ...</span>
+}
+
+<span class="comment">// for 是关键字，表示循环</span>
+<span class="comment">// i 是标识符（循环变量名）</span>
+<span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i < 10; i++) {
+    <span class="comment">// ...</span>
+}
+            </div>
+
+            <h3>五、常见关键字详解</h3>
+
+            <h4>1. 数据类型关键字</h4>
+            
+            <table class="shortcut-table">
+                <tr><th>关键字</th><th>含义</th><th>示例</th></tr>
+                <tr><td><code>int</code></td><td>整数类型</td><td>int age = 18;</td></tr>
+                <tr><td><code>char</code></td><td>字符类型</td><td>char grade = 'A';</td></tr>
+                <tr><td><code>bool</code></td><td>布尔类型</td><td>bool flag = true;</td></tr>
+                <tr><td><code>float</code></td><td>单精度浮点</td><td>float pi = 3.14f;</td></tr>
+                <tr><td><code>double</code></td><td>双精度浮点</td><td>double e = 2.71828;</td></tr>
+                <tr><td><code>void</code></td><td>无类型/无返回值</td><td>void hello() {}</td></tr>
+            </table>
+
+            <h4>2. 控制语句关键字</h4>
+            
+            <table class="shortcut-table">
+                <tr><th>关键字</th><th>含义</th><th>用途</th></tr>
+                <tr><td><code>if</code></td><td>如果</td><td>条件判断</td></tr>
+                <tr><td><code>else</code></td><td>否则</td><td>条件不满足时执行</td></tr>
+                <tr><td><code>for</code></td><td>对于/循环</td><td>计数循环</td></tr>
+                <tr><td><code>while</code></td><td>当...时</td><td>条件循环</td></tr>
+                <tr><td><code>do</code></td><td>执行</td><td>与while配合</td></tr>
+                <tr><td><code>switch</code></td><td>开关</td><td>多分支选择</td></tr>
+                <tr><td><code>case</code></td><td>情况</td><td>switch中的分支</td></tr>
+                <tr><td><code>break</code></td><td>中断</td><td>跳出循环/switch</td></tr>
+                <tr><td><code>continue</code></td><td>继续</td><td>跳过当前迭代</td></tr>
+                <tr><td><code>return</code></td><td>返回</td><td>从函数返回</td></tr>
+            </table>
+
+            <h4>3. 其他关键字</h4>
+            
+            <table class="shortcut-table">
+                <tr><th>关键字</th><th>含义</th><th>示例</th></tr>
+                <tr><td><code>const</code></td><td>常量</td><td>const int MAX = 100;</td></tr>
+                <tr><td><code>true</code></td><td>真</td><td>bool flag = true;</td></tr>
+                <tr><td><code>false</code></td><td>假</td><td>bool flag = false;</td></tr>
+                <tr><td><code>sizeof</code></td><td>大小</td><td>sizeof(int) 返回4</td></tr>
+                <tr><td><code>namespace</code></td><td>命名空间</td><td>namespace std {}</td></tr>
+                <tr><td><code>using</code></td><td>使用</td><td>using namespace std;</td></tr>
+            </table>
+
+            <h3>六、常见错误</h3>
+
+            <div class="highlight-box danger">
+                <strong>❌ 错误1：使用关键字作为变量名</strong><br>
+                int int = 10;  // 错误！int是关键字<br>
+                int return = 5;  // 错误！return是关键字
+            </div>
+
+            <div class="highlight-box danger">
+                <strong>❌ 错误2：关键字大小写错误</strong><br>
+                INT num = 10;  // 错误！关键字必须小写<br>
+                For (int i = 0; ...)  // 错误！for必须小写
+            </div>
+
+            <div class="highlight-box warning">
+                <strong>⚠️ 注意：区分大小写</strong><br>
+                Int、INT、iNt 都可以作为标识符，因为它们不是全小写的"int"。<br>
+                但不推荐使用，容易造成混淆。
+            </div>
+
+            <h3>七、GESP考试要点</h3>
+
+            <ul>
+                <li><strong>关键字的概念</strong>：C++预定义的保留字，有特定含义</li>
+                <li><strong>关键字的特点</strong>：全部小写，不能作为标识符</li>
+                <li><strong>常见关键字</strong>：掌握23个一级必背关键字</li>
+                <li><strong>关键字分类</strong>：数据类型、控制语句、其他</li>
+                <li><strong>关键字vs标识符</strong>：能区分哪些是关键字，哪些是标识符</li>
+            </ul>
+
+            <div class="highlight-box">
+                <strong>🎯 核心口诀</strong><br>
+                「关键字是保留字，C++预定义好的；<br>
+                全部都要小写写，特定含义要记牢；<br>
+                不能当作标识符，变量函数起不了。」
+            </div>
+        </div>
+
+        <!-- 易经智慧 -->
+        <div class="content-section">
+            <h2>☯ 关键字之道：礼者，秩序之本</h2>
+            
+            <blockquote style="background: #f8f9fa; padding: 1.5rem; border-left: 4px solid var(--l1-primary); margin: 1.5rem 0; font-style: italic;">
+                《论语》云：「不学礼，无以立。」<br>
+                《道德经》云：「人法地，地法天，天法道，道法自然。」
+            </blockquote>
+            
+            <p>关键字如同「礼」，是C++世界的秩序与规范。礼规定了君臣父子之名分，关键字规定了程序元素之用途。<strong>无礼则社会乱，无关键字则程序迷</strong>。</p>
+
+            <table class="shortcut-table">
+                <tr><th>关键字特性</th><th>经典对应</th><th>寓意</th></tr>
+                <tr><td>预定义性</td><td>「天命之谓性」</td><td>天生固有，不可更改</td></tr>
+                <tr><td>规范性</td><td>「不以规矩，不能成方圆」</td><td>遵循规范，程序方能正确</td></tr>
+                <tr><td>全部小写</td><td>「谦受益，满招损」</td><td>谦逊低调，不张扬</td></tr>
+                <tr><td>不可僭越</td><td>「君君，臣臣，父父，子子」</td><td>各安其位，不可混用</td></tr>
+            </table>
+
+            <div class="highlight-box success">
+                <strong>💡 圣人启示</strong><br>
+                「克己复礼为仁」—— 学习关键字，就是学习C++的「礼」。遵守规范，约束自我（不能随意使用关键字），方能写出优雅正确的程序。<br><br>
+                「温故而知新」—— 关键字需要反复记忆，常用常新，方能融会贯通。
+            </div>
+        </div>
+
+        <!-- 检查清单 -->
+        <div class="content-section">
+            <h2>✅ 本模块检查清单</h2>
+            
+            <h3>学习前</h3>
+            <ul style="list-style: none;">
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 了解什么是标识符</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 知道C++有预定义的保留字</li>
+            </ul>
+
+            <h3>学习中</h3>
+            <ul style="list-style: none;">
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 理解关键字的概念和特点</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 掌握23个一级必背关键字</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 能区分关键字和标识符</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 记住关键字全部小写</li>
+            </ul>
+
+            <h3>学习后</h3>
+            <ul style="list-style: none;">
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 能识别常见关键字</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 知道关键字不能作为标识符</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 测验正确率达到 80% 以上</li>
+            </ul>
+        </div>
+
+        <div class="quiz-section">
+            <h2>📝 验证测验 (100题)</h2>
+            <div class="quiz-progress">
+                <span>进度</span>
+                <div class="quiz-progress-bar">
+                    <div class="quiz-progress-fill" id="progressBar" style="width: 0%"></div>
+                </div>
+                <span id="progressText">0/100</span>
+            </div>
+            <div id="questionContainer">
+                <div class="question-card" id="questionCard">
+                    <div class="question-number" id="questionNumber">题目 1/100</div>
+                    <div class="question-text" id="questionText">加载中...</div>
+                    <div class="options" id="options"></div>
+                    <div class="explanation" id="explanation"></div>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" id="prevBtn" onclick="prevQuestion()" disabled>← 上一题</button>
+                <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">下一题 →</button>
+            </div>
+        </div>
+
+        <!-- 拓展阅读 -->
+        <div class="content-section">
+            <h2>📚 拓展阅读</h2>
+            
+            <h3>C++关键字的发展历程</h3>
+            
+            <table class="shortcut-table">
+                <tr><th>标准版本</th><th>新增关键字</th><th>说明</th></tr>
+                <tr><td>C++98/03</td><td>基础关键字</td><td>传统C++关键字</td></tr>
+                <tr><td>C++11</td><td>auto, nullptr, constexpr...</td><td>现代C++开端</td></tr>
+                <tr><td>C++14</td><td>decltype(auto)</td><td>小幅更新</td></tr>
+                <tr><td>C++17</td><td>inline, if, constexpr...</td><td>编译期计算增强</td></tr>
+                <tr><td>C++20</td><td>concept, requires, co_await...</td><td>概念和协程</td></tr>
+            </table>
+
+            <h3>C++关键字总数</h3>
+            
+            <ul>
+                <li>C++98/03：约74个关键字</li>
+                <li>C++11：新增10+个关键字</li>
+                <li>C++20：关键字总数超过100个</li>
+            </ul>
+
+            <div class="highlight-box">
+                <strong>💡 GESP考试提示</strong><br>
+                GESP一级考试主要考察基础关键字（C++98/03），不需要掌握C++11及以后的新增关键字（如auto的新语义、nullptr等）。
+            </div>
+
+            <h3>常见陷阱与技巧</h3>
+
+            <ol>
+                <li><strong>main不是关键字</strong>：虽然main是特殊的函数名，但它不是关键字，理论上可以用作其他标识符（但不推荐）。</li>
+                <li><strong>sizeof是关键字</strong>：虽然看起来像函数，但sizeof是关键字，不是函数。</li>
+                <li><strong>true/false是关键字</strong>：在C++中，true和false是关键字，不是宏定义。</li>
+                <li><strong>and/or/not也是关键字</strong>：C++支持and(&&)、or(||)、not(!)作为关键字，但很少使用。</li>
+            </ol>
+
+            <div class="highlight-box success">
+                <strong>📖 学习建议</strong><br>
+                初学时不必死记所有关键字，重点掌握GESP一级要求的23个必背关键字。随着学习深入，会逐渐接触到更多关键字。
+            </div>
+        </div>
+
+        <div style="margin-top: 2rem; text-align: center;">
+            <a href="./" class="btn btn-secondary">← 返回C++一级目录</a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-brand">默隐·蒙正堂</p>
+            <p class="footer-motto">让所有孩子有处可学</p>
+            <p class="footer-copyright">© 2026 默隐 · 明夷敬制</p>
+        </div>
+    </footer>
+
+    <script>
+        const questions = [
+            // 关键字基础概念 1-30
+            {q: '什么是关键字？', options: ['用户定义的标识符', 'C++预定义的保留字', '标准库函数', '编译器指令'], answer: 1, explain: '关键字是C++语言预定义的保留字，有特定含义。'},
+            {q: '关键字是谁定义的？', options: ['程序员', 'C++语言标准', '编译器厂商', '操作系统'], answer: 1, explain: '关键字由C++语言标准定义，所有编译器都遵循。'},
+            {q: '关键字有什么特点？', options: ['可以由用户创建', '有特定含义和功能', '可以用作变量名', '没有固定含义'], answer: 1, explain: '关键字有特定的语法含义和功能。'},
+            {q: 'C++关键字都是什么大小写？', options: ['全部大写', '全部小写', '首字母大写', '大小写混合'], answer: 1, explain: 'C++关键字全部是小写字母。'},
+            {q: '关键字可以用作标识符吗？', options: ['可以', '不可以', '有时可以', '取决于关键字'], answer: 1, explain: '关键字不能用作变量名、函数名等标识符。'},
+            {q: '以下哪个是C++关键字？', options: ['myVar', 'int', 'student', 'count'], answer: 1, explain: 'int是C++关键字，表示整数类型。'},
+            {q: '以下哪个不是关键字？', options: ['if', 'for', 'while', 'myIf'], answer: 3, explain: 'myIf不是关键字，if、for、while都是关键字。'},
+            {q: 'int可以用作变量名吗？', options: ['可以', '不可以', '仅在某些情况下', '取决于编译器'], answer: 1, explain: 'int是关键字，不能用作变量名。'},
+            {q: 'Int（大写I）可以用作变量名吗？', options: ['可以', '不可以', '不推荐', '取决于编译器'], answer: 0, explain: 'Int可以，因为C++区分大小写，Int和int不同。'},
+            {q: '用户可以自己创建新的关键字吗？', options: ['可以', '不可以', '仅专家可以', '取决于编译器'], answer: 1, explain: '关键字由语言标准定义，用户不能创建新关键字。'},
+            {q: '以下哪个是数据类型关键字？', options: ['if', 'int', 'for', 'while'], answer: 1, explain: 'int是数据类型关键字，表示整数。'},
+            {q: '以下哪个是控制语句关键字？', options: ['int', 'char', 'if', 'bool'], answer: 2, explain: 'if是控制语句关键字，用于条件判断。'},
+            {q: 'C++有多少个关键字？', options: ['10个左右', '约90个或更多', '1000个', '无限个'], answer: 1, explain: 'C++有90多个关键字（C++20标准超过100个）。'},
+            {q: '以下哪个不是数据类型关键字？', options: ['int', 'float', 'if', 'char'], answer: 2, explain: 'if不是数据类型关键字，是控制语句关键字。'},
+            {q: 'sizeof是关键字吗？', options: ['是', '不是，是函数', '不是，是运算符', '取决于编译器'], answer: 0, explain: 'sizeof是C++关键字，虽然看起来像函数。'},
+            {q: 'main是关键字吗？', options: ['是', '不是', '是保留字', '是标准标识符'], answer: 1, explain: 'main不是关键字，是特殊的函数名。'},
+            {q: '以下哪个是关键字？', options: ['INT', 'Int', 'int', 'iNt'], answer: 2, explain: 'int（全小写）是关键字，其他不是。'},
+            {q: 'true和false是关键字吗？', options: ['都是', '只有true是', '只有false是', '都不是，是宏'], answer: 0, explain: 'true和false都是C++关键字。'},
+            {q: 'nullptr是关键字吗？', options: ['是，C++11新增', '不是', '是宏', '是函数'], answer: 0, explain: 'nullptr是C++11新增的关键字。'},
+            {q: 'auto在C++11之前是关键字吗？', options: ['不是', '是，但含义不同', '是，含义相同', '取决于编译器'], answer: 1, explain: 'auto一直是关键字，但C++11后含义变为自动类型推导。'},
+            {q: '以下哪个关键字用于声明字符类型？', options: ['int', 'char', 'float', 'double'], answer: 1, explain: 'char是字符类型关键字。'},
+            {q: '以下哪个关键字用于声明布尔类型？', options: ['bool', 'boolean', 'Boolean', 'BOOL'], answer: 0, explain: 'bool是C++布尔类型关键字。'},
+            {q: 'void关键字表示什么？', options: ['空值', '无类型/无返回值', '零', '错误'], answer: 1, explain: 'void表示无类型或无返回值。'},
+            {q: 'const关键字的作用是什么？', options: ['定义常量', '定义变量', '定义函数', '定义类'], answer: 0, explain: 'const用于定义常量或不可修改的对象。'},
+            {q: 'return关键字的作用是什么？', options: ['返回函数值', '跳出循环', '继续下一次循环', '结束程序'], answer: 0, explain: 'return用于从函数返回。'},
+            {q: 'break关键字的作用是什么？', options: ['跳出循环或switch', '继续下一次循环', '返回函数', '结束程序'], answer: 0, explain: 'break用于跳出循环或switch语句。'},
+            {q: 'continue关键字的作用是什么？', options: ['跳出循环', '跳过当前迭代继续下一次', '返回函数', '结束程序'], answer: 1, explain: 'continue用于跳过当前循环迭代。'},
+            {q: 'namespace关键字的作用是什么？', options: ['定义命名空间', '定义类', '定义函数', '定义变量'], answer: 0, explain: 'namespace用于定义命名空间。'},
+            {q: 'using关键字的作用是什么？', options: ['使用命名空间', '定义变量', '定义函数', '定义类'], answer: 0, explain: 'using用于引入命名空间或类型别名。'},
+            {q: '关键字和标识符的主要区别是？', options: ['没有区别', '关键字预定义，标识符用户定义', '关键字大写，标识符小写', '关键字用于函数，标识符用于变量'], answer: 1, explain: '关键字由C++预定义，标识符由用户定义。'},
+            // 数据类型关键字 31-50
+            {q: 'int类型占用多少字节？', options: ['1字节', '2字节', '4字节', '通常4字节'], answer: 3, explain: 'int通常占用4字节（32位），但取决于编译器和平台。'},
+            {q: 'char类型占用多少字节？', options: ['1字节', '2字节', '4字节', '8字节'], answer: 0, explain: 'char类型占用1字节。'},
+            {q: 'float和double的区别是？', options: ['没有区别', 'float精度低，double精度高', 'float占空间大', 'double不能表示小数'], answer: 1, explain: 'float是单精度，double是双精度，后者精度更高。'},
+            {q: 'bool类型可以取哪些值？', options: ['0和1', 'true和false', 'yes和no', 'on和off'], answer: 1, explain: 'bool类型取值true或false。'},
+            {q: 'short int通常占用多少字节？', options: ['1字节', '2字节', '4字节', '8字节'], answer: 1, explain: 'short int通常占用2字节。'},
+            {q: 'long int通常占用多少字节？', options: ['2字节', '4字节', '8字节', '取决于平台'], answer: 3, explain: 'long int大小取决于平台，32位系统4字节，64位系统8字节。'},
+            {q: 'signed和unsigned的区别是？', options: ['没有区别', 'signed有符号，unsigned无符号', 'signed更大', 'unsigned更小'], answer: 1, explain: 'signed可以表示正负，unsigned只能表示非负数。'},
+            {q: 'unsigned int能表示负数吗？', options: ['能', '不能', '取决于值', '有时能'], answer: 1, explain: 'unsigned int不能表示负数，只能表示0和正数。'},
+            {q: '以下哪个不是基本数据类型关键字？', options: ['int', 'char', 'string', 'float'], answer: 2, explain: 'string不是基本数据类型关键字，是标准库类。'},
+            {q: 'wchar_t是什么类型？', options: ['宽字符类型', '字符串类型', '整型', '浮点型'], answer: 0, explain: 'wchar_t是宽字符类型，用于表示Unicode字符。'},
+            {q: '以下哪个关键字用于获取类型大小？', options: ['length', 'size', 'sizeof', 'count'], answer: 2, explain: 'sizeof是关键字，用于获取类型或变量的大小。'},
+            {q: 'sizeof(int)在大多数系统中的值是？', options: ['1', '2', '4', '8'], answer: 2, explain: 'sizeof(int)在大多数32位和64位系统中是4。'},
+            {q: 'void*表示什么？', options: ['空指针', '无类型指针', '零值', '无效指针'], answer: 1, explain: 'void*是无类型指针，可以指向任何类型的数据。'},
+            {q: '以下哪个类型可以存储小数？', options: ['int', 'char', 'float', 'bool'], answer: 2, explain: 'float可以存储小数（浮点数）。'},
+            {q: 'double类型比float类型？', options: ['精度更低', '精度更高', '占用空间更小', '速度更快'], answer: 1, explain: 'double是双精度，比float（单精度）精度更高。'},
+            {q: 'bool类型占用多少字节？', options: ['1位', '1字节', '4字节', '取决于编译器'], answer: 1, explain: 'bool类型通常占用1字节（虽然只需要1位）。'},
+            {q: '以下哪个不是整数类型？', options: ['short', 'int', 'float', 'long'], answer: 2, explain: 'float是浮点类型，不是整数类型。'},
+            {q: 'char类型可以存储什么？', options: ['只能存储字母', '单个字符', '字符串', '整数'], answer: 1, explain: 'char类型可以存储单个字符。'},
+            {q: 'int类型可以存储什么？', options: ['只能存储正数', '整数（正负皆可）', '小数', '字符'], answer: 1, explain: 'int类型可以存储整数，包括正数、负数和零。'},
+            {q: '以下哪个关键字组合表示无符号长整型？', options: ['signed long', 'unsigned long', 'long int', 'short int'], answer: 1, explain: 'unsigned long表示无符号长整型。'},
+            // 控制语句关键字 51-75
+            {q: 'if语句的作用是什么？', options: ['循环执行', '条件判断', '跳出循环', '返回函数'], answer: 1, explain: 'if语句用于条件判断。'},
+            {q: 'else语句必须和哪个关键字配合使用？', options: ['for', 'while', 'if', 'switch'], answer: 2, explain: 'else语句和if语句配合使用。'},
+            {q: 'for语句的作用是什么？', options: ['条件判断', '循环执行', '跳出循环', '返回函数'], answer: 1, explain: 'for语句用于循环执行代码。'},
+            {q: 'while语句的作用是什么？', options: ['条件判断', '当条件为真时循环', '跳出循环', '返回函数'], answer: 1, explain: 'while语句当条件为真时循环执行。'},
+            {q: 'do-while循环中，do和哪个关键字配对？', options: ['for', 'if', 'while', 'switch'], answer: 2, explain: 'do-while循环中，do和while配对使用。'},
+            {q: 'switch语句的作用是什么？', options: ['循环', '多分支选择', '条件判断', '返回函数'], answer: 1, explain: 'switch语句用于多分支选择。'},
+            {q: 'case关键字用在什么地方？', options: ['if语句中', 'switch语句中', 'for循环中', 'while循环中'], answer: 1, explain: 'case关键字用在switch语句中标记分支。'},
+            {q: 'default关键字用在什么地方？', options: ['if语句中', 'switch语句中', 'for循环中', 'while循环中'], answer: 1, explain: 'default关键字用在switch语句中标记默认分支。'},
+            {q: 'break可以用在哪些地方？', options: ['只能在for中', '循环和switch中', '只能在if中', '只能在while中'], answer: 1, explain: 'break可以用在循环和switch语句中。'},
+            {q: 'continue可以用在哪些地方？', options: ['只能在for中', '循环中', '只能在if中', 'switch中'], answer: 1, explain: 'continue只能用在循环语句中。'},
+            {q: 'return语句的作用是什么？', options: ['跳出循环', '从函数返回', '继续循环', '结束程序'], answer: 1, explain: 'return语句用于从函数返回。'},
+            {q: '以下哪个关键字表示「如果」？', options: ['for', 'while', 'if', 'switch'], answer: 2, explain: 'if表示「如果」，用于条件判断。'},
+            {q: '以下哪个关键字表示「否则」？', options: ['if', 'else', 'for', 'while'], answer: 1, explain: 'else表示「否则」，与if配合使用。'},
+            {q: '以下哪个关键字表示「对于/循环」？', options: ['if', 'else', 'for', 'while'], answer: 2, explain: 'for表示「对于」，用于循环。'},
+            {q: '以下哪个关键字表示「当...时」？', options: ['if', 'else', 'for', 'while'], answer: 3, explain: 'while表示「当...时」，用于条件循环。'},
+            {q: '以下哪个关键字表示「执行」（与while配合）？', options: ['do', 'if', 'else', 'for'], answer: 0, explain: 'do与while配合构成do-while循环。'},
+            {q: '以下哪个关键字表示「开关/多分支」？', options: ['if', 'switch', 'for', 'while'], answer: 1, explain: 'switch表示「开关」，用于多分支选择。'},
+            {q: '以下哪个关键字表示「情况/分支」？', options: ['if', 'case', 'else', 'default'], answer: 1, explain: 'case表示「情况」，用于switch的分支。'},
+            {q: '以下哪个关键字表示「中断/跳出」？', options: ['continue', 'break', 'return', 'goto'], answer: 1, explain: 'break表示「中断」，用于跳出循环或switch。'},
+            {q: '以下哪个关键字表示「继续」？', options: ['continue', 'break', 'return', 'goto'], answer: 0, explain: 'continue表示「继续」，跳过当前迭代。'},
+            {q: 'goto是关键字吗？', options: ['是', '不是', '已废弃', '是函数'], answer: 0, explain: 'goto是C++关键字，但不推荐使用。'},
+            {q: '以下哪个不是循环关键字？', options: ['for', 'while', 'do', 'if'], answer: 3, explain: 'if不是循环关键字，是条件判断关键字。'},
+            {q: '以下哪个不是条件判断关键字？', options: ['if', 'else', 'switch', 'for'], answer: 3, explain: 'for不是条件判断关键字，是循环关键字。'},
+            {q: 'if语句可以单独使用吗？', options: ['可以', '不可以', '必须配合else', '取决于情况'], answer: 0, explain: 'if语句可以单独使用，不需要else。'},
+            {q: 'else语句可以单独使用吗？', options: ['可以', '不可以，必须配合if', '取决于情况', '必须配合while'], answer: 1, explain: 'else语句不能单独使用，必须配合if。'},
+            // 其他关键字和考试要点 76-100
+            {q: 'const关键字可以用于？', options: ['定义常量', '定义变量', '定义函数', '以上都可以'], answer: 3, explain: 'const可以用于定义常量、常变量、常函数等。'},
+            {q: 'const int MAX = 100; 中MAX是？', options: ['变量', '常量', '函数', '关键字'], answer: 1, explain: 'const修饰的MAX是常量，值不能被修改。'},
+            {q: 'inline是关键字吗？', options: ['是', '不是', '是宏', '是函数'], answer: 0, explain: 'inline是C++关键字，用于内联函数。'},
+            {q: 'static是关键字吗？', options: ['是', '不是', '是宏', '是函数'], answer: 0, explain: 'static是C++关键字，有多种用途。'},
+            {q: 'extern是关键字吗？', options: ['是', '不是', '是宏', '是函数'], answer: 0, explain: 'extern是C++关键字，用于声明外部变量。'},
+            {q: 'struct是关键字吗？', options: ['是', '不是', '是宏', '是函数'], answer: 0, explain: 'struct是C++关键字，用于定义结构体。'},
+            {q: 'class是关键字吗？', options: ['是', '不是', '是宏', '是函数'], answer: 0, explain: 'class是C++关键字，用于定义类。'},
+            {q: 'enum是关键字吗？', options: ['是', '不是', '是宏', '是函数'], answer: 0, explain: 'enum是C++关键字，用于定义枚举。'},
+            {q: 'typedef是关键字吗？', options: ['是', '不是', '是宏', '是函数'], answer: 0, explain: 'typedef是C++关键字，用于定义类型别名。'},
+            {q: 'template是关键字吗？', options: ['是', '不是', '是宏', '是函数'], answer: 0, explain: 'template是C++关键字，用于定义模板。'},
+            {q: 'typename是关键字吗？', options: ['是', '不是', '是宏', '是函数'], answer: 0, explain: 'typename是C++关键字，用于模板。'},
+            {q: 'public是关键字吗？', options: ['是', '不是', '是宏', '是函数'], answer: 0, explain: 'public是C++关键字，用于访问控制。'},
+            {q: 'private是关键字吗？', options: ['是', '不是', '是宏', '是函数'], answer: 0, explain: 'private是C++关键字，用于访问控制。'},
+            {q: 'protected是关键字吗？', options: ['是', '不是', '是宏', '是函数'], answer: 0, explain: 'protected是C++关键字，用于访问控制。'},
+            {q: 'virtual是关键字吗？', options: ['是', '不是', '是宏', '是函数'], answer: 0, explain: 'virtual是C++关键字，用于虚函数。'},
+            {q: 'override是关键字吗？', options: ['是，C++11新增', '不是', '是宏', '是函数'], answer: 0, explain: 'override是C++11新增的关键字。'},
+            {q: 'final是关键字吗？', options: ['是，C++11新增', '不是', '是宏', '是函数'], answer: 0, explain: 'final是C++11新增的关键字。'},
+            {q: 'decltype是关键字吗？', options: ['是，C++11新增', '不是', '是宏', '是函数'], answer: 0, explain: 'decltype是C++11新增的关键字。'},
+            {q: 'constexpr是关键字吗？', options: ['是，C++11新增', '不是', '是宏', '是函数'], answer: 0, explain: 'constexpr是C++11新增的关键字。'},
+            {q: 'noexcept是关键字吗？', options: ['是，C++11新增', '不是', '是宏', '是函数'], answer: 0, explain: 'noexcept是C++11新增的关键字。'},
+            {q: 'static_assert是关键字吗？', options: ['是，C++11新增', '不是', '是宏', '是函数'], answer: 0, explain: 'static_assert是C++11新增的关键字。'},
+            {q: 'alignas是关键字吗？', options: ['是，C++11新增', '不是', '是宏', '是函数'], answer: 0, explain: 'alignas是C++11新增的关键字。'},
+            {q: 'char16_t是关键字吗？', options: ['是，C++11新增', '不是', '是宏', '是函数'], answer: 0, explain: 'char16_t是C++11新增的关键字。'},
+            {q: 'char32_t是关键字吗？', options: ['是，C++11新增', '不是', '是宏', '是函数'], answer: 0, explain: 'char32_t是C++11新增的关键字。'},
+            {q: 'GESP一级需要掌握多少个核心关键字？', options: ['10个', '15个', '23个', '50个'], answer: 2, explain: 'GESP一级需要掌握23个核心关键字（数据类型5个+控制语句10个+其他8个）。'},
+            {q: '学习关键字最重要的是？', options: ['死记硬背所有关键字', '理解关键字含义和用法', '会拼写即可', '知道数量'], answer: 1, explain: '学习关键字最重要的是理解每个关键字的含义和正确用法。'}
+        ];
+
+        let currentQuestion = 0;
+        let answers = new Array(questions.length).fill(null);
+        let correctCount = 0;
+
+        function loadQuestion(index) {
+            currentQuestion = index;
+            const q = questions[index];
+            document.getElementById('questionNumber').textContent = `题目 ${index + 1}/${questions.length}`;
+            document.getElementById('questionText').textContent = q.q;
+            
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+            
+            q.options.forEach((opt, i) => {
+                const btn = document.createElement('div');
+                btn.className = 'option';
+                btn.textContent = `${String.fromCharCode(65 + i)}. ${opt}`;
+                btn.onclick = () => selectAnswer(i);
+                
+                if (answers[index] !== null) {
+                    btn.classList.add('disabled');
+                    if (i === answers[index]) {
+                        btn.classList.add(i === q.answer ? 'correct' : 'wrong');
+                    }
+                    if (i === q.answer && answers[index] !== q.answer) {
+                        btn.classList.add('correct');
+                    }
+                }
+                
+                optionsDiv.appendChild(btn);
+            });
+            
+            const explanation = document.getElementById('explanation');
+            if (answers[index] !== null) {
+                explanation.textContent = `解析：${q.explain}`;
+                document.getElementById('questionCard').classList.add('answered');
+            } else {
+                explanation.textContent = '';
+                document.getElementById('questionCard').classList.remove('answered');
+            }
+            
+            updateProgress();
+            updateNavButtons();
+        }
+
+        function selectAnswer(optionIndex) {
+            if (answers[currentQuestion] !== null) return;
+            
+            answers[currentQuestion] = optionIndex;
+            const q = questions[currentQuestion];
+            
+            if (optionIndex === q.answer) {
+                correctCount++;
+            }
+            
+            const options = document.querySelectorAll('.option');
+            options[optionIndex].classList.add(optionIndex === q.answer ? 'correct' : 'wrong');
+            
+            if (optionIndex !== q.answer) {
+                options[q.answer].classList.add('correct');
+            }
+            
+            document.getElementById('explanation').textContent = `解析：${q.explain}`;
+            document.getElementById('questionCard').classList.add('answered');
+            
+            updateProgress();
+            saveProgress();
+        }
+
+        function updateProgress() {
+            const answered = answers.filter(a => a !== null).length;
+            const progress = (answered / questions.length) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+            document.getElementById('progressText').textContent = `${answered}/${questions.length}`;
+        }
+
+        function updateNavButtons() {
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            document.getElementById('nextBtn').textContent = 
+                currentQuestion === questions.length - 1 ? '完成' : '下一题 →';
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                loadQuestion(currentQuestion - 1);
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                loadQuestion(currentQuestion + 1);
+            } else {
+                const answered = answers.filter(a => a !== null).length;
+                const accuracy = answered > 0 ? Math.round((correctCount / answered) * 100) : 0;
+                alert(`测验完成！\n答对：${correctCount}/${answered}\n正确率：${accuracy}%`);
+            }
+        }
+
+        function saveProgress() {
+            localStorage.setItem('cpp-l1-topic-3-2-progress', JSON.stringify(answers));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('cpp-l1-topic-3-2-progress');
+            if (saved) {
+                answers = JSON.parse(saved);
+                correctCount = answers.reduce((sum, ans, idx) => 
+                    sum + (ans === questions[idx].answer ? 1 : 0), 0);
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' && currentQuestion > 0) prevQuestion();
+            if (e.key === 'ArrowRight') nextQuestion();
+        });
+
+        loadProgress();
+        loadQuestion(0);
+    </script>
+</body>
+</html>
