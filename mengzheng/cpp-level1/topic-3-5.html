@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.5 注释 - C++一级 - 蒙正堂</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/guofeng-v2.css">
+    <style>
+        :root { --l1-primary: #1e3a5f; --l1-secondary: #2e5984; --correct: #4a7c59; --wrong: #c9372c; }
+        .topic-container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+        .breadcrumb { display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1.5rem; font-size: 0.9rem; color: #666; }
+        .breadcrumb a { color: var(--l1-primary); text-decoration: none; }
+        .topic-header { background: linear-gradient(135deg, var(--l1-primary) 0%, var(--l1-secondary) 100%); color: white; padding: 2rem; border-radius: 12px; margin-bottom: 2rem; }
+        .topic-header .number { font-size: 0.9rem; opacity: 0.8; margin-bottom: 0.5rem; }
+        .topic-header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .topic-header .meta { display: flex; gap: 1.5rem; font-size: 0.9rem; opacity: 0.9; }
+        .content-section { background: white; border-radius: 12px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .content-section h2 { color: var(--l1-primary); border-left: 4px solid var(--l1-primary); padding-left: 1rem; margin-bottom: 1.5rem; }
+        .content-section h3 { color: var(--ink-800); margin: 1.5rem 0 1rem; }
+        .content-section p { line-height: 1.8; margin-bottom: 1rem; }
+        .highlight-box { background: #f0f4f8; border-left: 4px solid var(--l1-primary); padding: 1rem 1.5rem; margin: 1.5rem 0; border-radius: 0 8px 8px 0; }
+        .highlight-box.warning { background: #fff3cd; border-left-color: #d4a574; }
+        .highlight-box.danger { background: #f8d7da; border-left-color: #c9372c; }
+        .highlight-box.success { background: #d4edda; border-left-color: #4a7c59; }
+        .code-block { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 6px; padding: 1rem; margin: 1rem 0; font-family: 'Consolas', 'Monaco', monospace; font-size: 0.9rem; overflow-x: auto; }
+        .code-block .comment { color: #6a9955; }
+        .code-block .keyword { color: #0000ff; }
+        .code-block .string { color: #a31515; }
+        .quiz-section { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .quiz-section h2 { color: var(--l1-primary); border-left: 4px solid var(--l1-primary); padding-left: 1rem; margin-bottom: 1rem; }
+        .quiz-progress { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding: 0.75rem 1rem; background: #f8f9fa; border-radius: 8px; }
+        .quiz-progress-bar { flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; margin: 0 1rem; overflow: hidden; }
+        .quiz-progress-fill { height: 100%; background: linear-gradient(90deg, var(--l1-primary), var(--l1-secondary)); border-radius: 4px; transition: width 0.3s ease; }
+        .question-card { border: 1px solid #e9ecef; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; }
+        .question-number { font-weight: 600; color: var(--l1-primary); margin-bottom: 0.5rem; }
+        .question-text { font-size: 1.05rem; margin-bottom: 1rem; }
+        .options { display: flex; flex-direction: column; gap: 0.5rem; }
+        .option { padding: 0.75rem 1rem; border: 1px solid #e9ecef; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; }
+        .option:hover { background: #f8f9fa; border-color: var(--l1-primary); }
+        .option.correct { background: #d4edda; border-color: var(--correct); }
+        .option.wrong { background: #f8d7da; border-color: var(--wrong); }
+        .explanation { display: none; margin-top: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 6px; }
+        .question-card.answered .explanation { display: block; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 2rem; }
+        .shortcut-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        .shortcut-table th, .shortcut-table td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #e9ecef; }
+        .shortcut-table th { background: #f8f9fa; font-weight: 600; }
+        .comment-type-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 1.5rem 0; }
+        .comment-type-card { background: #f8f9fa; border-radius: 12px; padding: 1.5rem; border: 2px solid var(--l1-primary); }
+        .best-practice-box { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+        .practice-good { background: #d4edda; padding: 1rem; border-radius: 8px; border-left: 4px solid #4a7c59; }
+        .practice-bad { background: #f8d7da; padding: 1rem; border-radius: 8px; border-left: 4px solid #c9372c; }
+        .tip-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+        .tip-item { background: #f0f4f8; border-radius: 8px; padding: 1rem; text-align: center; }
+        .tip-item .icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        @media (max-width: 768px) { .best-practice-box { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="../../" class="brand"><span class="brand-icon">☯</span><span class="brand-text">默隐·蒙知苑</span></a>
+            <div class="nav-links">
+                <a href="../" class="nav-link">🎓 蒙正堂</a>
+                <a href="./" class="nav-link">C++一级</a>
+                <span class="nav-link active">3.5 注释</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="topic-container">
+        <div class="breadcrumb">
+            <a href="../">蒙正堂</a><span>›</span>
+            <a href="./">C++一级</a><span>›</span>
+            <a href="./#block3">程序的基本概念</a><span>›</span>
+            <span>3.5 注释</span>
+        </div>
+
+        <div class="topic-header">
+            <div class="number">知识块 3 · 知识点 5/6</div>
+            <h1>注释</h1>
+            <div class="meta">
+                <span>⏱️ 预估学习时长: 40分钟</span>
+                <span>📋 验证题目: 100题</span>
+                <span>🎯 难度: 入门级</span>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>📚 知识详解</h2>
+            
+            <h3>一、什么是注释</h3>
+            <p><strong>注释（Comment）</strong>是程序代码中用于解释说明的文字。注释不会被编译器编译，也不会影响程序的执行，它是给程序员看的「阅读笔记」。</p>
+            
+            <div class="highlight-box">
+                <strong>💡 一句话理解</strong><br>
+                注释是给程序员看的「阅读笔记」，程序运行时会自动忽略。
+            </div>
+
+            <div class="code-block">
+<span class="comment">// 这是单行注释：计算圆的面积</span>
+<span class="keyword">const</span> <span class="keyword">double</span> PI = 3.14159;
+<span class="keyword">double</span> radius = 5.0;<span class="comment">// 圆的半径</span>
+
+<span class="comment">/* 这是多行注释
+ * 可以写多行说明
+ */</span>
+            </div>
+
+            <h3>二、为什么要使用注释</h3>
+            <div class="tip-list">
+                <div class="tip-item"><div class="icon">📖</div><div>解释代码</div></div>
+                <div class="tip-item"><div class="icon">🔧</div><div>方便维护</div></div>
+                <div class="tip-item"><div class="icon">👥</div><div>团队协作</div></div>
+                <div class="tip-item"><div class="icon">🎓</div><div>学习记录</div></div>
+            </div>
+
+            <div class="highlight-box warning">
+                <strong>⚠️ 重要提醒</strong><br>
+                好的代码应当是「自解释」的，注释用来解释「为什么」而不是「做什么」。
+            </div>
+
+            <h3>三、C++中的注释方式</h3>
+
+            <div class="comment-type-grid">
+                <div class="comment-type-card">
+                    <h4>📝 单行注释</h4>
+                    <p>使用 <code>//</code> 符号</p>
+                    <div style="background: white; padding: 1rem; border-radius: 8px; font-family: monospace;">
+<span style="color: #6a9955;">// 这是单行注释</span><br>
+<span style="color: #0000ff;">int</span> age = 18;
+                    </div>
+                </div>
+                <div class="comment-type-card">
+                    <h4>📜 多行注释</h4>
+                    <p>使用 <code>/* */</code> 符号</p>
+                    <div style="background: white; padding: 1rem; border-radius: 8px; font-family: monospace;">
+<span style="color: #6a9955;">/* 这是多行注释<br> * 可以写很多行 */ </span>
+                    </div>
+                </div>
+            </div>
+
+            <h3>四、常见错误</h3>
+
+            <div class="highlight-box danger">
+                <strong>❌ 多行注释嵌套</strong><br>
+                /* 外层 /* 内层 */ 外层 */  <span class="comment">// 错误！多行注释不能嵌套</span>
+            </div>
+
+            <h3>五、GESP考试要点</h3>
+
+            <ul>
+                <li>注释的概念：程序中的说明文字，不影响执行</li>
+                <li>单行注释：使用 // </li>
+                <li>多行注释：使用 /* */</li>
+                <li>注释的作用：解释代码、调试程序</li>
+            </ul>
+
+            <div class="highlight-box">
+                <strong>🎯 核心口诀</strong><br>
+                「双斜杠单行，斜杠星号多行；注释不运行，只是给人看。」
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>☯ 言之之道：书不尽言，言不尽意</h2>
+            
+            <blockquote style="background: #f8f9fa; padding: 1.5rem; border-left: 4px solid var(--l1-primary); margin: 1.5rem 0; font-style: italic;"
+>                《易经·系辞上》云：「书不尽言，言不尽意。」
+            </blockquote>
+            
+            <p>古人早就认识到文字的局限性——书写无法穷尽言语，言语无法穷尽思想。正因如此，我们才需要「注释」来补充说明代码中难以直接表达的「意图」和「思路」。</p>
+
+            <div class="highlight-box success">
+                <strong>💡 圣人启示</strong><br>
+                《论语》云：「言之无文，行而不远。」—— 好的注释就像给代码「增文」，让代码的意图传播得更远、更清晰。
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>✅ 本模块检查清单</h2>
+            
+            <h3>学习前</h3>
+            <ul style="list-style: none;">
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 了解C++基本语法</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 知道什么是代码</li>
+            </ul>
+
+            <h3>学习中</h3>
+            <ul style="list-style: none;">
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 理解注释的概念和作用</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 掌握单行注释 // 的用法</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 掌握多行注释 /* */ 的用法</li>
+            </ul>
+
+            <h3>学习后</h3>
+            <ul style="list-style: none;">
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 能正确使用两种注释</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 能用注释调试代码</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 测验正确率达到 80% 以上</li>
+            </ul>
+        </div>
+
+        <div class="quiz-section"
+>            <h2>📝 验证测验 (100题)</h2>
+            <div class="quiz-progress"
+>                <span>进度</span>
+                <div class="quiz-progress-bar"
+>                    <div class="quiz-progress-fill" id="progressBar" style="width: 0%"></div>
+                </div>
+                <span id="progressText">0/100</span>
+            </div>
+            <div id="questionContainer"
+>                <div class="question-card" id="questionCard"
+>                    <div class="question-number" id="questionNumber">题目 1/100</div>
+                    <div class="question-text" id="questionText">加载中...</div>
+                    <div class="options" id="options"></div>
+                    <div class="explanation" id="explanation"></div>
+                </div>
+            </div>
+            <div class="nav-buttons"
+>                <button class="btn btn-secondary" id="prevBtn" onclick="prevQuestion()" disabled>← 上一题</button>
+                <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">下一题 →</button>
+            </div>
+        </div>
+
+        <div style="margin-top: 2rem; text-align: center;"
+>            <a href="./" class="btn btn-secondary">← 返回C++一级目录</a>
+        </div>
+    </main>
+
+    <footer class="footer"
+>        <div class="footer-content">
+            <p class="footer-brand">默隐·蒙正堂</p>
+            <p class="footer-motto">让所有孩子有处可学</p>
+            <p class="footer-copyright">© 2026 默隐 · 明夷敬制</p>
+        </div>
+    </footer>
+
+    <script>const questions = [
+    {q: "什么是注释？", options: ["程序运行的指令", "给程序员看的说明文字", "编译器的命令", "输出到屏幕的文字"], answer: 1, explain: "注释是程序中的说明文字，给程序员看，不会影响程序执行。"},
+    {q: "注释会被编译器编译吗？", options: ["会", "不会", "取决于注释类型", "有时会的"], answer: 1, explain: "注释不会被编译器编译，也不会影响程序执行。"},
+    {q: "注释的作用是什么？", options: ["让程序运行更快", "解释代码，方便理解", "减少代码量", "改变程序逻辑"], answer: 1, explain: "注释的主要作用是解释代码，帮助程序员理解程序。"},
+    {q: "C++中单行注释用什么符号？", options: ["/*", "//", "#", "--"], answer: 1, explain: "C++中使用 // 表示单行注释。"},
+    {q: "C++中多行注释用什么符号？", options: ["//", "/* */", "<!-- -->", "{}"], answer: 1, explain: "C++中使用 /* */ 表示多行注释。"},
+    {q: "以下哪个是单行注释？", options: ["/* 注释 */", "// 注释", "<!-- 注释 -->", "# 注释"], answer: 1, explain: "// 是单行注释符号。"},
+    {q: "以下哪个是多行注释？", options: ["// 注释", "/* 注释 */", "# 注释", "-- 注释"], answer: 1, explain: "/* */ 是多行注释符号。"},
+    {q: "// 这是注释 int a = 10; 中a会被编译吗？", options: ["会", "不会", "取决于编译器", "报错"], answer: 0, explain: "// 后面的才是注释，int a = 10; 是正常代码会被编译。"},
+    {q: "多行注释可以写几行？", options: ["只能1行", "可以很多行", "最多3行", "最多5行"], answer: 1, explain: "多行注释 /* */ 中间可以写任意多行内容。"},
+    {q: "单行注释从什么位置开始到行尾？", options: ["从/*开始", "从//开始", "从#开始", "从行首开始"], answer: 1, explain: "单行注释从 // 开始到该行结束。"},
+    {q: "以下代码会输出什么？cout << // \"Hello\";", options: ["Hello", "无输出", "编译错误", "运行时错误"], answer: 2, explain: "// \"Hello\" 是注释，cout << 后面没有内容，语法错误。"},
+    {q: "以下哪个不是注释的作用？", options: ["解释代码", "调试代码", "改变程序逻辑", "方便维护"], answer: 2, explain: "注释不能改变程序逻辑，它只是说明文字。"},
+    {q: "注释应该解释什么？", options: ["代码怎么做", "代码为什么这样做", "代码的每个字符", "代码的颜色"], answer: 1, explain: "好的注释解释「为什么」这样做，而不是「怎么做」。"},
+    {q: "以下哪个是好的注释？", options: ["// 定义变量a", "// 用计数器记录学生人数", "// a=10", "// int类型"], answer: 1, explain: "// 用计数器记录学生人数 解释了变量的用途和意义。"},
+    {q: "以下哪个是不好的注释？", options: ["// 计算圆的面积", "// TODO: 添加错误处理", "// int a = 10; // 定义整数a", "// 使用快速排序算法"], answer: 2, explain: "// int a = 10; // 定义整数a 这种注释重复了代码本身的内容。"},
+    {q: "用注释调试代码叫什么？", options: ["注释掉", "删除", "复制", "移动"], answer: 0, explain: "临时用注释禁用某些代码称为「注释掉」。"},
+    {q: "如何「注释掉」一行代码？", options: ["删除它", "在行首加 //", "加空格", "按Delete键"], answer: 1, explain: "在行首添加 // 可以将该行代码变成注释。"},
+    {q: "如何「注释掉」多行代码？", options: ["用//注释每一行", "用/* */包围", "删除它们", "保存文件"], answer: 1, explain: "用 /* */ 可以一次性注释掉多行代码。"},
+    {q: "多行注释可以嵌套吗？", options: ["可以", "不可以", "只有单行可以", "取决于编译器"], answer: 1, explain: "C++中多行注释 /* */ 不能嵌套使用。"},
+    {q: "以下代码有什么问题？/* 外层 /* 内层 */ 外层 */", options: ["没问题", "多行注释嵌套错误", "缺少分号", "语法错误"], answer: 1, explain: "多行注释不能嵌套，第一个 */ 就结束了注释。"},
+    {q: "初学者建议使用什么语言写注释？", options: ["英文", "中文", "拼音", "日文"], answer: 1, explain: "初学者建议使用中文写注释，更容易表达清楚。"},
+    {q: "TODO注释通常用来做什么？", options: ["记录已完成的工作", "标记待办事项", "删除代码", "运行程序"], answer: 1, explain: "TODO注释用来标记待完成的工作或需要改进的地方。"},
+    {q: "FIXME注释通常用来做什么？", options: ["标记已完成", "标记需要修复的问题", "删除代码", "编译程序"], answer: 1, explain: "FIXME注释用来标记需要修复的问题或bug。"},
+    {q: "注释可以写在代码的哪里？", options: ["只能写在开头", "可以写在需要解释的地方", "只能写在末尾", "不能写在代码中"], answer: 1, explain: "注释可以写在任何需要解释说明的地方。"},
+    {q: "行尾注释是什么？", options: ["单独一行的注释", "代码行末尾的注释", "文件开头的注释", "函数内部的注释"], answer: 1, explain: "行尾注释是写在代码行末尾的简短注释。"},
+    {q: "int a = 10; // 计数器 这是什么注释？", options: ["单行注释", "行尾注释", "多行注释", "文档注释"], answer: 1, explain: "这是写在代码行末尾的行尾注释。"},
+    {q: "注释占用的比例多少合适？", options: ["越多越好", "10%-30%", "不需要注释", "50%以上"], answer: 1, explain: "合理的注释比例约为10%-30%。"},
+    {q: "代码修改后，注释应该？", options: ["不用管", "同步更新", "删除", "增加更多"], answer: 1, explain: "代码修改后应该同步更新注释，保持注释与代码一致。"},
+    {q: "过时的注释会有什么影响？", options: ["没有影响", "误导阅读者", "加快运行", "减少内存"], answer: 1, explain: "过时的注释会误导阅读代码的人，比没有注释更糟。"},
+    {q: "注释掉的代码应该？", options: ["永远保留", "调试后删除", "复制多份", "移动到文件开头"], answer: 1, explain: "调试完成后应该删除注释掉的代码，保持代码整洁。"},
+    {q: "// int a = 5; int b = 10; b的值是？", options: ["5", "10", "0", "报错"], answer: 1, explain: "// int a = 5; 是注释，int b = 10; 是正常代码，b=10。"},
+    {q: "/* int a = 5; */ int b = 10; b的值是？", options: ["5", "10", "不确定", "报错"], answer: 1, explain: "/* int a = 5; */ 是注释，int b = 10; 是正常代码，b=10。"},
+    {q: "int a = 5; /* a = 10; */ a的值是？", options: ["5", "10", "15", "不确定"], answer: 0, explain: "/* a = 10; */ 是注释，不会执行，a保持5。"},
+    {q: "int a = 5; // a = 10; a的值是？", options: ["5", "10", "15", "报错"], answer: 0, explain: "// a = 10; 是注释，不会执行，a保持5。"},
+    {q: "/* int a = 5; int b = 10; */ int c = 15; c的值是？", options: ["5", "10", "15", "0"], answer: 2, explain: "/* */ 中间的内容都是注释，只有 int c = 15; 是正常代码，c=15。"},
+    {q: "以下哪个符号开始单行注释？", options: ["/*", "//", "*/", "##"], answer: 1, explain: "// 开始单行注释。"},
+    {q: "以下哪个符号结束多行注释？", options: ["/*", "//", "*/", "#"], answer: 2, explain: "*/ 结束多行注释。"},
+    {q: "int a = 5; // a = a + 1; a的值是？", options: ["5", "6", "7", "报错"], answer: 0, explain: "// a = a + 1; 是注释，不会执行，a保持5。"},
+    {q: "// cout << \"Hello\"; cout << \"World\"; 输出什么？", options: ["Hello", "World", "HelloWorld", "无输出"], answer: 1, explain: "// cout << \"Hello\"; 是注释，只输出 World。"},
+    {q: "/* cout << \"Hello\"; */ cout << \"World\"; 输出什么？", options: ["Hello", "World", "HelloWorld", "无输出"], answer: 1, explain: "/* cout << \"Hello\"; */ 是注释，只输出 World。"},
+    {q: "注释中可以写中文吗？", options: ["可以", "不可以", "只有多行注释可以", "只有单行注释可以"], answer: 0, explain: "注释中可以写中文，但要注意编码问题。"},
+    {q: "注释中应该使用什么标点？", options: ["中文标点", "英文标点", "都可以", "不能用标点"], answer: 1, explain: "建议使用英文标点，避免编码问题。"},
+    {q: "多行注释/*开始后，什么时候结束？", options: ["遇到行尾", "遇到*/", "遇到//", "遇到文件结尾"], answer: 1, explain: "多行注释在遇到 */ 时结束。"},
+    {q: "以下代码正确吗？int /* 整数 */ a = 5;", options: ["正确", "错误", "语法错误", "编译错误"], answer: 0, explain: "注释可以插入在代码的任何位置，这是合法的。"},
+    {q: "int a = /* 初始值 */ 5; a的值是？", options: ["0", "5", "不确定", "报错"], answer: 1, explain: "/* 初始值 */ 是注释，a被初始化为5。"},
+    {q: "/* 这是注释 // 嵌套 */ 这段注释结束于？", options: ["//后", "第一个/*后", "*/后", "行尾"], answer: 2, explain: "多行注释在遇到 */ 时结束，// 在注释中不起作用。"},
+    {q: "// /* 这是注释 */ 这段代码？", options: ["/* 是注释开始", "整行都是注释", "*/后不是注释", "语法错误"], answer: 1, explain: "// 后面的整行都是注释，/* */ 只是注释内容的一部分。"},
+    {q: "注释可以写在代码的哪些位置？", options: ["只能在开头", "只能在行尾", "任何位置", "只能在函数内"], answer: 2, explain: "注释可以写在代码的任何位置。"},
+    {q: "int a = 5; // 定义变量 // 计数器 这是？", options: ["两个注释", "一个注释", "语法错误", "编译错误"], answer: 1, explain: "// 后面整行都是注释，第二个 // 只是注释内容。"},
+    {q: "以下哪个注释格式是错误的？", options: ["// 注释", "/* 注释 */", "/* 注释", "# 注释"], answer: 2, explain: "/* 注释 缺少结束符 */，不是有效的多行注释。"},
+    {q: "int a = 5; /* a = 6;", options: ["a=5", "a=6", "编译错误", "语法错误"], answer: 2, explain: "/* 开始的多行注释没有结束符 */，会导致编译错误。"},
+    {q: "文件头注释通常包含什么？", options: ["只有作者名", "程序信息、作者、日期等", "代码实现", "运行结果"], answer: 1, explain: "文件头注释通常包含程序名称、作者、日期、功能说明等信息。"},
+    {q: "函数注释通常说明什么？", options: ["函数的实现细节", "函数的功能、参数、返回值", "函数的运行时间", "函数的内存占用"], answer: 1, explain: "函数注释通常说明函数的功能、参数含义、返回值等。"},
+    {q: "好的注释应该？", options: ["越多越好", "简洁明了", "重复代码", "用拼音写"], answer: 1, explain: "好的注释应该简洁明了，解释必要的部分。"},
+    {q: "以下哪种注释风格是推荐的？", options: ["每行都注释", "只注释复杂逻辑", "不注释", "用注释代替代码"], answer: 1, explain: "推荐只注释复杂逻辑或需要解释的地方，不要过度注释。"},
+    {q: "注释掉的代码长期保留会怎样？", options: ["没有影响", "增加维护负担", "加快编译", "减少文件大小"], answer: 1, explain: "注释掉的代码长期保留会增加代码维护的负担。"},
+    {q: "自解释代码是什么意思？", options: ["代码会自己说话", "通过良好命名和结构表达意图", "代码有注释", "代码很复杂"], answer: 1, explain: "自解释代码指通过良好的命名和结构让代码本身就能表达意图。"},
+    {q: "多行注释嵌套会导致？", options: ["正常编译", "编译错误", "运行时错误", "警告"], answer: 1, explain: "多行注释不能嵌套，会导致编译错误。"},
+    {q: "忘记写 */ 会导致？", options: ["正常编译", "编译错误", "运行时错误", "忽略"], answer: 1, explain: "多行注释没有结束符会导致编译错误。"},
+    {q: "代码和注释不符的后果是？", options: ["没有影响", "误导阅读者", "运行错误", "编译错误"], answer: 1, explain: "代码和注释不符会误导阅读代码的人。"},
+    {q: "过度注释的问题是？", options: ["代码更清晰", "代码臃肿，维护困难", "运行更快", "节省内存"], answer: 1, explain: "过度注释会让代码显得臃肿，增加维护难度。"},
+    {q: "缺少注释的问题是？", options: ["代码运行更快", "难以理解复杂逻辑", "编译更快", "节省空间"], answer: 1, explain: "缺少注释会让复杂逻辑难以理解。"},
+    {q: "GESP一级考试对注释的要求是？", options: ["掌握文档注释", "掌握 // 和 /* */", "不需要注释", "掌握所有注释"], answer: 1, explain: "GESP一级要求掌握单行注释 // 和多行注释 /* */。"},
+    {q: "注释的主要读者是？", options: ["编译器", "程序员", "计算机", "操作系统"], answer: 1, explain: "注释是给程序员看的，编译器会忽略注释。"},
+    {q: "注释可以用于？", options: ["改变程序逻辑", "调试代码", "加快运行", "减少内存"], answer: 1, explain: "注释可以用于调试代码（注释掉不需要执行的代码）。"},
+    {q: "以下哪个是调试时常用的技巧？", options: ["删除代码", "注释掉代码", "复制代码", "移动代码"], answer: 1, explain: "调试时常用注释暂时禁用某些代码。"},
+    {q: "好的代码应该是？", options: ["完全依赖注释", "自解释的", "没有注释", "全是注释"], answer: 1, explain: "好的代码应该是自解释的，注释作为必要补充。"},
+    {q: "行注释和块注释的区别是？", options: ["没有区别", "行注释只能一行，块注释可以多行", "块注释更快", "行注释更安全"], answer: 1, explain: "行注释 // 只能注释一行，块注释 /* */ 可以注释多行。"},
+    {q: "int a = 5; /* 定义变量 */ 中 /* 定义变量 */ 是？", options: ["代码", "注释", "编译错误", "语法错误"], answer: 1, explain: "/* */ 包围的内容是注释。"},
+    {q: "// int a = 5; 中 // int a = 5; 是？", options: ["代码", "注释", "编译错误", "语法错误"], answer: 1, explain: "// 后面整行都是注释。"},
+    {q: "cout << /* \"Hello\" */ \"World\"; 输出什么？", options: ["Hello", "World", "HelloWorld", "报错"], answer: 1, explain: "/* \"Hello\" */ 是注释，只输出 World。"},
+    {q: "/* cout << */ \"Hello\"; 会怎样？", options: ["输出Hello", "无输出", "编译错误", "输出World"], answer: 2, explain: "/* cout << */ 是注释，剩下 \"Hello\"; 不是完整语句，编译错误。"},
+    {q: "注释的目的是什么？", options: ["让程序运行", "帮助理解代码", "改变逻辑", "输出信息"], answer: 1, explain: "注释的目的是帮助理解代码。"},
+    {q: "哪种注释不能嵌套？", options: ["单行注释", "多行注释", "都不能", "都能"], answer: 1, explain: "多行注释 /* */ 不能嵌套。"},
+    {q: "哪种注释可以嵌套？", options: ["单行注释", "多行注释", "都能", "都不能"], answer: 3, explain: "C++中两种注释都不能嵌套。"},
+    {q: "int a = 5; // a = 6; 后a的值是？", options: ["5", "6", "11", "报错"], answer: 0, explain: "// a = 6; 是注释，a保持5。"},
+    {q: "int a = 5; /* a = 6; */ a的值是？", options: ["5", "6", "11", "报错"], answer: 0, explain: "/* a = 6; */ 是注释，a保持5。"},
+    {q: "以下哪个注释格式是错误的？", options: ["// 注释", "/* 注释 */", "/* 注释", "# 注释"], answer: 2, explain: "/* 注释 缺少结束符 */。"},
+    {q: "以下哪个是合法的C++注释？", options: ["<!-- 注释 -->", "// 注释", "# 注释", "-- 注释"], answer: 1, explain: "// 注释 是合法的C++单行注释。"},
+    {q: "注释应该？", options: ["解释为什么", "解释怎么做", "重复代码", "越多越好"], answer: 0, explain: "注释应该解释「为什么」这样做，而不是「怎么做」。"},
+    {q: "好的注释习惯包括？", options: ["从不写注释", "写简洁明了的注释", "每行都注释", "用拼音注释"], answer: 1, explain: "好的习惯是写简洁明了的注释。"},
+    {q: "学习注释的主要目的是？", options: ["为了考试", "写出易维护的代码", "加快运行", "节省内存"], answer: 1, explain: "学习注释是为了写出更易读、易维护的代码。"},
+    {q: "// 和 /* */ 的区别是？", options: ["没有区别", "//只能单行，/* */可以多行", "/* */更快", "//更安全"], answer: 1, explain: "// 是单行注释，/* */ 是多行注释。"},
+    {q: "注释掉的代码调试后应该？", options: ["保留", "删除", "复制", "移动"], answer: 1, explain: "调试后应该删除注释掉的代码，保持代码整洁。"},
+    {q: "int a=5; /*a=6;*/ a的值是？", options: ["5", "6", "11", "报错"], answer: 0, explain: "/*a=6;*/ 是注释，a保持5。"},
+    {q: "int a=5; //a=6; a的值是？", options: ["5", "6", "11", "报错"], answer: 0, explain: "//a=6; 是注释，a保持5。"},
+    {q: "/* 注释 */ 会执行吗？", options: ["会", "不会", "有时", "取决于内容"], answer: 1, explain: "注释不会被执行。"},
+    {q: "// 注释 会执行吗？", options: ["会", "不会", "有时", "取决于内容"], answer: 1, explain: "注释不会被执行。"},
+    {q: "注释影响程序运行结果吗？", options: ["影响", "不影响", "有时影响", "取决于注释类型"], answer: 1, explain: "注释不影响程序运行结果。"},
+    {q: "GESP一级要求掌握的注释是？", options: ["文档注释", "// 和 /* */", "#注释", "所有注释"], answer: 1, explain: "GESP一级要求掌握 // 和 /* */ 两种注释。"},
+    {q: "/* */ 中间可以写什么？", options: ["代码", "说明文字", "都可以", "什么都不能写"], answer: 2, explain: "/* */ 中间可以写说明文字，也可以注释掉代码。"},
+    {q: "良好的注释应该？", options: ["越多越好", "简洁明了", "重复代码", "不写注释"], answer: 1, explain: "良好的注释应该简洁明了。"},
+    {q: "注释和代码的关系是？", options: ["注释就是代码", "注释解释代码", "代码解释注释", "没有关系"], answer: 1, explain: "注释用来解释代码。"},
+    {q: "代码修改后注释应该？", options: ["不用改", "同步更新", "删除", "增加"], answer: 1, explain: "代码修改后注释应该同步更新。"},
+    {q: "int a=5;/*注释*/int b=10;会定义几个变量？", options: ["0", "1", "2", "报错"], answer: 2, explain: "/*注释*/ 是注释，a和b都被定义，共2个变量。"},
+    {q: "/* 开始注释，忘记写 */ 会怎样？", options: ["正常", "编译错误", "运行时错误", "警告"], answer: 1, explain: "缺少 */ 会导致编译错误。"},
+    {q: "/* 外层 /* 内层 */ */ 有问题吗？", options: ["没有", "有，多行注释不能嵌套", "有，语法错误", "有，缺少分号"], answer: 1, explain: "多行注释不能嵌套，第一个 */ 就结束了注释。"},
+    {q: "int a=5;/* a=6 */; 最后a是？", options: ["5", "6", "11", "报错"], answer: 0, explain: "/* a=6 */ 是注释，a保持5。"},
+    {q: "注释是写给谁看的？", options: ["编译器", "程序员", "计算机", "用户"], answer: 1, explain: "注释是写给程序员看的。"},
+    {q: "程序运行时注释会怎样？", options: ["执行", "被忽略", "报错", "输出"], answer: 1, explain: "程序运行时注释会被忽略。"},
+    {q: "// 后面整行都是？", options: ["代码", "注释", "字符串", "关键字"], answer: 1, explain: "// 后面整行都是注释。"},
+    {q: "/* 和 */ 之间的内容都是？", options: ["代码", "注释", "字符串", "关键字"], answer: 1, explain: "/* 和 */ 之间的内容都是注释。"},
+    {q: "int /* int型变量 */ a=5; 正确吗？", options: ["正确", "错误", "编译错误", "语法错误"], answer: 0, explain: "注释可以插入在代码中间，这是正确的。"},
+    {q: "cout << \"/* 不是注释 */\"; 输出什么？", options: ["/* 不是注释 */", "空", "报错", "注释"], answer: 0, explain: "字符串中的 /* 不是注释，原样输出。"},
+    {q: "cout << \"// 不是注释\"; 输出什么？", options: ["// 不是注释", "空", "报错", "注释"], answer: 0, explain: "字符串中的 // 不是注释，原样输出。"}
+];
+
+let currentQuestion = 0;
+let answers = new Array(questions.length).fill(null);
+let correctCount = 0;
+
+function loadQuestion(index) {
+    currentQuestion = index;
+    const q = questions[index];
+    document.getElementById('questionNumber').textContent = '题目 ' + (index + 1) + '/' + questions.length;
+    document.getElementById('questionText').textContent = q.q;
+    
+    const optionsDiv = document.getElementById('options');
+    optionsDiv.innerHTML = '';
+    
+    q.options.forEach((opt, i) => {
+        const btn = document.createElement('div');
+        btn.className = 'option';
+        btn.textContent = String.fromCharCode(65 + i) + '. ' + opt;
+        btn.onclick = () => selectAnswer(i);
+        
+        if (answers[index] !== null) {
+            btn.style.pointerEvents = 'none';
+            if (i === answers[index]) {
+                btn.classList.add(i === q.answer ? 'correct' : 'wrong');
+            }
+            if (i === q.answer && answers[index] !== q.answer) {
+                btn.classList.add('correct');
+            }
+        }
+        
+        optionsDiv.appendChild(btn);
+    });
+    
+    const explanation = document.getElementById('explanation');
+    if (answers[index] !== null) {
+        explanation.textContent = '解析：' + q.explain;
+        document.getElementById('questionCard').classList.add('answered');
+    } else {
+        explanation.textContent = '';
+        document.getElementById('questionCard').classList.remove('answered');
+    }
+    
+    updateProgress();
+    updateNavButtons();
+}
+
+function selectAnswer(optionIndex) {
+    if (answers[currentQuestion] !== null) return;
+    
+    answers[currentQuestion] = optionIndex;
+    const q = questions[currentQuestion];
+    
+    if (optionIndex === q.answer) {
+        correctCount++;
+    }
+    
+    const options = document.querySelectorAll('.option');
+    options[optionIndex].classList.add(optionIndex === q.answer ? 'correct' : 'wrong');
+    
+    if (optionIndex !== q.answer) {
+        options[q.answer].classList.add('correct');
+    }
+    
+    document.getElementById('explanation').textContent = '解析：' + q.explain;
+    document.getElementById('questionCard').classList.add('answered');
+    
+    updateProgress();
+    saveProgress();
+}
+
+function updateProgress() {
+    const answered = answers.filter(a => a !== null).length;
+    const progress = (answered / questions.length) * 100;
+    document.getElementById('progressBar').style.width = progress + '%';
+    document.getElementById('progressText').textContent = answered + '/' + questions.length;
+}
+
+function updateNavButtons() {
+    document.getElementById('prevBtn').disabled = currentQuestion === 0;
+    document.getElementById('nextBtn').textContent = currentQuestion === questions.length - 1 ? '完成' : '下一题 →';
+}
+
+function prevQuestion() {
+    if (currentQuestion > 0) {
+        loadQuestion(currentQuestion - 1);
+    }
+}
+
+function nextQuestion() {
+    if (currentQuestion < questions.length - 1) {
+        loadQuestion(currentQuestion + 1);
+    } else {
+        const answered = answers.filter(a => a !== null).length;
+        const accuracy = answered > 0 ? Math.round((correctCount / answered) * 100) : 0;
+        alert('测验完成！\\n答对：' + correctCount + '/' + answered + '\\n正确率：' + accuracy + '%');
+    }
+}
+
+function saveProgress() {
+    localStorage.setItem('cpp-l1-topic-3-5-progress', JSON.stringify(answers));
+}
+
+function loadProgress() {
+    const saved = localStorage.getItem('cpp-l1-topic-3-5-progress');
+    if (saved) {
+        answers = JSON.parse(saved);
+        correctCount = answers.reduce((sum, ans, idx) => sum + (ans === questions[idx].answer ? 1 : 0), 0);
+    }
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft' && currentQuestion > 0) prevQuestion();
+    if (e.key === 'ArrowRight') nextQuestion();
+});
+
+loadProgress();
+loadQuestion(0);
+    </script>
+</body>
+</html>
