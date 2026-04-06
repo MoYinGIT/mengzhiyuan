@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.3 常量 - C++一级 - 蒙正堂</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/guofeng-v2.css">
+    <style>
+        :root {
+            --l1-primary: #1e3a5f;
+            --l1-secondary: #2e5984;
+            --correct: #4a7c59;
+            --wrong: #c9372c;
+        }
+        .topic-container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+        .breadcrumb { display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1.5rem; font-size: 0.9rem; color: #666; }
+        .breadcrumb a { color: var(--l1-primary); text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .topic-header { background: linear-gradient(135deg, var(--l1-primary) 0%, var(--l1-secondary) 100%); color: white; padding: 2rem; border-radius: 12px; margin-bottom: 2rem; }
+        .topic-header .number { font-size: 0.9rem; opacity: 0.8; margin-bottom: 0.5rem; }
+        .topic-header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .topic-header .meta { display: flex; gap: 1.5rem; font-size: 0.9rem; opacity: 0.9; }
+        .content-section { background: white; border-radius: 12px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .content-section h2 { color: var(--l1-primary); border-left: 4px solid var(--l1-primary); padding-left: 1rem; margin-bottom: 1.5rem; }
+        .content-section h3 { color: var(--ink-800); margin: 1.5rem 0 1rem; }
+        .content-section p { line-height: 1.8; margin-bottom: 1rem; text-align: justify; }
+        .content-section ul, .content-section ol { margin: 1rem 0 1rem 1.5rem; }
+        .content-section li { margin-bottom: 0.5rem; line-height: 1.7; }
+        .highlight-box { background: #f0f4f8; border-left: 4px solid var(--l1-primary); padding: 1rem 1.5rem; margin: 1.5rem 0; border-radius: 0 8px 8px 0; }
+        .highlight-box.warning { background: #fff3cd; border-left-color: #d4a574; }
+        .highlight-box.danger { background: #f8d7da; border-left-color: #c9372c; }
+        .highlight-box.success { background: #d4edda; border-left-color: #4a7c59; }
+        .shortcut-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        .shortcut-table th, .shortcut-table td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #e9ecef; }
+        .shortcut-table th { background: #f8f9fa; font-weight: 600; }
+        .code-block { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 6px; padding: 1rem; margin: 1rem 0; font-family: 'Consolas', 'Monaco', monospace; font-size: 0.9rem; overflow-x: auto; }
+        .code-block .comment { color: #6a9955; }
+        .code-block .keyword { color: #0000ff; }
+        .code-block .string { color: #a31515; }
+        .code-block .number { color: #098658; }
+        .quiz-section { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .quiz-section h2 { color: var(--l1-primary); border-left: 4px solid var(--l1-primary); padding-left: 1rem; margin-bottom: 1rem; }
+        .quiz-progress { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding: 0.75rem 1rem; background: #f8f9fa; border-radius: 8px; }
+        .quiz-progress-bar { flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; margin: 0 1rem; overflow: hidden; }
+        .quiz-progress-fill { height: 100%; background: linear-gradient(90deg, var(--l1-primary), var(--l1-secondary)); border-radius: 4px; transition: width 0.3s ease; }
+        .question-card { border: 1px solid #e9ecef; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; }
+        .question-card.correct { border-color: var(--correct); background: #f0f8f0; }
+        .question-card.wrong { border-color: var(--wrong); background: #fdf0ef; }
+        .question-number { font-weight: 600; color: var(--l1-primary); margin-bottom: 0.5rem; }
+        .question-text { font-size: 1.05rem; margin-bottom: 1rem; }
+        .options { display: flex; flex-direction: column; gap: 0.5rem; }
+        .option { padding: 0.75rem 1rem; border: 1px solid #e9ecef; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; }
+        .option:hover { background: #f8f9fa; border-color: var(--l1-primary); }
+        .option.selected { background: #e3f2fd; border-color: var(--l1-primary); }
+        .option.correct { background: #d4edda; border-color: var(--correct); }
+        .option.wrong { background: #f8d7da; border-color: var(--wrong); }
+        .explanation { display: none; margin-top: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 6px; }
+        .question-card.answered .explanation { display: block; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 2rem; }
+        .const-type-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+        .const-type-card { background: #f8f9fa; border-radius: 8px; padding: 1.25rem; border-left: 4px solid var(--l1-primary); }
+        .const-type-card h4 { color: var(--l1-primary); margin: 0 0 0.5rem 0; }
+        .const-type-card code { background: #e9ecef; padding: 0.2rem 0.4rem; border-radius: 4px; font-family: monospace; }
+        .comparison-box { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+        .comparison-item { padding: 1rem; border-radius: 8px; }
+        .comparison-item.variable { background: #e3f2fd; border: 2px solid #2196f3; }
+        .comparison-item.constant { background: #fff3cd; border: 2px solid #f9a825; }
+        @media (max-width: 768px) {
+            .topic-container { padding: 1rem; }
+            .topic-header h1 { font-size: 1.4rem; }
+            .content-section { padding: 1.25rem; }
+            .const-type-grid { grid-template-columns: 1fr; }
+            .comparison-box { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="../../" class="brand">
+                <span class="brand-icon">☯</span>
+                <span class="brand-text">默隐·蒙知苑</span>
+            </a>
+            <div class="nav-links">
+                <a href="../" class="nav-link">🎓 蒙正堂</a>
+                <a href="./" class="nav-link">C++一级</a>
+                <span class="nav-link active">3.3 常量</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="topic-container">
+        <div class="breadcrumb">
+            <a href="../">蒙正堂</a>
+            <span>›</span>
+            <a href="./">C++一级</a>
+            <span>›</span>
+            <a href="./#block3">程序的基本概念</a>
+            <span>›</span>
+            <span>3.3 常量</span>
+        </div>
+
+        <div class="topic-header">
+            <div class="number">知识块 3 · 知识点 3/6</div>
+            <h1>常量</h1>
+            <div class="meta">
+                <span>⏱️ 预估学习时长: 50分钟</span>
+                <span>📋 验证题目: 100题</span>
+                <span>🎯 难度: 入门级</span>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>📚 知识详解</h2>
+            
+            <h3>一、什么是常量</h3>
+            <p><strong>常量（Constant）</strong>是程序运行过程中其值不能被改变的量。一旦定义，常量的值就固定不变，就像数学中的π（圆周率）永远是3.14159...一样。</p>
+            
+            <div class="highlight-box">
+                <strong>💡 一句话理解</strong><br>
+                常量就是程序中「一成不变」的值，定义后不能被修改。
+            </div>
+
+            <div class="code-block">
+<span class="comment">// 常量示例</span>
+<span class="keyword">const</span> <span class="keyword">int</span> MAX_SCORE = 100;    <span class="comment">// MAX_SCORE 是常量，值固定为100</span>
+<span class="keyword">const</span> <span class="keyword">double</span> PI = 3.14159;      <span class="comment">// PI 是常量，值固定为3.14159</span>
+<span class="keyword">const</span> <span class="keyword">char</span> GRADE = 'A';        <span class="comment">// GRADE 是常量，值固定为'A'</span>
+
+<span class="comment">// 错误：不能修改常量</span>
+MAX_SCORE = 200;   <span class="comment">// ❌ 编译错误：不能修改常量</span>
+            </div>
+
+            <h3>二、为什么要使用常量</h3>
+
+            <ol>
+                <li><strong>提高可读性</strong>：用有意义的名称代替魔法数字</li>
+                <li><strong>便于维护</strong>：修改一处，全局生效</li>
+                <li><strong>防止误改</strong>：编译器会阻止对常量的修改</li>
+                <li><strong>表达意图</strong>：明确表示某值不应改变</li>
+            </ol>
+
+            <div class="code-block">
+<span class="comment">// ❌ 不好的做法：魔法数字</span>
+<span class="keyword">if</span> (score >= 60) { }    <span class="comment">// 60是什么含义？</span>
+<span class="keyword">int</span> arr[100];           <span class="comment">// 100是什么含义？</span>
+
+<span class="comment">// ✅ 好的做法：使用常量</span>
+<span class="keyword">const</span> <span class="keyword">int</span> PASS_SCORE = 60;
+<span class="keyword">const</span> <span class="keyword">int</span> MAX_SIZE = 100;
+<span class="keyword">if</span> (score >= PASS_SCORE) { }   <span class="comment">// 含义清晰</span>
+<span class="keyword">int</span> arr[MAX_SIZE];            <span class="comment">// 含义清晰</span>
+            </div>
+
+            <h3>三、常量的定义方式</h3>
+
+            <h4>方式1：const关键字（推荐）</h4>
+            <p>使用 <code>const</code> 关键字定义常量，这是最常用、最推荐的方式。</p>
+
+            <div class="code-block">
+<span class="keyword">const</span> 数据类型 常量名 = 初始值;
+
+<span class="comment">// 示例</span>
+<span class="keyword">const</span> <span class="keyword">int</span> MAX_STUDENTS = 50;
+<span class="keyword">const</span> <span class="keyword">double</span> PI = 3.1415926;
+<span class="keyword">const</span> <span class="keyword">char</span> NEWLINE = '\n';
+<span class="keyword">const</span> <span class="keyword">bool</span> DEBUG = <span class="keyword">true</span>;
+            </div>
+
+            <h4>方式2：#define宏定义</h4>
+            <p>使用预处理器指令 <code>#define</code> 定义常量，在编译前进行文本替换。</p>
+
+            <div class="code-block">
+<span class="comment">#define 常量名 值</span>
+
+<span class="comment">// 示例</span>
+<span class="keyword">#define</span> MAX_SIZE 100
+<span class="keyword">#define</span> PI 3.14159
+<span class="keyword">#define</span> GREETING "Hello, World!"
+
+<span class="comment">// 使用时</span>
+<span class="keyword">int</span> arr[MAX_SIZE];   <span class="comment">// 编译时替换为 int arr[100];</span>
+            </div>
+
+            <div class="highlight-box warning">
+                <strong>⚠️ const vs #define</strong><br>
+                • const 有类型检查，更安全<br>
+                • #define 只是文本替换，无类型检查<br>
+                • <strong>推荐优先使用 const</strong>
+            </div>
+
+            <h4>方式3：直接量（字面常量）</h4>
+            <p>直接写在代码中的常量值，如 <code>100</code>、<code>3.14</code>、<code>'A'</code> 等。</p>
+
+            <div class="code-block">
+<span class="keyword">int</span> a = 100;       <span class="comment">// 100 是整数常量</span>
+<span class="keyword">double</span> b = 3.14;   <span class="comment">// 3.14 是浮点常量</span>
+<span class="keyword">char</span> c = 'X';     <span class="comment">// 'X' 是字符常量</span>
+            </div>
+
+            <h3>四、常量的类型</h3>
+
+            <div class="const-type-grid">
+                <div class="const-type-card">
+                    <h4>🔢 整数常量</h4>
+                    <p>如：<code>100</code>、<code>-50</code>、<code>0</code></p>
+                    <p>后缀：<code>100L</code>(长整型)、<code>100U</code>(无符号)</p>
+                </div>
+                <div class="const-type-card">
+                    <h4>🔢 浮点常量</h4>
+                    <p>如：<code>3.14</code>、<code>-0.5</code>、<code>2.5e3</code></p>
+                    <p>后缀：<code>3.14f</code>(float)、<code>3.14</code>(double)</p>
+                </div>
+                <div class="const-type-card">
+                    <h4>🔤 字符常量</h4>
+                    <p>用单引号包围：<code>'A'</code>、<code>'\n'</code></p>
+                    <p>转义字符：<code>'\n'</code>(换行)、<code>'\t'</code>(制表符)</p>
+                </div>
+                <div class="const-type-card">
+                    <h4>📜 字符串常量</h4>
+                    <p>用双引号包围：<code>"Hello"</code></p>
+                    <p>实际上是字符数组，末尾自动加'\0'</p>
+                </div>
+                <div class="const-type-card">
+                    <h4>✅ 布尔常量</h4>
+                    <p>只有两个：<code>true</code> 和 <code>false</code></p>
+                    <p>分别表示真和假</p>
+                </div>
+            </div>
+
+            <h3>五、常量 vs 变量</h3>
+
+            <div class="comparison-box">
+                <div class="comparison-item variable">
+                    <h4>🔵 变量</h4>
+                    <ul>
+                        <li>值可以改变</li>
+                        <li>用普通声明</li>
+                        <li>存储在内存中</li>
+                        <li>如：int age = 18;</li>
+                    </ul>
+                </div>
+                <div class="comparison-item constant">
+                    <h4>🟡 常量</h4>
+                    <ul>
+                        <li>值不能改变</li>
+                        <li>用 const 声明</li>
+                        <li>也存储在内存中</li>
+                        <li>如：const int MAX = 100;</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="code-block">
+<span class="comment">// 变量：值可以改变</span>
+<span class="keyword">int</span> score = 80;
+score = 90;          <span class="comment">// ✅ 可以修改</span>
+score = 100;         <span class="comment">// ✅ 可以再次修改</span>
+
+<span class="comment">// 常量：值不能改变</span>
+<span class="keyword">const</span> <span class="keyword">int</span> PASS = 60;
+<span class="comment">// PASS = 70;       // ❌ 错误：不能修改常量</span>
+            </div>
+
+            <h3>六、常见错误</h3>
+
+            <div class="highlight-box danger">
+                <strong>❌ 错误1：修改常量</strong><br>
+                const int MAX = 100;<br>
+                MAX = 200;  // 编译错误：不能修改常量
+            </div>
+
+            <div class="highlight-box danger">
+                <strong>❌ 错误2：常量未初始化</strong><br>
+                const int MAX;  // 错误：常量必须初始化<br>                MAX = 100;
+            </div>
+
+            <div class="highlight-box warning">
+                <strong>⚠️ 错误3：混淆赋值与初始化</strong><br>
+                const int MAX = 100;  // ✅ 初始化（定义时赋值）<br>                const int MAX; MAX = 100;  // ❌ 错误：不能在定义后赋值
+            </div>
+
+            <h3>七、GESP考试要点</h3>
+
+            <ul>
+                <li><strong>常量的概念</strong>：程序运行过程中值不能被改变的量</li>
+                <li><strong>常量的定义</strong>：const 关键字的使用方法</li>
+                <li><strong>常量的类型</strong>：整数、浮点、字符、字符串、布尔常量</li>
+                <li><strong>常量vs变量</strong>：能区分常量和变量的区别</li>
+                <li><strong>常见错误</strong>：常量必须初始化、不能修改常量</li>
+            </ul>
+
+            <div class="highlight-box">
+                <strong>🎯 核心口诀</strong><br>
+                「常量值不变，const来定义；<br>
+                定义即初始化，之后不能改；<br>
+                整浮字符布尔，类型要记牢。」
+            </div>
+        </div>
+
+        <!-- 易经智慧 -->
+        <div class="content-section">
+            <h2>☯ 常变之道：不易、变易、简易</h2>
+            
+            <blockquote style="background: #f8f9fa; padding: 1.5rem; border-left: 4px solid var(--l1-primary); margin: 1.5rem 0; font-style: italic;">
+                《易经》云：「易有太极，是生两仪。...易有三义：不易、变易、简易。」
+            </blockquote>
+            
+            <p>《易经》之「易」有三重含义：<strong>不易</strong>（不变）、<strong>变易</strong>（变化）、<strong>简易</strong>（简单）。常量对应「不易」，变量对应「变易」，良好的程序设计则是「简易」。</p>
+
+            <table class="shortcut-table">
+                <tr><th>易经三义</th><th>编程对应</th><th>寓意</th></tr>
+                <tr><td>不易（不变）</td><td>常量 const</td><td>根本规律，恒定不变</td></tr>
+                <tr><td>变易（变化）</td><td>变量 var</td><td>灵活应变，适应需求</td></tr>
+                <tr><td>简易（简单）</td><td>良好设计</td><td>化繁为简，大道至简</td></tr>
+            </table>
+
+            <div class="highlight-box success">
+                <strong>💡 圣人启示</strong><br>
+                《道德经》云：「不知常，妄作凶。」—— 不了解不变的规律，轻举妄动就会出乱子。<br><br>
+                在编程中，将不应改变的值设为常量（知常），可以避免误改导致的错误（不妄作）。
+            </div>
+        </div>
+
+        <!-- 检查清单 -->
+        <div class="content-section">
+            <h2>✅ 本模块检查清单</h2>
+            
+            <h3>学习前</h3>
+            <ul style="list-style: none;">
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 了解什么是变量</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 知道基本数据类型</li>
+            </ul>
+
+            <h3>学习中</h3>
+            <ul style="list-style: none;">
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 理解常量的概念</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 掌握 const 定义常量</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 了解各种常量类型</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 区分常量与变量</li>
+            </ul>
+
+            <h3>学习后</h3>
+            <ul style="list-style: none;">
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 能正确定义常量</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 能识别常量与变量</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 测验正确率达到 80% 以上</li>
+            </ul>
+        </div>
+
+        <div class="quiz-section">
+            <h2>📝 验证测验 (100题)</h2>
+            <div class="quiz-progress">
+                <span>进度</span>
+                <div class="quiz-progress-bar">
+                    <div class="quiz-progress-fill" id="progressBar" style="width: 0%"></div>
+                </div>
+                <span id="progressText">0/100</span>
+            </div>
+            <div id="questionContainer">
+                <div class="question-card" id="questionCard">
+                    <div class="question-number" id="questionNumber">题目 1/100</div>
+                    <div class="question-text" id="questionText">加载中...</div>
+                    <div class="options" id="options"></div>
+                    <div class="explanation" id="explanation"></div>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" id="prevBtn" onclick="prevQuestion()" disabled>← 上一题</button>
+                <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">下一题 →</button>
+            </div>
+        </div>
+
+        <!-- 拓展阅读 -->
+        <div class="content-section">
+            <h2>📚 拓展阅读</h2>
+            
+            <h3>constexpr：编译期常量（C++11）</h3>
+            <p>C++11 引入了 <code>constexpr</code> 关键字，用于定义编译期常量。与 <code>const</code> 相比：</p>
+
+            <ul>
+                <li><code>const</code>：运行期常量，值在运行时确定</li>
+                <li><code>constexpr</code>：编译期常量，值在编译时确定</li>
+            </ul>
+
+            <div class="code-block">
+<span class="keyword">const</span> <span class="keyword">int</span> size1 = getSize();       <span class="comment">// ✅ const 可以运行时初始化</span>
+<span class="keyword">constexpr</span> <span class="keyword">int</span> size2 = 100;           <span class="comment">// ✅ constexpr 必须编译期确定</span>
+<span class="comment">// constexpr int size3 = getSize();  // ❌ 错误：getSize() 不是编译期函数</span>
+            </div>
+
+            <div class="highlight-box">
+                <strong>💡 GESP考试提示</strong><br>
+                GESP一级考试只考察 <code>const</code> 关键字，<code>constexpr</code> 属于C++11新特性，一级不要求掌握。
+            </div>
+
+            <h3>宏常量 vs const 常量</h3>
+
+            <table class="shortcut-table">
+                <tr><th>特性</th><th>#define</th><th>const</th></tr>
+                <tr><td>类型检查</td><td>无</td><td>有</td></tr>
+                <tr><td>作用域</td><td>全局（从定义到文件结束）</td><td>遵循作用域规则</td></tr>
+                <tr><td>内存分配</td><td>不分配（文本替换）</td><td>可能分配</td></tr>
+                <tr><td>调试</td><td>困难（预处理后就消失）</td><td>容易</td></tr>
+                <tr><td>推荐度</td><td>⭐⭐</td><td>⭐⭐⭐⭐⭐</td></tr>
+            </table>
+
+            <h3>常见的编程常量约定</h3>
+
+            <ol>
+                <li><strong>全大写下划线命名</strong>：常量名通常全部大写，单词间用下划线分隔<br>
+                    如：<code>MAX_SIZE</code>、<code>PI</code>、<code>PASS_SCORE</code></li>
+                <li><strong>魔法数字</strong>：避免在代码中直接使用没有解释的数字，应该用常量替代</li>
+                <li><strong>一处修改</strong>：使用常量的好处是修改一处，到处生效</li>
+            </ol>
+
+            <div class="highlight-box success">
+                <strong>📖 学习建议</strong><br>
+                养成「见数就疑」的习惯：看到代码中的数字，先想想是否应该定义为常量。这不仅让代码更易读，也更容易维护。
+            </div>
+        </div>
+
+        <div style="margin-top: 2rem; text-align: center;">
+            <a href="./" class="btn btn-secondary">← 返回C++一级目录</a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-brand">默隐·蒙正堂</p>
+            <p class="footer-motto">让所有孩子有处可学</p>
+            <p class="footer-copyright">© 2026 默隐 · 明夷敬制</p>
+        </div>
+    </footer>
+
+    <script>
+        const questions = [
+            // 常量基础概念 1-30
+            {q: '什么是常量？', options: ['值可以改变的量', '值不能被改变的量', '存储数据的容器', '一种数据类型'], answer: 1, explain: '常量是程序运行过程中其值不能被改变的量。'},
+            {q: '以下哪个是常量的特点？', options: ['值可以随时改变', '定义后不能被修改', '不需要初始化', '只能用于整数'], answer: 1, explain: '常量的特点是定义后值不能被修改。'},
+            {q: '常量定义后可以被修改吗？', options: ['可以', '不可以', '有时可以', '取决于类型'], answer: 1, explain: '常量一旦定义，其值就不能被修改。'},
+            {q: '使用const定义的常量能被修改吗？', options: ['可以', '不可以', '编译时可以', '运行时可以'], answer: 1, explain: 'const定义的常量不能被修改，这是const的含义。'},
+            {q: '为什么要使用常量？', options: ['为了节省内存', '为了提高可读性和防止误改', '为了加快运行速度', '为了减少代码量'], answer: 1, explain: '使用常量可以提高代码可读性，并防止值被意外修改。'},
+            {q: '常量名通常用什么命名规范？', options: ['小驼峰命名', '全大写下划线分隔', '首字母大写', '任意命名'], answer: 1, explain: '常量名通常全部大写，单词间用下划线分隔，如MAX_SIZE。'},
+            {q: '以下哪个是常量的正确定义？', options: ['const int MAX = 100;', 'int const MAX = 100;', 'const int MAX;', 'MAX = 100;'], answer: 0, explain: 'const 数据类型 常量名 = 初始值; 是正确格式。'},
+            {q: 'const int MAX = 100; 之后，MAX = 200; 会怎样？', options: ['正常执行', '编译错误', '运行时错误', '警告但不报错'], answer: 1, explain: '常量不能被修改，尝试修改会导致编译错误。'},
+            {q: '常量和变量的主要区别是？', options: ['常量占用更多内存', '常量值不能被修改，变量值可以', '常量更快', '常量只能在函数外定义'], answer: 1, explain: '常量的值不能修改，变量的值可以修改。'},
+            {q: '以下哪个不是使用常量的好处？', options: ['提高可读性', '便于维护', '防止误改', '加快运行速度'], answer: 3, explain: '常量不会加快运行速度，这是编译器优化的事。'},
+            {q: 'const float PI = 3.14; 之后可以修改PI的值吗？', options: ['可以', '不可以', '只能改一次', '只能减小不能增大'], answer: 1, explain: 'const定义的常量不能被修改。'},
+            {q: '以下哪个是良好的编程习惯？', options: ['直接使用魔法数字', '将魔法数字定义为常量', '避免使用常量', '所有值都用常量'], answer: 1, explain: '将魔法数字定义为有含义的常量是良好的编程习惯。'},
+            {q: '"魔法数字"指的是什么？', options: ['神奇的数字', '没有解释的直接量', '随机数', '很大的数'], answer: 1, explain: '魔法数字指代码中直接使用而没有解释含义的数字。'},
+            {q: 'const int PASS = 60; 比直接使用60的好处是？', options: ['运行更快', '含义更清晰，修改更方便', '占用更少内存', '更安全'], answer: 1, explain: '使用常量使含义清晰，且修改时只需改一处。'},
+            {q: '常量必须初始化吗？', options: ['必须', '不必须', '取决于类型', '有时需要'], answer: 0, explain: '常量定义时必须初始化，不能在定义后赋值。'},
+            {q: 'const int MAX; MAX = 100; 对吗？', options: ['对', '错，常量必须定义时初始化', '错，MAX不是有效名', '错，不能用const'], answer: 1, explain: '常量必须在定义时初始化，不能先定义后赋值。'},
+            {q: '以下哪个常量是整数常量？', options: ['3.14', '"hello"', '100', 'true'], answer: 2, explain: '100是整数常量。'},
+            {q: '以下哪个常量是浮点常量？', options: ['100', '3.14', '"3.14"', 'A'], answer: 1, explain: '3.14是浮点常量。'},
+            {q: "'A'是什么类型的常量？", options: ['字符串常量', '字符常量', '整数常量', '布尔常量'], answer: 1, explain: "'A'是字符常量，用单引号包围。"},
+            {q: '"Hello"是什么类型的常量？', options: ['字符常量', '字符串常量', '整数常量', '浮点常量'], answer: 1, explain: '"Hello"是字符串常量，用双引号包围。'},
+            {q: 'true和false是什么类型的常量？', options: ['整数常量', '字符常量', '布尔常量', '字符串常量'], answer: 2, explain: 'true和false是布尔常量。'},
+            {q: '3.14f中的f表示什么？', options: ['文件', '函数', 'float类型', 'for循环'], answer: 2, explain: 'f后缀表示float类型浮点数。'},
+            {q: '100L中的L表示什么？', options: ['长整型', '字符串', '列表', '局部变量'], answer: 0, explain: 'L后缀表示long（长整型）。'},
+            {q: '0x1A是什么进制的常量？', options: ['二进制', '八进制', '十进制', '十六进制'], answer: 3, explain: '0x前缀表示十六进制数。'},
+            {q: '010是什么进制的常量？', options: ['二进制', '八进制', '十进制', '十六进制'], answer: 1, explain: '0前缀表示八进制数。'},
+            {q: '"\n"表示什么字符？', options: ['字母n', '数字n', '换行符', '空字符'], answer: 2, explain: '"\n"是换行符（转义字符）。'},
+            {q: '"\t"表示什么字符？', options: ['字母t', '制表符', '回车符', '换行符'], answer: 1, explain: '"\t"是制表符（Tab）。'},
+            {q: 'C++中定义常量推荐用什么关键字？', options: ['#define', 'const', 'final', 'static'], answer: 1, explain: '推荐优先使用const定义常量。'},
+            {q: '#define MAX 100 和 const int MAX = 100; 的区别是？', options: ['没有区别', '#define是宏替换，const有类型检查', 'const更快', '#define更安全'], answer: 1, explain: '#define是文本替换，const有类型检查更安全。'},
+            {q: 'const常量有类型吗？', options: ['有', '没有', '取决于值', '只有整数有'], answer: 0, explain: 'const常量有明确的数据类型。'},
+            // const使用 31-55
+            {q: 'const int MAX = 100; 中const的位置？', options: ['类型前', '类型后', '常量名前', '等号后'], answer: 0, explain: 'const放在类型前面。'},
+            {q: 'int const MAX = 100; 正确吗？', options: ['正确', '错误', '只有C++11后正确', '取决于编译器'], answer: 0, explain: 'int const和const int都是正确的。'},
+            {q: 'const int a = 10, b = 20; 正确吗？', options: ['正确', '错误', '只有a是常量', '语法错误'], answer: 0, explain: '可以同时定义多个const常量。'},
+            {q: 'const int MAX; 这样定义对吗？', options: ['对', '错，必须初始化', '错，MAX是关键字', '错，不能用const'], answer: 1, explain: 'const常量必须初始化。'},
+            {q: '以下哪个会导致编译错误？', options: ['const int a = 10;', 'const int b = 20;', 'const int c;', 'const int d = 30;'], answer: 2, explain: 'const int c; 错误，常量必须初始化。'},
+            {q: 'const int a = 10; a = 20; 会怎样？', options: ['正常执行', '编译错误', '运行时崩溃', 'a变成20'], answer: 1, explain: '常量不能被重新赋值，会报编译错误。'},
+            {q: 'const double PI = 3.14159; 中PI的值是？', options: ['3', '3.14', '3.14159', '可以修改'], answer: 2, explain: 'PI的值是3.14159。'},
+            {q: 'const char GRADE = "A"; 对吗？', options: ['对', '错，应该用单引号', '错，不能用const', '错，GRADE是关键字'], answer: 1, explain: "字符常量用单引号，'A'才是正确的。"},
+            {q: "const char GRADE = 'A'; 对吗？", options: ['对', '错', '语法错误', 'GRADE不能用作常量名'], answer: 0, explain: '这是正确的字符常量定义。'},
+            {q: 'const bool FLAG = true; 对吗？', options: ['对', '错', 'bool不能用const', 'true应该大写'], answer: 0, explain: '这是正确的布尔常量定义。'},
+            {q: 'const string NAME = "Tom"; 对吗？', options: ['对，但需要包含string头文件', '错，string不能用const', '错，必须用char[]', '对，无需头文件'], answer: 0, explain: '对，但需要使用std::string并包含相应头文件。'},
+            {q: 'C++中常量可以定义在函数内部吗？', options: ['可以', '不可以', '只能在main函数', '只能在函数外'], answer: 0, explain: '常量可以定义在函数内部或外部。'},
+            {q: '函数内定义的常量作用域是？', options: ['全局', '整个文件', '函数内部', '所有函数'], answer: 2, explain: '函数内定义的常量作用域是该函数内部。'},
+            {q: '全局常量的作用域是？', options: ['仅定义处', '整个文件', '仅main函数', '仅被调用的函数'], answer: 1, explain: '全局常量从定义位置到文件结束都可见。'},
+            {q: 'const int MAX = 100; cout << MAX; 输出什么？', options: ['MAX', '100', '编译错误', '运行时错误'], answer: 1, explain: '输出常量的值100。'},
+            {q: '以下哪个不是定义常量的方法？', options: ['const', '#define', 'constexpr', 'var'], answer: 3, explain: 'var不是C++定义常量的方法。'},
+            {q: 'constexpr是什么？', options: ['C++11新增的编译期常量', '和const完全一样', '宏定义', '全局变量'], answer: 0, explain: 'constexpr是C++11新增的，用于编译期常量。'},
+            {q: 'GESP一级考试要求掌握constexpr吗？', options: ['要求', '不要求', '可选', '仅了解'], answer: 1, explain: 'GESP一级只要求掌握const，constexpr是C++11特性。'},
+            {q: 'const常量占用内存吗？', options: ['占用', '不占用', '取决于编译器', '只有运行时占用'], answer: 0, explain: 'const常量通常占用内存。'},
+            {q: '#define宏常量占用内存吗？', options: ['占用', '不占用，是文本替换', '运行时占用', '取决于值的大小'], answer: 1, explain: '#define是预处理文本替换，不单独分配内存。'},
+            {q: 'const int a = 10; int b = a; 对吗？', options: ['对', '错', 'a不能被使用', 'b必须是const'], answer: 0, explain: '可以用常量给变量赋值。'},
+            {q: 'int a = 10; const int b = a; 对吗？', options: ['对', '错', '必须用常量初始化', '编译错误'], answer: 0, explain: '可以用变量值初始化const常量。'},
+            {q: 'const int a = 10; const int b = a; 对吗？', options: ['对', '错', 'a必须是非常量', '不能互相赋值'], answer: 0, explain: '可以用const常量初始化另一个const常量。'},
+            // 常量类型 56-80
+            {q: '123是什么类型的常量？', options: ['浮点', '字符', '整数', '布尔'], answer: 2, explain: '123是整数常量。'},
+            {q: '123.45是什么类型的常量？', options: ['整数', '浮点', '字符', '字符串'], answer: 1, explain: '123.45是浮点常量。'},
+            {q: "'x'是什么类型的常量？", options: ['字符串', '字符', '整数', '浮点'], answer: 1, explain: "'x'是字符常量。"},
+            {q: '"x"是什么类型的常量？', options: ['字符', '字符串', '整数', '布尔'], answer: 1, explain: '"x"是字符串常量（包含字符x和结束符\\0）。'},
+            {q: '3.14e2表示什么值？', options: ['3.14', '314', '3140', '0.0314'], answer: 1, explain: '3.14e2 = 3.14 × 10² = 314。'},
+            {q: '1e-3表示什么值？', options: ['1000', '0.001', '-3', '3'], answer: 1, explain: '1e-3 = 1 × 10⁻³ = 0.001。'},
+            {q: '0xFF的十进制值是？', options: ['255', '256', '15', '16'], answer: 0, explain: '0xFF = 15×16 + 15 = 255。'},
+            {q: '010的十进制值是？', options: ['10', '8', '2', '1'], answer: 1, explain: '010（八进制）= 1×8 + 0 = 8。'},
+            {q: '0b1010的十进制值是？（C++14起）', options: ['10', '1010', '12', '20'], answer: 0, explain: '0b1010（二进制）= 8+2 = 10。'},
+            {q: '"Hello\\nWorld"中包含什么特殊字符？', options: ['空格', '换行', '制表符', '回车'], answer: 1, explain: '\\n表示换行符。'},
+            {q: '"\\t"表示什么？', options: ['字母t', '制表符', '换行符', '空字符'], answer: 1, explain: '\\t是制表符（Tab）。'},
+            {q: '"\\\\"表示什么？', options: ['两个斜杠', '一个斜杠', '注释开始', '编译错误'], answer: 1, explain: '\\\\在字符串中表示一个反斜杠。'},
+            {q: "'\\''表示什么字符？", options: ['单引号', '双引号', '斜杠', '错误'], answer: 0, explain: "\\'表示单引号字符。"},
+            {q: '"Hello\0World"中字符串在哪里结束？', options: ['Hello后', 'World后', '整个字符串', '不会结束'], answer: 0, explain: '\\0是字符串结束符，遇到即结束。'},
+            {q: '整数常量100默认是什么类型？', options: ['short', 'int', 'long', 'long long'], answer: 1, explain: '整数常量默认是int类型。'},
+            {q: '3.14默认是什么类型？', options: ['float', 'double', 'long double', 'int'], answer: 1, explain: '浮点常量默认是double类型。'},
+            {q: '100U表示什么类型？', options: ['unsigned int', 'unsigned long', 'long', 'int'], answer: 0, explain: 'U后缀表示unsigned int（无符号整数）。'},
+            {q: '3.14F表示什么类型？', options: ['double', 'float', 'long double', 'int'], answer: 1, explain: 'F后缀表示float类型。'},
+            {q: '100ULL表示什么类型？', options: ['unsigned long long', 'long long', 'unsigned long', 'long'], answer: 0, explain: 'ULL后缀表示unsigned long long。'},
+            {q: 'C++中字符串常量末尾会自动添加什么？', options: ['空格', '\\n', '\\0', '无'], answer: 2, explain: '字符串常量末尾自动添加结束符\\0。'},
+            {q: '"A"和\'A\'的区别是？', options: ['没有区别', '"A"是字符串，\'A\'是字符', '"A"更长', '都可以赋值给char'], answer: 1, explain: '"A"是字符串（包含A和\\0），\'A\'是字符。'},
+            {q: 'sizeof("Hello")的值是？', options: ['5', '6', '4', '取决于编译器'], answer: 1, explain: '"Hello"有5个字符+1个结束符=6字节。'},
+            {q: 'sizeof(\'A\')的值是？', options: ['1', '2', '4', '取决于编译器'], answer: 0, explain: "字符常量'\u0041'占用1字节。"},
+            {q: '"123"是什么类型的常量？', options: ['整数', '浮点', '字符串', '字符'], answer: 2, explain: '"123"是字符串常量（双引号）。'},
+            {q: '123和"123"的区别是？', options: ['没有区别', '前者是整数，后者是字符串', '长度不同', '都可以计算'], answer: 1, explain: '123是整数，"123"是字符串。'},
+            // 常见错误与考试要点 81-100
+            {q: '以下哪个是常量定义的错误？', options: ['const int a = 10;', 'const int b = 20;', 'const int c; c = 30;', 'const int d = 40;'], answer: 2, explain: 'const常量必须初始化，不能先定义后赋值。'},
+            {q: 'const int MAX = 100; 之后 MAX++; 会怎样？', options: ['MAX变成101', '编译错误', '运行时错误', '无效果'], answer: 1, explain: '常量不能用++运算符修改。'},
+            {q: 'const int a = 10; int* p = &a; *p = 20; 会怎样？', options: ['a变成20', '编译错误', '运行时错误', '未定义行为'], answer: 1, explain: 'C++中不能通过指针修改const常量，会报编译错误。'},
+            {q: '以下哪个是好的编程习惯？', options: ['直接使用数字60', '定义const int PASS = 60', '用a,b,c作常量名', '所有数字都用常量'], answer: 1, explain: '将有意义的数字定义为常量是良好的编程习惯。'},
+            {q: '常量在程序中的主要作用是？', options: ['节省内存', '提高可读性和可维护性', '加快运行速度', '减少代码量'], answer: 1, explain: '常量主要提高代码可读性和可维护性。'},
+            {q: 'GESP一级考试中，常量的重点是什么？', options: ['constexpr的使用', 'const定义常量', '宏定义#define', '所有常量类型'], answer: 1, explain: 'GESP一级重点掌握const定义常量。'},
+            {q: 'const可以修饰哪些类型？', options: ['只能修饰int', '只能修饰基本类型', '可以修饰任何类型', '只能修饰数字类型'], answer: 2, explain: 'const可以修饰任何数据类型。'},
+            {q: 'const int a = 10; 和 int a = 10; 的区别？', options: ['没有区别', '前者不能修改，后者可以', '前者更快', '后者更安全'], answer: 1, explain: 'const常量不能修改，普通变量可以修改。'},
+            {q: '以下哪个常量名最规范？', options: ['maxsize', 'maxSize', 'MAX_SIZE', 'max_size'], answer: 2, explain: '常量名通常全部大写，单词间用下划线分隔。'},
+            {q: '#define PI 3.14 和 const double PI = 3.14; 推荐用哪个？', options: ['#define', 'const', '都可以', '取决于编译器'], answer: 1, explain: '推荐优先使用const，因为有类型检查更安全。'},
+            {q: '常量必须在哪里初始化？', options: ['使用前', '定义时', '函数开始时', '程序开始时'], answer: 1, explain: '常量必须在定义时初始化。'},
+            {q: 'const int MAX = 100; 中MAX的类型是？', options: ['const int', 'int', '常量', '整数'], answer: 0, explain: 'MAX的类型是const int（常量整数）。'},
+            {q: '以下哪个不是C++常量？', options: ['100', '3.14', '"hello"', 'cin'], answer: 3, explain: 'cin是输入流对象，不是常量。'},
+            {q: '以下哪个是合法的常量定义？', options: ['const int;', 'const int a;', 'const int b = 10;', 'const c = 10;'], answer: 2, explain: 'const int b = 10; 是合法的常量定义。'},
+            {q: '常量的值在什么时候确定？', options: ['编译时或运行时', '仅在编译时', '仅在运行时', '使用时'], answer: 0, explain: 'const常量可以在编译时或运行时确定（取决于初始化值）。'},
+            {q: 'int const a = 10; 和 const int a = 10; 的关系是？', options: ['完全相同', '前者错误', '后者错误', '含义不同'], answer: 0, explain: '两者含义相同，都是定义const int类型常量。'},
+            {q: 'const double PI = 3.1415926; 这种写法的好处是？', options: ['PI可以被修改', 'PI精度更高', 'PI含义清晰且不能被误改', 'PI占用更少内存'], answer: 2, explain: '使用有意义的常量名且防止误修改。'},
+            {q: '在C++中，以下哪种方式定义常量是推荐的？', options: ['#define MAX 100', 'const int MAX = 100', 'int MAX = 100', 'constexpr int MAX = 100'], answer: 1, explain: '推荐const方式定义常量（GESP一级范围）。'},
+            {q: '"\\n\\t"字符串的长度是？', options: ['4', '2', '3', '6'], answer: 1, explain: '\\n和\\t是两个转义字符，字符串长度为2（加结束符共3字节）。'},
+            {q: '学习常量的主要目的是？', options: ['为了考试', '为了写出更易维护的代码', '为了节省内存', '为了加快运行速度'], answer: 1, explain: '学习常量是为了编写更易读、更易维护的代码。'}
+        ];
+
+        let currentQuestion = 0;
+        let answers = new Array(questions.length).fill(null);
+        let correctCount = 0;
+
+        function loadQuestion(index) {
+            currentQuestion = index;
+            const q = questions[index];
+            document.getElementById('questionNumber').textContent = `题目 ${index + 1}/${questions.length}`;
+            document.getElementById('questionText').textContent = q.q;
+            
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+            
+            q.options.forEach((opt, i) => {
+                const btn = document.createElement('div');
+                btn.className = 'option';
+                btn.textContent = `${String.fromCharCode(65 + i)}. ${opt}`;
+                btn.onclick = () => selectAnswer(i);
+                
+                if (answers[index] !== null) {
+                    btn.classList.add('disabled');
+                    if (i === answers[index]) {
+                        btn.classList.add(i === q.answer ? 'correct' : 'wrong');
+                    }
+                    if (i === q.answer && answers[index] !== q.answer) {
+                        btn.classList.add('correct');
+                    }
+                }
+                
+                optionsDiv.appendChild(btn);
+            });
+            
+            const explanation = document.getElementById('explanation');
+            if (answers[index] !== null) {
+                explanation.textContent = `解析：${q.explain}`;
+                document.getElementById('questionCard').classList.add('answered');
+            } else {
+                explanation.textContent = '';
+                document.getElementById('questionCard').classList.remove('answered');
+            }
+            
+            updateProgress();
+            updateNavButtons();
+        }
+
+        function selectAnswer(optionIndex) {
+            if (answers[currentQuestion] !== null) return;
+            
+            answers[currentQuestion] = optionIndex;
+            const q = questions[currentQuestion];
+            
+            if (optionIndex === q.answer) {
+                correctCount++;
+            }
+            
+            const options = document.querySelectorAll('.option');
+            options[optionIndex].classList.add(optionIndex === q.answer ? 'correct' : 'wrong');
+            
+            if (optionIndex !== q.answer) {
+                options[q.answer].classList.add('correct');
+            }
+            
+            document.getElementById('explanation').textContent = `解析：${q.explain}`;
+            document.getElementById('questionCard').classList.add('answered');
+            
+            updateProgress();
+            saveProgress();
+        }
+
+        function updateProgress() {
+            const answered = answers.filter(a => a !== null).length;
+            const progress = (answered / questions.length) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+            document.getElementById('progressText').textContent = `${answered}/${questions.length}`;
+        }
+
+        function updateNavButtons() {
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            document.getElementById('nextBtn').textContent = 
+                currentQuestion === questions.length - 1 ? '完成' : '下一题 →';
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                loadQuestion(currentQuestion - 1);
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                loadQuestion(currentQuestion + 1);
+            } else {
+                const answered = answers.filter(a => a !== null).length;
+                const accuracy = answered > 0 ? Math.round((correctCount / answered) * 100) : 0;
+                alert(`测验完成！\n答对：${correctCount}/${answered}\n正确率：${accuracy}%`);
+            }
+        }
+
+        function saveProgress() {
+            localStorage.setItem('cpp-l1-topic-3-3-progress', JSON.stringify(answers));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('cpp-l1-topic-3-3-progress');
+            if (saved) {
+                answers = JSON.parse(saved);
+                correctCount = answers.reduce((sum, ans, idx) => 
+                    sum + (ans === questions[idx].answer ? 1 : 0), 0);
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' && currentQuestion > 0) prevQuestion();
+            if (e.key === 'ArrowRight') nextQuestion();
+        });
+
+        loadProgress();
+        loadQuestion(0);
+    </script>
+</body>
+</html>
