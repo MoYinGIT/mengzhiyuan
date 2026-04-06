@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.1 标识符 - C++一级 - 蒙正堂</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/guofeng-v2.css">
+    <style>
+        :root {
+            --l1-primary: #1e3a5f;
+            --l1-secondary: #2e5984;
+            --correct: #4a7c59;
+            --wrong: #c9372c;
+        }
+        .topic-container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+        .breadcrumb { display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1.5rem; font-size: 0.9rem; color: #666; }
+        .breadcrumb a { color: var(--l1-primary); text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .topic-header { background: linear-gradient(135deg, var(--l1-primary) 0%, var(--l1-secondary) 100%); color: white; padding: 2rem; border-radius: 12px; margin-bottom: 2rem; }
+        .topic-header .number { font-size: 0.9rem; opacity: 0.8; margin-bottom: 0.5rem; }
+        .topic-header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .topic-header .meta { display: flex; gap: 1.5rem; font-size: 0.9rem; opacity: 0.9; }
+        .content-section { background: white; border-radius: 12px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .content-section h2 { color: var(--l1-primary); border-left: 4px solid var(--l1-primary); padding-left: 1rem; margin-bottom: 1.5rem; }
+        .content-section h3 { color: var(--ink-800); margin: 1.5rem 0 1rem; }
+        .content-section p { line-height: 1.8; margin-bottom: 1rem; text-align: justify; }
+        .content-section ul, .content-section ol { margin: 1rem 0 1rem 1.5rem; }
+        .content-section li { margin-bottom: 0.5rem; line-height: 1.7; }
+        .highlight-box { background: #f0f4f8; border-left: 4px solid var(--l1-primary); padding: 1rem 1.5rem; margin: 1.5rem 0; border-radius: 0 8px 8px 0; }
+        .highlight-box.warning { background: #fff3cd; border-left-color: #d4a574; }
+        .highlight-box.danger { background: #f8d7da; border-left-color: #c9372c; }
+        .highlight-box.success { background: #d4edda; border-left-color: #4a7c59; }
+        .shortcut-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        .shortcut-table th, .shortcut-table td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #e9ecef; }
+        .shortcut-table th { background: #f8f9fa; font-weight: 600; }
+        .code-block { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 6px; padding: 1rem; margin: 1rem 0; font-family: 'Consolas', 'Monaco', monospace; font-size: 0.9rem; overflow-x: auto; }
+        .code-block .comment { color: #6a9955; }
+        .code-block .keyword { color: #0000ff; }
+        .code-block .string { color: #a31515; }
+        .code-block .identifier { color: #001080; }
+        .quiz-section { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .quiz-section h2 { color: var(--l1-primary); border-left: 4px solid var(--l1-primary); padding-left: 1rem; margin-bottom: 1rem; }
+        .quiz-progress { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding: 0.75rem 1rem; background: #f8f9fa; border-radius: 8px; }
+        .quiz-progress-bar { flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; margin: 0 1rem; overflow: hidden; }
+        .quiz-progress-fill { height: 100%; background: linear-gradient(90deg, var(--l1-primary), var(--l1-secondary)); border-radius: 4px; transition: width 0.3s ease; }
+        .question-card { border: 1px solid #e9ecef; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; }
+        .question-card.correct { border-color: var(--correct); background: #f0f8f0; }
+        .question-card.wrong { border-color: var(--wrong); background: #fdf0ef; }
+        .question-number { font-weight: 600; color: var(--l1-primary); margin-bottom: 0.5rem; }
+        .question-text { font-size: 1.05rem; margin-bottom: 1rem; }
+        .options { display: flex; flex-direction: column; gap: 0.5rem; }
+        .option { padding: 0.75rem 1rem; border: 1px solid #e9ecef; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; }
+        .option:hover { background: #f8f9fa; border-color: var(--l1-primary); }
+        .option.selected { background: #e3f2fd; border-color: var(--l1-primary); }
+        .option.correct { background: #d4edda; border-color: var(--correct); }
+        .option.wrong { background: #f8d7da; border-color: var(--wrong); }
+        .explanation { display: none; margin-top: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 6px; }
+        .question-card.answered .explanation { display: block; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 2rem; }
+        .naming-rule { display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; margin: 0.5rem 0; border-radius: 8px; }
+        .naming-rule.valid { background: #d4edda; border-left: 4px solid #4a7c59; }
+        .naming-rule.invalid { background: #f8d7da; border-left: 4px solid #c9372c; }
+        .rule-icon { font-size: 1.5rem; }
+        .rule-content { flex: 1; }
+        .rule-content h4 { margin: 0 0 0.25rem 0; }
+        .rule-content p { margin: 0; color: #666; }
+        .keyword-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 0.5rem; margin: 1rem 0; }
+        .keyword-tag { background: #f0f4f8; padding: 0.5rem; border-radius: 4px; text-align: center; font-family: monospace; font-size: 0.9rem; }
+        @media (max-width: 768px) {
+            .topic-container { padding: 1rem; }
+            .topic-header h1 { font-size: 1.4rem; }
+            .content-section { padding: 1.25rem; }
+            .keyword-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="../../" class="brand">
+                <span class="brand-icon">☯</span>
+                <span class="brand-text">默隐·蒙知苑</span>
+            </a>
+            <div class="nav-links">
+                <a href="../" class="nav-link">🎓 蒙正堂</a>
+                <a href="./" class="nav-link">C++一级</a>
+                <span class="nav-link active">3.1 标识符</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="topic-container">
+        <div class="breadcrumb">
+            <a href="../">蒙正堂</a>
+            <span>›</span>
+            <a href="./">C++一级</a>
+            <span>›</span>
+            <a href="./#block3">程序的基本概念</a>
+            <span>›</span>
+            <span>3.1 标识符</span>
+        </div>
+
+        <div class="topic-header">
+            <div class="number">知识块 3 · 知识点 1/6</div>
+            <h1>标识符</h1>
+            <div class="meta">
+                <span>⏱️ 预估学习时长: 50分钟</span>
+                <span>📋 验证题目: 118题</span>
+                <span>🎯 难度: 入门级</span>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>📚 知识详解</h2>
+            
+            <h3>一、什么是标识符</h3>
+            <p><strong>标识符（Identifier）</strong>是用来标识变量、函数、类、数组等程序元素名称的符号。简单来说，就是给程序中的各种元素起的「名字」。</p>
+            
+            <div class="highlight-box">
+                <strong>💡 一句话理解</strong><br>
+                标识符就是程序中各种元素的「名字」，就像每个人都有自己的姓名一样。
+            </div>
+
+            <div class="code-block">
+<span class="comment">// 标识符示例</span>
+<span class="keyword">int</span> <span class="identifier">age</span> = 18;           <span class="comment">// age 是变量名（标识符）</span>
+<span class="keyword">double</span> <span class="identifier">price</span> = 9.99;       <span class="comment">// price 是变量名（标识符）</span>
+<span class="keyword">char</span> <span class="identifier">grade</span> = 'A';         <span class="comment">// grade 是变量名（标识符）</span>
+
+<span class="comment">// 函数名也是标识符</span>
+<span class="keyword">void</span> <span class="identifier">CalculateSum</span>() {     <span class="comment">// CalculateSum 是函数名（标识符）</span>
+    <span class="comment">// ...</span>
+}
+            </div>
+
+            <h3>二、标识符的命名规则</h3>
+
+            <div class="highlight-box warning">
+                <strong>⚠️ C++标识符命名规则（必须遵守）</strong>
+            </div>
+
+            <h4>规则1：只能由字母、数字、下划线组成</h4>
+            <div class="code-block">
+<span class="comment">// ✅ 合法标识符</span>
+name        <span class="comment">// 字母</span>
+age123      <span class="comment">// 字母+数字</span>
+user_name   <span class="comment">// 字母+下划线</span>
+_value      <span class="comment">// 下划线+字母</span>
+MaxValue3   <span class="comment">// 字母+数字</span>
+
+<span class="comment">// ❌ 非法标识符</span>
+user-name   <span class="comment">// 不能含有减号</span>
+user@name   <span class="comment">// 不能含有特殊符号@</span>
+user name   <span class="comment">// 不能含有空格</span>
+            </div>
+
+            <h4>规则2：不能以数字开头</h4>
+            <div class="code-block">
+<span class="comment">// ✅ 合法标识符</span>
+value1
+_value2
+value_3
+
+<span class="comment">// ❌ 非法标识符</span>
+1value      <span class="comment">// 不能以数字开头</span>
+2nd_item    <span class="comment">// 不能以数字开头</span>
+3D_point    <span class="comment">// 不能以数字开头</span>
+            </div>
+
+            <h4>规则3：不能是C++关键字</h4>
+            <p>关键字是C++语言预留的特殊单词，不能用作标识符。</p>
+            
+            <div class="code-block">
+<span class="comment">// ❌ 非法标识符（关键字不能作为标识符）</span>
+<span class="keyword">int</span> <span class="keyword">if</span> = 10;      <span class="comment">// if 是关键字，不能用作变量名</span>
+<span class="keyword">int</span> <span class="keyword">for</span> = 5;      <span class="comment">// for 是关键字，不能用作变量名</span>
+<span class="keyword">int</span> <span class="keyword">class</span> = 3;    <span class="comment">// class 是关键字，不能用作变量名</span>
+            </div>
+
+            <h4>规则4：区分大小写</h4>
+            <div class="code-block">
+<span class="comment">// 以下四个是不同的标识符</span>
+<span class="keyword">int</span> <span class="identifier">Name</span> = 1;    
+<span class="keyword">int</span> <span class="identifier">name</span> = 2;    
+<span class="keyword">int</span> <span class="identifier">NAME</span> = 3;    
+<span class="keyword">int</span> <span class="identifier">nAmE</span> = 4;    
+            </div>
+
+            <h3>三、C++关键字（保留字）</h3>
+            
+            <p>以下单词是C++语言预留的关键字，<strong>不能用作标识符</strong>：</p>
+
+            <div class="keyword-grid">
+                <div class="keyword-tag">alignas</div>
+                <div class="keyword-tag">alignof</div>
+                <div class="keyword-tag">and</div>
+                <div class="keyword-tag">and_eq</div>
+                <div class="keyword-tag">asm</div>
+                <div class="keyword-tag">auto</div>
+                <div class="keyword-tag">bitand</div>
+                <div class="keyword-tag">bitor</div>
+                <div class="keyword-tag">bool</div>
+                <div class="keyword-tag">break</div>
+                <div class="keyword-tag">case</div>
+                <div class="keyword-tag">catch</div>
+                <div class="keyword-tag">char</div>
+                <div class="keyword-tag">char8_t</div>
+                <div class="keyword-tag">char16_t</div>
+                <div class="keyword-tag">char32_t</div>
+                <div class="keyword-tag">class</div>
+                <div class="keyword-tag">compl</div>
+                <div class="keyword-tag">concept</div>
+                <div class="keyword-tag">const</div>
+                <div class="keyword-tag">consteval</div>
+                <div class="keyword-tag">constexpr</div>
+                <div class="keyword-tag">constinit</div>
+                <div class="keyword-tag">const_cast</div>
+                <div class="keyword-tag">continue</div>
+                <div class="keyword-tag">co_await</div>
+                <div class="keyword-tag">co_return</div>
+                <div class="keyword-tag">co_yield</div>
+                <div class="keyword-tag">decltype</div>
+                <div class="keyword-tag">default</div>
+                <div class="keyword-tag">delete</div>
+                <div class="keyword-tag">do</div>
+                <div class="keyword-tag">double</div>
+                <div class="keyword-tag">dynamic_cast</div>
+                <div class="keyword-tag">else</div>
+                <div class="keyword-tag">enum</div>
+                <div class="keyword-tag">explicit</div>
+                <div class="keyword-tag">export</div>
+                <div class="keyword-tag">extern</div>
+                <div class="keyword-tag">false</div>
+                <div class="keyword-tag">float</div>
+                <div class="keyword-tag">for</div>
+                <div class="keyword-tag">friend</div>
+                <div class="keyword-tag">goto</div>
+                <div class="keyword-tag">if</div>
+                <div class="keyword-tag">inline</div>
+                <div class="keyword-tag">int</div>
+                <div class="keyword-tag">long</div>
+                <div class="keyword-tag">mutable</div>
+                <div class="keyword-tag">namespace</div>
+                <div class="keyword-tag">new</div>
+                <div class="keyword-tag">noexcept</div>
+                <div class="keyword-tag">not</div>
+                <div class="keyword-tag">not_eq</div>
+                <div class="keyword-tag">nullptr</div>
+                <div class="keyword-tag">operator</div>
+                <div class="keyword-tag">or</div>
+                <div class="keyword-tag">or_eq</div>
+                <div class="keyword-tag">private</div>
+                <div class="keyword-tag">protected</div>
+                <div class="keyword-tag">public</div>
+                <div class="keyword-tag">register</div>
+                <div class="keyword-tag">reinterpret_cast</div>
+                <div class="keyword-tag">requires</div>
+                <div class="keyword-tag">return</div>
+                <div class="keyword-tag">short</div>
+                <div class="keyword-tag">signed</div>
+                <div class="keyword-tag">sizeof</div>
+                <div class="keyword-tag">static</div>
+                <div class="keyword-tag">static_assert</div>
+                <div class="keyword-tag">static_cast</div>
+                <div class="keyword-tag">struct</div>
+                <div class="keyword-tag">switch</div>
+                <div class="keyword-tag">template</div>
+                <div class="keyword-tag">this</div>
+                <div class="keyword-tag">thread_local</div>
+                <div class="keyword-tag">throw</div>
+                <div class="keyword-tag">true</div>
+                <div class="keyword-tag">try</div>
+                <div class="keyword-tag">typedef</div>
+                <div class="keyword-tag">typeid</div>
+                <div class="keyword-tag">typename</div>
+                <div class="keyword-tag">union</div>
+                <div class="keyword-tag">unsigned</div>
+                <div class="keyword-tag">using</div>
+                <div class="keyword-tag">virtual</div>
+                <div class="keyword-tag">void</div>
+                <div class="keyword-tag">volatile</div>
+                <div class="keyword-tag">wchar_t</div>
+                <div class="keyword-tag">while</div>
+                <div class="keyword-tag">xor</div>
+                <div class="keyword-tag">xor_eq</div>
+            </div>
+
+            <div class="highlight-box success">
+                <strong>💡 GESP一级常用关键字（重点记忆）</strong><br>
+                int, char, double, float, bool, void, if, else, for, while, do, switch, case, break, continue, return, true, false, const, sizeof, auto
+            </div>
+
+            <h3>四、标识符命名示例</h3>
+
+            <div class="naming-rule valid">
+                <div class="rule-icon">✅</div>
+                <div class="rule-content">
+                    <h4>studentName</h4>
+                    <p>由字母组成，符合命名规则</p>
+                </div>
+            </div>
+
+            <div class="naming-rule valid">
+                <div class="rule-icon">✅</div>
+                <div class="rule-content">
+                    <h4>_score</h4>
+                    <p>以下划线开头，后跟字母，符合规则</p>
+                </div>
+            </div>
+
+            <div class="naming-rule valid">
+                <div class="rule-icon">✅</div>
+                <div class="rule-content">
+                    <h4>maxValue3</h4>
+                    <p>字母+数字组合，以字母开头，符合规则</p>
+                </div>
+            </div>
+
+            <div class="naming-rule valid">
+                <div class="rule-icon">✅</div>
+                <div class="rule-content">
+                    <h4>user_age</h4>
+                    <p>字母+下划线+字母，符合规则</p>
+                </div>
+            </div>
+
+            <div class="naming-rule invalid">
+                <div class="rule-icon">❌</div>
+                <div class="rule-content">
+                    <h4>3rdItem</h4>
+                    <p>以数字开头，不符合规则</p>
+                </div>
+            </div>
+
+            <div class="naming-rule invalid">
+                <div class="rule-icon">❌</div>
+                <div class="rule-content">
+                    <h4>my-name</h4>
+                    <p>含有减号，不符合规则（会被解释为减法运算）</p>
+                </div>
+            </div>
+
+            <div class="naming-rule invalid">
+                <div class="rule-icon">❌</div>
+                <div class="rule-content">
+                    <h4>my name</h4>
+                    <p>含有空格，不符合规则</p>
+                </div>
+            </div>
+
+            <div class="naming-rule invalid">
+                <div class="rule-icon">❌</div>
+                <div class="rule-content">
+                    <h4>class</h4>
+                    <p>class是C++关键字，不能用作标识符</p>
+                </div>
+            </div>
+
+            <div class="naming-rule invalid">
+                <div class="rule-icon">❌</div>
+                <div class="rule-content">
+                    <h4>int</h4>
+                    <p>int是C++关键字，不能用作标识符</p>
+                </div>
+            </div>
+
+            <h3>五、良好的命名习惯</h3>
+
+            <div class="highlight-box">
+                <strong>✨ 命名规范建议（建议遵守，让代码更易读）</strong>
+            </div>
+
+            <h4>1. 见名知意</h4>
+            <p>标识符应该能够表达其含义，让人一看就知道它代表什么。</p>
+
+            <div class="code-block">
+<span class="comment">// ❌ 不好的命名</span>
+<span class="keyword">int</span> a = 18;       <span class="comment">// a 是什么含义？</span>
+<span class="keyword">int</span> b = 85;       <span class="comment">// b 是什么含义？</span>
+<span class="keyword">int</span> c = a + b;    <span class="comment">// c 是什么含义？</span>
+
+<span class="comment">// ✅ 好的命名</span>
+<span class="keyword">int</span> age = 18;           <span class="comment">// 年龄</span>
+<span class="keyword">int</span> score = 85;         <span class="comment">// 分数</span>
+<span class="keyword">int</span> totalScore = age + score;  <span class="comment">// 总分</span>
+            </div>
+
+            <h4>2. 驼峰命名法（Camel Case）</h4>
+            <p>多个单词组成的标识符，除第一个单词外，每个单词首字母大写。</p>
+
+            <div class="code-block">
+<span class="comment">// 驼峰命名法示例</span>
+<span class="keyword">int</span> <span class="identifier">studentName</span>;       <span class="comment">// 学生姓名</span>
+<span class="keyword">int</span> <span class="identifier">classNumber</span>;        <span class="comment">// 班级编号</span>
+<span class="keyword">double</span> <span class="identifier">averageScore</span>;     <span class="comment">// 平均分</span>
+<span class="keyword">int</span> <span class="identifier">maxValue</span>;           <span class="comment">// 最大值</span>
+            </div>
+
+            <h4>3. 下划线命名法（Snake Case）</h4>
+            <p>多个单词之间用下划线连接，所有字母小写。</p>
+
+            <div class="code-block">
+<span class="comment">// 下划线命名法示例</span>
+<span class="keyword">int</span> <span class="identifier">student_name</span>;       <span class="comment">// 学生姓名</span>
+<span class="keyword">int</span> <span class="identifier">class_number</span>;        <span class="comment">// 班级编号</span>
+<span class="keyword">double</span> <span class="identifier">average_score</span>;     <span class="comment">// 平均分</span>
+<span class="keyword">int</span> <span class="identifier">max_value</span>;           <span class="comment">// 最大值</span>
+            </div>
+
+            <div class="highlight-box success">
+                <strong>💡 命名规范对比</strong><br>
+                • <strong>驼峰命名</strong>：studentName, maxValue（常用于变量、函数）<br>
+                • <strong>下划线命名</strong>：student_name, max_value（常用于变量、常量）<br>
+                • <strong>大写+下划线</strong>：MAX_VALUE, PI（常用于常量）
+            </div>
+
+            <h4>4. 避免单字母命名（循环变量除外）</h4>
+
+            <div class="code-block">
+<span class="comment">// ❌ 不好的命名（除循环变量外）</span>
+<span class="keyword">int</span> n = 100;      <span class="comment">// n 是什么？</span>
+<span class="keyword">double</span> x = 3.14;   <span class="comment">// x 是什么？</span>
+
+<span class="comment">// ✅ 循环变量可以使用单字母</span>
+<span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i < 10; i++) {  <span class="comment">// i 作为循环变量是习惯用法</span>
+    <span class="comment">// ...</span>
+}
+
+<span class="comment">// ✅ 好的命名</span>
+<span class="keyword">int</span> count = 100;      <span class="comment">// 计数</span>
+<span class="keyword">double</span> pi = 3.14;    <span class="comment">// 圆周率</span>
+            </div>
+
+            <h3>六、GESP考试要点</h3>
+
+            <ul>
+                <li><strong>标识符的概念</strong>：变量、函数等的名称</li>
+                <li><strong>命名规则</strong>：字母/数字/下划线，不能以数字开头，不能是关键字</li>
+                <li><strong>区分大小写</strong>：Name 和 name 是不同的标识符</li>
+                <li><strong>常见关键字</strong>：int, char, if, for 等不能作为标识符</li>
+                <li><strong>判断合法性</strong>：能判断一个标识符是否合法</li>
+            </ul>
+
+            <div class="highlight-box">
+                <strong>🎯 核心口诀</strong><br>
+                「字母数字下划线，数字不能放最前；<br>
+                关键字是保留字，不能用来当名字；<br>
+                大小写要区分，见名知意是好习惯。」
+            </div>
+        </div>
+
+        <!-- 易经智慧 -->
+        <div class="content-section">
+            <h2>☯ 命名之道：名正言顺，言顺事成</h2>
+            
+            <blockquote style="background: #f8f9fa; padding: 1.5rem; border-left: 4px solid var(--l1-primary); margin: 1.5rem 0; font-style: italic;">
+                《论语》云：「名不正，则言不顺；言不顺，则事不成。」<br>
+                《道德经》云：「无名天地之始，有名万物之母。」
+            </blockquote>
+            
+            <p>命名是一门艺术，好的名字让程序清晰易懂，如同给人的第一印象。标识符的命名，体现了「<strong>名实相符</strong>」的古老智慧。</p>
+
+            <table class="shortcut-table">
+                <tr><th>命名之道</th><th>经典出处</th><th>程序设计启示</th></tr>
+                <tr><td>名正言顺</td><td>《论语·子路》</td><td>好的命名让代码逻辑清晰，易于理解</td></tr>
+                <tr><td>名副其实</td><td>《汉书》</td><td>标识符应当准确反映其用途和含义</td></tr>
+                <tr><td>大道至简</td><td>《道德经》</td><td>命名应简洁明了，避免冗长复杂</td></tr>
+                <tr><td>和而不同</td><td>《论语》</td><td>团队内统一命名规范，各自表达不同功能</td></tr>
+            </table>
+
+            <div class="highlight-box success">
+                <strong>💡 圣人启示</strong><br>
+                「为学日益，为道日损」—— 好的命名是不断精炼的过程。从冗长到简洁，从模糊到清晰，每一次改进都是向「大道至简」的靠近。<br><br>
+                「不积跬步，无以至千里」—— 养成良好的命名习惯，从每一个变量名开始，终将成就优雅的代码。
+            </div>
+        </div>
+
+        <!-- 检查清单 -->
+        <div class="content-section">
+            <h2>✅ 本模块检查清单</h2>
+            
+            <h3>学习前</h3>
+            <ul style="list-style: none;">
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 了解什么是变量</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 知道程序需要给元素起名字</li>
+            </ul>
+
+            <h3>学习中</h3>
+            <ul style="list-style: none;">
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 记住标识符的四条命名规则</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 能识别常见关键字</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 能判断标识符是否合法</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 理解大小写敏感性</li>
+            </ul>
+
+            <h3>学习后</h3>
+            <ul style="list-style: none;">
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 能正确命名变量和函数</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 养成良好的命名习惯（见名知意）</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 测验正确率达到 80% 以上</li>
+            </ul>
+        </div>
+
+        <div class="quiz-section">
+            <h2>📝 验证测验 (120题)</h2>
+            <div class="quiz-progress">
+                <span>进度</span>
+                <div class="quiz-progress-bar">
+                    <div class="quiz-progress-fill" id="progressBar" style="width: 0%"></div>
+                </div>
+                <span id="progressText">0/120</span>
+            </div>
+            <div id="questionContainer">
+                <div class="question-card" id="questionCard">
+                    <div class="question-number" id="questionNumber">题目 1/120</div>
+                    <div class="question-text" id="questionText">加载中...</div>
+                    <div class="options" id="options"></div>
+                    <div class="explanation" id="explanation"></div>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" id="prevBtn" onclick="prevQuestion()" disabled>← 上一题</button>
+                <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">下一题 →</button>
+            </div>
+        </div>
+
+        <!-- 拓展阅读 -->
+        <div class="content-section">
+            <h2>📚 拓展阅读</h2>
+            
+            <h3>标识符命名规范对比</h3>
+            
+            <table class="shortcut-table">
+                <tr><th>命名规范</th><th>示例</th><th>使用场景</th></tr>
+                <tr><td>小驼峰（camelCase）</td><td>studentName, maxValue</td><td>C++变量、函数</td></tr>
+                <tr><td>大驼峰（PascalCase）</td><td>StudentName, MaxValue</td><td>C++类名、结构体名</td></tr>
+                <tr><td>下划线（snake_case）</td><td>student_name, max_value</td><td>Python变量、C++变量</td></tr>
+                <tr><td>大写下划线（SCREAMING_SNAKE_CASE）</td><td>MAX_VALUE, PI</td><td>常量、宏定义</td></tr>
+                <tr><td>匈牙利命名法</td><td>nCount, strName, bFlag</td><td>Windows编程（旧式）</td></tr>
+            </table>
+
+            <h3>匈牙利命名法简介</h3>
+            
+            <p>匈牙利命名法是在标识符前加上表示数据类型的前缀，如：</p>
+
+            <div class="code-block">
+<span class="comment">// 匈牙利命名法示例</span>
+<span class="keyword">int</span> <span class="identifier">nCount</span>;        <span class="comment">// n = number/int</span>
+<span class="keyword">char</span> <span class="identifier">chOption</span>;     <span class="comment">// ch = char</span>
+<span class="keyword">bool</span> <span class="identifier">bFlag</span>;        <span class="comment">// b = bool</span>
+string <span class="identifier">strName</span>;     <span class="comment">// str = string</span>
+            </div>
+
+            <div class="highlight-box warning">
+                <strong>⚠️ 注意</strong><br>
+                匈牙利命名法在现代C++中已不推荐使用，因为现代IDE可以显示变量类型。但在阅读老代码时可能会遇到。
+            </div>
+
+            <h3>常见命名误区</h3>
+
+            <div class="code-block">
+<span class="comment">// ❌ 误区1：拼音命名</span>
+<span class="keyword">int</span> nianling;      <span class="comment">// 拼音可读性差</span>
+<span class="keyword">int</span> xingming;      <span class="comment">// 避免拼音</span>
+
+<span class="comment">// ✅ 使用英文</span>
+<span class="keyword">int</span> age;           <span class="comment">// 年龄</span>
+<span class="keyword">int</span> name;          <span class="comment">// 姓名（实际应为string类型）</span>
+
+<span class="comment">// ❌ 误区2：中文拼音缩写</span>
+<span class="keyword">int</span> nl;            <span class="comment">// 年龄？哪类？</span>
+<span class="keyword">int</span> xm;            <span class="comment">// 姓名？项目？</span>
+            </div>
+
+            <h3>GESP考试常见陷阱</h3>
+
+            <ul>
+                <li><strong>陷阱1：</strong>Main 和 main 是不同的标识符（C++区分大小写）</li>
+                <li><strong>陷阱2：</strong>INT 不是关键字（关键字都是小写），但不建议用作标识符</li>
+                <li><strong>陷阱3：</strong>下划线开头的标识符是合法的，但通常用于系统/库内部</li>
+                <li><strong>陷阱4：</strong>双下划线开头的标识符（如 __value）在C++中是保留的</li>
+            </ul>
+
+            <div class="highlight-box">
+                <strong>💡 最佳实践总结</strong><br>
+                1. 使用有意义的英文单词命名<br>
+                2. 遵循一致的命名规范<br>
+                3. 避免使用缩写（除非是公认缩写如max、min）<br>
+                4. 避免以下划线开头的命名（除非有特殊用途）<br>
+                5. 常量使用全大写+下划线（如MAX_SIZE）
+            </div>
+        </div>
+
+        <div style="margin-top: 2rem; text-align: center;">
+            <a href="./" class="btn btn-secondary">← 返回C++一级目录</a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-brand">默隐·蒙正堂</p>
+            <p class="footer-motto">让所有孩子有处可学</p>
+            <p class="footer-copyright">© 2026 默隐 · 明夷敬制</p>
+        </div>
+    </footer>
+
+    <script>
+        const questions = [
+            // 标识符基础概念 1-30
+            {q: '什么是标识符？', options: ['程序中的注释', '用来标识变量、函数等元素的名称', '程序中的关键字', '程序中的运算符'], answer: 1, explain: '标识符是用来标识变量、函数、类等程序元素名称的符号。'},
+            {q: '以下哪个可以作为标识符？', options: ['123abc', 'abc123', 'abc-123', 'abc 123'], answer: 1, explain: 'abc123符合命名规则：以字母开头，只包含字母和数字。'},
+            {q: '标识符能以数字开头吗？', options: ['能', '不能', '有时能', '取决于编译器'], answer: 1, explain: '标识符不能以数字开头，必须以字母或下划线开头。'},
+            {q: '标识符可以包含哪些字符？', options: ['任何字符', '字母、数字、下划线', '仅字母', '仅数字'], answer: 1, explain: '标识符只能由字母、数字和下划线组成。'},
+            {q: '以下哪个字符不能出现在标识符中？', options: ['字母', '数字', '下划线', '@'], answer: 3, explain: '@是特殊字符，不能出现在标识符中。'},
+            {q: '以下哪个是合法的标识符？', options: ['my-var', 'my_var', 'my var', 'my@var'], answer: 1, explain: 'my_var是合法标识符，使用下划线连接。'},
+            {q: '以下哪个不是合法的标识符？', options: ['_value', 'value1', '1value', 'value_1'], answer: 2, explain: '1value以数字开头，不是合法的标识符。'},
+            {q: 'C++标识符区分大小写吗？', options: ['区分', '不区分', '有时区分', '取决于编译器'], answer: 0, explain: 'C++标识符是区分大小写的，Name和name是不同的标识符。'},
+            {q: 'Name和name是同一个标识符吗？', options: ['是', '不是', '有时是', '取决于上下文'], answer: 1, explain: 'C++区分大小写，Name和name是不同的标识符。'},
+            {q: '以下哪组标识符是相同的？', options: ['ABC和abc', 'Test和test', 'num和num', 'A_b和a_b'], answer: 2, explain: '只有num和num完全相同，C++区分大小写。'},
+            {q: '什么是关键字？', options: ['重要的单词', 'C++预留的特殊单词', '用户定义的单词', '注释中的单词'], answer: 1, explain: '关键字是C++语言预留的特殊单词，有特定含义。'},
+            {q: '关键字可以用作标识符吗？', options: ['可以', '不可以', '有时可以', '取决于关键字'], answer: 1, explain: '关键字不能用作标识符，它们是C++预留的。'},
+            {q: '以下哪个是C++关键字？', options: ['myVar', 'int', 'student', 'count'], answer: 1, explain: 'int是C++关键字，表示整数类型。'},
+            {q: '以下哪个可以用作标识符？', options: ['if', 'for', 'while', 'myIf'], answer: 3, explain: 'myIf是合法的标识符，if、for、while都是关键字。'},
+            {q: '以下哪个是合法的标识符？', options: ['class', 'void', 'return', 'Class'], answer: 3, explain: 'Class是合法标识符（C++区分大小写），class是关键字。'},
+            {q: 'int可以用作变量名吗？', options: ['可以', '不可以', '仅在某些情况下', '取决于编译器'], answer: 1, explain: 'int是C++关键字，不能用作变量名。'},
+            {q: 'Int（大写I）可以用作变量名吗？', options: ['可以', '不可以', '仅在某些情况下', '不推荐'], answer: 0, explain: 'Int是合法标识符，因为C++区分大小写，Int和int不同。'},
+            {q: '以下哪个标识符以数字开头？', options: ['num1', '_123', '123num', 'num_123'], answer: 2, explain: '123num以数字1开头，不符合命名规则。'},
+            {q: '以下划线开头的标识符合法吗？', options: ['合法', '不合法', '仅单下划线合法', '仅双下划线合法'], answer: 0, explain: '以下划线开头的标识符是合法的，如_value。'},
+            {q: '以下哪个是合法的标识符？', options: ['a+b', 'a-b', 'a_b', 'a*b'], answer: 2, explain: 'a_b是合法标识符，使用下划线。'},
+            {q: '变量名、函数名属于什么？', options: ['关键字', '标识符', '运算符', '分隔符'], answer: 1, explain: '变量名和函数名都属于标识符。'},
+            {q: '标识符的主要作用是什么？', options: ['让程序运行更快', '给程序元素起名字', '控制程序流程', '进行数学运算'], answer: 1, explain: '标识符的主要作用是给变量、函数等程序元素起名字。'},
+            {q: '以下哪个包含非法字符？', options: ['value1', 'value_1', 'value-1', 'value1_'], answer: 2, explain: 'value-1包含减号，减号不是标识符允许的字符。'},
+            {q: '在C++中，以下哪个不是标识符？', options: ['main', 'cout', 'int', 'myVar'], answer: 2, explain: 'int是关键字，不是普通的标识符。'},
+            {q: '以下哪个标识符是最佳实践？', options: ['a', 'abc', 'studentAge', 'x1y2z3'], answer: 2, explain: 'studentAge见名知意，符合良好的命名习惯。'},
+            {q: '关于标识符长度，C++？', options: ['有固定长度限制', '没有长度限制', '最多31个字符', '取决于编译器'], answer: 3, explain: 'C++标准没有规定标识符长度限制，但实际受编译器限制。'},
+            {q: '以下哪个是C++合法标识符？', options: ['9to5', 'private', 'public', '_private'], answer: 3, explain: '_private是合法标识符，private和public是关键字。'},
+            {q: '双下划线开头的标识符（如__value）？', options: ['总是合法', 'C++保留使用', '不合法', '仅GNU编译器支持'], answer: 1, explain: '双下划线开头的标识符在C++中是保留给实现使用的。'},
+            {q: '以下哪个命名不符合「见名知意」原则？', options: ['studentCount', 'averageScore', 'temp', 'maxValue'], answer: 2, explain: 'temp含义不明确，不符合见名知意原则。'},
+            {q: '驼峰命名法中，studentName如何写？', options: ['studentname', 'StudentName', 'studentName', 'student_name'], answer: 2, explain: 'studentName是小驼峰命名，第一个单词小写，后续单词首字母大写。'},
+            // 关键字识别 31-60
+            {q: '以下哪个不是C++关键字？', options: ['int', 'char', 'string', 'double'], answer: 2, explain: 'string不是关键字，是标准库中的类名。'},
+            {q: 'return是关键字吗？', options: ['是', '不是', '有时是', '取决于上下文'], answer: 0, explain: 'return是C++关键字，用于从函数返回。'},
+            {q: 'main是关键字吗？', options: ['是', '不是', '是保留字', '是标准标识符'], answer: 1, explain: 'main不是关键字，是特殊的函数名，程序从这里开始执行。'},
+            {q: '以下哪个是关键字？', options: ['MAX', 'max', 'Max', 'sizeof'], answer: 3, explain: 'sizeof是C++关键字，用于获取类型或变量的大小。'},
+            {q: 'if可以用作变量名吗？', options: ['可以', '不可以', '仅在某些情况下', '取决于编译器'], answer: 1, explain: 'if是关键字，不能用作变量名。'},
+            {q: 'If（大写I）可以用作变量名吗？', options: ['可以', '不可以', '不推荐但可以', '取决于编译器'], answer: 0, explain: 'If是合法标识符，因为区分大小写，If和if不同。'},
+            {q: 'true和false是关键字吗？', options: ['都是', '只有true是', '只有false是', '都不是'], answer: 0, explain: 'true和false都是C++关键字，表示布尔值。'},
+            {q: 'const是关键字吗？', options: ['是', '不是', '是宏', '是函数'], answer: 0, explain: 'const是C++关键字，用于定义常量。'},
+            {q: '以下哪个是C++关键字？', options: ['and', 'or', 'not', '以上都是'], answer: 3, explain: 'and、or、not都是C++关键字，是逻辑运算符的替代写法。'},
+            {q: 'auto是关键字吗？', options: ['是', '不是', '是C++11新增', '是类型名'], answer: 2, explain: 'auto在C++11后成为关键字，用于自动类型推导。'},
+            {q: 'void是关键字吗？', options: ['是', '不是', '是类型', '是函数'], answer: 0, explain: 'void是C++关键字，表示「无类型」或「无返回值」。'},
+            {q: 'break是关键字吗？', options: ['是', '不是', '是函数', '是宏'], answer: 0, explain: 'break是C++关键字，用于跳出循环或switch语句。'},
+            {q: 'continue是关键字吗？', options: ['是', '不是', '是函数', '是注释'], answer: 0, explain: 'continue是C++关键字，用于跳过当前循环迭代。'},
+            {q: 'switch、case、default都是关键字吗？', options: ['都是', '只有switch是', '只有case是', '都不是'], answer: 0, explain: 'switch、case、default都是C++关键字，用于多分支选择。'},
+            {q: 'for和while都是关键字吗？', options: ['都是', '只有for是', '只有while是', '都不是'], answer: 0, explain: 'for和while都是C++关键字，用于循环控制。'},
+            {q: 'do是关键字吗？', options: ['是', '不是', '是函数', '是变量'], answer: 0, explain: 'do是C++关键字，与while配合使用构成do-while循环。'},
+            {q: 'using是关键字吗？', options: ['是', '不是', '是C++11新增', '是类型'], answer: 0, explain: 'using是C++关键字，用于命名空间或类型别名。'},
+            {q: 'namespace是关键字吗？', options: ['是', '不是', '是类', '是函数'], answer: 0, explain: 'namespace是C++关键字，用于定义命名空间。'},
+            {q: 'template是关键字吗？', options: ['是', '不是', '是C++11新增', '是类'], answer: 0, explain: 'template是C++关键字，用于定义模板。'},
+            {q: 'class是关键字吗？', options: ['是', '不是', '是类型', '是函数'], answer: 0, explain: 'class是C++关键字，用于定义类。'},
+            {q: 'struct是关键字吗？', options: ['是', '不是', '与class相同', '是类型'], answer: 0, explain: 'struct是C++关键字，用于定义结构体。'},
+            {q: 'public、private、protected都是关键字吗？', options: ['都是', '只有public是', '只有private是', '都不是'], answer: 0, explain: 'public、private、protected都是C++关键字，用于访问控制。'},
+            {q: 'virtual是关键字吗？', options: ['是', '不是', '是函数', '是类'], answer: 0, explain: 'virtual是C++关键字，用于虚函数。'},
+            {q: 'static是关键字吗？', options: ['是', '不是', '是函数', '是变量'], answer: 0, explain: 'static是C++关键字，有多种用途。'},
+            {q: 'extern是关键字吗？', options: ['是', '不是', '是函数', '是宏'], answer: 0, explain: 'extern是C++关键字，用于声明外部变量。'},
+            {q: 'signed和unsigned都是关键字吗？', options: ['都是', '只有signed是', '只有unsigned是', '都不是'], answer: 0, explain: 'signed和unsigned都是C++关键字，用于指定整数符号。'},
+            {q: 'short、long都是关键字吗？', options: ['都是', '只有short是', '只有long是', '都不是'], answer: 0, explain: 'short和long都是C++关键字，用于修饰整数类型。'},
+            {q: 'sizeof是关键字还是函数？', options: ['关键字', '函数', '运算符', '宏'], answer: 0, explain: 'sizeof是C++关键字，虽然看起来像函数调用。'},
+            {q: 'NULL是关键字吗？', options: ['是', '不是', '是C++11新增', '是宏'], answer: 1, explain: 'NULL不是关键字，是C语言中定义的宏，C++11后推荐使用nullptr。'},
+            // 命名规范 61-90
+            {q: '以下哪个命名符合「见名知意」原则？', options: ['x', 'n', 'studentCount', 'a1'], answer: 2, explain: 'studentCount明确表示学生数量，符合见名知意原则。'},
+            {q: '驼峰命名法的特点是？', options: ['全部大写', '全部小写', '除第一个单词外首字母大写', '用下划线连接'], answer: 2, explain: '驼峰命名法中，除第一个单词外，每个单词首字母大写。'},
+            {q: '小驼峰（camelCase）的正确示例是？', options: ['StudentName', 'studentName', 'student_name', 'STUDENT_NAME'], answer: 1, explain: 'studentName是小驼峰，第一个单词小写，后续单词首字母大写。'},
+            {q: '大驼峰（PascalCase）的正确示例是？', options: ['StudentName', 'studentName', 'student_name', 'STUDENT_NAME'], answer: 0, explain: 'StudentName是大驼峰，每个单词首字母都大写。'},
+            {q: '下划线命名法（snake_case）的正确示例是？', options: ['StudentName', 'studentName', 'student_name', 'STUDENTNAME'], answer: 2, explain: 'student_name是下划线命名法，单词之间用下划线连接。'},
+            {q: '常量通常使用什么命名规范？', options: ['小驼峰', '大驼峰', '全大写+下划线', '全小写'], answer: 2, explain: '常量通常使用全大写+下划线，如MAX_VALUE、PI。'},
+            {q: '以下哪个是常量的规范命名？', options: ['maxValue', 'MaxValue', 'MAX_VALUE', 'maxvalue'], answer: 2, explain: 'MAX_VALUE是常量的规范命名，全大写+下划线。'},
+            {q: 'C++类名通常使用什么命名规范？', options: ['小驼峰', '大驼峰', '下划线', '全大写'], answer: 1, explain: 'C++类名通常使用大驼峰（PascalCase），如StudentInfo。'},
+            {q: '以下哪个是良好的变量命名？', options: ['a', 'b', 'c', 'studentAge'], answer: 3, explain: 'studentAge见名知意，是良好的变量命名。'},
+            {q: '循环变量通常使用什么命名？', options: ['必须有意义的单词', '单字母如i, j, k', '全大写', '下划线开头'], answer: 1, explain: '循环变量通常使用i, j, k等单字母，这是编程惯例。'},
+            {q: '以下哪个不是良好的命名？', options: ['maxScore', 'minValue', 'temp', 'averageGrade'], answer: 2, explain: 'temp含义不明确，不是良好的命名。'},
+            {q: '以下哪个命名表示「学生数量」最合适？', options: ['s', 'sn', 'stuNum', 'studentCount'], answer: 3, explain: 'studentCount最清晰地表示学生数量。'},
+            {q: '匈牙利命名法的主要特点是？', options: ['全部大写', '添加类型前缀', '使用下划线', '使用驼峰'], answer: 1, explain: '匈牙利命名法在变量名前添加类型前缀，如nCount、strName。'},
+            {q: '现代C++推荐匈牙利命名法吗？', options: ['强烈推荐', '不推荐', '仅在某些场景', '必须遵守'], answer: 1, explain: '现代C++不推荐匈牙利命名法，因为IDE可以显示变量类型。'},
+            {q: '以下哪个命名使用了匈牙利命名法？', options: ['studentCount', 'nCount', 'count', 'Count'], answer: 1, explain: 'nCount使用了匈牙利命名法，n表示number/int类型。'},
+            {q: '使用拼音命名（如nianling）合适吗？', options: ['非常合适', '不合适，应使用英文', '仅在中文环境', '取决于团队'], answer: 1, explain: '应避免拼音命名，使用英文单词提高可读性。'},
+            {q: '以下哪个是最佳实践？', options: ['使用拼音', '使用无意义字母', '使用英文单词', '使用缩写'], answer: 2, explain: '使用英文单词是最佳实践，代码可读性最好。'},
+            {q: '缩写命名（如cnt表示count）合适吗？', options: ['总是合适', '仅在公认缩写时', '从不合适', '取决于长度'], answer: 1, explain: '仅在公认缩写（如max、min、cnt等）时使用缩写。'},
+            {q: '以下哪个缩写是公认的？', options: ['stu', 'num', 'cnt', 'scr'], answer: 2, explain: 'cnt是count的公认缩写，stu、scr等不是公认缩写。'},
+            {q: '双下划线开头的标识符应该？', options: ['经常使用', '避免使用', '仅在类中使用', '仅在函数中使用'], answer: 1, explain: '双下划线开头的标识符是C++保留的，应避免使用。'},
+            {q: '单下划线开头+大写字母的标识符（如_Value）？', options: ['随意使用', 'C++保留', '推荐用于类成员', '推荐用于全局变量'], answer: 1, explain: '单下划线开头+大写字母的标识符在C++中是保留的。'},
+            {q: '在函数内部使用单下划线开头的标识符（如_value）？', options: ['完全合法', '不合法', '仅在某些编译器', '不推荐'], answer: 0, explain: '在函数内部使用单下划线开头的标识符是合法的。'},
+            {q: '以下哪个命名最清晰？', options: ['d', 'days', 'dys', 'daycount'], answer: 1, explain: 'days最清晰地表示天数。'},
+            {q: '类成员变量通常如何命名？', options: ['与局部变量相同', '使用m_前缀或下划线后缀', '全部大写', '全部小写'], answer: 1, explain: '类成员变量通常使用m_前缀或下划线后缀区分，如m_value或value_。'},
+            {q: '全局变量通常如何命名？', options: ['与局部变量相同', '使用g_前缀', '全部大写', '任意命名'], answer: 1, explain: '全局变量通常使用g_前缀，如g_count。'},
+            {q: '宏定义通常使用什么命名？', options: ['小驼峰', '大驼峰', '全大写+下划线', '任意'], answer: 2, explain: '宏定义通常使用全大写+下划线，如MAX_SIZE。'},
+            {q: '以下哪个是宏定义的规范命名？', options: ['maxSize', 'MaxSize', 'MAX_SIZE', 'max_size'], answer: 2, explain: 'MAX_SIZE是宏定义的规范命名。'},
+            {q: '命名时应该避免什么？', options: ['使用英文', '使用数字', '使用下划线', '使用连字符'], answer: 3, explain: '标识符中不能使用连字符（减号），会被解释为减法。'},
+            {q: '命名时数字应该放在哪里？', options: ['开头', '中间或结尾', '只能结尾', '不能使用'], answer: 1, explain: '数字可以放在标识符的中间或结尾，但不能开头。'},
+            // GESP考试要点 91-120
+            {q: 'GESP一级考试中，标识符主要考察什么？', options: ['命名规范', '命名规则（合法性判断）', '关键字数量', '标识符长度'], answer: 1, explain: '主要考察标识符命名规则，能判断一个标识符是否合法。'},
+            {q: '考试中，以下哪个标识符不合法？', options: ['_value', 'value1', '1value', 'value_1'], answer: 2, explain: '1value以数字开头，是不合法的标识符。'},
+            {q: '考试中，以下哪个可以用作变量名？', options: ['if', 'for', 'while', 'myVar'], answer: 3, explain: 'myVar是合法的变量名，if、for、while是关键字。'},
+            {q: '考试中，Int（大写I）可以用作变量名吗？', options: ['可以', '不可以', '仅在C++11后', '取决于编译器'], answer: 0, explain: 'Int可以，因为区分大小写，Int和int是不同的。'},
+            {q: '考试中，以下哪个是关键字？', options: ['Main', 'main', 'int', 'Int'], answer: 2, explain: 'int是关键字，Main、main、Int都不是关键字。'},
+            {q: '考试中，以下哪个命名合法且符合规范？', options: ['123', 'my-var', 'my_var', 'my var'], answer: 2, explain: 'my_var既合法又符合命名规范。'},
+            {q: '考试中，sizeof可以用作变量名吗？', options: ['可以', '不可以', '仅在C++11后', '取决于编译器'], answer: 1, explain: 'sizeof是关键字，不能用作变量名。'},
+            {q: '考试中，true可以用作变量名吗？', options: ['可以', '不可以', '仅在C++11后', '取决于编译器'], answer: 1, explain: 'true是关键字，不能用作变量名。'},
+            {q: '考试中，false可以用作变量名吗？', options: ['可以', '不可以', '仅在C++11后', '取决于编译器'], answer: 1, explain: 'false是关键字，不能用作变量名。'},
+            {q: '考试中，以下哪个是合法的标识符？', options: ['a+b', 'a-b', 'a_b', 'a*b'], answer: 2, explain: 'a_b是合法标识符，使用下划线。'},
+            {q: '考试中，以下哪个是合法的标识符？', options: ['myName', 'my-Name', 'my Name', 'my@Name'], answer: 0, explain: 'myName是合法标识符，使用驼峰命名。'},
+            {q: '考试中，Name和name是？', options: ['相同的', '不同的', '有时是相同的', '取决于编译器'], answer: 1, explain: 'C++区分大小写，Name和name是不同的标识符。'},
+            {q: '考试中，以下哪个不是关键字？', options: ['return', 'break', 'continue', 'myReturn'], answer: 3, explain: 'myReturn不是关键字，return、break、continue都是关键字。'},
+            {q: '考试中，以下哪个标识符包含非法字符？', options: ['value1', 'value_1', 'value-1', 'value1_'], answer: 2, explain: 'value-1包含减号，是非法字符。'},
+            {q: '考试中，常量通常使用什么命名？', options: ['小驼峰', '大驼峰', '全大写+下划线', '任意'], answer: 2, explain: '常量通常使用全大写+下划线命名。'},
+            {q: '考试中，循环变量通常使用？', options: ['有意义的单词', '单字母如i, j, k', '全大写', '下划线开头'], answer: 1, explain: '循环变量通常使用i, j, k等单字母。'},
+            {q: '考试中，以下哪个命名最佳？', options: ['n', 'num', 'studentCount', 'x'], answer: 2, explain: 'studentCount最清晰地表达含义。'},
+            {q: '考试中，标识符可以以下划线开头吗？', options: ['可以', '不可以', '仅单下划线可以', '仅双下划线可以'], answer: 0, explain: '标识符可以以下划线开头，如_value。'},
+            {q: '考试中，以下哪个是关键字？', options: ['void', 'Void', 'VOID', 'myVoid'], answer: 0, explain: 'void是关键字，Void、VOID、myVoid都不是关键字。'},
+            {q: '考试中，auto是关键字吗？', options: ['是', '不是', '是C++11新增', '是类型名'], answer: 2, explain: 'auto在C++11后成为关键字。'},
+            {q: '考试中，nullptr是关键字吗？', options: ['是', '不是', '是C++11新增', '是宏'], answer: 2, explain: 'nullptr是C++11新增的关键字。'},
+            {q: '考试中，using是关键字吗？', options: ['是', '不是', '是C++11新增', '是函数'], answer: 0, explain: 'using是C++关键字。'},
+            {q: '考试中，namespace是关键字吗？', options: ['是', '不是', '是C++11新增', '是类'], answer: 0, explain: 'namespace是C++关键字。'},
+            {q: '考试中，template是关键字吗？', options: ['是', '不是', '是C++11新增', '是类'], answer: 0, explain: 'template是C++关键字。'},
+            {q: '考试中，class是关键字吗？', options: ['是', '不是', '是类型', '是函数'], answer: 0, explain: 'class是C++关键字。'},
+            {q: '考试中，struct是关键字吗？', options: ['是', '不是', '与class相同', '是类型'], answer: 0, explain: 'struct是C++关键字。'},
+            {q: '考试中，public是关键字吗？', options: ['是', '不是', '是函数', '是变量'], answer: 0, explain: 'public是C++关键字。'},
+            {q: '考试中，private是关键字吗？', options: ['是', '不是', '是函数', '是变量'], answer: 0, explain: 'private是C++关键字。'},
+            {q: '考试中，protected是关键字吗？', options: ['是', '不是', '是函数', '是变量'], answer: 0, explain: 'protected是C++关键字。'},
+            {q: '考试中，const是关键字吗？', options: ['是', '不是', '是函数', '是变量'], answer: 0, explain: 'const是C++关键字。'}
+        ];
+
+        let currentQuestion = 0;
+        let answers = new Array(questions.length).fill(null);
+        let correctCount = 0;
+
+        function loadQuestion(index) {
+            currentQuestion = index;
+            const q = questions[index];
+            document.getElementById('questionNumber').textContent = `题目 ${index + 1}/${questions.length}`;
+            document.getElementById('questionText').textContent = q.q;
+            
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+            
+            q.options.forEach((opt, i) => {
+                const btn = document.createElement('div');
+                btn.className = 'option';
+                btn.textContent = `${String.fromCharCode(65 + i)}. ${opt}`;
+                btn.onclick = () => selectAnswer(i);
+                
+                if (answers[index] !== null) {
+                    btn.classList.add('disabled');
+                    if (i === answers[index]) {
+                        btn.classList.add(i === q.answer ? 'correct' : 'wrong');
+                    }
+                    if (i === q.answer && answers[index] !== q.answer) {
+                        btn.classList.add('correct');
+                    }
+                }
+                
+                optionsDiv.appendChild(btn);
+            });
+            
+            const explanation = document.getElementById('explanation');
+            if (answers[index] !== null) {
+                explanation.textContent = `解析：${q.explain}`;
+                document.getElementById('questionCard').classList.add('answered');
+            } else {
+                explanation.textContent = '';
+                document.getElementById('questionCard').classList.remove('answered');
+            }
+            
+            updateProgress();
+            updateNavButtons();
+        }
+
+        function selectAnswer(optionIndex) {
+            if (answers[currentQuestion] !== null) return;
+            
+            answers[currentQuestion] = optionIndex;
+            const q = questions[currentQuestion];
+            
+            if (optionIndex === q.answer) {
+                correctCount++;
+            }
+            
+            const options = document.querySelectorAll('.option');
+            options[optionIndex].classList.add(optionIndex === q.answer ? 'correct' : 'wrong');
+            
+            if (optionIndex !== q.answer) {
+                options[q.answer].classList.add('correct');
+            }
+            
+            document.getElementById('explanation').textContent = `解析：${q.explain}`;
+            document.getElementById('questionCard').classList.add('answered');
+            
+            updateProgress();
+            saveProgress();
+        }
+
+        function updateProgress() {
+            const answered = answers.filter(a => a !== null).length;
+            const progress = (answered / questions.length) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+            document.getElementById('progressText').textContent = `${answered}/${questions.length}`;
+        }
+
+        function updateNavButtons() {
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            document.getElementById('nextBtn').textContent = 
+                currentQuestion === questions.length - 1 ? '完成' : '下一题 →';
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                loadQuestion(currentQuestion - 1);
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                loadQuestion(currentQuestion + 1);
+            } else {
+                const answered = answers.filter(a => a !== null).length;
+                const accuracy = answered > 0 ? Math.round((correctCount / answered) * 100) : 0;
+                alert(`测验完成！\n答对：${correctCount}/${answered}\n正确率：${accuracy}%`);
+            }
+        }
+
+        function saveProgress() {
+            localStorage.setItem('cpp-l1-topic-3-1-progress', JSON.stringify(answers));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('cpp-l1-topic-3-1-progress');
+            if (saved) {
+                answers = JSON.parse(saved);
+                correctCount = answers.reduce((sum, ans, idx) => 
+                    sum + (ans === questions[idx].answer ? 1 : 0), 0);
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' && currentQuestion > 0) prevQuestion();
+            if (e.key === 'ArrowRight') nextQuestion();
+        });
+
+        loadProgress();
+        loadQuestion(0);
+    </script>
+</body>
+</html>
