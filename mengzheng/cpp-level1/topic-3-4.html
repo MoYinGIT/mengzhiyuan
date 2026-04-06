@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.4 变量 - C++一级 - 蒙正堂</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/guofeng-v2.css">
+    <style>
+        :root {
+            --l1-primary: #1e3a5f;
+            --l1-secondary: #2e5984;
+            --correct: #4a7c59;
+            --wrong: #c9372c;
+        }
+        .topic-container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+        .breadcrumb { display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1.5rem; font-size: 0.9rem; color: #666; }
+        .breadcrumb a { color: var(--l1-primary); text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .topic-header { background: linear-gradient(135deg, var(--l1-primary) 0%, var(--l1-secondary) 100%); color: white; padding: 2rem; border-radius: 12px; margin-bottom: 2rem; }
+        .topic-header .number { font-size: 0.9rem; opacity: 0.8; margin-bottom: 0.5rem; }
+        .topic-header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .topic-header .meta { display: flex; gap: 1.5rem; font-size: 0.9rem; opacity: 0.9; }
+        .content-section { background: white; border-radius: 12px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .content-section h2 { color: var(--l1-primary); border-left: 4px solid var(--l1-primary); padding-left: 1rem; margin-bottom: 1.5rem; }
+        .content-section h3 { color: var(--ink-800); margin: 1.5rem 0 1rem; }
+        .content-section p { line-height: 1.8; margin-bottom: 1rem; text-align: justify; }
+        .content-section ul, .content-section ol { margin: 1rem 0 1rem 1.5rem; }
+        .content-section li { margin-bottom: 0.5rem; line-height: 1.7; }
+        .highlight-box { background: #f0f4f8; border-left: 4px solid var(--l1-primary); padding: 1rem 1.5rem; margin: 1.5rem 0; border-radius: 0 8px 8px 0; }
+        .highlight-box.warning { background: #fff3cd; border-left-color: #d4a574; }
+        .highlight-box.danger { background: #f8d7da; border-left-color: #c9372c; }
+        .highlight-box.success { background: #d4edda; border-left-color: #4a7c59; }
+        .shortcut-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        .shortcut-table th, .shortcut-table td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #e9ecef; }
+        .shortcut-table th { background: #f8f9fa; font-weight: 600; }
+        .code-block { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 6px; padding: 1rem; margin: 1rem 0; font-family: 'Consolas', 'Monaco', monospace; font-size: 0.9rem; overflow-x: auto; }
+        .code-block .comment { color: #6a9955; }
+        .code-block .keyword { color: #0000ff; }
+        .code-block .string { color: #a31515; }
+        .code-block .number { color: #098658; }
+        .code-block .identifier { color: #001080; }
+        .quiz-section { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .quiz-section h2 { color: var(--l1-primary); border-left: 4px solid var(--l1-primary); padding-left: 1rem; margin-bottom: 1rem; }
+        .quiz-progress { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding: 0.75rem 1rem; background: #f8f9fa; border-radius: 8px; }
+        .quiz-progress-bar { flex: 1; height: 8px; background: #e9ecef; border-radius: 4px; margin: 0 1rem; overflow: hidden; }
+        .quiz-progress-fill { height: 100%; background: linear-gradient(90deg, var(--l1-primary), var(--l1-secondary)); border-radius: 4px; transition: width 0.3s ease; }
+        .question-card { border: 1px solid #e9ecef; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; }
+        .question-card.correct { border-color: var(--correct); background: #f0f8f0; }
+        .question-card.wrong { border-color: var(--wrong); background: #fdf0ef; }
+        .question-number { font-weight: 600; color: var(--l1-primary); margin-bottom: 0.5rem; }
+        .question-text { font-size: 1.05rem; margin-bottom: 1rem; }
+        .options { display: flex; flex-direction: column; gap: 0.5rem; }
+        .option { padding: 0.75rem 1rem; border: 1px solid #e9ecef; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; }
+        .option:hover { background: #f8f9fa; border-color: var(--l1-primary); }
+        .option.selected { background: #e3f2fd; border-color: var(--l1-primary); }
+        .option.correct { background: #d4edda; border-color: var(--correct); }
+        .option.wrong { background: #f8d7da; border-color: var(--wrong); }
+        .explanation { display: none; margin-top: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 6px; }
+        .question-card.answered .explanation { display: block; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 2rem; }
+        .variable-lifecycle { display: flex; justify-content: center; align-items: center; gap: 1rem; margin: 2rem 0; flex-wrap: wrap; }
+        .lifecycle-step { background: linear-gradient(135deg, var(--l1-primary), var(--l1-secondary)); color: white; padding: 1rem 1.5rem; border-radius: 8px; text-align: center; }
+        .lifecycle-arrow { font-size: 1.5rem; color: var(--l1-primary); }
+        .type-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+        .type-card { background: #f8f9fa; border-radius: 8px; padding: 1rem; border-left: 4px solid var(--l1-primary); }
+        .type-card h4 { color: var(--l1-primary); margin: 0 0 0.5rem 0; }
+        .naming-example { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+        .naming-good { background: #d4edda; padding: 1rem; border-radius: 8px; border-left: 4px solid #4a7c59; }
+        .naming-bad { background: #f8d7da; padding: 1rem; border-radius: 8px; border-left: 4px solid #c9372c; }
+        @media (max-width: 768px) {
+            .topic-container { padding: 1rem; }
+            .topic-header h1 { font-size: 1.4rem; }
+            .content-section { padding: 1.25rem; }
+            .variable-lifecycle { flex-direction: column; }
+            .lifecycle-arrow { transform: rotate(90deg); }
+            .naming-example { grid-template-columns: 1fr; }
+            .type-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="../../" class="brand">
+                <span class="brand-icon">☯</span>
+                <span class="brand-text">默隐·蒙知苑</span>
+            </a>
+            <div class="nav-links">
+                <a href="../" class="nav-link">🎓 蒙正堂</a>
+                <a href="./" class="nav-link">C++一级</a>
+                <span class="nav-link active">3.4 变量</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="topic-container">
+        <div class="breadcrumb">
+            <a href="../">蒙正堂</a>
+            <span>›</span>
+            <a href="./">C++一级</a>
+            <span>›</span>
+            <a href="./#block3">程序的基本概念</a>
+            <span>›</span>
+            <span>3.4 变量</span>
+        </div>
+
+        <div class="topic-header">
+            <div class="number">知识块 3 · 知识点 4/6</div>
+            <h1>变量</h1>
+            <div class="meta">
+                <span>⏱️ 预估学习时长: 55分钟</span>
+                <span>📋 验证题目: 100题</span>
+                <span>🎯 难度: 入门级</span>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>📚 知识详解</h2>
+            
+            <h3>一、什么是变量</h3>
+            <p><strong>变量（Variable）</strong>是程序中用于存储数据的容器。变量的值可以在程序运行过程中改变，就像一个有标签的盒子，可以随时更换里面的内容。</p>
+            
+            <div class="highlight-box">
+                <strong>💡 一句话理解</strong><br>
+                变量是程序中存储数据的「容器」，里面的内容可以随时更换。
+            </div>
+
+            <div class="code-block">
+<span class="comment">// 变量示例</span>
+<span class="keyword">int</span> <span class="identifier">age</span> = 18;        <span class="comment">// age 是变量，存储整数18</span>
+<span class="identifier">age</span> = 19;                  <span class="comment">// 可以修改为19</span>
+<span class="identifier">age</span> = 20;                  <span class="comment">// 可以再次修改为20</span>
+
+<span class="keyword">double</span> <span class="identifier">price</span> = 9.99;    <span class="comment">// price 是变量，存储价格</span>
+<span class="identifier">price</span> = 8.99;              <span class="comment">// 价格可以变化</span>
+            </div>
+
+            <h3>二、变量的三个要素</h3>
+
+            <p>一个完整的变量包含三个要素：<strong>数据类型</strong>、<strong>变量名</strong>、<strong>值</strong>。</p>
+
+            <div class="code-block">
+<span class="keyword">int</span> <span class="identifier">score</span> = 95;
+<span class="comment">// ↑     ↑      ↑</span>
+<span class="comment">// 类型  变量名  值</span>
+            </div>
+
+            <ol>
+                <li><strong>数据类型</strong>：决定变量可以存储什么类型的数据（整数、小数、字符等）</li>
+                <li><strong>变量名</strong>：标识符，用于引用这个变量（如：age, score, price）</li>
+                <li><strong>值</strong>：变量实际存储的数据（可以修改）</li>
+            </ol>
+
+            <h3>三、变量的定义和初始化</h3>
+
+            <h4>1. 变量定义</h4>
+            <p>告诉编译器变量的类型和名称，在内存中分配空间。</p>
+
+            <div class="code-block">
+<span class="comment">// 语法：数据类型 变量名;</span>
+<span class="keyword">int</span> <span class="identifier">count</span>;           <span class="comment">// 定义一个int类型的变量count</span>
+<span class="keyword">double</span> <span class="identifier">price</span>;        <span class="comment">// 定义一个double类型的变量price</span>
+<span class="keyword">char</span> <span class="identifier">grade</span>;          <span class="comment">// 定义一个char类型的变量grade</span>
+            </div>
+
+            <div class="highlight-box warning">
+                <strong>⚠️ 注意</strong><br>
+                只定义不初始化的变量，其值是<strong>不确定的</strong>（垃圾值）。使用前务必初始化！
+            </div>
+
+            <h4>2. 变量初始化</h4>
+            <p>在定义变量的同时给它一个初始值，这是<strong>推荐的做法</strong>。</p>
+
+            <div class="code-block"
+><span class="comment">// 语法：数据类型 变量名 = 初始值;</span>
+<span class="keyword">int</span> <span class="identifier">age</span> = 18;               <span class="comment">// 定义并初始化为18</span>
+<span class="keyword">double</span> <span class="identifier">pi</span> = 3.14159;       <span class="comment">// 定义并初始化为3.14159</span>
+<span class="keyword">char</span> <span class="identifier">grade</span> = 'A';          <span class="comment">// 定义并初始化为'A'</span>
+<span class="keyword">bool</span> <span class="identifier">passed</span> = <span class="keyword">true</span>;       <span class="comment">// 定义并初始化为true</span>
+            </div>
+
+            <h4>3. 同时定义多个变量</h4>
+
+            <div class="code-block"
+><span class="comment">// 同时定义多个同类型变量</span>
+<span class="keyword">int</span> <span class="identifier">a</span>, <span class="identifier">b</span>, <span class="identifier">c</span>;                   <span class="comment">// 定义三个int变量</span>
+<span class="keyword">int</span> <span class="identifier">x</span> = 1, <span class="identifier">y</span> = 2, <span class="identifier">z</span> = 3;     <span class="comment">// 定义并初始化</span>
+
+<span class="comment">// 甚至可以混合</span>
+<span class="keyword">int</span> <span class="identifier">m</span> = 10, <span class="identifier">n</span>, <span class="identifier">p</span> = 20;    <span class="comment">// m和p初始化，n未初始化</span>
+            </div>
+
+            <h3>四、变量的赋值和使用</h3>
+
+            <h4>1. 赋值语句</h4>
+            <p>使用等号 <code>=</code> 给变量赋新值。</p>
+
+            <div class="code-block"
+><span class="keyword">int</span> <span class="identifier">score</span>;              <span class="comment">// 定义变量</span>
+<span class="identifier">score</span> = 85;               <span class="comment">// 赋值为85</span>
+<span class="identifier">score</span> = 90;               <span class="comment">// 修改为90</span>
+<span class="identifier">score</span> = <span class="identifier">score</span> + 5;          <span class="comment">// 在原有值上加5，变为95</span>
+            </div>
+
+            <div class="highlight-box"
+>
+                <strong>💡 赋值 vs 初始化</strong><br>
+                • <strong>初始化</strong>：定义变量时给值（int a = 10;）<br>
+                • <strong>赋值</strong>：定义后给值（a = 10;）
+            </div>
+
+            <h4>2. 使用变量</h4>
+
+            <div class="code-block"
+><span class="keyword">int</span> <span class="identifier">length</span> = 5;
+<span class="keyword">int</span> <span class="identifier">width</span> = 3;
+<span class="keyword">int</span> <span class="identifier">area</span> = <span class="identifier">length</span> * <span class="identifier">width</span>;  <span class="comment">// 使用变量计算</span>
+
+<span class="comment">// 输出变量值</span>
+cout << <span class="identifier">area</span>;  <span class="comment">// 输出：15</span>
+            </div>
+
+            <h3>五、变量的生命周期</h3>
+
+            <p>变量从诞生到消失的整个过程：</p>
+
+            <div class="variable-lifecycle">
+                <div class="lifecycle-step">
+                    <div>1. 定义</div>
+                    <div style="font-size: 0.8rem; opacity: 0.9;">分配内存空间</div>
+                </div>
+                <div class="lifecycle-arrow">→</div>
+                <div class="lifecycle-step">
+                    <div>2. 初始化</div>
+                    <div style="font-size: 0.8rem; opacity: 0.9;">赋予初始值</div>
+                </div>
+                <div class="lifecycle-arrow">→</div>
+                <div class="lifecycle-step">
+                    <div>3. 使用</div>
+                    <div style="font-size: 0.8rem; opacity: 0.9;">读写操作</div>
+                </div>
+                <div class="lifecycle-arrow">→</div>
+                <div class="lifecycle-step">
+                    <div>4. 销毁</div>
+                    <div style="font-size: 0.8rem; opacity: 0.9;">释放内存空间</div>
+                </div>
+            </div>
+
+            <h3>六、变量的命名规范</h3>
+
+            <div class="naming-example">
+                <div class="naming-good">
+                    <strong>✅ 好的命名</strong><br>
+                    studentCount（学生数量）<br>
+                    totalScore（总分）<br>
+                    averagePrice（平均价格）<br>
+                    maxValue（最大值）
+                </div>
+                <div class="naming-bad"
+>                    <strong>❌ 不好的命名</strong><br>
+                    a, b, c（无意义）<br>
+                    x1, x2（不清晰）<br>
+                    shuliang（拼音）<br>
+                    temp（过于笼统）
+                </div>
+            </div>
+
+            <div class="highlight-box success">
+                <strong>📋 命名建议</strong><br>
+                1. <strong>见名知意</strong>：从名字就能看出用途<br>
+                2. <strong>小驼峰命名</strong>：studentName, totalCount<br>
+                3. <strong>避免单字母</strong>：除非是循环变量 i, j, k<br>
+                4. <strong>不用拼音</strong>：使用英文单词
+            </div>
+
+            <h3>七、常见错误</h3>
+
+            <div class="highlight-box danger"
+>                <strong>❌ 错误1：使用未初始化的变量</strong><br>
+                int score;           <span class="comment">// 未初始化</span><br>
+                cout << score;       <span class="comment">// ❌ 错误：score的值不确定</span>
+            </div>
+
+            <div class="highlight-box danger"
+>                <strong>❌ 错误2：变量类型不匹配</strong><br>
+                int age = 3.14;      <span class="comment">// 警告：3.14被截断为3</span>
+            </div>
+
+            <div class="highlight-box danger"
+>                <strong>❌ 错误3：变量名重复定义</strong><br>
+                int score = 80;      <span class="comment">// 第一次定义</span><br>
+                int score = 90;      <span class="comment">// ❌ 错误：重复定义</span>
+            </div>
+
+            <div class="highlight-box warning"
+>                <strong>⚠️ 错误4：混淆赋值和比较</strong><br>
+                if (x = 10) { }      <span class="comment">// ⚠️ 这是赋值，不是比较！</span><br>
+                if (x == 10) { }     <span class="comment">// ✅ 这才是比较是否相等</span>
+            </div>
+
+            <h3>八、GESP考试要点</h3>
+
+            <ul>
+                <li><strong>变量的概念</strong>：存储数据的容器，值可以改变</li>
+                <li><strong>变量的三要素</strong>：类型、名称、值</li>
+                <li><strong>变量定义</strong>：数据类型 变量名;</li>
+                <li><strong>变量初始化</strong>：定义时赋初值（推荐）</li>
+                <li><strong>变量赋值</strong>：使用 = 修改值</li>
+                <li><strong>常见错误</strong>：使用未初始化变量、重复定义、类型不匹配</li>
+            </ul>
+
+            <div class="highlight-box"
+>                <strong>🎯 核心口诀</strong><br>
+                「变量是个容器，存数据最行；<br>
+                类型名和值，三要素记清；<br>
+                定义再使用，初始化先行；<br>
+                赋值用等号，内容随时更。」
+            </div>
+        </div>
+
+        <!-- 易经智慧 -->
+        <div class="content-section"
+>            <h2>☯ 容器之道：有之以为利，无之以为用</h2>
+            
+            <blockquote style="background: #f8f9fa; padding: 1.5rem; border-left: 4px solid var(--l1-primary); margin: 1.5rem 0; font-style: italic;"
+>                《道德经》第十一章云：「三十辐共一毂，当其无，有车之用。埏埴以为器，当其无，有器之用……故有之以为利，无之以为用。」
+            </blockquote>
+            
+            <p>老子以车轮、器皿、房屋为例，说明「有」和「无」的关系：<strong>有之以为利，无之以为用</strong>。变量的「类型和名」是「有」，为我们提供便利；变量的「可变性、存储空间」是「无」，正是其真正的用途所在。</p>
+
+            <table class="shortcut-table"
+>                <tr><th>《道德经》</th><th>编程对应</th><th>寓意</th></tr>
+                <tr><td>三十辐共一毂</td><td>变量的定义</td><td>结构框架，支撑整体</td></tr>
+                <tr><td>当其无，有车之用</td><td>变量的可变性</td><td>正因可变，方有其用</td></tr>
+                <tr><td>埏埴以为器</td><td>变量的类型</td><td>塑造形态，容纳数据</td></tr>
+                <tr><td>有之以为利</td><td>类型和名称</td><td>提供便利，便于使用</td></tr>
+                <tr><td>无之以为用</td><td>存储和变化</td><td>真正发挥作用的本质</td></tr>
+            </table>
+
+            <div class="highlight-box success">
+                <strong>💡 圣人启示</strong><br>
+                《论语》云：「工欲善其事，必先利其器。」—— 变量就是我们编程的「器」，正确定义和使用变量，是编写好程序的基础。<br><br>
+                变量如器皿，类型定其形，名称便其用，变化尽其能。
+            </div>
+        </div>
+
+        <!-- 检查清单 -->
+        <div class="content-section"
+>            <h2>✅ 本模块检查清单</h2>
+            
+            <h3>学习前</h3>
+            <ul style="list-style: none;"
+>                <li><input type="checkbox" style="margin-right: 0.5rem;"> 了解数据类型的概念</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 知道标识符的命名规则</li>
+            </ul>
+
+            <h3>学习中</h3>
+            <ul style="list-style: none;"
+>                <li><input type="checkbox" style="margin-right: 0.5rem;"> 理解变量的概念和作用</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 掌握变量的三要素</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 学会定义和初始化变量</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 学会给变量赋值和使用</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 了解变量的生命周期</li>
+            </ul>
+
+            <h3>学习后</h3>
+            <ul style="list-style: none;"
+>                <li><input type="checkbox" style="margin-right: 0.5rem;"> 能正确定义各类变量</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 能正确使用变量存储数据</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 能避免常见错误</li>
+                <li><input type="checkbox" style="margin-right: 0.5rem;"> 测验正确率达到 80% 以上</li>
+            </ul>
+        </div>
+
+        <div class="quiz-section"
+>            <h2>📝 验证测验 (100题)</h2>
+            <div class="quiz-progress"
+>                <span>进度</span>
+                <div class="quiz-progress-bar"
+>                    <div class="quiz-progress-fill" id="progressBar" style="width: 0%"></div>
+                </div>
+                <span id="progressText">0/100</span>
+            </div>
+            <div id="questionContainer"
+>                <div class="question-card" id="questionCard"
+>                    <div class="question-number" id="questionNumber">题目 1/100</div>
+                    <div class="question-text" id="questionText">加载中...</div>
+                    <div class="options" id="options"></div>
+                    <div class="explanation" id="explanation"></div>
+                </div>
+            </div>
+            <div class="nav-buttons"
+>                <button class="btn btn-secondary" id="prevBtn" onclick="prevQuestion()" disabled>← 上一题</button>
+                <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">下一题 →</button>
+            </div>
+        </div>
+
+        <!-- 拓展阅读 -->
+        <div class="content-section"
+>            <h2>📚 拓展阅读</h2>
+            
+            <h3>变量的存储类型</h3>
+            <p>C++中变量可以指定存储类型，影响其生命周期和作用域：</p>
+
+            <table class="shortcut-table"
+>                <tr><th>存储类型</th><th>说明</th><th>使用场景</th></tr>
+                <tr><td>auto</td><td>自动变量（默认）</td><td>函数内部的局部变量</td></tr>
+                <tr><td>static</td><td>静态变量</td><td>保留上次调用的值</td></tr>
+                <tr><td>extern</td><td>外部变量</td><td>声明在其他文件中定义的变量</td></tr>
+            </table>
+
+            <div class="highlight-box"
+>                <strong>💡 GESP考试提示</strong><br>
+                GESP一级考试不要求掌握存储类型（static、extern等），只需了解基本概念即可。
+            </div>
+
+            <h3>变量的作用域</h3>
+
+            <p>作用域决定了变量在程序的哪些部分可以被访问：</p>
+
+            <div class="code-block"
+><span class="keyword">int</span> <span class="identifier">globalVar</span> = 100;    <span class="comment">// 全局变量，整个文件可见</span>
+
+<span class="keyword">void</span> <span class="identifier">function</span>() {
+    <span class="keyword">int</span> <span class="identifier">localVar</span> = 10;    <span class="comment">// 局部变量，只在函数内可见</span>
+    <span class="comment">// globalVar 在这里也可以用</span>
+}
+
+<span class="keyword">int</span> <span class="identifier">main</span>() {
+    <span class="comment">// globalVar 可以在这里使用</span>
+    <span class="comment">// localVar 不能在这里使用（超出作用域）</span>
+    <span class="keyword">return</span> 0;
+}
+            </div>
+
+            <h3>变量交换技巧</h3>
+
+            <p>交换两个变量的值是常见操作：</p>
+
+            <div class="code-block"
+><span class="comment">// 方法1：使用临时变量（最常见）</span>
+<span class="keyword">int</span> <span class="identifier">temp</span> = <span class="identifier">a</span>;
+<span class="identifier">a</span> = <span class="identifier">b</span>;
+<span class="identifier">b</span> = <span class="identifier">temp</span>;
+
+<span class="comment">// 方法2：不使用临时变量（仅限数字）</span>
+<span class="identifier">a</span> = <span class="identifier">a</span> + <span class="identifier">b</span>;
+<span class="identifier">b</span> = <span class="identifier">a</span> - <span class="identifier">b</span>;
+<span class="identifier">a</span> = <span class="identifier">a</span> - <span class="identifier">b</span>;
+
+<span class="comment">// 方法3：使用C++标准库（GESP一级不要求）</span>
+<span class="comment">// swap(a, b);</span>
+            </div>
+
+            <h3>常见陷阱</h3>
+
+            <ol>
+                <li><strong>整数溢出</strong>：给int赋值超过范围（如2147483647+1会变成负数）</li>
+                <li><strong>浮点精度</strong>：float和double有精度限制，不适合精确计算</li>
+                <li><strong>类型转换</strong>：小类型转大类型安全，大类型转小类型可能丢失数据</li>
+                <li><strong>变量覆盖</strong>：内层作用域变量会覆盖外层同名变量</li>
+            </ol>
+
+            <div class="highlight-box success"
+>                <strong>📖 学习建议</strong><br>
+                变量是编程的基础，建议多练习定义、初始化、赋值的操作。养成「定义即初始化」的好习惯，避免使用未初始化的变量。
+            </div>
+        </div>
+
+        <div style="margin-top: 2rem; text-align: center;"
+>            <a href="./" class="btn btn-secondary">← 返回C++一级目录</a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-brand">默隐·蒙正堂</p>
+            <p class="footer-motto">让所有孩子有处可学</p>
+            <p class="footer-copyright">© 2026 默隐 · 明夷敬制</p>
+        </div>
+    </footer>
+
+    <script>
+        const questions = [
+            // 变量基础概念 1-30
+            {q: '什么是变量？', options: ['值不能改变的量', '值可以改变的量', '固定的数字', '程序的名称'], answer: 1, explain: '变量是程序中值可以被改变的量，用于存储数据。'},
+            {q: '变量的三个要素是什么？', options: ['类型、名称、值', '大小、颜色、形状', '长度、宽度、高度', '输入、处理、输出'], answer: 0, explain: '变量的三要素是：数据类型、变量名、值。'},
+            {q: '以下哪个是变量的特点？', options: ['值固定不变', '值可以改变', '只能存储整数', '不需要名字'], answer: 1, explain: '变量的特点是其存储的值可以被改变。'},
+            {q: 'int age = 18; 中，int是什么？', options: ['变量名', '数据类型', '变量值', '关键字'], answer: 1, explain: 'int是数据类型，表示整数类型。'},
+            {q: 'int age = 18; 中，age是什么？', options: ['数据类型', '变量名', '变量值', '关键字'], answer: 1, explain: 'age是变量名（标识符）。'},
+            {q: 'int age = 18; 中，18是什么？', options: ['数据类型', '变量名', '变量值', '关键字'], answer: 2, explain: '18是变量的值。'},
+            {q: '变量定义的作用是什么？', options: ['运行程序', '分配内存空间', '输出结果', '结束程序'], answer: 1, explain: '变量定义会在内存中分配空间，用于存储数据。'},
+            {q: '只定义变量而不初始化，变量的值是？', options: ['0', '空', '不确定的', 'null'], answer: 2, explain: '未初始化的变量值是不确定的（垃圾值）。'},
+            {q: '为什么建议定义变量时初始化？', options: ['为了美观', '避免使用不确定的值', '程序要求', '节省内存'], answer: 1, explain: '初始化可以避免使用不确定的垃圾值。'},
+            {q: '变量初始化和赋值的区别是？', options: ['没有区别', '初始化是定义时给值，赋值是定义后给值', '赋值更快', '初始化更慢'], answer: 1, explain: '初始化是在定义时给初值，赋值是在定义后修改值。'},
+            {q: 'int a = 10; 这是？', options: ['变量定义', '变量初始化', '变量赋值', 'B和C都对'], answer: 1, explain: '这是定义变量a并初始化为10。'},
+            {q: 'int a; a = 10; 这是？', options: ['变量定义', '变量初始化', '变量赋值', '语法错误'], answer: 2, explain: '先定义变量a，然后赋值10。'},
+            {q: '以下哪个是正确的变量定义？', options: ['int a;', 'int;', 'a;', 'int a'], answer: 0, explain: 'int a; 是正确的变量定义。'},
+            {q: '以下哪个是正确的变量初始化？', options: ['int a = 10;', 'int a;', 'a = 10;', 'int = 10;'], answer: 0, explain: 'int a = 10; 是定义并初始化。'},
+            {q: 'int a, b, c; 表示什么？', options: ['定义一个变量叫a,b,c', '定义三个变量a、b、c', '语法错误', '定义数组'], answer: 1, explain: '同时定义三个int类型的变量a、b、c。'},
+            {q: 'int a = 1, b = 2, c = 3; 表示什么？', options: ['定义三个变量并初始化', '语法错误', 'a等于1,2,3', '定义一个变量'], answer: 0, explain: '同时定义三个变量并分别初始化为1、2、3。'},
+            {q: '变量赋值使用什么符号？', options: ['==', '=', ':=', '->'], answer: 1, explain: 'C++中使用=进行赋值。'},
+            {q: 'int score = 80; score = 90; 后score的值是？', options: ['80', '90', '170', '不确定'], answer: 1, explain: 'score被赋新值90，覆盖了原来的80。'},
+            {q: 'int x = 5; x = x + 1; 后x的值是？', options: ['5', '6', 'x', '1'], answer: 1, explain: 'x + 1 = 6，然后赋值给x。'},
+            {q: 'int a = 10; int b = a; 后b的值是？', options: ['0', '10', 'a', '不确定'], answer: 1, explain: 'b被赋值为a的值，即10。'},
+            {q: '变量的生命周期包括哪些阶段？', options: ['定义、使用、销毁', '定义、初始化、使用、销毁', '出生、成长、死亡', '开始、中间、结束'], answer: 1, explain: '变量的生命周期包括：定义、初始化、使用、销毁。'},
+            {q: '局部变量定义在哪里？', options: ['函数内部', '函数外部', '任何位置', '只能在main函数'], answer: 0, explain: '局部变量定义在函数内部，只在该函数内有效。'},
+            {q: '全局变量定义在哪里？', options: ['函数内部', '函数外部', '只能在main函数外', '只能在main函数内'], answer: 1, explain: '全局变量定义在所有函数之外，整个文件都可见。'},
+            {q: '好的变量名应该？', options: ['越短越好', '见名知意', '用拼音', '用单字母'], answer: 1, explain: '好的变量名应该见名知意，一看就知道用途。'},
+            {q: '以下哪个是好的变量名？', options: ['x', 'a', 'studentCount', 'n1'], answer: 2, explain: 'studentCount见名知意，表示学生数量。'},
+            {q: '以下哪个是不好的变量名？', options: ['totalScore', 'average', 'a', 'maxValue'], answer: 2, explain: 'a太简短，没有表达清楚用途。'},
+            {q: '变量名studentName使用什么命名法？', options: ['全大写', '小驼峰命名法', '下划线命名法', '大驼峰命名法'], answer: 1, explain: 'studentName使用小驼峰命名法（第一个单词小写，后续单词首字母大写）。'},
+            {q: 'GESP一级推荐变量命名规范是？', options: ['全大写', '小驼峰命名法', '下划线命名法', '拼音'], answer: 1, explain: 'GESP一级推荐使用小驼峰命名法。'},
+            {q: '使用未初始化的变量会导致？', options: ['编译错误', '运行时错误', '不确定的结果', '程序崩溃'], answer: 2, explain: '使用未初始化的变量会得到不确定的值（垃圾值）。'},
+            {q: 'int age = 3.14; 会发生什么？', options: ['age等于3.14', 'age等于3', '编译错误', '运行时错误'], answer: 1, explain: '3.14被截断为整数3，可能会有警告。'},
+            // 变量定义与使用 31-60
+            {q: 'int score = 80; 这是变量什么操作？', options: ['定义', '初始化', '赋值', '声明'], answer: 1, explain: '这是定义变量并初始化。'},
+            {q: 'score = 90; 这是变量什么操作？', options: ['定义', '初始化', '赋值', '声明'], answer: 2, explain: '这是给已存在的变量赋新值。'},
+            {q: 'double price = 9.99; price是什么类型？', options: ['int', 'float', 'double', 'char'], answer: 2, explain: 'price是double类型。'},
+            {q: 'char grade = "A"; 对吗？', options: ['对', '错，字符用单引号', '错，不能用char', '错，grade是关键字'], answer: 1, explain: "字符常量应该用单引号，如'A'。"},
+            {q: "char grade = 'A'; 对吗？", options: ['对', '错', '语法错误', 'char不能赋值'], answer: 0, explain: '这是正确的字符变量定义和初始化。'},
+            {q: 'bool passed = true; 对吗？', options: ['对', '错', 'bool不能赋值', 'true要大写'], answer: 0, explain: '这是正确的布尔变量定义。'},
+            {q: 'int count; cout << count; 会输出什么？', options: ['0', '不确定的值', '报错', '空'], answer: 1, explain: 'count未初始化，输出不确定的垃圾值。'},
+            {q: '以下哪个是定义变量的正确顺序？', options: ['使用→定义→赋值', '定义→初始化→使用', '赋值→定义→使用', '定义→使用→初始化'], answer: 1, explain: '先定义，再初始化（可选但推荐），然后使用。'},
+            {q: 'int a = 5; int b = a + 3; b的值是？', options: ['5', '3', '8', 'a+3'], answer: 2, explain: 'a + 3 = 5 + 3 = 8。'},
+            {q: 'int x = 10; x = x * 2; x的值是？', options: ['10', '2', '20', 'x*2'], answer: 2, explain: 'x * 2 = 10 * 2 = 20。'},
+            {q: 'int a = 5, b = 3; int c = a + b; c的值是？', options: ['5', '3', '8', 'ab'], answer: 2, explain: 'a + b = 5 + 3 = 8。'},
+            {q: 'int score; 后可以直接使用score吗？', options: ['可以', '不可以，未初始化', '只有输出时可以', '只有输入时可以'], answer: 1, explain: '不可以，未初始化的变量值不确定。'},
+            {q: '变量可以多次赋值吗？', options: ['可以', '不可以', '只能两次', '只能三次'], answer: 0, explain: '变量可以被多次赋值，每次赋值都会覆盖原来的值。'},
+            {q: 'int a = 10; a = 20; a = 30; 最终a的值是？', options: ['10', '20', '30', '60'], answer: 2, explain: 'a被最后一次赋值为30。'},
+            {q: 'int x = 5; int y = x; x = 10; 后y的值是？', options: ['5', '10', '15', 'x'], answer: 0, explain: 'y被赋值为x当时的值5，之后x变化不影响y。'},
+            {q: '以下哪个是变量定义的正确语法？', options: ['类型 变量名;', '变量名 类型;', '类型;', '变量名;'], answer: 0, explain: '正确的语法是：数据类型 变量名;'},
+            {q: '以下哪个是变量初始化的正确语法？', options: ['类型 变量名 = 值;', '类型 = 值;', '变量名 = 值;', '类型 变量名; = 值;'], answer: 0, explain: '正确的语法是：数据类型 变量名 = 初始值;'},
+            {q: 'float pi = 3.14; pi是什么类型？', options: ['int', 'float', 'double', 'char'], answer: 1, explain: 'pi是float类型。'},
+            {q: 'int a = 10; float b = a; 可以吗？', options: ['可以', '不可以', '会报错', '会丢失数据'], answer: 0, explain: '可以，int可以自动转换为float。'},
+            {q: 'float a = 3.14; int b = a; b的值是？', options: ['3.14', '3', '4', '报错'], answer: 1, explain: '3.14转换为int，小数部分被截断，b=3。'},
+            {q: 'int MAX_SIZE = 100; 这种命名方式适合？', options: ['普通变量', '常量', '函数', '类'], answer: 1, explain: '全大写下划线命名通常用于常量。'},
+            {q: 'studentName这种命名方式是？', options: ['全大写', '小驼峰命名', '下划线命名', '大驼峰命名'], answer: 1, explain: 'studentName是小驼峰命名法。'},
+            {q: 'student_name这种命名方式是？', options: ['全大写', '小驼峰命名', '下划线命名', '大驼峰命名'], answer: 2, explain: 'student_name是下划线命名法。'},
+            {q: '循环变量通常用什么命名？', options: ['有意义的单词', 'i, j, k', 'a, b, c', 'x, y, z'], answer: 1, explain: '循环变量通常使用i, j, k作为惯例。'},
+            {q: 'int 2ndValue = 10; 对吗？', options: ['对', '错，不能以数字开头', '错，int要大写', '错，缺少分号'], answer: 1, explain: '变量名不能以数字开头。'},
+            {q: 'int _value = 10; 对吗？', options: ['对', '错，不能以下划线开头', '错，下划线不能用', '错，语法错误'], answer: 0, explain: '变量名可以以下划线开头。'},
+            {q: 'int my Value = 10; 对吗？', options: ['对', '错，不能有空格', '错，my是关键字', '错，Value要大写'], answer: 1, explain: '变量名不能包含空格。'},
+            {q: 'int myValue = 10; 对吗？', options: ['对', '错', '语法错误', 'myValue是关键字'], answer: 0, explain: '这是正确的变量定义。'},
+            // 常见错误与进阶 61-85
+            {q: 'int score = 80; int score = 90; 会怎样？', options: ['正常执行', '编译错误', 'score变为90', '运行时错误'], answer: 1, explain: '同一作用域内不能重复定义同名变量。'},
+            {q: 'int x = 5; if (x = 10) { } 中x的值是？', options: ['5', '10', '15', '报错'], answer: 1, explain: 'x=10是赋值，不是比较，x被赋值为10。'},
+            {q: 'if (x = 10) 和 if (x == 10) 的区别是？', options: ['没有区别', '前者是赋值，后者是比较', '前者是比较，后者是赋值', '都会报错'], answer: 1, explain: '=是赋值，==是比较是否相等。'},
+            {q: 'int a = 10; int b = 20; a = b; b = 30; 后a的值是？', options: ['10', '20', '30', '不确定'], answer: 1, explain: 'a = b时a变为20，之后b变为30不影响a。'},
+            {q: '如何交换两个变量a和b的值？', options: ['a = b;', '使用临时变量', 'a + b;', 'swap a b;'], answer: 1, explain: '交换两个变量通常需要使用临时变量。'},
+            {q: '交换a和b的值，临时变量t的正确用法是？', options: ['t = a; a = b; b = t;', 'a = t; t = b; b = a;', 't = a; b = a; a = t;', 'a = b; b = a;'], answer: 0, explain: '先将a存到t，然后b赋值给a，最后t赋值给b。'},
+            {q: 'int x = 2147483647; x = x + 1; 会怎样？', options: ['变成2147483648', '变成-2147483648（溢出）', '报错', '不变'], answer: 1, explain: 'int最大值+1会溢出变成负数。'},
+            {q: 'float和double的主要区别是？', options: ['float更大', 'double精度更高', 'double更大', '没有区别'], answer: 1, explain: 'double的精度比float高。'},
+            {q: 'int a = 10.9; a的值是？', options: ['10.9', '10', '11', '报错'], answer: 1, explain: '浮点数赋值给int会截断小数部分。'},
+            {q: '全局变量和局部变量的区别是？', options: ['没有区别', '作用域不同', '类型不同', '大小不同'], answer: 1, explain: '全局变量整个文件可见，局部变量只在函数内可见。'},
+            {q: '静态变量使用什么关键字？', options: ['static', 'const', 'auto', 'extern'], answer: 0, explain: '静态变量使用static关键字。'},
+            {q: 'GESP一级要求掌握static变量吗？', options: ['要求', '不要求', '可选', '仅了解'], answer: 3, explain: 'GESP一级只需要了解基本概念，不要求掌握static。'},
+            {q: 'auto关键字在C++11后的含义是？', options: ['自动变量', '自动类型推导', '自动初始化', '自动释放'], answer: 1, explain: 'C++11后auto表示自动类型推导。'},
+            {q: 'int a = 5; cout << a++; 输出什么？', options: ['5', '6', '7', '报错'], answer: 0, explain: 'a++是后置++，先输出a的值5，然后a变为6。'},
+            {q: 'int a = 5; cout << ++a; 输出什么？', options: ['5', '6', '7', '报错'], answer: 1, explain: '++a是前置++，先a变为6，然后输出6。'},
+            {q: 'a++和++a的区别是？', options: ['没有区别', 'a++先使用再自增，++a先自增再使用', 'a++更快', '++a更快'], answer: 1, explain: 'a++是后置自增，++a是前置自增。'},
+            {q: 'int a = 5; a += 3; 后a的值是？', options: ['5', '3', '8', '15'], answer: 2, explain: 'a += 3等价于a = a + 3 = 8。'},
+            {q: 'a += 3 等价于什么？', options: ['a = 3', 'a = a + 3', 'a + 3', '3 = a'], answer: 1, explain: 'a += 3是复合赋值运算符，等价于a = a + 3。'},
+            {q: '以下哪个是复合赋值运算符？', options: ['=', '+=', '==', '!='], answer: 1, explain: '+=是复合赋值运算符。'},
+            {q: 'int a = 10; a -= 3; 后a的值是？', options: ['10', '3', '7', '13'], answer: 2, explain: 'a -= 3等价于a = a - 3 = 7。'},
+            {q: 'int a = 10; a *= 2; 后a的值是？', options: ['10', '2', '20', '12'], answer: 2, explain: 'a *= 2等价于a = a * 2 = 20。'},
+            {q: 'int a = 10; a /= 3; 后a的值是？', options: ['3.33', '3', '30', '13'], answer: 1, explain: 'a /= 3等价于a = a / 3 = 3（整数除法）。'},
+            {q: 'int a = 10; a %= 3; 后a的值是？', options: ['3', '1', '30', '13'], answer: 1, explain: 'a %= 3等价于a = a % 3 = 1（取余数）。'},
+            // GESP考试要点 86-100
+            {q: 'GESP一级考试中，变量主要考察什么？', options: ['复杂算法', '基本定义和使用', '内存管理', '多线程'], answer: 1, explain: 'GESP一级考察变量的基本定义、初始化和使用。'},
+            {q: '定义变量时必须指定什么？', options: ['值', '类型', '地址', '大小'], answer: 1, explain: '定义变量时必须指定数据类型。'},
+            {q: '变量名可以以数字开头吗？', options: ['可以', '不可以', '只有int可以', '只有float可以'], answer: 1, explain: '变量名不能以数字开头。'},
+            {q: '变量名可以包含空格吗？', options: ['可以', '不可以', '只有全局变量可以', '只有局部变量可以'], answer: 1, explain: '变量名不能包含空格。'},
+            {q: '同一个作用域内可以定义同名变量吗？', options: ['可以', '不可以', '只有类型相同时不可以', '只有类型不同时可以'], answer: 1, explain: '同一作用域内不能重复定义同名变量。'},
+            {q: '使用未初始化的变量会怎样？', options: ['值为0', '值为空', '值不确定', '编译错误'], answer: 2, explain: '使用未初始化的变量会得到不确定的值。'},
+            {q: '推荐在什么时候初始化变量？', options: ['使用前', '定义时', '使用后', '任何时候'], answer: 1, explain: '推荐在定义变量时就初始化。'},
+            {q: '变量的三要素不包括？', options: ['类型', '名称', '值', '地址'], answer: 3, explain: '变量的三要素是类型、名称、值，不包括地址。'},
+            {q: 'int和float的主要区别是？', options: ['大小不同', 'int存储整数，float存储小数', '速度不同', '内存位置不同'], answer: 1, explain: 'int用于存储整数，float用于存储浮点数。'},
+            {q: '给变量起名字应该？', options: ['越短越好', '见名知意', '用随机字母', '用数字'], answer: 1, explain: '变量名应该见名知意。'},
+            {q: '小驼峰命名法的特点是？', options: ['全小写', '第一个单词小写，后续单词首字母大写', '全大写', '用下划线分隔'], answer: 1, explain: '小驼峰命名法：第一个单词小写，后续单词首字母大写。'},
+            {q: '赋值运算符是？', options: ['==', '=', ':=', '->'], answer: 1, explain: 'C++中使用=作为赋值运算符。'},
+            {q: '比较运算符是？', options: ['=', '==', '!=', 'equals'], answer: 1, explain: 'C++中使用==作为相等比较运算符。'},
+            {q: '变量的值在程序运行中可以？', options: ['改变', '不改变', '只能增加', '只能减少'], answer: 0, explain: '变量的值在程序运行中可以被改变。'},
+            {q: '学习变量的主要目的是？', options: ['为了考试', '存储和操作数据', '为了美观', '为了节省内存'], answer: 1, explain: '学习变量是为了能够存储和操作程序中的数据。'}
+        ];
+
+        let currentQuestion = 0;
+        let answers = new Array(questions.length).fill(null);
+        let correctCount = 0;
+
+        function loadQuestion(index) {
+            currentQuestion = index;
+            const q = questions[index];
+            document.getElementById('questionNumber').textContent = `题目 ${index + 1}/${questions.length}`;
+            document.getElementById('questionText').textContent = q.q;
+            
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+            
+            q.options.forEach((opt, i) => {
+                const btn = document.createElement('div');
+                btn.className = 'option';
+                btn.textContent = `${String.fromCharCode(65 + i)}. ${opt}`;
+                btn.onclick = () => selectAnswer(i);
+                
+                if (answers[index] !== null) {
+                    btn.classList.add('disabled');
+                    if (i === answers[index]) {
+                        btn.classList.add(i === q.answer ? 'correct' : 'wrong');
+                    }
+                    if (i === q.answer && answers[index] !== q.answer) {
+                        btn.classList.add('correct');
+                    }
+                }
+                
+                optionsDiv.appendChild(btn);
+            });
+            
+            const explanation = document.getElementById('explanation');
+            if (answers[index] !== null) {
+                explanation.textContent = `解析：${q.explain}`;
+                document.getElementById('questionCard').classList.add('answered');
+            } else {
+                explanation.textContent = '';
+                document.getElementById('questionCard').classList.remove('answered');
+            }
+            
+            updateProgress();
+            updateNavButtons();
+        }
+
+        function selectAnswer(optionIndex) {
+            if (answers[currentQuestion] !== null) return;
+            
+            answers[currentQuestion] = optionIndex;
+            const q = questions[currentQuestion];
+            
+            if (optionIndex === q.answer) {
+                correctCount++;
+            }
+            
+            const options = document.querySelectorAll('.option');
+            options[optionIndex].classList.add(optionIndex === q.answer ? 'correct' : 'wrong');
+            
+            if (optionIndex !== q.answer) {
+                options[q.answer].classList.add('correct');
+            }
+            
+            document.getElementById('explanation').textContent = `解析：${q.explain}`;
+            document.getElementById('questionCard').classList.add('answered');
+            
+            updateProgress();
+            saveProgress();
+        }
+
+        function updateProgress() {
+            const answered = answers.filter(a => a !== null).length;
+            const progress = (answered / questions.length) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+            document.getElementById('progressText').textContent = `${answered}/${questions.length}`;
+        }
+
+        function updateNavButtons() {
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            document.getElementById('nextBtn').textContent = 
+                currentQuestion === questions.length - 1 ? '完成' : '下一题 →';
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                loadQuestion(currentQuestion - 1);
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                loadQuestion(currentQuestion + 1);
+            } else {
+                const answered = answers.filter(a => a !== null).length;
+                const accuracy = answered > 0 ? Math.round((correctCount / answered) * 100) : 0;
+                alert(`测验完成！\n答对：${correctCount}/${answered}\n正确率：${accuracy}%`);
+            }
+        }
+
+        function saveProgress() {
+            localStorage.setItem('cpp-l1-topic-3-4-progress', JSON.stringify(answers));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('cpp-l1-topic-3-4-progress');
+            if (saved) {
+                answers = JSON.parse(saved);
+                correctCount = answers.reduce((sum, ans, idx) => 
+                    sum + (ans === questions[idx].answer ? 1 : 0), 0);
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' && currentQuestion > 0) prevQuestion();
+            if (e.key === 'ArrowRight') nextQuestion();
+        });
+
+        loadProgress();
+        loadQuestion(0);
+    </script>
+</body>
+</html>
